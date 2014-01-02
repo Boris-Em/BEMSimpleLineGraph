@@ -91,6 +91,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C3F331121875FC2500A2782B /* BEMSimpleLineChart */ = {
+			isa = PBXGroup;
+			children = (
+				C3FD818D186DFFA900FD8ED3 /* BEMSimpleLineGraphView.h */,
+				C3FD818E186DFFA900FD8ED3 /* BEMSimpleLineGraphView.m */,
+				C3FD8190186E096F00FD8ED3 /* BEMCircle.h */,
+				C3FD8191186E096F00FD8ED3 /* BEMCircle.m */,
+				C3FD8193186E0C0E00FD8ED3 /* BEMLine.h */,
+				C3FD8194186E0C0E00FD8ED3 /* BEMLine.m */,
+				C3FD8196186E268000FD8ED3 /* BEMAnimations.h */,
+				C3FD8197186E268000FD8ED3 /* BEMAnimations.m */,
+			);
+			name = BEMSimpleLineChart;
+			sourceTree = "<group>";
+		};
 		C3FD814C186DFD9A00FD8ED3 = {
 			isa = PBXGroup;
 			children = (
@@ -124,19 +139,12 @@
 		C3FD815E186DFD9A00FD8ED3 /* SimpleLineChart */ = {
 			isa = PBXGroup;
 			children = (
+				C3F331121875FC2500A2782B /* BEMSimpleLineChart */,
 				C3FD8167186DFD9A00FD8ED3 /* AppDelegate.h */,
 				C3FD8168186DFD9A00FD8ED3 /* AppDelegate.m */,
 				C3FD816A186DFD9A00FD8ED3 /* Main.storyboard */,
 				C3FD816D186DFD9A00FD8ED3 /* ViewController.h */,
 				C3FD816E186DFD9A00FD8ED3 /* ViewController.m */,
-				C3FD818D186DFFA900FD8ED3 /* BEMSimpleLineGraphView.h */,
-				C3FD818E186DFFA900FD8ED3 /* BEMSimpleLineGraphView.m */,
-				C3FD8190186E096F00FD8ED3 /* BEMCircle.h */,
-				C3FD8191186E096F00FD8ED3 /* BEMCircle.m */,
-				C3FD8193186E0C0E00FD8ED3 /* BEMLine.h */,
-				C3FD8194186E0C0E00FD8ED3 /* BEMLine.m */,
-				C3FD8196186E268000FD8ED3 /* BEMAnimations.h */,
-				C3FD8197186E268000FD8ED3 /* BEMAnimations.m */,
 				C3FD8170186DFD9A00FD8ED3 /* Images.xcassets */,
 				C3FD815F186DFD9A00FD8ED3 /* Supporting Files */,
 			);
