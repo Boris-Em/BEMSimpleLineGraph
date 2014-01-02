@@ -154,4 +154,4 @@ The two following properties control the color and alpha of the line of the grap
 
 ## License
 
-See <a href="" target="_blank">License</a>.
+See <a href="https://github.com/Boris-Em/BEMSimpleLineGraph/blob/master/LICENSE.md" target="_blank">License</a>.
