@@ -8,7 +8,7 @@
 
 ## Requirements
 
-- Requires iOS 7 or later.
+- Requires iOS 6 or later. (The sample project is optimized for iOS 7.)
 - Requires Automatic Reference Counting (ARC).
 
 ## Installation
