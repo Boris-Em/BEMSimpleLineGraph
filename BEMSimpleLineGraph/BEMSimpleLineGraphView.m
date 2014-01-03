@@ -263,6 +263,7 @@ int currentlyCloser;
              firstLabel.font = self.labelFont;
              firstLabel.textAlignment = 0;
              firstLabel.textColor = self.colorXaxisLabel;
+             firstLabel.backgroundColor = [UIColor clearColor];
              [self addSubview:firstLabel];
              
              UILabel *lastLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.frame.size.width/2 - 3, self.frame.size.height - (labelXaxisOffset + 10), self.frame.size.width/2, 20)];
@@ -270,6 +271,7 @@ int currentlyCloser;
              lastLabel.font = self.labelFont;
              lastLabel.textAlignment = 2;
              lastLabel.textColor = self.colorXaxisLabel;
+             lastLabel.backgroundColor = [UIColor clearColor];
              [self addSubview:lastLabel];
          }
         
@@ -284,6 +286,7 @@ int currentlyCloser;
                 labelXAxis.font = self.labelFont;
                 labelXAxis.textAlignment = 1;
                 labelXAxis.textColor = self.colorXaxisLabel;
+                labelXAxis.backgroundColor = [UIColor clearColor];
                 [self addSubview:labelXAxis];
             }
         }
