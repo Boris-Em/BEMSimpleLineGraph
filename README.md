@@ -17,23 +17,23 @@ To install BEMSimpleLineGraph to your project, just drag and drop the *BEMSimple
 
 ## Usage
 
-#### 1. Import the header.
+#### 1. Import the header
 
 First, import `"BEMSimpleLineGraphView.h"` to the .h of your view controller:
 
 	#import "BEMSimpleLineGraphView.h"
 
-#### 2. Implement the delegate.
+#### 2. Implement the delegate
     
 Implement the `BEMSimpleLineGraphDelegate` to the same view controller:
 
 	@interface YourViewController : UIViewController <BEMSimpleLineGraphDelegate>
 
-#### 3. Initialize BEMSimpleLineGraphView.
+#### 3. Initialize BEMSimpleLineGraphView
 
 BEMSimpleLineGraphView can be initialized in one of two ways. You can either add it directly to your interface (storyboard file) OR through code. Both ways provide the same initialization, just different ways to do the same thing. Use the method that makes sense for your app or project.
 
-**Interface Initialization**
+**Interface Initialization**  
 Add a UIView to your UIViewController. Change the class type of the UIView to `BEMSimpleLineGraphView`. Link the view to your code using an `IBOutlet`. You can set the property to `weak` and `nonatomic`. Then set the delegate in your code:
 
     myGraph.delegate = self;
