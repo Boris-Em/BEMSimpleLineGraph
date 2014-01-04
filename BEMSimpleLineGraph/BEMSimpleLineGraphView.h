@@ -117,10 +117,13 @@
 /// Alpha of the line of the graph.
 @property (nonatomic) float alphaLine;
 
+
 /// Width of the line of the graph. Default value is 1.0.
 @property (nonatomic) float widthLine;
 
+
 /// Color of the label's text displayed on the X-Axis.
 @property (strong, nonatomic) UIColor *colorXaxisLabel;
+
 
 @end
