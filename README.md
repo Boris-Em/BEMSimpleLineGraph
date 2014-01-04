@@ -42,10 +42,10 @@ Setting up BEMSimpleLineGraph in your project is simple. If you're familiar with
  3.  BEMSimpleLineGraphView can be initialized in one of two ways. You can either add it directly to your interface (storyboard file) OR through code. Both ways provide the same initialization, just different ways to do the same thing. Use the method that makes sense for your app or project.
 
      **Interface Initialization**  
-     1. Add a UIView to your UIViewController  
-     2. Change the class type of the UIView to `BEMSimpleLineGraphView`  
-     3. Link the view to your code using an `IBOutlet`. You can set the property to `weak` and `nonatomic`.  
-     4. Select the Connect the `BEMSimpleLineGraphView` in your interface. Connect the delegate property to your ViewController.  
+     1 - Add a UIView to your UIViewController  
+     2 - Change the class type of the UIView to `BEMSimpleLineGraphView`  
+     3 - Link the view to your code using an `IBOutlet`. You can set the property to `weak` and `nonatomic`.  
+     4 - Select the Connect the `BEMSimpleLineGraphView` in your interface. Connect the delegate property to your ViewController.  
 
      **Code Initialization**  
      Just add the following code to your implementation (usually the `viewDidLoad` method).
@@ -54,7 +54,7 @@ Setting up BEMSimpleLineGraph in your project is simple. If you're familiar with
          myGraph.delegate = self;
          [self.view addSubview:myGraph];
 
-4. Implement the two required methods: `numberOfPointsInGraph` and `valueForIndex:`. See documentation below for more information
+ 4. Implement the two required methods: `numberOfPointsInGraph` and `valueForIndex:`. See documentation below for more information
 
 ### Required Delegate / Data Source Methods
 
