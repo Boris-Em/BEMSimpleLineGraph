@@ -6,12 +6,10 @@
 //  Copyright (c) 2013 Boris Emorine. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import "BEMSimpleLineGraphView.h"
 
 @interface ViewController : UIViewController <BEMSimpleLineGraphDelegate>
 
-// @property (strong, nonatomic) BEMSimpleLineGraphView *myGraph;
 @property (weak, nonatomic) IBOutlet BEMSimpleLineGraphView *myGraph;
 
 @property (strong, nonatomic) NSMutableArray *ArrayOfValues;
@@ -21,5 +19,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *labelDates;
 
 - (IBAction)refresh:(id)sender;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *graphColorChoice;
+@property (weak, nonatomic) IBOutlet UIStepper *graphObjectIncrement;
 
 @end

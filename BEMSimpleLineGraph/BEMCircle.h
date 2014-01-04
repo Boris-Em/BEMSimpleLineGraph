@@ -7,7 +7,7 @@
 //
 
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 
 /// Class to draw the cicrle for the points.
 @interface BEMCircle : UIView

@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Boris Emorine. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 #import "BEMCircle.h"
 #import "BEMLine.h"
 

@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Boris Emorine. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 #import "BEMCircle.h"
 #import "BEMLine.h"
 #import "BEMAnimations.h"
@@ -71,7 +71,7 @@
 
 @interface BEMSimpleLineGraphView : UIView <BEMAnimationDelegate, UIGestureRecognizerDelegate>
 
-@property (assign) id <BEMSimpleLineGraphDelegate> delegate;
+@property (assign) IBOutlet id <BEMSimpleLineGraphDelegate> delegate;
 
 @property (strong, nonatomic) BEMAnimations *animationDelegate;
 

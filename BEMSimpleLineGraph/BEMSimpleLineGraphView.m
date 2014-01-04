@@ -8,6 +8,7 @@
 
 #define circleSize 10
 #define labelXaxisOffset 10
+#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
 #import "BEMSimpleLineGraphView.h"
 
@@ -22,20 +23,27 @@ int currentlyCloser;
 }
 
 - (void)commonInit {
+    // Do not make any calls to "self" in this method. During this point self is unstable and will return nil. That is why ivars are used below.
+    
     // Do any initialization that's common to both -initWithFrame: and -initWithCoder: in this method
-    self.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:13];
+    _labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:13];
     
     // DEFAULT VALUES
-    self.animationGraphEntranceSpeed = 5;
-    self.colorXaxisLabel = [UIColor blackColor];
-    self.colorBottom = [UIColor colorWithRed:0.0/255.0 green:191.0/255.0 blue:243.0/255.0 alpha:0.2];
-    self.colorTop = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:0.0];
-    self.colorLine = [UIColor colorWithRed:0.0/255.0 green:191.0/255.0 blue:243.0/255.0 alpha:1];
-    self.alphaTop = 1.0;
-    self.alphaBottom = 1.0;
-    self.alphaLine = 1.0;
-    self.widthLine = 1.0;
-    self.enableTouchReport = NO;
+    _animationGraphEntranceSpeed = 5;
+    _colorXaxisLabel = [UIColor blackColor];
+    
+    // Set the bottom color to the window's tint color (if no color is set)
+    UIWindow *window = [[[UIApplication sharedApplication] windows] objectAtIndex:0];
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) _colorBottom = window.tintColor;
+    else _colorBottom = [UIColor colorWithRed:0.0/255.0 green:191.0/255.0 blue:243.0/255.0 alpha:0.2];
+    
+    _colorTop = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:0.0];
+    _colorLine = [UIColor colorWithRed:0.0/255.0 green:191.0/255.0 blue:243.0/255.0 alpha:1];
+    _alphaTop = 1.0;
+    _alphaBottom = 1.0;
+    _alphaLine = 1.0;
+    _widthLine = 1.0;
+    _enableTouchReport = NO;
 }
 
 - (id)initWithFrame:(CGRect)frame {
@@ -88,6 +96,11 @@ int currentlyCloser;
     float positionOnXAxis; // The position on the X-axis of the point currently being created.
     float positionOnYAxis; // The position on the Y-axis of the point currently being created.
     
+    for (UIView *subview in [self subviews]) {
+        if ([subview isKindOfClass:[BEMCircle class]])
+            [subview removeFromSuperview];
+    }
+    
     for (int i = 0; i < numberOfPoints; i++) {
         
         float dotValue = [self.delegate valueForIndex:i];
@@ -111,6 +124,11 @@ int currentlyCloser;
     float yDot1; // Postion on the Y-axis of the first dot.
     float xDot2; // Postion on the X-axis of the next dot.
     float yDot2; // Postion on the Y-axis of the next dot.
+    
+    for (UIView *subview in [self subviews]) {
+        if ([subview isKindOfClass:[BEMLine class]])
+            [subview removeFromSuperview];
+    }
     
     for (int i = 0; i < numberOfPoints - 1; i++) {
         
@@ -149,12 +167,9 @@ int currentlyCloser;
     CGPoint translation = [recognizer locationInView:self.viewForBaselineLayout];
     
     self.verticalLine.frame = CGRectMake(translation.x, 0, 1, self.viewForBaselineLayout.frame.size.height);
-    [UIView animateWithDuration:0.2
-                          delay:0
-                        options:UIViewAnimationOptionCurveEaseOut
-                     animations:^{
-                         self.verticalLine.alpha = 0.2;
-                     } completion:nil];
+    [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        self.verticalLine.alpha = 0.2;
+    } completion:nil];
     
     closestDot = [self closestDotFromVerticalLine:self.verticalLine];
     closestDot.alpha = 0.8;
@@ -162,7 +177,6 @@ int currentlyCloser;
     if (closestDot.tag > 99 && closestDot.tag < 1000) {
         if ([self.delegate respondsToSelector:@selector(didTouchGraphWithClosestIndex:)])  [self.delegate didTouchGraphWithClosestIndex:((int)closestDot.tag - 100)];
     }
-    
     
     // ON RELEASE
     if (recognizer.state == UIGestureRecognizerStateEnded) {
@@ -183,13 +197,9 @@ int currentlyCloser;
         
         if (dot.tag > 99 && dot.tag < 1000) {
             
-            [UIView animateWithDuration:0.2
-                                  delay:0 options:UIViewAnimationOptionCurveEaseOut
-                             animations:^{
-                                 dot.alpha = 0;
-                             }
-                             completion:^(BOOL finished){
-                             }];
+            [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+                dot.alpha = 0;
+            } completion:nil];
             
             if (pow(((dot.center.x) - verticalLine.frame.origin.x), 2) < currentlyCloser) {
                 currentlyCloser = pow(((dot.center.x) - verticalLine.frame.origin.x), 2);
@@ -197,6 +207,7 @@ int currentlyCloser;
             }
         }
     }
+    
     return closestDot;
 }
 
@@ -233,38 +244,42 @@ int currentlyCloser;
 }
 
 - (void)drawXAxis {
-    if ([self.delegate respondsToSelector:@selector(numberOfGapsBetweenLabels)]) {
-        int numberOfGaps = [self.delegate numberOfGapsBetweenLabels] + 1;
+    if (![self.delegate respondsToSelector:@selector(numberOfGapsBetweenLabels)]) return;
+    
+    for (UIView *subview in [self subviews]) {
+        if ([subview isKindOfClass:[UILabel class]])
+            [subview removeFromSuperview];
+    }
+    
+    int numberOfGaps = [self.delegate numberOfGapsBetweenLabels] + 1;
+    
+    if (numberOfGaps >= (numberOfPoints - 1)) {
+        UILabel *firstLabel = [[UILabel alloc] initWithFrame:CGRectMake(3, self.frame.size.height - (labelXaxisOffset + 10), self.frame.size.width/2, 20)];
+        firstLabel.text = [self.delegate labelOnXAxisForIndex:0];
+        firstLabel.font = self.labelFont;
+        firstLabel.textAlignment = 0;
+        firstLabel.textColor = self.colorXaxisLabel;
+        firstLabel.backgroundColor = [UIColor clearColor];
+        [self addSubview:firstLabel];
         
-        if (numberOfGaps >= (numberOfPoints - 1)) {
-            
-            UILabel *firstLabel = [[UILabel alloc] initWithFrame:CGRectMake(3, self.frame.size.height - (labelXaxisOffset + 10), self.frame.size.width/2, 20)];
-            firstLabel.text = [self.delegate labelOnXAxisForIndex:0];
-            firstLabel.font = self.labelFont;
-            firstLabel.textAlignment = 0;
-            firstLabel.textColor = self.colorXaxisLabel;
-            firstLabel.backgroundColor = [UIColor clearColor];
-            [self addSubview:firstLabel];
-            
-            UILabel *lastLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.frame.size.width/2 - 3, self.frame.size.height - (labelXaxisOffset + 10), self.frame.size.width/2, 20)];
-            lastLabel.text = [self.delegate labelOnXAxisForIndex:(numberOfPoints - 1)];
-            lastLabel.font = self.labelFont;
-            lastLabel.textAlignment = 2;
-            lastLabel.textColor = self.colorXaxisLabel;
-            lastLabel.backgroundColor = [UIColor clearColor];
-            [self addSubview:lastLabel];
-        } else {
-            for (int i = 1; i <= (numberOfPoints/numberOfGaps); i++) {
-                UILabel *labelXAxis = [[UILabel alloc] init];
-                labelXAxis.text = [self.delegate labelOnXAxisForIndex:(i * numberOfGaps - 1)];
-                [labelXAxis sizeToFit];
-                [labelXAxis setCenter:CGPointMake((self.viewForBaselineLayout.frame.size.width/(numberOfPoints-1))*(i*numberOfGaps - 1), self.frame.size.height - labelXaxisOffset)];
-                labelXAxis.font = self.labelFont;
-                labelXAxis.textAlignment = 1;
-                labelXAxis.textColor = self.colorXaxisLabel;
-                labelXAxis.backgroundColor = [UIColor clearColor];
-                [self addSubview:labelXAxis];
-            }
+        UILabel *lastLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.frame.size.width/2 - 3, self.frame.size.height - (labelXaxisOffset + 10), self.frame.size.width/2, 20)];
+        lastLabel.text = [self.delegate labelOnXAxisForIndex:(numberOfPoints - 1)];
+        lastLabel.font = self.labelFont;
+        lastLabel.textAlignment = 2;
+        lastLabel.textColor = self.colorXaxisLabel;
+        lastLabel.backgroundColor = [UIColor clearColor];
+        [self addSubview:lastLabel];
+    } else {
+        for (int i = 1; i <= (numberOfPoints/numberOfGaps); i++) {
+            UILabel *labelXAxis = [[UILabel alloc] init];
+            labelXAxis.text = [self.delegate labelOnXAxisForIndex:(i * numberOfGaps - 1)];
+            [labelXAxis sizeToFit];
+            [labelXAxis setCenter:CGPointMake((self.viewForBaselineLayout.frame.size.width/(numberOfPoints-1))*(i*numberOfGaps - 1), self.frame.size.height - labelXaxisOffset)];
+            labelXAxis.font = self.labelFont;
+            labelXAxis.textAlignment = 1;
+            labelXAxis.textColor = self.colorXaxisLabel;
+            labelXAxis.backgroundColor = [UIColor clearColor];
+            [self addSubview:labelXAxis];
         }
     }
 }
