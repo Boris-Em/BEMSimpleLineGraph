@@ -38,7 +38,7 @@ Add a UIView to your UIViewController. Change the class type of the UIView to `B
 
     myGraph.delegate = self;
 
-**Code Initialization**
+**Code Initialization**  
 Initialize a BEMSimpleLineGraph view with the following code:
 
 	BEMSimpleLineGraphView *myGraph = [[BEMSimpleLineGraphView alloc] initWithFrame:CGRectMake(0, 0, 320, 200)];
