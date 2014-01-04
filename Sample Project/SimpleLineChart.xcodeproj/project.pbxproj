@@ -49,6 +49,7 @@
 		99B3FA331877888700539A7B /* BEMSimpleLineGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEMSimpleLineGraphView.m; sourceTree = "<group>"; };
 		99B3FA381877898B00539A7B /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE.md; path = ../LICENSE.md; sourceTree = "<group>"; };
 		99B3FA391877898B00539A7B /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		99B3FA3C1877980900539A7B /* BEMSimpleLineGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEMSimpleLineGraphView.h; sourceTree = "<group>"; };
 		C3FD8155186DFD9A00FD8ED3 /* SimpleLineChart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimpleLineChart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3FD8158186DFD9A00FD8ED3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C3FD815A186DFD9A00FD8ED3 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -97,13 +98,14 @@
 		99B3FA2C1877888700539A7B /* BEMSimpleLineGraph */ = {
 			isa = PBXGroup;
 			children = (
+				99B3FA3C1877980900539A7B /* BEMSimpleLineGraphView.h */,
+				99B3FA331877888700539A7B /* BEMSimpleLineGraphView.m */,
 				99B3FA2D1877888700539A7B /* BEMAnimations.h */,
 				99B3FA2E1877888700539A7B /* BEMAnimations.m */,
 				99B3FA2F1877888700539A7B /* BEMCircle.h */,
 				99B3FA301877888700539A7B /* BEMCircle.m */,
 				99B3FA311877888700539A7B /* BEMLine.h */,
 				99B3FA321877888700539A7B /* BEMLine.m */,
-				99B3FA331877888700539A7B /* BEMSimpleLineGraphView.m */,
 			);
 			name = BEMSimpleLineGraph;
 			path = ../BEMSimpleLineGraph;
