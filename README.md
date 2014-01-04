@@ -13,26 +13,33 @@
 
 ## Installation
 
-To install BEMSimpleLineGraph to your project, just drag and drop the <i> BEMSimpleLineGraph </i> folder into your Xcode project. When you do so, make sure to check the box <i> 
-'Copy items into destination group's folder (if needed)' </i>.
+To install BEMSimpleLineGraph to your project, just drag and drop the *BEMSimpleLineGraph* folder into your Xcode project. When you do so, make sure to check the box *'Copy items into destination group's folder (if needed)'*.
 
 ## Usage
 
 #### 1. Import the header.
 
-First, import <i> "BEMSimpleLineGraphView.h" </i> to the .h of your view controller:
+First, import `"BEMSimpleLineGraphView.h"` to the .h of your view controller:
 
 	#import "BEMSimpleLineGraphView.h"
 
 #### 2. Implement the delegate.
     
-Implement the <i> BEMSimpleLineGraphDelegate </i> to the same view controller:
+Implement the `BEMSimpleLineGraphDelegate` to the same view controller:
 
 	@interface YourViewController : UIViewController <BEMSimpleLineGraphDelegate>
 
 #### 3. Initialize BEMSimpleLineGraphView.
 
-Next, initialize a BEMSimpleLineGraph view with the following code:
+BEMSimpleLineGraphView can be initialized in one of two ways. You can either add it directly to your interface (storyboard file) OR through code. Both ways provide the same initialization, just different ways to do the same thing. Use the method that makes sense for your app or project.
+
+**Interface Initialization**
+Add a UIView to your UIViewController. Change the class type of the UIView to `BEMSimpleLineGraphView`. Link the view to your code using an `IBOutlet`. You can set the property to `weak` and `nonatomic`. Then set the delegate in your code:
+
+    myGraph.delegate = self;
+
+**Code Initialization**
+Initialize a BEMSimpleLineGraph view with the following code:
 
 	BEMSimpleLineGraphView *myGraph = [[BEMSimpleLineGraphView alloc] initWithFrame:CGRectMake(0, 0, 320, 200)];
 	myGraph.delegate = self;
@@ -44,15 +51,13 @@ Finally, you need to implement these two required methods:
 
 1 - Informs how many points are in the graph:
 
-	- (int)numberOfPointsInGraph
-	{
+	- (int)numberOfPointsInGraph {
     		return …; // Number of points in the graph.
 	}
 
-2 - Informs the position of each point on the Y-Axis at a given index. The parameter <i> index </i> is the position from left to right of the point on the X-Axis:
+2 - Informs the position of each point on the Y-Axis at a given index. This method is called for every point specifed in the `numberOfPointsInGraph` method. The parameter `index` is the position from left to right of the point on the X-Axis:
 
-	- (float)valueForIndex:(NSInteger)index
-	{
+	- (float)valueForIndex:(NSInteger)index {
     		return …; // The value of the point on the Y-Axis for the index.
 	}
 
@@ -68,17 +73,15 @@ To do so, first toggle the property <i> enableTouchReport </i>:
 
 Next, implement the two following methods:
 
-1 - This method gets called when the user touches the graph. The parameter <i> index </i> is the closest index (X-Axis) from the user's finger position.
+1 - This method gets called when the user touches the graph. The parameter `index` is the closest index (X-Axis) from the user's finger position.
 
-	- (void)didTouchGraphWhithClosestIndex:(int)index
-	{
+	- (void)didTouchGraphWhithClosestIndex:(int)index {
 		// Here you could change the text of a UILabel with the value of the closest index for example.
 	}
 
-2 - This method gets called when the user stops touching the graph. The parameter <i> index </i> is the closest index (X-Axis) from the user's last finger position.
+2 - This method gets called when the user stops touching the graph. The parameter `index` is the closest index (X-Axis) from the user's last finger position.
 
-	- (void)didReleaseGraphWhithClosestIndex:(float)index;
-	{
+	- (void)didReleaseGraphWithClosestIndex:(float)index {
 		// Set the UIlabel alpha to 0 for example.
 	}
 
@@ -95,19 +98,17 @@ To do so, simply implement the two followings methods:
 
 1 - Informs how much empty space is needed between each displayed label. Returning 0 will display all of the labels. Returning the total number of labels will only display the first and last label. <i> (See the image bellow for clarification.) </i>
 
-	- (int)numberOfGapsBetweenLabels
-	{
+	- (int)numberOfGapsBetweenLabels {
 		return …; // The number of hidden labels between each displayed label.
 	}
 
 2 - The text to be displayed for each UILabel on the X-Axis at a given index. Please note that it should return as many strings as the number of points on the graph.
 
-	- (NSString *)labelOnXAxisForIndex:(NSInteger)index
-	{
+	- (NSString *)labelOnXAxisForIndex:(NSInteger)index {
 		return …; // 
 	}
 
-The property <i> colorXaxisLabel </i> controls the color of the text of the UILabels on the X-Axis:
+The property `colorXaxisLabel` controls the color of the text of the UILabels on the X-Axis:
 
 	@property (strong, nonatomic) UIColor *colorXaxisLabel;
 
@@ -115,7 +116,7 @@ The property <i> colorXaxisLabel </i> controls the color of the text of the UILa
 <p align="center"><img src="http://img838.imageshack.us/img838/9329/tz01.png"/></p>	
 
 <p align="center">
-On the left, <i> numberOfGapsBetweenLabels </i> returns 0, on the middle it returns 1 and on the right it returns the number of points in the graph.
+On the left, `numberOfGapsBetweenLabels` returns 0, on the middle it returns 1 and on the right it returns the number of points in the graph.
 </p>
 
 ### Properties

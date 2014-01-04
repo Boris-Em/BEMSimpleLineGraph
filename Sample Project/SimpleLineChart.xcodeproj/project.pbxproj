@@ -11,6 +11,8 @@
 		99B3FA351877888700539A7B /* BEMCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = 99B3FA301877888700539A7B /* BEMCircle.m */; };
 		99B3FA361877888700539A7B /* BEMLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 99B3FA321877888700539A7B /* BEMLine.m */; };
 		99B3FA371877888700539A7B /* BEMSimpleLineGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 99B3FA331877888700539A7B /* BEMSimpleLineGraphView.m */; };
+		99B3FA3A1877898B00539A7B /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = 99B3FA381877898B00539A7B /* LICENSE.md */; };
+		99B3FA3B1877898B00539A7B /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 99B3FA391877898B00539A7B /* README.md */; };
 		C3FD8159186DFD9A00FD8ED3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3FD8158186DFD9A00FD8ED3 /* Foundation.framework */; };
 		C3FD815B186DFD9A00FD8ED3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3FD815A186DFD9A00FD8ED3 /* CoreGraphics.framework */; };
 		C3FD815D186DFD9A00FD8ED3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3FD815C186DFD9A00FD8ED3 /* UIKit.framework */; };
@@ -45,6 +47,8 @@
 		99B3FA311877888700539A7B /* BEMLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEMLine.h; sourceTree = "<group>"; };
 		99B3FA321877888700539A7B /* BEMLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEMLine.m; sourceTree = "<group>"; };
 		99B3FA331877888700539A7B /* BEMSimpleLineGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEMSimpleLineGraphView.m; sourceTree = "<group>"; };
+		99B3FA381877898B00539A7B /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE.md; path = ../LICENSE.md; sourceTree = "<group>"; };
+		99B3FA391877898B00539A7B /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		C3FD8155186DFD9A00FD8ED3 /* SimpleLineChart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimpleLineChart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3FD8158186DFD9A00FD8ED3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C3FD815A186DFD9A00FD8ED3 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -108,6 +112,8 @@
 		C3FD814C186DFD9A00FD8ED3 = {
 			isa = PBXGroup;
 			children = (
+				99B3FA381877898B00539A7B /* LICENSE.md */,
+				99B3FA391877898B00539A7B /* README.md */,
 				99B3FA2C1877888700539A7B /* BEMSimpleLineGraph */,
 				C3FD815E186DFD9A00FD8ED3 /* SimpleLineChart */,
 				C3FD817D186DFD9A00FD8ED3 /* SimpleLineChartTests */,
@@ -255,7 +261,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				99B3FA3A1877898B00539A7B /* LICENSE.md in Resources */,
 				C3FD8171186DFD9A00FD8ED3 /* Images.xcassets in Resources */,
+				99B3FA3B1877898B00539A7B /* README.md in Resources */,
 				C3FD8163186DFD9A00FD8ED3 /* InfoPlist.strings in Resources */,
 				C3FD816C186DFD9A00FD8ED3 /* Main.storyboard in Resources */,
 			);
