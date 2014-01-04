@@ -11,12 +11,15 @@
 
 @interface ViewController : UIViewController <BEMSimpleLineGraphDelegate>
 
-@property (strong, nonatomic) BEMSimpleLineGraphView *myGraph;
+// @property (strong, nonatomic) BEMSimpleLineGraphView *myGraph;
+@property (weak, nonatomic) IBOutlet BEMSimpleLineGraphView *myGraph;
 
 @property (strong, nonatomic) NSMutableArray *ArrayOfValues;
 @property (strong, nonatomic) NSMutableArray *ArrayOfDates;
 
-@property (strong, nonatomic) UILabel *labelValues;
-@property (strong, nonatomic) UILabel *labelDates;
+@property (strong, nonatomic) IBOutlet UILabel *labelValues;
+@property (strong, nonatomic) IBOutlet UILabel *labelDates;
+
+- (IBAction)refresh:(id)sender;
 
 @end

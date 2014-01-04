@@ -6,10 +6,10 @@
 //  Copyright (c) 2013 Boris Emorine. All rights reserved.
 //
 
-//Class to draw the cicrle for the points.
 
 #import <UIKit/UIKit.h>
 
+/// Class to draw the cicrle for the points.
 @interface BEMCircle : UIView
 
 @end
