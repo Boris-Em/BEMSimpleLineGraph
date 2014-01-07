@@ -86,33 +86,52 @@ int totalNumber;
     [self.myGraph reloadGraph];
 }
 
+- (IBAction)displayStatistics:(id)sender {
+    [self performSegueWithIdentifier:@"showStats" sender:self];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    [super prepareForSegue:segue sender:sender];
+    
+    if ([segue.identifier isEqualToString:@"showStats"]) {
+        StatsViewController *controller = segue.destinationViewController;
+        controller.standardDeviation = [NSString stringWithFormat:@"%.2f", [[self.myGraph calculateLineGraphStandardDeviation] floatValue]];
+        controller.average = [NSString stringWithFormat:@"%.2f", [[self.myGraph calculatePointValueAverage] floatValue]];
+        controller.median = [NSString stringWithFormat:@"%.2f", [[self.myGraph calculatePointValueMedian] floatValue]];
+        controller.mode = [NSString stringWithFormat:@"%.2f", [[self.myGraph calculatePointValueMode] floatValue]];
+        controller.minimum = [NSString stringWithFormat:@"%.2f", [[self.myGraph calculateMinimumPointValue] floatValue]];
+        controller.maximum = [NSString stringWithFormat:@"%.2f", [[self.myGraph calculateMaximumPointValue] floatValue]];
+        controller.snapshotImage = [self.myGraph graphSnapshotImage];
+    }
+}
+
 #pragma mark - SimpleLineGraph Data Source
 
-- (int)numberOfPointsInGraph {
+- (int)numberOfPointsInLineGraph:(BEMSimpleLineGraphView *)graph {
     return (int)[self.ArrayOfValues count];
 }
 
-- (float)valueForIndex:(NSInteger)index {
+- (float)lineGraph:(BEMSimpleLineGraphView *)graph valueForPointAtIndex:(NSInteger)index {
     return [[self.ArrayOfValues objectAtIndex:index] floatValue];
 }
 
 #pragma mark - SimpleLineGraph Delegate
 
-- (int)numberOfGapsBetweenLabels {
+- (int)numberOfGapsBetweenLabelsOnLineGraph:(BEMSimpleLineGraphView *)graph {
     return 1;
 }
 
-- (NSString *)labelOnXAxisForIndex:(NSInteger)index {
+- (NSString *)lineGraph:(BEMSimpleLineGraphView *)graph labelOnXAxisForIndex:(NSInteger)index {
     return [self.ArrayOfDates objectAtIndex:index];
 }
 
-- (void)didTouchGraphWithClosestIndex:(int)index {
+- (void)lineGraph:(BEMSimpleLineGraphView *)graph didTouchGraphWithClosestIndex:(int)index {
     self.labelValues.text = [NSString stringWithFormat:@"%@", [self.ArrayOfValues objectAtIndex:index]];
     
     self.labelDates.text = [NSString stringWithFormat:@"in %@", [self.ArrayOfDates objectAtIndex:index]];
 }
 
-- (void)didReleaseGraphWithClosestIndex:(float)index {
+- (void)lineGraph:(BEMSimpleLineGraphView *)graph didReleaseTouchFromGraphWithClosestIndex:(float)index {
     [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
         self.labelValues.alpha = 0.0;
         self.labelDates.alpha = 0.0;
@@ -126,7 +145,6 @@ int totalNumber;
             self.labelDates.alpha = 1.0;
         } completion:nil];
     }];
-    
 }
 
 @end

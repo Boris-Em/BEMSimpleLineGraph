@@ -4,22 +4,65 @@
 //
 //  Created by Bobo on 12/27/13.
 //  Copyright (c) 2013 Boris Emorine. All rights reserved.
+//  Copyright (c) 2014 iRare Media.
 //
-
-#define circleSize 10
-#define labelXaxisOffset 10
-#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
 #import "BEMSimpleLineGraphView.h"
 
+#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
+
+#define circleSize 10
+#define labelXaxisOffset 10
+
+
+@interface BEMSimpleLineGraphView () {
+    /// The number of Points in the Graph
+    int numberOfPoints;
+    
+    /// The closest fot to the touch point
+    BEMCircle *closestDot;
+    int currentlyCloser;
+    
+    /// All of the X-Axis Values
+    NSMutableArray *xAxisValues;
+    
+    /// All of the Data Points
+    NSMutableArray *dataPoints;
+}
+
+/// The vertical line which appears when the user drags across the graph
+@property (strong, nonatomic) UIView *verticalLine;
+
+/// The animation delegate for lines and dots
+@property (strong, nonatomic) BEMAnimations *animationDelegate;
+
+/// Find which dot is currently the closest to the vertical line
+- (BEMCircle *)closestDotFromVerticalLine:(UIView *)verticalLine;
+
+// Determines the biggest Y-axis value from all the points
+- (float)maxValue;
+
+// Determines the smallest Y-axis value from all the points
+- (float)minValue;
+
+@end
+
 @implementation BEMSimpleLineGraphView
 
-int numberOfPoints; // The number of Points in the Graph.
-BEMCircle *closestDot;
-int currentlyCloser;
+#pragma mark - Initialization
 
-- (void)reloadGraph {
-    [self layoutSubviews];
+- (id)initWithFrame:(CGRect)frame {
+    if ((self = [super initWithFrame:frame])) {
+        [self commonInit];
+    }
+    return self;
+}
+
+- (id)initWithCoder:(NSCoder *)coder {
+    if ((self = [super initWithCoder:coder])) {
+        [self commonInit];
+    }
+    return self;
 }
 
 - (void)commonInit {
@@ -44,24 +87,25 @@ int currentlyCloser;
     _alphaLine = 1.0;
     _widthLine = 1.0;
     _enableTouchReport = NO;
-}
-
-- (id)initWithFrame:(CGRect)frame {
-    if ((self = [super initWithFrame:frame])) {
-        [self commonInit];
-    }
-    return self;
-}
-
-- (id)initWithCoder:(NSCoder *)coder {
-    if ((self = [super initWithCoder:coder])) {
-        [self commonInit];
-    }
-    return self;
+    
+    // Initialize the arrays
+    xAxisValues = [NSMutableArray array];
+    dataPoints = [NSMutableArray array];
 }
 
 - (void)layoutSubviews {
-    numberOfPoints = [self.delegate numberOfPointsInGraph]; // The number of Points in the Graph.
+    if ([self.delegate respondsToSelector:@selector(numberOfPointsInLineGraph:)]) {
+        numberOfPoints = [self.delegate numberOfPointsInLineGraph:self];
+        
+    } else if ([self.delegate respondsToSelector:@selector(numberOfPointsInGraph)]) {
+        [self printDeprecationWarningForOldMethod:@"numberOfPointsInGraph" andReplacementMethod:@"numberOfPointsInLineGraph:"];
+        
+        #pragma clang diagnostic push
+        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            numberOfPoints = [self.delegate numberOfPointsInGraph];
+        #pragma clang diagnostic pop
+        
+    } else numberOfPoints = 0;
     
     self.animationDelegate = [[BEMAnimations alloc] init];
     self.animationDelegate.delegate = self;
@@ -87,6 +131,8 @@ int currentlyCloser;
     }
 }
 
+#pragma mark - Drawing
+
 - (void)drawGraph {
     // CREATION OF THE DOTS
     
@@ -103,7 +149,22 @@ int currentlyCloser;
     
     for (int i = 0; i < numberOfPoints; i++) {
         
-        float dotValue = [self.delegate valueForIndex:i];
+        float dotValue = 0;
+        
+        if ([self.delegate respondsToSelector:@selector(lineGraph:valueForPointAtIndex:)]) {
+            dotValue = [self.delegate lineGraph:self valueForPointAtIndex:i];
+            
+        } else if ([self.delegate respondsToSelector:@selector(valueForIndex:)]) {
+            [self printDeprecationWarningForOldMethod:@"valueForIndex:" andReplacementMethod:@"lineGraph:valueForPointAtIndex:"];
+            
+            #pragma clang diagnostic push
+            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+                dotValue = [self.delegate valueForIndex:i];
+            #pragma clang diagnostic pop
+            
+        } else [NSException raise:@"lineGraph:valueForPointAtIndex: protocol method is not implemented in the delegate. Throwing exception here before the system throws a CALayerInvalidGeometry Exception." format:@"Value for point %f at index %i is invalid. CALayer position may contain NaN: [0 nan]", dotValue, i];
+        
+        [dataPoints addObject:[NSNumber numberWithFloat:dotValue]];
         
         positionOnXAxis = (self.viewForBaselineLayout.frame.size.width/(numberOfPoints - 1))*i;
         positionOnYAxis = (self.viewForBaselineLayout.frame.size.height - 80) - ((dotValue - minValue) / ((maxValue - minValue) / (self.viewForBaselineLayout.frame.size.height - 80))) + 20;
@@ -151,10 +212,12 @@ int currentlyCloser;
         line.secondPoint = CGPointMake(xDot2, yDot2);
         line.topColor = self.colorTop;
         line.bottomColor = self.colorBottom;
-        line.color = self.colorLine;
+        if ([self.delegate respondsToSelector:@selector(lineGraph:lineColorForIndex:)]) line.color = [self.delegate lineGraph:self lineColorForIndex:i];
+        else line.color = self.colorLine;
         line.topAlpha = self.alphaTop;
         line.bottomAlpha = self.alphaBottom;
-        line.lineAlpha = self.alphaLine;
+        if ([self.delegate respondsToSelector:@selector(lineGraph:lineAlphaForIndex:)]) line.alpha = [self.delegate lineGraph:self lineAlphaForIndex:i];
+        else line.lineAlpha = self.alphaLine;
         line.lineWidth = self.widthLine;
         [self addSubview:line];
         [self sendSubviewToBack:line];
@@ -162,6 +225,186 @@ int currentlyCloser;
         [self.animationDelegate animationForLine:i line:line animationSpeed:self.animationGraphEntranceSpeed];
     }
 }
+
+- (void)drawXAxis {
+    if (![self.delegate respondsToSelector:@selector(numberOfGapsBetweenLabels)]) return;
+    
+    for (UIView *subview in [self subviews]) {
+        if ([subview isKindOfClass:[UILabel class]])
+            [subview removeFromSuperview];
+    }
+    
+    int numberOfGaps = 0;
+    
+    if ([self.delegate respondsToSelector:@selector(numberOfGapsBetweenLabelsOnLineGraph:)]) {
+        numberOfGaps = [self.delegate numberOfGapsBetweenLabelsOnLineGraph:self] + 1;
+        
+    } else if ([self.delegate respondsToSelector:@selector(numberOfGapsBetweenLabels)]) {
+        [self printDeprecationWarningForOldMethod:@"numberOfGapsBetweenLabels" andReplacementMethod:@"numberOfGapsBetweenLabelsOnLineGraph:"];
+        
+        #pragma clang diagnostic push
+        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            numberOfGaps = [self.delegate numberOfGapsBetweenLabels] + 1;
+        #pragma clang diagnostic pop
+        
+    } else numberOfGaps = 0;
+    
+    
+    if (numberOfGaps >= (numberOfPoints - 1)) {
+        NSString *firstXLabel = @"";
+        NSString *lastXLabel = @"";
+        
+        if ([self.delegate respondsToSelector:@selector(lineGraph:labelOnXAxisForIndex:)]) {
+            firstXLabel = [self.delegate lineGraph:self labelOnXAxisForIndex:0];
+            lastXLabel = [self.delegate lineGraph:self labelOnXAxisForIndex:(numberOfPoints - 1)];
+            
+        } else if ([self.delegate respondsToSelector:@selector(labelOnXAxisForIndex:)]) {
+            [self printDeprecationWarningForOldMethod:@"labelOnXAxisForIndex:" andReplacementMethod:@"lineGraph:labelOnXAxisForIndex:"];
+            
+            #pragma clang diagnostic push
+            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+                firstXLabel = [self.delegate labelOnXAxisForIndex:0];
+                lastXLabel = [self.delegate labelOnXAxisForIndex:(numberOfPoints - 1)];
+            #pragma clang diagnostic pop
+            
+        } else firstXLabel = @"";
+        
+        UILabel *firstLabel = [[UILabel alloc] initWithFrame:CGRectMake(3, self.frame.size.height - (labelXaxisOffset + 10), self.frame.size.width/2, 20)];
+        firstLabel.text = firstXLabel;
+        firstLabel.font = self.labelFont;
+        firstLabel.textAlignment = 0;
+        firstLabel.textColor = self.colorXaxisLabel;
+        firstLabel.backgroundColor = [UIColor clearColor];
+        [self addSubview:firstLabel];
+        [xAxisValues addObject:firstXLabel];
+        
+        UILabel *lastLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.frame.size.width/2 - 3, self.frame.size.height - (labelXaxisOffset + 10), self.frame.size.width/2, 20)];
+        lastLabel.text = lastXLabel;
+        lastLabel.font = self.labelFont;
+        lastLabel.textAlignment = 2;
+        lastLabel.textColor = self.colorXaxisLabel;
+        lastLabel.backgroundColor = [UIColor clearColor];
+        [self addSubview:lastLabel];
+        [xAxisValues addObject:lastXLabel];
+    } else {
+        for (int i = 1; i <= (numberOfPoints/numberOfGaps); i++) {
+            NSString *xAxisLabel = @"";
+            
+            if ([self.delegate respondsToSelector:@selector(lineGraph:labelOnXAxisForIndex:)]) {
+                xAxisLabel = [self.delegate lineGraph:self labelOnXAxisForIndex:(i * numberOfGaps - 1)];
+                
+            } else if ([self.delegate respondsToSelector:@selector(labelOnXAxisForIndex:)]) {
+                [self printDeprecationWarningForOldMethod:@"labelOnXAxisForIndex:" andReplacementMethod:@"lineGraph:labelOnXAxisForIndex:"];
+                
+                #pragma clang diagnostic push
+                #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+                    xAxisLabel = [self.delegate labelOnXAxisForIndex:(i * numberOfGaps - 1)];
+                #pragma clang diagnostic pop
+                
+            } else xAxisLabel = @"";
+            
+            UILabel *labelXAxis = [[UILabel alloc] init];
+            labelXAxis.text = xAxisLabel;
+            [labelXAxis sizeToFit];
+            [labelXAxis setCenter:CGPointMake((self.viewForBaselineLayout.frame.size.width/(numberOfPoints-1))*(i*numberOfGaps - 1), self.frame.size.height - labelXaxisOffset)];
+            labelXAxis.font = self.labelFont;
+            labelXAxis.textAlignment = 1;
+            labelXAxis.textColor = self.colorXaxisLabel;
+            labelXAxis.backgroundColor = [UIColor clearColor];
+            [self addSubview:labelXAxis];
+            [xAxisValues addObject:xAxisLabel];
+        }
+    }
+}
+
+- (UIImage *)graphSnapshotImage {
+    UIGraphicsBeginImageContextWithOptions(self.bounds.size, NO, [UIScreen mainScreen].scale);
+    
+    [self drawViewHierarchyInRect:self.bounds afterScreenUpdates:YES]; // Pre-iOS 7 Style [self.layer renderInContext:UIGraphicsGetCurrentContext()];
+    
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return image;
+}
+
+
+#pragma mark - Data Source
+
+- (void)reloadGraph {
+    [self layoutSubviews];
+}
+
+- (void)removePointAtIndex:(NSIndexPath *)indexPath {
+    NSLog(@"[BEMSimpleLineGraph] removePointAtIndex: is not yet available.");
+}
+
+- (void)insertPointAfterLastIndexWithValue:(float)dotValue {
+    NSLog(@"[BEMSimpleLineGraph] insertPointAfterLastIndexWithValue: is not yet available.");
+}
+
+- (void)insertPointBeforeFirstIndexWithValue:(float)value {
+    NSLog(@"[BEMSimpleLineGraph] insertPointBeforeFirstIndexWithValue: is not yet available.");
+}
+
+
+#pragma mark - Calculations
+
+- (NSNumber *)calculatePointValueAverage {
+    NSExpression *expression = [NSExpression expressionForFunction:@"average:" arguments:@[[NSExpression expressionForConstantValue:dataPoints]]];
+    NSNumber *value = [expression expressionValueWithObject:nil context:nil];
+    
+    return value;
+}
+
+- (NSNumber *)calculatePointValueMedian {
+    NSExpression *expression = [NSExpression expressionForFunction:@"median:" arguments:@[[NSExpression expressionForConstantValue:dataPoints]]];
+    NSNumber *value = [expression expressionValueWithObject:nil context:nil];
+    
+    return value;
+}
+
+- (NSNumber *)calculatePointValueMode {
+    NSExpression *expression = [NSExpression expressionForFunction:@"mode:" arguments:@[[NSExpression expressionForConstantValue:dataPoints]]];
+    NSMutableArray *value = [expression expressionValueWithObject:nil context:nil];
+    
+    return [value firstObject];
+}
+
+- (NSNumber *)calculateLineGraphStandardDeviation {
+    NSExpression *expression = [NSExpression expressionForFunction:@"stddev:" arguments:@[[NSExpression expressionForConstantValue:dataPoints]]];
+    NSNumber *value = [expression expressionValueWithObject:nil context:nil];
+    
+    return value;
+}
+
+- (NSNumber *)calculateMinimumPointValue {
+    NSExpression *expression = [NSExpression expressionForFunction:@"min:" arguments:@[[NSExpression expressionForConstantValue:dataPoints]]];
+    NSNumber *value = [expression expressionValueWithObject:nil context:nil];
+    
+    return value;
+}
+
+- (NSNumber *)calculateMaximumPointValue {
+    NSExpression *expression = [NSExpression expressionForFunction:@"max:" arguments:@[[NSExpression expressionForConstantValue:dataPoints]]];
+    NSNumber *value = [expression expressionValueWithObject:nil context:nil];
+    
+    return value;
+}
+
+
+#pragma mark - Values
+
+- (NSArray *)graphValuesForXAxis {
+    return xAxisValues;
+}
+
+- (NSArray *)graphValuesForDataPoints {
+    return dataPoints;
+}
+
+
+#pragma mark - Touch Gestures
 
 - (void)handlePan:(UIPanGestureRecognizer *)recognizer {
     CGPoint translation = [recognizer locationInView:self.viewForBaselineLayout];
@@ -175,12 +418,32 @@ int currentlyCloser;
     closestDot.alpha = 0.8;
     
     if (closestDot.tag > 99 && closestDot.tag < 1000) {
-        if ([self.delegate respondsToSelector:@selector(didTouchGraphWithClosestIndex:)])  [self.delegate didTouchGraphWithClosestIndex:((int)closestDot.tag - 100)];
+        if ([self.delegate respondsToSelector:@selector(lineGraph:didTouchGraphWithClosestIndex:)]) {
+            [self.delegate lineGraph:self didTouchGraphWithClosestIndex:((int)closestDot.tag - 100)];
+            
+        } else if ([self.delegate respondsToSelector:@selector(didTouchGraphWithClosestIndex:)]) {
+            [self printDeprecationWarningForOldMethod:@"didTouchGraphWithClosestIndex:" andReplacementMethod:@"lineGraph:didTouchGraphWithClosestIndex:"];
+            
+            #pragma clang diagnostic push
+            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+                [self.delegate didTouchGraphWithClosestIndex:((int)closestDot.tag - 100)];
+            #pragma clang diagnostic pop
+        }
     }
     
     // ON RELEASE
     if (recognizer.state == UIGestureRecognizerStateEnded) {
-        if ([self.delegate respondsToSelector:@selector(didReleaseGraphWithClosestIndex:)]) [self.delegate didReleaseGraphWithClosestIndex:(closestDot.tag - 100)];
+        if ([self.delegate respondsToSelector:@selector(lineGraph:didReleaseTouchFromGraphWithClosestIndex:)]) {
+            [self.delegate lineGraph:self didReleaseTouchFromGraphWithClosestIndex:(closestDot.tag - 100)];
+            
+        } else if ([self.delegate respondsToSelector:@selector(didReleaseGraphWithClosestIndex:)]) {
+            [self printDeprecationWarningForOldMethod:@"didReleaseGraphWithClosestIndex:" andReplacementMethod:@"lineGraph:didReleaseTouchFromGraphWithClosestIndex:"];
+            
+            #pragma clang diagnostic push
+            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+                [self.delegate didReleaseGraphWithClosestIndex:(closestDot.tag - 100)];
+            #pragma clang diagnostic pop
+        }
         
         [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
             closestDot.alpha = 0;
@@ -189,7 +452,8 @@ int currentlyCloser;
     }
 }
 
-// Find which dot is currently the closest to the vertical line
+#pragma mark - Graph Calculations
+
 - (BEMCircle *)closestDotFromVerticalLine:(UIView *)verticalLine {
     currentlyCloser = 1000;
     
@@ -211,13 +475,23 @@ int currentlyCloser;
     return closestDot;
 }
 
-// Determines the biggest Y-axis value from all the points.
 - (float)maxValue {
     float dotValue;
     float maxValue = 0;
     
     for (int i = 0; i < numberOfPoints; i++) {
-        dotValue = [self.delegate valueForIndex:i];
+        if ([self.delegate respondsToSelector:@selector(lineGraph:valueForPointAtIndex:)]) {
+            dotValue = [self.delegate lineGraph:self valueForPointAtIndex:i];
+            
+        } else if ([self.delegate respondsToSelector:@selector(valueForIndex:)]) {
+            [self printDeprecationWarningForOldMethod:@"valueForIndex:" andReplacementMethod:@"lineGraph:valueForPointAtIndex:"];
+            
+            #pragma clang diagnostic push
+            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+                dotValue = [self.delegate valueForIndex:i];
+            #pragma clang diagnostic pop
+            
+        } else dotValue = 0;
         
         if (dotValue > maxValue) {
             maxValue = dotValue;
@@ -227,13 +501,23 @@ int currentlyCloser;
     return maxValue;
 }
 
-// Determines the smallest Y-axis value from all the points.
 - (float)minValue {
     float dotValue;
     float minValue = INFINITY;
     
     for (int i = 0; i < numberOfPoints; i++) {
-        dotValue = [self.delegate valueForIndex:i];
+        if ([self.delegate respondsToSelector:@selector(lineGraph:valueForPointAtIndex:)]) {
+            dotValue = [self.delegate lineGraph:self valueForPointAtIndex:i];
+            
+        } else if ([self.delegate respondsToSelector:@selector(valueForIndex:)]) {
+            [self printDeprecationWarningForOldMethod:@"valueForIndex:" andReplacementMethod:@"lineGraph:valueForPointAtIndex:"];
+            
+            #pragma clang diagnostic push
+            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+                dotValue = [self.delegate valueForIndex:i];
+            #pragma clang diagnostic pop
+            
+        } else dotValue = 0;
         
         if (dotValue < minValue) {
             minValue = dotValue;
@@ -243,45 +527,10 @@ int currentlyCloser;
     return minValue;
 }
 
-- (void)drawXAxis {
-    if (![self.delegate respondsToSelector:@selector(numberOfGapsBetweenLabels)]) return;
-    
-    for (UIView *subview in [self subviews]) {
-        if ([subview isKindOfClass:[UILabel class]])
-            [subview removeFromSuperview];
-    }
-    
-    int numberOfGaps = [self.delegate numberOfGapsBetweenLabels] + 1;
-    
-    if (numberOfGaps >= (numberOfPoints - 1)) {
-        UILabel *firstLabel = [[UILabel alloc] initWithFrame:CGRectMake(3, self.frame.size.height - (labelXaxisOffset + 10), self.frame.size.width/2, 20)];
-        firstLabel.text = [self.delegate labelOnXAxisForIndex:0];
-        firstLabel.font = self.labelFont;
-        firstLabel.textAlignment = 0;
-        firstLabel.textColor = self.colorXaxisLabel;
-        firstLabel.backgroundColor = [UIColor clearColor];
-        [self addSubview:firstLabel];
-        
-        UILabel *lastLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.frame.size.width/2 - 3, self.frame.size.height - (labelXaxisOffset + 10), self.frame.size.width/2, 20)];
-        lastLabel.text = [self.delegate labelOnXAxisForIndex:(numberOfPoints - 1)];
-        lastLabel.font = self.labelFont;
-        lastLabel.textAlignment = 2;
-        lastLabel.textColor = self.colorXaxisLabel;
-        lastLabel.backgroundColor = [UIColor clearColor];
-        [self addSubview:lastLabel];
-    } else {
-        for (int i = 1; i <= (numberOfPoints/numberOfGaps); i++) {
-            UILabel *labelXAxis = [[UILabel alloc] init];
-            labelXAxis.text = [self.delegate labelOnXAxisForIndex:(i * numberOfGaps - 1)];
-            [labelXAxis sizeToFit];
-            [labelXAxis setCenter:CGPointMake((self.viewForBaselineLayout.frame.size.width/(numberOfPoints-1))*(i*numberOfGaps - 1), self.frame.size.height - labelXaxisOffset)];
-            labelXAxis.font = self.labelFont;
-            labelXAxis.textAlignment = 1;
-            labelXAxis.textColor = self.colorXaxisLabel;
-            labelXAxis.backgroundColor = [UIColor clearColor];
-            [self addSubview:labelXAxis];
-        }
-    }
+#pragma mark - Other Methods
+
+- (void)printDeprecationWarningForOldMethod:(NSString *)oldMethod andReplacementMethod:(NSString *)replacementMethod {
+    NSLog(@"[BEMSimpleLineGraph] DEPRECATION WARNING. The delegate method, %@, is deprecated and will become unavailable in a future version. Use %@ instead. Update your delegate method as soon as possible. An exception will be thrown in a future version.", oldMethod, replacementMethod);
 }
 
 @end

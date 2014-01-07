@@ -7,6 +7,7 @@
 //
 
 @import Foundation;
+
 #import "BEMCircle.h"
 #import "BEMLine.h"
 
@@ -17,9 +18,16 @@
 /// Class for the animation when the graph first gets created.
 @interface BEMAnimations : NSObject
 
+
+
+/// Animation of the dots
 - (void)animationForDot:(NSInteger)dotIndex circleDot:(BEMCircle *)circleDot animationSpeed:(NSInteger)speed;
+
+// Animation of the graph
 - (void)animationForLine:(NSInteger)lineIndex line:(BEMLine *)line animationSpeed:(NSInteger)speed;
 
 @property (assign) id <BEMAnimationDelegate> delegate;
+
+
 
 @end

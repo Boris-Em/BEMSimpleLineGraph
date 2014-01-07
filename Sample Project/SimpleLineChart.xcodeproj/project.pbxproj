@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		99B15643187B412400B24591 /* StatsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 99B15642187B412400B24591 /* StatsViewController.m */; };
 		99B3FA341877888700539A7B /* BEMAnimations.m in Sources */ = {isa = PBXBuildFile; fileRef = 99B3FA2E1877888700539A7B /* BEMAnimations.m */; };
 		99B3FA351877888700539A7B /* BEMCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = 99B3FA301877888700539A7B /* BEMCircle.m */; };
 		99B3FA361877888700539A7B /* BEMLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 99B3FA321877888700539A7B /* BEMLine.m */; };
@@ -40,6 +41,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		99B15641187B412400B24591 /* StatsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatsViewController.h; sourceTree = "<group>"; };
+		99B15642187B412400B24591 /* StatsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatsViewController.m; sourceTree = "<group>"; };
 		99B3FA2D1877888700539A7B /* BEMAnimations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEMAnimations.h; sourceTree = "<group>"; };
 		99B3FA2E1877888700539A7B /* BEMAnimations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEMAnimations.m; sourceTree = "<group>"; };
 		99B3FA2F1877888700539A7B /* BEMCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEMCircle.h; sourceTree = "<group>"; };
@@ -152,6 +155,8 @@
 				C3FD816A186DFD9A00FD8ED3 /* Main.storyboard */,
 				C3FD816D186DFD9A00FD8ED3 /* ViewController.h */,
 				C3FD816E186DFD9A00FD8ED3 /* ViewController.m */,
+				99B15641187B412400B24591 /* StatsViewController.h */,
+				99B15642187B412400B24591 /* StatsViewController.m */,
 				C3FD8170186DFD9A00FD8ED3 /* Images.xcassets */,
 				C3FD815F186DFD9A00FD8ED3 /* Supporting Files */,
 			);
@@ -292,6 +297,7 @@
 				99B3FA361877888700539A7B /* BEMLine.m in Sources */,
 				99B3FA341877888700539A7B /* BEMAnimations.m in Sources */,
 				C3FD8169186DFD9A00FD8ED3 /* AppDelegate.m in Sources */,
+				99B15643187B412400B24591 /* StatsViewController.m in Sources */,
 				C3FD8165186DFD9A00FD8ED3 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

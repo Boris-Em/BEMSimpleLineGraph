@@ -10,20 +10,17 @@
 
 @implementation BEMLine
 
-- (id)initWithFrame:(CGRect)frame
-{
+- (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-        
         self.backgroundColor = [UIColor clearColor];
     }
     return self;
 }
 
-- (void)drawRect:(CGRect)rect
-{
-    //FILL TOP
+- (void)drawRect:(CGRect)rect {
+    // FILL TOP
     CGContextRef ctx = UIGraphicsGetCurrentContext();
  
     CGContextSetFillColorWithColor(ctx, [self.topColor CGColor]);
@@ -37,7 +34,7 @@
 
     CGContextDrawPath(ctx, kCGPathFill);
     
-    //FILL BOTOM
+    // FILL BOTOM
     CGContextSetFillColorWithColor(ctx, [self.bottomColor CGColor]);
     CGContextSetAlpha(ctx, self.bottomAlpha);
     CGContextBeginPath(ctx);
@@ -49,7 +46,7 @@
     
     CGContextDrawPath(ctx, kCGPathFill);
     
-    //LINE GRAPH
+    // LINE GRAPH
     UIBezierPath *path1 = [UIBezierPath bezierPath];
     
     [path1 setLineWidth:self.lineWidth];

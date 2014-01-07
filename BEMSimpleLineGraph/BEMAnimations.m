@@ -10,7 +10,6 @@
 
 @implementation BEMAnimations
 
-// Animation of the dots
 - (void)animationForDot:(NSInteger)dotIndex circleDot:(BEMCircle *)circleDot animationSpeed:(NSInteger)speed {
     if (speed == 0) {
         circleDot.alpha = 0;
@@ -25,7 +24,6 @@
     }
 }
 
-// Animation of the graph
 - (void)animationForLine:(NSInteger)lineIndex line:(BEMLine *)line animationSpeed:(NSInteger)speed {
     if (speed == 0) {
         line.alpha = 1.0;

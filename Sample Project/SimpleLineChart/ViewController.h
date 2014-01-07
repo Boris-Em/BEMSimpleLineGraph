@@ -7,6 +7,7 @@
 //
 
 #import "BEMSimpleLineGraphView.h"
+#import "StatsViewController.h"
 
 @interface ViewController : UIViewController <BEMSimpleLineGraphDelegate>
 
@@ -21,5 +22,7 @@
 - (IBAction)refresh:(id)sender;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *graphColorChoice;
 @property (weak, nonatomic) IBOutlet UIStepper *graphObjectIncrement;
+
+- (IBAction)displayStatistics:(id)sender;
 
 @end
