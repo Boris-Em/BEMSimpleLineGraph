@@ -26,7 +26,10 @@ The iOS Sample App included with this project demonstrates how to correctly setu
 All methods, properties, types, and delegate methods available on the BEMSimpleLineGraph class are documented below. If you're using Xcode 5 with BEMSimpleLineGraph, documentation is available directly within Xcode (just Option-Click any method for Quick Help).
 
 ### Installation
-To install BEMSimpleLineGraph to your project, just drag and drop the *BEMSimpleLineGraph* folder into your Xcode project. When you do so, check the "*Copy items into destination group's folder*" box.
+The easiest way to install BEMSimpleLineGraph is to use <a href="http://cocoapods.org/" target="_blank">CocoaPods</a>. To do so, simply add the following line to your `Podfile`:
+	<pre><code>pod BEMSimpleLineGraph</code></pre>
+	
+The other way to install BEMSimpleLineGraph, is to drag and drop the *Classes* folder into your Xcode project. When you do so, check the "*Copy items into destination group's folder*" box.
 
 ### Setup
 Setting up BEMSimpleLineGraph in your project is simple. If you're familiar with UITableView, then BEMSimpleLineGraph should be a breeze. Follow the steps below to get everything up and running.
