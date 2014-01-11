@@ -4,6 +4,7 @@
 //
 //  Created by iRare Media on 1/6/14.
 //  Copyright (c) 2014 Boris Emorine. All rights reserved.
+//  Copyright (c) 2014 Sam Spencer.
 //
 
 #import "StatsViewController.h"

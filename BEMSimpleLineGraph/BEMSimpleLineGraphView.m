@@ -2,9 +2,9 @@
 //  BEMSimpleLineGraphView.m
 //  SimpleLineGraph
 //
-//  Created by Bobo on 12/27/13.
+//  Created by Bobo on 12/27/13. Updated by Sam Spencer on 1/11/14.
 //  Copyright (c) 2013 Boris Emorine. All rights reserved.
-//  Copyright (c) 2014 iRare Media.
+//  Copyright (c) 2014 Sam Spencer.
 //
 
 #import "BEMSimpleLineGraphView.h"
