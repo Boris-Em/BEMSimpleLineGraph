@@ -336,15 +336,15 @@
 }
 
 - (void)removePointAtIndex:(NSIndexPath *)indexPath {
-    NSLog(@"[BEMSimpleLineGraph] removePointAtIndex: is not yet available.");
+    NSLog(@"[BEMSimpleLineGraph] WARNING. removePointAtIndex: is not yet available.");
 }
 
 - (void)insertPointAfterLastIndexWithValue:(float)dotValue {
-    NSLog(@"[BEMSimpleLineGraph] insertPointAfterLastIndexWithValue: is not yet available.");
+    NSLog(@"[BEMSimpleLineGraph] WARNING. insertPointAfterLastIndexWithValue: is not yet available.");
 }
 
 - (void)insertPointBeforeFirstIndexWithValue:(float)value {
-    NSLog(@"[BEMSimpleLineGraph] insertPointBeforeFirstIndexWithValue: is not yet available.");
+    NSLog(@"[BEMSimpleLineGraph] WARNING. insertPointBeforeFirstIndexWithValue: is not yet available.");
 }
 
 
