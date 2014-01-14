@@ -14,7 +14,7 @@ Learn more about the BEMSimpleLineGraph project requirements, licensing, and con
 - Optimized for ARM64 Architecture
 
 ### License
-See the [License](https://github.com/Boris-Em/BEMSimpleLineGraph/blob/master/LICENSE.md). You are free to make changes and use this in either personal or commercial projects. Attribution is not required, but it appreciated. A little Thanks! (or something to that affect) would be much appreciated. If you use BEMSimpleLineGraph in your app, let us know. 
+See the [License](https://github.com/Boris-Em/BEMSimpleLineGraph/blob/master/LICENSE). You are free to make changes and use this in either personal or commercial projects. Attribution is not required, but it appreciated. A little Thanks! (or something to that affect) would be much appreciated. If you use BEMSimpleLineGraph in your app, let us know. 
 
 ### Contributions
 Any contribution is more than welcome! You can contribute through pull requests and issues on GitHub. 
