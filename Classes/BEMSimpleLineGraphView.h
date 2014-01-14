@@ -56,15 +56,15 @@
 
 
 /// Remove the point from the graph at the specified index. If the index exists on the graph, it will be removed with animation. If the index does not exist, no action will be taken.
-// - (void)removePointAtIndex:(NSIndexPath *)indexPath;
+// - (void)removePointAtIndex:(NSIndexPath *)indexPath animated:(BOOL)animated;
 
 
-/// Adds a new point to the right side of the graph. This addition is animated.
-// - (void)insertPointAfterLastIndexWithValue:(float)value;
+/// Adds a new point to the right side of the graph.
+// - (void)insertPointAfterLastIndexWithValue:(float)value animated:(BOOL)animated;
 
 
-/// Adds a new point to the left side of the graph. This addition is animated. Only available on iOS 7 and higher.
-// - (void)insertPointBeforeFirstIndexWithValue:(float)value NS_AVAILABLE_IOS(7_0);
+/// Adds a new point to the left side of the graph. Only available on iOS 7 and higher.
+// - (void)insertPointBeforeFirstIndexWithValue:(float)value animated:(BOOL)animated NS_AVAILABLE_IOS(7_0);
 
 
 /** Takes a snapshot of the graph.

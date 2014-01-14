@@ -8,10 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		99B15643187B412400B24591 /* StatsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 99B15642187B412400B24591 /* StatsViewController.m */; };
-		99B3FA341877888700539A7B /* BEMAnimations.m in Sources */ = {isa = PBXBuildFile; fileRef = 99B3FA2E1877888700539A7B /* BEMAnimations.m */; };
-		99B3FA351877888700539A7B /* BEMCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = 99B3FA301877888700539A7B /* BEMCircle.m */; };
-		99B3FA361877888700539A7B /* BEMLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 99B3FA321877888700539A7B /* BEMLine.m */; };
-		99B3FA371877888700539A7B /* BEMSimpleLineGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 99B3FA331877888700539A7B /* BEMSimpleLineGraphView.m */; };
 		99B3FA3A1877898B00539A7B /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = 99B3FA381877898B00539A7B /* LICENSE.md */; };
 		99B3FA3B1877898B00539A7B /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 99B3FA391877898B00539A7B /* README.md */; };
 		C3B90A5E187D15F7003E407D /* BEMAnimations.m in Sources */ = {isa = PBXBuildFile; fileRef = C3B90A57187D15F7003E407D /* BEMAnimations.m */; };
@@ -47,13 +43,6 @@
 /* Begin PBXFileReference section */
 		99B15641187B412400B24591 /* StatsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatsViewController.h; sourceTree = "<group>"; };
 		99B15642187B412400B24591 /* StatsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatsViewController.m; sourceTree = "<group>"; };
-		99B3FA2D1877888700539A7B /* BEMAnimations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEMAnimations.h; sourceTree = "<group>"; };
-		99B3FA2E1877888700539A7B /* BEMAnimations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEMAnimations.m; sourceTree = "<group>"; };
-		99B3FA2F1877888700539A7B /* BEMCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEMCircle.h; sourceTree = "<group>"; };
-		99B3FA301877888700539A7B /* BEMCircle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEMCircle.m; sourceTree = "<group>"; };
-		99B3FA311877888700539A7B /* BEMLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEMLine.h; sourceTree = "<group>"; };
-		99B3FA321877888700539A7B /* BEMLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEMLine.m; sourceTree = "<group>"; };
-		99B3FA331877888700539A7B /* BEMSimpleLineGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEMSimpleLineGraphView.m; sourceTree = "<group>"; };
 		99B3FA381877898B00539A7B /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE.md; path = ../LICENSE.md; sourceTree = "<group>"; };
 		99B3FA391877898B00539A7B /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		C3B90A56187D15F7003E407D /* BEMAnimations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEMAnimations.h; sourceTree = "<group>"; };
@@ -112,14 +101,14 @@
 		C3B90A55187D15F7003E407D /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				C3B90A5C187D15F7003E407D /* BEMSimpleLineGraphView.h */,
+				C3B90A5D187D15F7003E407D /* BEMSimpleLineGraphView.m */,
 				C3B90A56187D15F7003E407D /* BEMAnimations.h */,
 				C3B90A57187D15F7003E407D /* BEMAnimations.m */,
 				C3B90A58187D15F7003E407D /* BEMCircle.h */,
 				C3B90A59187D15F7003E407D /* BEMCircle.m */,
 				C3B90A5A187D15F7003E407D /* BEMLine.h */,
 				C3B90A5B187D15F7003E407D /* BEMLine.m */,
-				C3B90A5C187D15F7003E407D /* BEMSimpleLineGraphView.h */,
-				C3B90A5D187D15F7003E407D /* BEMSimpleLineGraphView.m */,
 			);
 			name = Classes;
 			path = ../Classes;

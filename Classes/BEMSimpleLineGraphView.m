@@ -19,7 +19,7 @@
     /// The number of Points in the Graph
     int numberOfPoints;
     
-    /// The closest fot to the touch point
+    /// The closest dot to the touch point
     BEMCircle *closestDot;
     int currentlyCloser;
     
@@ -94,6 +94,8 @@
 }
 
 - (void)layoutSubviews {
+    [super layoutSubviews];
+    
     if ([self.delegate respondsToSelector:@selector(numberOfPointsInLineGraph:)]) {
         numberOfPoints = [self.delegate numberOfPointsInLineGraph:self];
         
@@ -129,6 +131,14 @@
         [panGesture setMaximumNumberOfTouches:1];
         [panView addGestureRecognizer:panGesture];
     }
+}
+
+- (void)didAddSubview:(UIView *)subview {
+    // This method will help with the insert data point methods
+}
+
+- (void)willRemoveSubview:(UIView *)subview {
+    // This method will help with the remove data point method
 }
 
 #pragma mark - Drawing
@@ -332,18 +342,18 @@
 #pragma mark - Data Source
 
 - (void)reloadGraph {
-    [self layoutSubviews];
+    [self setNeedsLayout];
 }
 
-- (void)removePointAtIndex:(NSIndexPath *)indexPath {
+- (void)removePointAtIndex:(NSIndexPath *)indexPath animated:(BOOL)animated {
     NSLog(@"[BEMSimpleLineGraph] WARNING. removePointAtIndex: is not yet available.");
 }
 
-- (void)insertPointAfterLastIndexWithValue:(float)dotValue {
+- (void)insertPointAfterLastIndexWithValue:(float)dotValue animated:(BOOL)animated {
     NSLog(@"[BEMSimpleLineGraph] WARNING. insertPointAfterLastIndexWithValue: is not yet available.");
 }
 
-- (void)insertPointBeforeFirstIndexWithValue:(float)value {
+- (void)insertPointBeforeFirstIndexWithValue:(float)value animated:(BOOL)animated {
     NSLog(@"[BEMSimpleLineGraph] WARNING. insertPointBeforeFirstIndexWithValue: is not yet available.");
 }
 
