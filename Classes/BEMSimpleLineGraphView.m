@@ -19,7 +19,7 @@ BEMCircle *closestDot;
 int currentlyCloser;
 
 - (void)reloadGraph {
-    [self layoutSubviews];
+    [self setNeedsLayout];
 }
 
 - (void)commonInit {
