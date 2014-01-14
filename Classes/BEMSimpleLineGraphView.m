@@ -96,6 +96,9 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
+    if ([self.delegate respondsToSelector:@selector(lineGraphDidBeginLoading:)])
+        [self.delegate lineGraphDidBeginLoading:self];
+    
     if ([self.delegate respondsToSelector:@selector(numberOfPointsInLineGraph:)]) {
         numberOfPoints = [self.delegate numberOfPointsInLineGraph:self];
         
@@ -131,6 +134,9 @@
         [panGesture setMaximumNumberOfTouches:1];
         [panView addGestureRecognizer:panGesture];
     }
+    
+    if ([self.delegate respondsToSelector:@selector(lineGraphDidFinishLoading:)])
+        [self.delegate lineGraphDidFinishLoading:self];
 }
 
 - (void)didAddSubview:(UIView *)subview {
@@ -362,6 +368,13 @@
 
 - (NSNumber *)calculatePointValueAverage {
     NSExpression *expression = [NSExpression expressionForFunction:@"average:" arguments:@[[NSExpression expressionForConstantValue:dataPoints]]];
+    NSNumber *value = [expression expressionValueWithObject:nil context:nil];
+    
+    return value;
+}
+
+- (NSNumber *)calculatePointValueSum {
+    NSExpression *expression = [NSExpression expressionForFunction:@"sum:" arguments:@[[NSExpression expressionForConstantValue:dataPoints]]];
     NSNumber *value = [expression expressionValueWithObject:nil context:nil];
     
     return value;

@@ -28,7 +28,7 @@ int totalNumber;
     
     totalNumber = 0;
     
-    for (int i=0; i < 11; i++) {
+    for (int i = 0; i < 11; i++) {
         [self.ArrayOfValues addObject:[NSNumber numberWithInteger:(arc4random() % 70000)]]; // Random values for the graph
         [self.ArrayOfDates addObject:[NSString stringWithFormat:@"%@",[NSNumber numberWithInt:2000 + i]]]; // Dates for the X-Axis of the graph
         
@@ -50,7 +50,7 @@ int totalNumber;
     self.myGraph.enableTouchReport = YES;
     
     // The labels to report the values of the graph when the user touches it
-    self.labelValues.text = [NSString stringWithFormat:@"%i", totalNumber];
+    self.labelValues.text = [NSString stringWithFormat:@"%i", [[self.myGraph calculatePointValueSum] intValue]];
     self.labelDates.text = @"between 2000 and 2010";
 }
 
@@ -138,7 +138,7 @@ int totalNumber;
         self.labelDates.alpha = 0.0;
     } completion:^(BOOL finished){
         
-        self.labelValues.text = [NSString stringWithFormat:@"%i", totalNumber];
+        self.labelValues.text = [NSString stringWithFormat:@"%i", [[self.myGraph calculatePointValueSum] intValue]];
         self.labelDates.text = @"between 2000 and 2010";
         
         [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
@@ -146,6 +146,11 @@ int totalNumber;
             self.labelDates.alpha = 1.0;
         } completion:nil];
     }];
+}
+
+- (void)lineGraphDidFinishLoading:(BEMSimpleLineGraphView *)graph {
+    self.labelValues.text = [NSString stringWithFormat:@"%i", [[self.myGraph calculatePointValueSum] intValue]];
+    self.labelDates.text = @"between 2000 and 2010";
 }
 
 @end

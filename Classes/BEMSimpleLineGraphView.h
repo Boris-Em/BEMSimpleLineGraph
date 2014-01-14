@@ -73,32 +73,37 @@
 
 
 /** Calculates the average (mean) of all points on the line graph.
- @return The average (mean) number of the points on the graph. */
+ @return The average (mean) number of the points on the graph. Originally a float. */
 - (NSNumber *)calculatePointValueAverage;
 
 
+/** Calculates the sum of all points on the line graph.
+ @return The sum of the points on the graph. Originally a float. */
+- (NSNumber *)calculatePointValueSum;
+
+
 /** Calculates the median of all points on the line graph.
- @return The median number of the points on the graph. */
+ @return The median number of the points on the graph. Originally a float. */
 - (NSNumber *)calculatePointValueMedian;
 
 
 /** Calculates the mode of all points on the line graph.
- @return The mode number of the points on the graph. */
-- (NSNumber *)calculatePointValueMode NS_AVAILABLE_IOS(7_0);
+ @return The mode number of the points on the graph. Originally a float. */
+- (NSNumber *)calculatePointValueMode;
 
 
 /** Calculates the standard deviation of all points on the line graph.
- @return The standard deviation of the points on the graph. */
+ @return The standard deviation of the points on the graph. Originally a float. */
 - (NSNumber *)calculateLineGraphStandardDeviation;
 
 
 /** Calculates the minimum value of all points on the line graph.
- @return The minimum number of the points on the graph. */
+ @return The minimum number of the points on the graph. Originally a float. */
 - (NSNumber *)calculateMinimumPointValue;
 
 
 /** Calculates the maximum value of all points on the line graph.
- @return The maximum value of the points on the graph. */
+ @return The maximum value of the points on the graph. Originally a float. */
 - (NSNumber *)calculateMaximumPointValue;
 
 
@@ -190,6 +195,19 @@
 
 
 @optional
+
+
+//----- GRAPH EVENTS -----//
+
+
+/** Sent to the delegate each time the line graph is loaded or reloaded.
+ @param graph The graph object that is about to be loaded or reloaded. */
+- (void)lineGraphDidBeginLoading:(BEMSimpleLineGraphView *)graph;
+
+
+/** Sent to the delegate each time the line graph is finishes loading or reloading.
+ @param graph The graph object that finished loading or reloading. */
+- (void)lineGraphDidFinishLoading:(BEMSimpleLineGraphView *)graph;
 
 
 //----- CUSTOMIZATION -----//
