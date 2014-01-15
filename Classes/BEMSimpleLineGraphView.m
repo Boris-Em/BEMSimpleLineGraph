@@ -374,12 +374,6 @@
 
 - (void)reloadGraph {
     [self setNeedsLayout];
-    
-    // Draw the graph
-    //[self drawGraph];
-    
-    // Draw the X-Axis
-    //[self drawXAxis];
 }
 
 - (void)removePointAtIndex:(NSInteger)indexPath animated:(BOOL)animated {
@@ -392,9 +386,14 @@
     // Set the index value
     int i = (int)indexPath;
     
+    // Animate out the line
+    // Remove the lines
+    // Allow reload of graph without animation
+    
     // Remove the line
     UIView *removeLineView;
     while((removeLineView = [self viewWithTag:i+1000]) != nil) {
+        if (animated) [self.animationDelegate animationForRemovalOfLine:i line:(BEMLine *)removeLineView animationSpeed:self.animationGraphEntranceSpeed];
         [removeLineView removeFromSuperview];
     }
     
@@ -409,6 +408,7 @@
     numberOfPoints--;
     
     // TODO: Recalculate X-Axis
+    [self drawXAxis];
     
     // TODO: Prevent layoutSubviews redrawing everything
     

@@ -88,8 +88,12 @@ int totalNumber;
 }
 
 - (IBAction)addOrRemoveLineFromGraph:(id)sender {
-    [self.myGraph removePointAtIndex:2 animated:YES];
+#warning This is very fidgetey right now
+    [self.ArrayOfValues removeObjectAtIndex:2];
+    [self.ArrayOfDates removeObjectAtIndex:2];
     totalNumber--;
+    
+    [self.myGraph removePointAtIndex:2 animated:YES];
 }
 
 - (IBAction)displayStatistics:(id)sender {
