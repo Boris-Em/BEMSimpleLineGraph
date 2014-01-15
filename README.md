@@ -130,7 +130,7 @@ This method gets called when the user stops touching the graph. The parameter `i
 	}
 
 ### X-Axis Labels
-BEMSimpleLineGraph makes it possible to add labels along the X-Axis. To do so, simply implement the two followings methods: `numberOfGapsBetweenLabels` and `labelOnXAxisForIndex:`.
+BEMSimpleLineGraph makes it possible to add labels along the X-Axis. To do so, simply implement the two followings methods: `numberOfGapsBetweenLabelsOnLineGraph:` and `lineGraph:labelOnXAxisForIndex:`.
 
 **Gaps between labels**  
 Informs how much empty space is needed between each displayed label. Returning 0 will display all of the labels. Returning the total number of labels will only display the first and last label. See the image below for clarification.

@@ -265,7 +265,7 @@
 }
 
 - (void)drawXAxis {
-    if (![self.delegate respondsToSelector:@selector(numberOfGapsBetweenLabels)]) return;
+    if ((![self.delegate respondsToSelector:@selector(numberOfGapsBetweenLabelsOnLineGraph:)]) && (![self.delegate respondsToSelector:@selector(numberOfGapsBetweenLabels)])) return;
     
     for (UIView *subview in [self subviews]) {
         if ([subview isKindOfClass:[UILabel class]])
