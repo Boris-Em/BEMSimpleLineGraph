@@ -87,6 +87,11 @@ int totalNumber;
     [self.myGraph reloadGraph];
 }
 
+- (IBAction)addOrRemoveLineFromGraph:(id)sender {
+    [self.myGraph removePointAtIndex:2 animated:YES];
+    totalNumber--;
+}
+
 - (IBAction)displayStatistics:(id)sender {
     [self performSegueWithIdentifier:@"showStats" sender:self];
 }

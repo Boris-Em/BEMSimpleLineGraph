@@ -36,6 +36,7 @@
 /// Animation of the dots
 - (void)animationForDot:(NSInteger)dotIndex circleDot:(BEMCircle *)circleDot animationSpeed:(NSInteger)speed;
 
+
 /// Animation of the graph
 - (void)animationForLine:(NSInteger)lineIndex line:(BEMLine *)line animationSpeed:(NSInteger)speed;
 

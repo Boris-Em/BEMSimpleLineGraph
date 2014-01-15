@@ -24,4 +24,6 @@
 /// Class to draw the cicrle for the points.
 @interface BEMCircle : UIView
 
+@property (assign, nonatomic) BOOL shouldDisplayConstantly;
+
 @end

@@ -52,23 +52,33 @@
 #pragma mark - Initialization
 
 - (id)initWithFrame:(CGRect)frame {
-    if ((self = [super initWithFrame:frame])) {
+    self = [super initWithFrame:frame];
+    
+    if (self) {
         [self commonInit];
     }
+    
     return self;
 }
 
 - (id)initWithCoder:(NSCoder *)coder {
-    if ((self = [super initWithCoder:coder])) {
+    self = [super initWithCoder:coder];
+    
+    if (self) {
         [self commonInit];
     }
+    
     return self;
 }
 
 - (void)commonInit {
-    // Do not make any calls to "self" in this method. During this point self is unstable and will return nil. That is why ivars are used below.
-    
     // Do any initialization that's common to both -initWithFrame: and -initWithCoder: in this method
+    
+    // Set the animation delegate
+    self.animationDelegate = [[BEMAnimations alloc] init];
+    self.animationDelegate.delegate = self;
+    
+    // Set the X Axis label font
     _labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:13];
     
     // DEFAULT VALUES
@@ -96,9 +106,11 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
+    // Let the delegate know that the graph began layout updates
     if ([self.delegate respondsToSelector:@selector(lineGraphDidBeginLoading:)])
         [self.delegate lineGraphDidBeginLoading:self];
     
+    // Get the total number of data points from the delegate
     if ([self.delegate respondsToSelector:@selector(numberOfPointsInLineGraph:)]) {
         numberOfPoints = [self.delegate numberOfPointsInLineGraph:self];
         
@@ -112,12 +124,13 @@
         
     } else numberOfPoints = 0;
     
-    self.animationDelegate = [[BEMAnimations alloc] init];
-    self.animationDelegate.delegate = self;
-    
+    // Draw the graph
     [self drawGraph];
+    
+    // Draw the X-Axis
     [self drawXAxis];
     
+    // If the touch report is enabled, set it up
     if (self.enableTouchReport == YES) {
         // Initialize the vertical gray line that appears where the user touches the graph.
         self.verticalLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, self.viewForBaselineLayout.frame.size.height)];
@@ -135,15 +148,20 @@
         [panView addGestureRecognizer:panGesture];
     }
     
+    // Let the delegate know that the graph finished layout updates
     if ([self.delegate respondsToSelector:@selector(lineGraphDidFinishLoading:)])
         [self.delegate lineGraphDidFinishLoading:self];
 }
 
 - (void)didAddSubview:(UIView *)subview {
+    [super didAddSubview:subview];
+    
     // This method will help with the insert data point methods
 }
 
 - (void)willRemoveSubview:(UIView *)subview {
+    [super willRemoveSubview:subview];
+    
     // This method will help with the remove data point method
 }
 
@@ -158,11 +176,16 @@
     float positionOnXAxis; // The position on the X-axis of the point currently being created.
     float positionOnYAxis; // The position on the Y-axis of the point currently being created.
     
+    // Remove all dots that were previously on the graph
     for (UIView *subview in [self subviews]) {
         if ([subview isKindOfClass:[BEMCircle class]])
             [subview removeFromSuperview];
     }
     
+    // Remove all data points before adding them to the array
+    [dataPoints removeAllObjects];
+    
+    // Loop through each point and add it to the graph
     for (int i = 0; i < numberOfPoints; i++) {
         
         float dotValue = 0;
@@ -258,13 +281,15 @@
     } else if ([self.delegate respondsToSelector:@selector(numberOfGapsBetweenLabels)]) {
         [self printDeprecationWarningForOldMethod:@"numberOfGapsBetweenLabels" andReplacementMethod:@"numberOfGapsBetweenLabelsOnLineGraph:"];
         
-        #pragma clang diagnostic push
-        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            numberOfGaps = [self.delegate numberOfGapsBetweenLabels] + 1;
-        #pragma clang diagnostic pop
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        numberOfGaps = [self.delegate numberOfGapsBetweenLabels] + 1;
+#pragma clang diagnostic pop
         
     } else numberOfGaps = 0;
     
+    // Remove all X-Axis Labels before adding them to the array
+    [xAxisValues removeAllObjects];
     
     if (numberOfGaps >= (numberOfPoints - 1)) {
         NSString *firstXLabel = @"";
@@ -277,11 +302,11 @@
         } else if ([self.delegate respondsToSelector:@selector(labelOnXAxisForIndex:)]) {
             [self printDeprecationWarningForOldMethod:@"labelOnXAxisForIndex:" andReplacementMethod:@"lineGraph:labelOnXAxisForIndex:"];
             
-            #pragma clang diagnostic push
-            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                firstXLabel = [self.delegate labelOnXAxisForIndex:0];
-                lastXLabel = [self.delegate labelOnXAxisForIndex:(numberOfPoints - 1)];
-            #pragma clang diagnostic pop
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            firstXLabel = [self.delegate labelOnXAxisForIndex:0];
+            lastXLabel = [self.delegate labelOnXAxisForIndex:(numberOfPoints - 1)];
+#pragma clang diagnostic pop
             
         } else firstXLabel = @"";
         
@@ -312,10 +337,10 @@
             } else if ([self.delegate respondsToSelector:@selector(labelOnXAxisForIndex:)]) {
                 [self printDeprecationWarningForOldMethod:@"labelOnXAxisForIndex:" andReplacementMethod:@"lineGraph:labelOnXAxisForIndex:"];
                 
-                #pragma clang diagnostic push
-                #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                    xAxisLabel = [self.delegate labelOnXAxisForIndex:(i * numberOfGaps - 1)];
-                #pragma clang diagnostic pop
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+                xAxisLabel = [self.delegate labelOnXAxisForIndex:(i * numberOfGaps - 1)];
+#pragma clang diagnostic pop
                 
             } else xAxisLabel = @"";
             
@@ -349,10 +374,45 @@
 
 - (void)reloadGraph {
     [self setNeedsLayout];
+    
+    // Draw the graph
+    //[self drawGraph];
+    
+    // Draw the X-Axis
+    //[self drawXAxis];
 }
 
-- (void)removePointAtIndex:(NSIndexPath *)indexPath animated:(BOOL)animated {
-    NSLog(@"[BEMSimpleLineGraph] WARNING. removePointAtIndex: is not yet available.");
+- (void)removePointAtIndex:(NSInteger)indexPath animated:(BOOL)animated {
+    // Ensure that there is more than one dot on the graph - can't remove anything from nothing
+    if ([dataPoints count] <= 0) {
+        NSLog(@"[BEMSimpleLineGraph] Attempt to remove a point that doesn't exist using removePointAtIndex:animated:");
+        return;
+    }
+    
+    // Set the index value
+    int i = (int)indexPath;
+    
+    // Remove the line
+    UIView *removeLineView;
+    while((removeLineView = [self viewWithTag:i+1000]) != nil) {
+        [removeLineView removeFromSuperview];
+    }
+    
+    // Remove the dot
+    UIView *removeDotView;
+    while((removeDotView = [self viewWithTag:i+100]) != nil) {
+        [removeDotView removeFromSuperview];
+    }
+    
+    // Remove the array data
+    [dataPoints removeObjectAtIndex:indexPath];
+    numberOfPoints--;
+    
+    // TODO: Recalculate X-Axis
+    
+    // TODO: Prevent layoutSubviews redrawing everything
+    
+    // TODO: Heed animation parameter
 }
 
 - (void)insertPointAfterLastIndexWithValue:(float)dotValue animated:(BOOL)animated {
@@ -447,10 +507,10 @@
         } else if ([self.delegate respondsToSelector:@selector(didTouchGraphWithClosestIndex:)]) {
             [self printDeprecationWarningForOldMethod:@"didTouchGraphWithClosestIndex:" andReplacementMethod:@"lineGraph:didTouchGraphWithClosestIndex:"];
             
-            #pragma clang diagnostic push
-            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                [self.delegate didTouchGraphWithClosestIndex:((int)closestDot.tag - 100)];
-            #pragma clang diagnostic pop
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            [self.delegate didTouchGraphWithClosestIndex:((int)closestDot.tag - 100)];
+#pragma clang diagnostic pop
         }
     }
     
@@ -462,10 +522,10 @@
         } else if ([self.delegate respondsToSelector:@selector(didReleaseGraphWithClosestIndex:)]) {
             [self printDeprecationWarningForOldMethod:@"didReleaseGraphWithClosestIndex:" andReplacementMethod:@"lineGraph:didReleaseTouchFromGraphWithClosestIndex:"];
             
-            #pragma clang diagnostic push
-            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                [self.delegate didReleaseGraphWithClosestIndex:(closestDot.tag - 100)];
-            #pragma clang diagnostic pop
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            [self.delegate didReleaseGraphWithClosestIndex:(closestDot.tag - 100)];
+#pragma clang diagnostic pop
         }
         
         [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
@@ -509,10 +569,10 @@
         } else if ([self.delegate respondsToSelector:@selector(valueForIndex:)]) {
             [self printDeprecationWarningForOldMethod:@"valueForIndex:" andReplacementMethod:@"lineGraph:valueForPointAtIndex:"];
             
-            #pragma clang diagnostic push
-            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                dotValue = [self.delegate valueForIndex:i];
-            #pragma clang diagnostic pop
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            dotValue = [self.delegate valueForIndex:i];
+#pragma clang diagnostic pop
             
         } else dotValue = 0;
         
@@ -535,10 +595,10 @@
         } else if ([self.delegate respondsToSelector:@selector(valueForIndex:)]) {
             [self printDeprecationWarningForOldMethod:@"valueForIndex:" andReplacementMethod:@"lineGraph:valueForPointAtIndex:"];
             
-            #pragma clang diagnostic push
-            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                dotValue = [self.delegate valueForIndex:i];
-            #pragma clang diagnostic pop
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            dotValue = [self.delegate valueForIndex:i];
+#pragma clang diagnostic pop
             
         } else dotValue = 0;
         

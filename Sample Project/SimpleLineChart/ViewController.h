@@ -21,6 +21,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *labelDates;
 
 - (IBAction)refresh:(id)sender;
+- (IBAction)addOrRemoveLineFromGraph:(id)sender;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *graphColorChoice;
 @property (weak, nonatomic) IBOutlet UIStepper *graphObjectIncrement;
 

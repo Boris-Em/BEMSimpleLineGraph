@@ -10,6 +10,7 @@
 #import "BEMCircle.h"
 
 @implementation BEMCircle
+@synthesize shouldDisplayConstantly;
 
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
