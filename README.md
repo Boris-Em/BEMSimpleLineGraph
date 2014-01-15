@@ -1,4 +1,4 @@
-# BEMSimpleLineGraph
+# BEMSimpleLineGraph - Feature Branch
 <p align="center"><img src="http://img843.imageshack.us/img843/3821/ru8f.png"/></p>	
 
 <p align="center">
