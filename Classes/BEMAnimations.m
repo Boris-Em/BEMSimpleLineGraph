@@ -35,14 +35,4 @@
     }
 }
 
-- (void)animationForRemovalOfLine:(NSInteger)lineIndex line:(BEMLine *)line animationSpeed:(NSInteger)speed {
-    if (speed == 0) {
-        line.alpha = 0.0;
-    } else {
-        [UIView animateWithDuration:1.0 delay:lineIndex/(speed*2.0) options:UIViewAnimationOptionCurveEaseOut animations:^{
-            line.alpha = 0.0;
-        } completion:nil];
-    }
-}
-
 @end

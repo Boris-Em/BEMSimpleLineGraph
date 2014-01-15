@@ -41,10 +41,6 @@
 - (void)animationForLine:(NSInteger)lineIndex line:(BEMLine *)line animationSpeed:(NSInteger)speed;
 
 
-/// Animation of the graph
-- (void)animationForRemovalOfLine:(NSInteger)lineIndex line:(BEMLine *)line animationSpeed:(NSInteger)speed;
-
-
 
 /// Animation Delegate
 @property (assign) id <BEMAnimationDelegate> delegate;

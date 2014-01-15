@@ -28,6 +28,9 @@
     
     /// All of the Data Points
     NSMutableArray *dataPoints;
+    
+    /// Used to determine if the graph needs to be fully updated
+    BOOL fullGraphUpdate;
 }
 
 /// The vertical line which appears when the user drags across the graph
@@ -101,6 +104,8 @@
     // Initialize the arrays
     xAxisValues = [NSMutableArray array];
     dataPoints = [NSMutableArray array];
+    
+    // fullGraphUpdate = YES;
 }
 
 - (void)layoutSubviews {
@@ -157,12 +162,6 @@
     [super didAddSubview:subview];
     
     // This method will help with the insert data point methods
-}
-
-- (void)willRemoveSubview:(UIView *)subview {
-    [super willRemoveSubview:subview];
-    
-    // This method will help with the remove data point method
 }
 
 #pragma mark - Drawing
@@ -376,42 +375,42 @@
     [self setNeedsLayout];
 }
 
-- (void)removePointAtIndex:(NSInteger)indexPath animated:(BOOL)animated {
-    // Ensure that there is more than one dot on the graph - can't remove anything from nothing
-    if ([dataPoints count] <= 0) {
+- (NSArray *)removePointAtIndex:(NSInteger)indexPath {
+    // Ensure that there is more than one dot on the graph - can't remove something from nothing
+    if ([dataPoints count] <= indexPath || [dataPoints count] == 0) {
         NSLog(@"[BEMSimpleLineGraph] Attempt to remove a point that doesn't exist using removePointAtIndex:animated:");
-        return;
+        return dataPoints;
     }
     
     // Set the index value
     int i = (int)indexPath;
     
     // Remove the line
-    UIView *removeLineView;
-    while((removeLineView = [self viewWithTag:i+1000]) != nil) {
-        if (animated) [self.animationDelegate animationForRemovalOfLine:i line:(BEMLine *)removeLineView animationSpeed:self.animationGraphEntranceSpeed];
-        [removeLineView removeFromSuperview];
-    }
+    UIView *removeLineView = [self viewWithTag:i+1000];
+    [removeLineView removeFromSuperview];
     
     // Remove the dot
-    UIView *removeDotView;
-    while((removeDotView = [self viewWithTag:i+100]) != nil) {
-        [removeDotView removeFromSuperview];
-    }
+    UIView *removeDotView = [self viewWithTag:i+100];
+    [removeDotView removeFromSuperview];
     
     // Remove the array data
     [dataPoints removeObjectAtIndex:indexPath];
     numberOfPoints--;
     
-    // TODO: Prevent layoutSubviews redrawing everything
+    // Redrawing the graph. TODO: Redraw with different animation
+    //[self setNeedsLayout];
+    
+    return dataPoints;
 }
 
-- (void)insertPointAfterLastIndexWithValue:(float)dotValue animated:(BOOL)animated {
+- (NSArray *)insertPointAfterLastIndexWithValue:(float)dotValue {
     NSLog(@"[BEMSimpleLineGraph] WARNING. insertPointAfterLastIndexWithValue: is not yet available.");
+    return dataPoints;
 }
 
-- (void)insertPointBeforeFirstIndexWithValue:(float)value animated:(BOOL)animated {
+- (NSArray *)insertPointBeforeFirstIndexWithValue:(float)value {
     NSLog(@"[BEMSimpleLineGraph] WARNING. insertPointBeforeFirstIndexWithValue: is not yet available.");
+    return dataPoints;
 }
 
 

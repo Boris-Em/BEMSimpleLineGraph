@@ -9,9 +9,11 @@
 
 #import "ViewController.h"
 
-int totalNumber;
 
-@interface ViewController ()
+@interface ViewController () {
+    int previousStepperValue;
+    int totalNumber;
+}
 
 @end
 
@@ -26,6 +28,7 @@ int totalNumber;
     self.ArrayOfValues = [[NSMutableArray alloc] init];
     self.ArrayOfDates = [[NSMutableArray alloc] init];
     
+    previousStepperValue = self.graphObjectIncrement.value;
     totalNumber = 0;
     
     for (int i = 0; i < 11; i++) {
@@ -88,11 +91,15 @@ int totalNumber;
 }
 
 - (IBAction)addOrRemoveLineFromGraph:(id)sender {
-#warning This is very fidgetey right now
-    [self.ArrayOfValues removeObjectAtIndex:2];
-    [self.ArrayOfDates removeObjectAtIndex:2];
+    if (self.graphObjectIncrement.value > previousStepperValue) {
+        // TODO: Add line
+        self.ArrayOfValues.array = [self.myGraph insertPointAfterLastIndexWithValue:(arc4random() % 70000)];
+    } else if (self.graphObjectIncrement.value < previousStepperValue) {
+        // Remove line
+        self.ArrayOfValues.array = [self.myGraph removePointAtIndex:0];
+    }
     
-    [self.myGraph removePointAtIndex:2 animated:YES];
+    previousStepperValue = self.graphObjectIncrement.value;
 }
 
 - (IBAction)displayStatistics:(id)sender {
