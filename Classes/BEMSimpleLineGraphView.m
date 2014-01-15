@@ -386,10 +386,6 @@
     // Set the index value
     int i = (int)indexPath;
     
-    // Animate out the line
-    // Remove the lines
-    // Allow reload of graph without animation
-    
     // Remove the line
     UIView *removeLineView;
     while((removeLineView = [self viewWithTag:i+1000]) != nil) {
@@ -407,12 +403,7 @@
     [dataPoints removeObjectAtIndex:indexPath];
     numberOfPoints--;
     
-    // TODO: Recalculate X-Axis
-    [self drawXAxis];
-    
     // TODO: Prevent layoutSubviews redrawing everything
-    
-    // TODO: Heed animation parameter
 }
 
 - (void)insertPointAfterLastIndexWithValue:(float)dotValue animated:(BOOL)animated {

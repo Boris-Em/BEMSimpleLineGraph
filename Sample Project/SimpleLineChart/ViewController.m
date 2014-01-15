@@ -91,7 +91,6 @@ int totalNumber;
 #warning This is very fidgetey right now
     [self.ArrayOfValues removeObjectAtIndex:2];
     [self.ArrayOfDates removeObjectAtIndex:2];
-    totalNumber--;
     
     [self.myGraph removePointAtIndex:2 animated:YES];
 }
