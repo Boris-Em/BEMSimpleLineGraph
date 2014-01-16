@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		99B3FA3A1877898B00539A7B /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = 99B3FA381877898B00539A7B /* LICENSE.md */; };
+		99B15643187B412400B24591 /* StatsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 99B15642187B412400B24591 /* StatsViewController.m */; };
+		99B3FA3A1877898B00539A7B /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 99B3FA381877898B00539A7B /* LICENSE */; };
 		99B3FA3B1877898B00539A7B /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 99B3FA391877898B00539A7B /* README.md */; };
 		C3B90A5E187D15F7003E407D /* BEMAnimations.m in Sources */ = {isa = PBXBuildFile; fileRef = C3B90A57187D15F7003E407D /* BEMAnimations.m */; };
 		C3B90A5F187D15F7003E407D /* BEMCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = C3B90A59187D15F7003E407D /* BEMCircle.m */; };
@@ -40,7 +41,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		99B3FA381877898B00539A7B /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE.md; path = ../LICENSE.md; sourceTree = "<group>"; };
+		99B15641187B412400B24591 /* StatsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatsViewController.h; sourceTree = "<group>"; };
+		99B15642187B412400B24591 /* StatsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatsViewController.m; sourceTree = "<group>"; };
+		99B3FA381877898B00539A7B /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		99B3FA391877898B00539A7B /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		C3B90A56187D15F7003E407D /* BEMAnimations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEMAnimations.h; sourceTree = "<group>"; };
 		C3B90A57187D15F7003E407D /* BEMAnimations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEMAnimations.m; sourceTree = "<group>"; };
@@ -98,14 +101,14 @@
 		C3B90A55187D15F7003E407D /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				C3B90A5C187D15F7003E407D /* BEMSimpleLineGraphView.h */,
+				C3B90A5D187D15F7003E407D /* BEMSimpleLineGraphView.m */,
 				C3B90A56187D15F7003E407D /* BEMAnimations.h */,
 				C3B90A57187D15F7003E407D /* BEMAnimations.m */,
 				C3B90A58187D15F7003E407D /* BEMCircle.h */,
 				C3B90A59187D15F7003E407D /* BEMCircle.m */,
 				C3B90A5A187D15F7003E407D /* BEMLine.h */,
 				C3B90A5B187D15F7003E407D /* BEMLine.m */,
-				C3B90A5C187D15F7003E407D /* BEMSimpleLineGraphView.h */,
-				C3B90A5D187D15F7003E407D /* BEMSimpleLineGraphView.m */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -114,7 +117,7 @@
 		C3FD814C186DFD9A00FD8ED3 = {
 			isa = PBXGroup;
 			children = (
-				99B3FA381877898B00539A7B /* LICENSE.md */,
+				99B3FA381877898B00539A7B /* LICENSE */,
 				99B3FA391877898B00539A7B /* README.md */,
 				C3B90A55187D15F7003E407D /* Classes */,
 				C3FD815E186DFD9A00FD8ED3 /* SimpleLineChart */,
@@ -152,6 +155,8 @@
 				C3FD816A186DFD9A00FD8ED3 /* Main.storyboard */,
 				C3FD816D186DFD9A00FD8ED3 /* ViewController.h */,
 				C3FD816E186DFD9A00FD8ED3 /* ViewController.m */,
+				99B15641187B412400B24591 /* StatsViewController.h */,
+				99B15642187B412400B24591 /* StatsViewController.m */,
 				C3FD8170186DFD9A00FD8ED3 /* Images.xcassets */,
 				C3FD815F186DFD9A00FD8ED3 /* Supporting Files */,
 			);
@@ -263,7 +268,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				99B3FA3A1877898B00539A7B /* LICENSE.md in Resources */,
+				99B3FA3A1877898B00539A7B /* LICENSE in Resources */,
 				C3FD8171186DFD9A00FD8ED3 /* Images.xcassets in Resources */,
 				99B3FA3B1877898B00539A7B /* README.md in Resources */,
 				C3FD8163186DFD9A00FD8ED3 /* InfoPlist.strings in Resources */,
@@ -292,6 +297,7 @@
 				C3B90A60187D15F7003E407D /* BEMLine.m in Sources */,
 				C3B90A5E187D15F7003E407D /* BEMAnimations.m in Sources */,
 				C3FD8169186DFD9A00FD8ED3 /* AppDelegate.m in Sources */,
+				99B15643187B412400B24591 /* StatsViewController.m in Sources */,
 				C3FD8165186DFD9A00FD8ED3 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

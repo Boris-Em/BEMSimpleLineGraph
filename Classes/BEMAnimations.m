@@ -2,15 +2,15 @@
 //  BEMAnimations.m
 //  SimpleLineGraph
 //
-//  Created by Bobo on 12/27/13.
+//  Created by Bobo on 12/27/13. Updated by Sam Spencer on 1/11/14.
 //  Copyright (c) 2013 Boris Emorine. All rights reserved.
+//  Copyright (c) 2014 Sam Spencer.
 //
 
 #import "BEMAnimations.h"
 
 @implementation BEMAnimations
 
-// Animation of the dots
 - (void)animationForDot:(NSInteger)dotIndex circleDot:(BEMCircle *)circleDot animationSpeed:(NSInteger)speed {
     if (speed == 0) {
         circleDot.alpha = 0;
@@ -25,7 +25,6 @@
     }
 }
 
-// Animation of the graph
 - (void)animationForLine:(NSInteger)lineIndex line:(BEMLine *)line animationSpeed:(NSInteger)speed {
     if (speed == 0) {
         line.alpha = 1.0;

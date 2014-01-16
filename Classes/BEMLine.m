@@ -2,28 +2,26 @@
 //  BEMLine.m
 //  SimpleLineGraph
 //
-//  Created by Bobo on 12/27/13.
+//  Created by Bobo on 12/27/13. Updated by Sam Spencer on 1/11/14.
 //  Copyright (c) 2013 Boris Emorine. All rights reserved.
+//  Copyright (c) 2014 Sam Spencer.
 //
 
 #import "BEMLine.h"
 
 @implementation BEMLine
 
-- (id)initWithFrame:(CGRect)frame
-{
+- (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-        
         self.backgroundColor = [UIColor clearColor];
     }
     return self;
 }
 
-- (void)drawRect:(CGRect)rect
-{
-    //FILL TOP
+- (void)drawRect:(CGRect)rect {
+    // FILL TOP
     CGContextRef ctx = UIGraphicsGetCurrentContext();
  
     CGContextSetFillColorWithColor(ctx, [self.topColor CGColor]);
@@ -37,7 +35,7 @@
 
     CGContextDrawPath(ctx, kCGPathFill);
     
-    //FILL BOTOM
+    // FILL BOTOM
     CGContextSetFillColorWithColor(ctx, [self.bottomColor CGColor]);
     CGContextSetAlpha(ctx, self.bottomAlpha);
     CGContextBeginPath(ctx);
@@ -49,7 +47,7 @@
     
     CGContextDrawPath(ctx, kCGPathFill);
     
-    //LINE GRAPH
+    // LINE GRAPH
     UIBezierPath *path1 = [UIBezierPath bezierPath];
     
     [path1 setLineWidth:self.lineWidth];

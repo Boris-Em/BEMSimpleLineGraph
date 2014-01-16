@@ -2,30 +2,75 @@
 //  BEMLine.h
 //  SimpleLineGraph
 //
-//  Created by Bobo on 12/27/13.
+//  Created by Bobo on 12/27/13. Updated by Sam Spencer on 1/11/14.
 //  Copyright (c) 2013 Boris Emorine. All rights reserved.
+//  Copyright (c) 2014 Sam Spencer.
 //
 
 
-@import UIKit;
+#if __has_feature(objc_modules)
+    // We recommend enabling Objective-C Modules in your project Build Settings for numerous benefits over regular #imports
+    @import Foundation;
+    @import UIKit;
+    @import CoreGraphics;
+#else
+    #import <Foundation/Foundation.h>
+    #import <UIKit/UIKit.h>
+    #import <CoreGraphics/CoreGraphics.h>
+#endif
+
+
 
 /// Class to draw the line of the graph
 @interface BEMLine : UIView
 
-@property (assign, nonatomic) CGPoint  firstPoint;
-@property (assign, nonatomic) CGPoint  secondPoint;
 
-// COLORS
+
+//----- POINTS -----//
+
+/// The starting point of the line
+@property (assign, nonatomic) CGPoint firstPoint;
+
+/// The ending point of the line
+@property (assign, nonatomic) CGPoint secondPoint;
+
+
+
+
+//----- COLORS -----//
+
+/// The line color
 @property (strong, nonatomic) UIColor *color;
+
+/// The color of the area above the line, inside of its superview
 @property (strong, nonatomic) UIColor *topColor;
+
+/// The color of the area below the line, inside of its superview
 @property (strong, nonatomic) UIColor *bottomColor;
 
 
-// ALPHA
-@property (nonatomic) float topAlpha;
-@property (nonatomic) float bottomAlpha;
+
+
+//----- ALPHA -----//
+
+/// The line alpha
 @property (nonatomic) float lineAlpha;
 
+/// The alpha value of the area above the line, inside of its superview
+@property (nonatomic) float topAlpha;
+
+/// The alpha value of the area below the line, inside of its superview
+@property (nonatomic) float bottomAlpha;
+
+
+
+
+
+//----- SIZE -----//
+
+/// The width of the line
 @property (nonatomic) float lineWidth;
+
+
 
 @end
