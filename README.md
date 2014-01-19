@@ -8,7 +8,7 @@
 ## Feature Branch Warning
 You are currently viewing the feature branch of this GitHub repository. The feature branch contains bleeding edge commits / features, otherwise known as **alpha or beta** features. Content in this branch may be unstable, bug-ridden, non-working, and undocumented. The sole purpose of this branch is to test and improve on new features that may or may not be included in future (stable) versions.
 
-It is not recommended that you use this branch in a production app of any kind. **For stable production ready code**, please refer to the [master branch](https://github.com/Sam-Spencer/BEMSimpleLineGraph/tree/master).
+It is not recommended that you use this branch in a production app of any kind. **For stable production ready code**, please refer to the [master branch](https://github.com/Boris-Em/BEMSimpleLineGraph/tree/master).
 
 ## Project Details
 Learn more about the BEMSimpleLineGraph project requirements, licensing, and contributions.
