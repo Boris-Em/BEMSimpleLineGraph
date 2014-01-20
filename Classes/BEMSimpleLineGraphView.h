@@ -263,35 +263,40 @@
 //----- DEPRECATED -----//
 
 
-/** The number of points along the X-axis of the graph.
+/** \b DEPRECATED. Use \p numberOfPointsInLineGraph: instead. The number of points along the X-axis of the graph.
+ @deprecated Deprecated in 1.3. Use \p numberOfPointsInLineGraph: instead.
  @return Number of points. */
 - (int)numberOfPointsInGraph __deprecated;
 
 
-/** DEPRECATED. Use lineGraph:valueForPointAtIndex: instead.
- @deprecated Deprecated in 1.3. Use lineGraph:valueForPointAtIndex: instead.
+/** \b DEPRECATED. Use \p lineGraph:valueForPointAtIndex: instead.
+ @deprecated Deprecated in 1.3. Use \p lineGraph:valueForPointAtIndex: instead.
  @param index The index from left to right of a given point (X-axis). The first value for the index is 0.
  @return The Y-axis value at a given index. */
 - (float)valueForIndex:(NSInteger)index __deprecated;
 
 
-/** Gets called when the user starts touching the graph. The property 'enableTouchReport' must be set to YES.
+/** \b DEPRECATED. Use \p lineGraph:didTouchGraphWithClosestIndex: instead. Gets called when the user starts touching the graph. The property 'enableTouchReport' must be set to YES.
+ @deprecated Deprecated in 1.3. Use \p lineGraph:didTouchGraphWithClosestIndex: instead.
  @param index The closest index (X-axis) from the location the user is currently touching. */
 - (void)didTouchGraphWithClosestIndex:(int)index __deprecated;
 
 
-/**  Gets called when the user stops touching the graph.
+/** \b DEPRECATED. Use \p lineGraph:didReleaseTouchFromGraphWithClosestIndex: instead. Gets called when the user stops touching the graph.
+ @deprecated Deprecated in 1.3. Use \p lineGraph:didReleaseTouchFromGraphWithClosestIndex: instead.
  @param index The closest index (X-axis) from the location the user last touched. */
 - (void)didReleaseGraphWithClosestIndex:(float)index __deprecated;
 
 
-/** The number of free space between labels on the X-axis to avoid overlapping.
+/** \b DEPRECATED. Use \p numberOfGapsBetweenLabelsOnLineGraph: instead. The number of free space between labels on the X-axis to avoid overlapping.
+ @deprecated Deprecated in 1.3. Use \p numberOfGapsBetweenLabelsOnLineGraph: instead.
  @discussion For example returning '1' would mean that half of the labels on the X-axis are not displayed: the first is not displayed, the second is, the third is not etc. Returning '0' would mean that all of the labels will be displayed. Finally, returning a value equal to the number of labels will only display the first and last label.
  @return The number of labels to "jump" between each displayed label on the X-axis. */
 - (int)numberOfGapsBetweenLabels __deprecated;
 
 
-/** The string to display on the label on the X-axis at a given index. Please note that the number of strings to be returned should be equal to the number of points in the Graph.
+/** \b DEPRECATED. Use \p lineGraph:labelOnXAxisForIndex: instead. The string to display on the label on the X-axis at a given index. Please note that the number of strings to be returned should be equal to the number of points in the Graph.
+ @deprecated Deprecated in 1.3. Use \p lineGraph:labelOnXAxisForIndex: instead.
  @param index The index from left to right of a given label on the X-axis. Is the same index as the one for the points. The first value for the index is 0. */
 - (NSString *)labelOnXAxisForIndex:(NSInteger)index __deprecated;
 
