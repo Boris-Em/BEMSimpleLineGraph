@@ -327,18 +327,20 @@
         [self addSubview:lastLabel];
         [xAxisValues addObject:lastXLabel];
     } else {
+        NSInteger offset = [self offsetForXAxisWithNumberOfGaps:numberOfGaps]; // The offset (if possible and necessary) used to shift the Labels on the X-Axis for them to be centered.
+        
         for (int i = 1; i <= (numberOfPoints/numberOfGaps); i++) {
             NSString *xAxisLabel = @"";
             
             if ([self.delegate respondsToSelector:@selector(lineGraph:labelOnXAxisForIndex:)]) {
-                xAxisLabel = [self.delegate lineGraph:self labelOnXAxisForIndex:(i * numberOfGaps - 1)];
+                xAxisLabel = [self.delegate lineGraph:self labelOnXAxisForIndex:(i * numberOfGaps - 1 - offset)];
                 
             } else if ([self.delegate respondsToSelector:@selector(labelOnXAxisForIndex:)]) {
                 [self printDeprecationWarningForOldMethod:@"labelOnXAxisForIndex:" andReplacementMethod:@"lineGraph:labelOnXAxisForIndex:"];
                 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                xAxisLabel = [self.delegate labelOnXAxisForIndex:(i * numberOfGaps - 1)];
+                xAxisLabel = [self.delegate labelOnXAxisForIndex:(i * numberOfGaps - 1 - offset)];
 #pragma clang diagnostic pop
                 
             } else xAxisLabel = @"";
@@ -346,7 +348,7 @@
             UILabel *labelXAxis = [[UILabel alloc] init];
             labelXAxis.text = xAxisLabel;
             [labelXAxis sizeToFit];
-            [labelXAxis setCenter:CGPointMake((self.viewForBaselineLayout.frame.size.width/(numberOfPoints-1))*(i*numberOfGaps - 1), self.frame.size.height - labelXaxisOffset)];
+            [labelXAxis setCenter:CGPointMake((self.viewForBaselineLayout.frame.size.width/(numberOfPoints-1))*(i*numberOfGaps - 1 - offset), self.frame.size.height - labelXaxisOffset)];
             labelXAxis.font = self.labelFont;
             labelXAxis.textAlignment = 1;
             labelXAxis.textColor = self.colorXaxisLabel;
@@ -355,6 +357,24 @@
             [xAxisValues addObject:xAxisLabel];
         }
     }
+}
+
+- (NSInteger)offsetForXAxisWithNumberOfGaps:(NSInteger)numberOfGaps
+{
+    // Calculates the optimum offset needed for the Labels to be centered on the X-Axis.
+    NSInteger leftGap = numberOfGaps - 1;
+    NSInteger rightGap = numberOfPoints - (numberOfGaps*(numberOfPoints/numberOfGaps));
+    NSInteger offset = 0;
+    
+    if (leftGap != rightGap) {
+        for (int i = 0; i <= numberOfGaps; i++) {
+            if (leftGap - i == rightGap + i) {
+                offset = i;
+            }
+        }
+    }
+
+    return offset;
 }
 
 - (UIImage *)graphSnapshotImage {
