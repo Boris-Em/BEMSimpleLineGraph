@@ -10,7 +10,7 @@
 #import "BEMSimpleLineGraphView.h"
 
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
-
+#define padding 80
 #define circleSize 10
 #define labelXaxisOffset 10
 
@@ -122,10 +122,10 @@
     } else if ([self.delegate respondsToSelector:@selector(numberOfPointsInGraph)]) {
         [self printDeprecationWarningForOldMethod:@"numberOfPointsInGraph" andReplacementMethod:@"numberOfPointsInLineGraph:"];
         
-        #pragma clang diagnostic push
-        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            numberOfPoints = [self.delegate numberOfPointsInGraph];
-        #pragma clang diagnostic pop
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        numberOfPoints = [self.delegate numberOfPointsInGraph];
+#pragma clang diagnostic pop
         
     } else numberOfPoints = 0;
     
@@ -167,6 +167,15 @@
 #pragma mark - Drawing
 
 - (void)drawGraph {
+    if (numberOfPoints <= 1) { // Exception if there is only one point.
+        BEMCircle *circleDot = [[BEMCircle alloc] initWithFrame:CGRectMake(0, 0, circleSize, circleSize)];
+        circleDot.center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
+        circleDot.alpha = 0.7;
+        [self addSubview:circleDot];
+        
+        return;
+    }
+    
     // CREATION OF THE DOTS
     
     float maxValue = [self maxValue]; // Biggest Y-axis value from all the points.
@@ -195,17 +204,21 @@
         } else if ([self.delegate respondsToSelector:@selector(valueForIndex:)]) {
             [self printDeprecationWarningForOldMethod:@"valueForIndex:" andReplacementMethod:@"lineGraph:valueForPointAtIndex:"];
             
-            #pragma clang diagnostic push
-            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                dotValue = [self.delegate valueForIndex:i];
-            #pragma clang diagnostic pop
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            dotValue = [self.delegate valueForIndex:i];
+#pragma clang diagnostic pop
             
         } else [NSException raise:@"lineGraph:valueForPointAtIndex: protocol method is not implemented in the delegate. Throwing exception here before the system throws a CALayerInvalidGeometry Exception." format:@"Value for point %f at index %i is invalid. CALayer position may contain NaN: [0 nan]", dotValue, i];
         
         [dataPoints addObject:[NSNumber numberWithFloat:dotValue]];
         
-        positionOnXAxis = (self.viewForBaselineLayout.frame.size.width/(numberOfPoints - 1))*i;
-        positionOnYAxis = (self.viewForBaselineLayout.frame.size.height - 80) - ((dotValue - minValue) / ((maxValue - minValue) / (self.viewForBaselineLayout.frame.size.height - 80))) + 20;
+        positionOnXAxis = (self.frame.size.width/(numberOfPoints - 1))*i;
+        if (minValue == maxValue) { // Exception if all of the points have the same value.
+            positionOnYAxis = self.frame.size.height/2;
+        } else {
+            positionOnYAxis = (self.frame.size.height - padding) - ((dotValue - minValue) / ((maxValue - minValue) / (self.frame.size.height - padding))) + 20;
+        }
         
         BEMCircle *circleDot = [[BEMCircle alloc] initWithFrame:CGRectMake(0, 0, circleSize, circleSize)];
         circleDot.center = CGPointMake(positionOnXAxis, positionOnYAxis);
@@ -359,8 +372,7 @@
     }
 }
 
-- (NSInteger)offsetForXAxisWithNumberOfGaps:(NSInteger)numberOfGaps
-{
+- (NSInteger)offsetForXAxisWithNumberOfGaps:(NSInteger)numberOfGaps {
     // Calculates the optimum offset needed for the Labels to be centered on the X-Axis.
     NSInteger leftGap = numberOfGaps - 1;
     NSInteger rightGap = numberOfPoints - (numberOfGaps*(numberOfPoints/numberOfGaps));
@@ -373,7 +385,7 @@
             }
         }
     }
-
+    
     return offset;
 }
 
