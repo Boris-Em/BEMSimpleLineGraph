@@ -14,7 +14,7 @@ Learn more about the BEMSimpleLineGraph project requirements, licensing, and con
 - Optimized for ARM64 Architecture
 
 ### License
-See the [License](https://github.com/Boris-Em/BEMSimpleLineGraph/blob/master/LICENSE). You are free to make changes and use this in either personal or commercial projects. Attribution is not required, but it appreciated. A little Thanks! (or something to that affect) would be much appreciated. If you use BEMSimpleLineGraph in your app, let us know. 
+See the [License](https://github.com/Boris-Em/BEMSimpleLineGraph/blob/master/LICENSE). You are free to make changes and use this in either personal or commercial projects. Attribution is not required, but it is appreciated. A little Thanks! (or something to that affect) would be much appreciated. If you use BEMSimpleLineGraph in your app, let us know.
 
 ### Contributions
 Any contribution is more than welcome! You can contribute through pull requests and issues on GitHub. 
@@ -92,7 +92,7 @@ BEMSimpleLineGraph makes it possible to react to the user touching the graph.
 <p align="center"><img src="http://img30.imageshack.us/img30/4479/gt3s.png"/></p>
 <p align="center"> When the user touches and moves his finger along the graph, the labels on top of the graph indicate the value of the closest point. </p>
 
-To do so, first toggle the property  `enableTouchReport` property:
+To do so, first toggle the `enableTouchReport` property:
 
 	self.myGraph.enableTouchReport = YES;
 
