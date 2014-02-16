@@ -28,11 +28,17 @@
 
 //----- POINTS -----//
 
+/// The previous point. Necessary for Bezier curve
+@property (assign, nonatomic) CGPoint P0;
+
 /// The starting point of the line
-@property (assign, nonatomic) CGPoint firstPoint;
+@property (assign, nonatomic) CGPoint P1;
 
 /// The ending point of the line
-@property (assign, nonatomic) CGPoint secondPoint;
+@property (assign, nonatomic) CGPoint P2;
+
+/// The next point. Necessary for Bezier curve
+@property (assign, nonatomic) CGPoint P3;
 
 
 
@@ -72,5 +78,8 @@
 @property (nonatomic) float lineWidth;
 
 
+//----- BEZIER CURVE -----//
+
+@property (nonatomic) BOOL bezierCurveIsEnabled;
 
 @end

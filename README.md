@@ -1,5 +1,5 @@
 # BEMSimpleLineGraph - Feature Branch
-<p align="center"><img src="http://img843.imageshack.us/img843/3821/ru8f.png"/></p>	
+<p align="center"><img src="http://s29.postimg.org/57dn7ve3r/BEMSimple_Line_Graph_Main.png"/></p>	
 
 <p align="center">
 <b>BEMSimpleLineGraph</b> makes it easy to create and customize line graphs for iOS.
@@ -155,6 +155,14 @@ The property `colorXaxisLabel` controls the color of the text of the UILabels on
 
 	@property (strong, nonatomic) UIColor *colorXaxisLabel;
 
+### Bezier Curves
+<img align="left" width="237" height="141" src="http://s4.postimg.org/ucf4zsyd9/BEMSimple_Line_Graph_Bezier_Curve.png">
+
+BEMSimpleLineGraph can be drawn with curved lines instead of directly connecting the dots with straight lines.  
+To do so, set the property `enableBezierCurve` to YES. 
+
+	self.myGraph.enableBezierCurve = YES;
+   
 ### Line Customization
 Two delegate methods on the `BEMSimpleLineGraphDelegate` let you customize the color and alpha of a specifc line in the graph.
 

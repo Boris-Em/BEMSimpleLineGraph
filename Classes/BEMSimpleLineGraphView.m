@@ -100,6 +100,7 @@
     _alphaLine = 1.0;
     _widthLine = 1.0;
     _enableTouchReport = NO;
+    _enableBezierCurve = NO;
     
     // Initialize the arrays
     xAxisValues = [NSMutableArray array];
@@ -234,8 +235,15 @@
     
     float xDot1; // Postion on the X-axis of the first dot.
     float yDot1; // Postion on the Y-axis of the first dot.
-    float xDot2; // Postion on the X-axis of the next dot.
-    float yDot2; // Postion on the Y-axis of the next dot.
+    float xDot2; // Postion on the X-axis of the second dot.
+    float yDot2; // Postion on the Y-axis of the second dot.
+
+        // For Bezier Curved Lines
+    float xDot0; // Postion on the X-axis of the previous dot.
+    float yDot0; // Postion on the Y-axis of the previous dot.
+    float xDot3; // Postion on the X-axis of the next dot.
+    float yDot3; // Postion on the Y-axis of the next dot.
+    
     
     for (UIView *subview in [self subviews]) {
         if ([subview isKindOfClass:[BEMLine class]])
@@ -251,6 +259,12 @@
             } else if (dot.tag == i + 101) {
                 xDot2 = dot.center.x;
                 yDot2 = dot.center.y;
+            } else if (dot.tag == i + 102 && self.enableBezierCurve == YES) {
+                xDot3 = dot.center.x;
+                yDot3 = dot.center.y;
+            } else if (dot.tag == i + 99 && self.enableBezierCurve == YES)  {
+                xDot0 = dot.center.x;
+                yDot0 = dot.center.y;
             }
         }
         
@@ -259,8 +273,12 @@
         line.tag = i + 1000;
         line.alpha = 0;
         line.backgroundColor = [UIColor clearColor];
-        line.firstPoint = CGPointMake(xDot1, yDot1);
-        line.secondPoint = CGPointMake(xDot2, yDot2);
+        line.P1 = CGPointMake(xDot1, yDot1);
+        line.P2 = CGPointMake(xDot2, yDot2);
+        if (self.enableBezierCurve == YES) {
+            line.P0 = CGPointMake(xDot0, yDot0);
+            line.P3 = CGPointMake(xDot3, yDot3);
+        }
         line.topColor = self.colorTop;
         line.bottomColor = self.colorBottom;
         if ([self.delegate respondsToSelector:@selector(lineGraph:lineColorForIndex:)]) line.color = [self.delegate lineGraph:self lineColorForIndex:i];
@@ -270,6 +288,7 @@
         if ([self.delegate respondsToSelector:@selector(lineGraph:lineAlphaForIndex:)]) line.alpha = [self.delegate lineGraph:self lineAlphaForIndex:i];
         else line.lineAlpha = self.alphaLine;
         line.lineWidth = self.widthLine;
+        line.bezierCurveIsEnabled = self.enableBezierCurve;
         [self addSubview:line];
         [self sendSubviewToBack:line];
         

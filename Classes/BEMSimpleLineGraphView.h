@@ -137,6 +137,10 @@
 @property (nonatomic) BOOL enableTouchReport;
 
 
+/// The way the graph is drawn, with or withough bezier curved lines. Default value is NO;
+@property (nonatomic) BOOL enableBezierCurve;
+
+
 /// Color of the bottom part of the graph (between the line and the X-axis).
 @property (strong, nonatomic) UIColor *colorBottom;
 

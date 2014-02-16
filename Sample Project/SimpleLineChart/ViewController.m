@@ -51,6 +51,7 @@
     self.myGraph.colorXaxisLabel = [UIColor whiteColor];
     self.myGraph.widthLine = 3.0;
     self.myGraph.enableTouchReport = YES;
+    self.myGraph.enableBezierCurve = YES;
     
     // The labels to report the values of the graph when the user touches it
     self.labelValues.text = [NSString stringWithFormat:@"%i", [[self.myGraph calculatePointValueSum] intValue]];
