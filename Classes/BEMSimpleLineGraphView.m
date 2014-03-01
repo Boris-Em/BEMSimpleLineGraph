@@ -9,6 +9,11 @@
 
 #import "BEMSimpleLineGraphView.h"
 
+#if !__has_feature(objc_arc)
+    // Add the -fobjc-arc flag to enable ARC for only these files, as described in the ARC documentation: http://clang.llvm.org/docs/AutomaticReferenceCounting.html
+    #error BEMSimpleLineGraph is built with Objective-C ARC. You must enable ARC for these files.
+#endif
+
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 #define padding 80
 #define circleSize 10
@@ -31,6 +36,9 @@
     
     /// Used to determine if the graph needs to be fully updated
     BOOL fullGraphUpdate;
+    
+    /// Used to determine the animation of the graph
+    kGraphUpdateType *graphUpdateAnimation;
 }
 
 /// The vertical line which appears when the user drags across the graph
@@ -106,6 +114,7 @@
     xAxisValues = [NSMutableArray array];
     dataPoints = [NSMutableArray array];
     
+    graphUpdateAnimation = kGraphUpdateFull;
     // fullGraphUpdate = YES;
 }
 
@@ -455,12 +464,16 @@
 }
 
 - (NSArray *)insertPointAfterLastIndexWithValue:(float)dotValue {
-    NSLog(@"[BEMSimpleLineGraph] WARNING. insertPointAfterLastIndexWithValue: is not yet available.");
+    // Add object to the end of the dataPoints array
+    [dataPoints addObject:[NSNumber numberWithFloat:dotValue]];
+    
     return dataPoints;
 }
 
 - (NSArray *)insertPointBeforeFirstIndexWithValue:(float)value {
-    NSLog(@"[BEMSimpleLineGraph] WARNING. insertPointBeforeFirstIndexWithValue: is not yet available.");
+    // Add object to the end of the dataPoints array
+    [dataPoints insertObject:[NSNumber numberWithFloat:value] atIndex:0];
+    
     return dataPoints;
 }
 

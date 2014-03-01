@@ -18,14 +18,21 @@
     #import <CoreGraphics/CoreGraphics.h>
 #endif
 
-#if !__has_feature(objc_arc)
-    // Add the -fobjc-arc flag to enable ARC for only these files, as described in the ARC documentation: http://clang.llvm.org/docs/AutomaticReferenceCounting.html
-    #error BEMSimpleLineGraph is built with Objective-C ARC. You must enable ARC for these files.
-#endif
-
 #import "BEMCircle.h"
 #import "BEMLine.h"
 #import "BEMAnimations.h"
+
+
+/** Graph update type used to specify which animation should be used upon updating the graph.
+ @discussion This is typically only used privately when updating the graph from specific public and internal methods. For example, \p kGraphUpdateRemove is used when the \p removePointAtIndex: method is called. Whereas when reloading the graph normally, \p kGraphUpdateFull is used. There are no properties available to change this setting - it is private (for good reason). */
+typedef enum {
+    /// Redraw and animate the entire graph
+    kGraphUpdateFull = 0,
+    /// Remove one data point from the graph, resulting in a resize
+    kGraphUpdateRemove = 1,
+    /// Add a data point to the graph, resulting in a scrunch and added line
+    kGraphUpdateAdd = 2
+} kGraphUpdateType;
 
 
 
