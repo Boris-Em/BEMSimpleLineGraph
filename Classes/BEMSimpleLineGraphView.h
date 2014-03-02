@@ -127,7 +127,7 @@
 
 
 /// Alpha of the bottom part of the graph (between the line and the X-axis).
-@property (nonatomic) float alphaBottom;
+@property (nonatomic) CGFloat alphaBottom;
 
 
 /// Color of the top part of the graph (between the line and the top of the view the graph is drawn in).
@@ -135,7 +135,7 @@
 
 
 /// Alpha of the top part of the graph (between the line and the top of the view the graph is drawn in).
-@property (nonatomic) float alphaTop;
+@property (nonatomic) CGFloat alphaTop;
 
 
 /// Color of the line of the graph.
@@ -143,11 +143,11 @@
 
 
 /// Alpha of the line of the graph.
-@property (nonatomic) float alphaLine;
+@property (nonatomic) CGFloat alphaLine;
 
 
 /// Width of the line of the graph. Default value is 1.0.
-@property (nonatomic) float widthLine;
+@property (nonatomic) CGFloat widthLine;
 
 
 /// Color of the label's text displayed on the X-Axis.
@@ -171,14 +171,14 @@
 /** The number of points along the X-axis of the graph.
  @param graph The graph object requesting the total number of points.
  @return The total number of points in the line graph. */
-- (int)numberOfPointsInLineGraph:(BEMSimpleLineGraphView *)graph;
+- (NSUInteger)numberOfPointsInLineGraph:(BEMSimpleLineGraphView *)graph;
 
 
 /** The vertical position for a point at the given index. It corresponds to the Y-axis value of the Graph.
  @param graph The graph object requesting the point value.
  @param index The index from left to right of a given point (X-axis). The first value for the index is 0.
  @return The Y-axis value at a given index. */
-- (float)lineGraph:(BEMSimpleLineGraphView *)graph valueForPointAtIndex:(NSInteger)index;
+- (CGFloat)lineGraph:(BEMSimpleLineGraphView *)graph valueForPointAtIndex:(NSInteger)index;
 
 
 @optional
@@ -211,7 +211,7 @@
  @param graph The graph object requesting the line alpha.
  @param index The index from left to right of a given point (X-axis). The first value for the index is 0.
  @return The alpha value of the line, between 0.0 and 1.0. Specifying nil will cause the line to use the alpha specifed for the graph. */
-- (float)lineGraph:(BEMSimpleLineGraphView *)graph lineAlphaForIndex:(NSInteger)index;
+- (CGFloat)lineGraph:(BEMSimpleLineGraphView *)graph lineAlphaForIndex:(NSInteger)index;
 
 
 //----- TOUCH EVENTS -----//
@@ -220,13 +220,13 @@
 /** Sent to the delegate when the user starts touching the graph. The property 'enableTouchReport' must be set to YES.
  @param graph The graph object which was touched by the user.
  @param index The closest index (X-axis) from the location the user is currently touching. */
-- (void)lineGraph:(BEMSimpleLineGraphView *)graph didTouchGraphWithClosestIndex:(int)index;
+- (void)lineGraph:(BEMSimpleLineGraphView *)graph didTouchGraphWithClosestIndex:(NSUInteger)index;
 
 
 /** Sent to the delegate when the user stops touching the graph.
  @param graph The graph object which was touched by the user.
  @param index The closest index (X-axis) from the location the user last touched. */
-- (void)lineGraph:(BEMSimpleLineGraphView *)graph didReleaseTouchFromGraphWithClosestIndex:(float)index;
+- (void)lineGraph:(BEMSimpleLineGraphView *)graph didReleaseTouchFromGraphWithClosestIndex:(CGFloat)index;
 
 
 //----- X AXIS -----//
@@ -236,7 +236,7 @@
  @discussion For example returning '1' would mean that half of the labels on the X-axis are not displayed: the first is not displayed, the second is, the third is not etc. Returning '0' would mean that all of the labels will be displayed. Finally, returning a value equal to the number of labels will only display the first and last label.
  @param graph The graph object which is requesting the number of gaps between the labels.
  @return The number of labels to "jump" between each displayed label on the X-axis. */
-- (int)numberOfGapsBetweenLabelsOnLineGraph:(BEMSimpleLineGraphView *)graph;
+- (NSUInteger)numberOfGapsBetweenLabelsOnLineGraph:(BEMSimpleLineGraphView *)graph;
 
 
 /** The string to display on the label on the X-axis at a given index. Please note that the number of strings to be returned should be equal to the number of points in the Graph.

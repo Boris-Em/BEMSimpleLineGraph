@@ -22,11 +22,11 @@
 
 @interface BEMSimpleLineGraphView () {
     /// The number of Points in the Graph
-    int numberOfPoints;
+    NSUInteger numberOfPoints;
     
     /// The closest dot to the touch point
     BEMCircle *closestDot;
-    int currentlyCloser;
+    NSUInteger currentlyCloser;
     
     /// All of the X-Axis Values
     NSMutableArray *xAxisValues;
@@ -45,10 +45,10 @@
 - (BEMCircle *)closestDotFromVerticalLine:(UIView *)verticalLine;
 
 // Determines the biggest Y-axis value from all the points
-- (float)maxValue;
+- (CGFloat)maxValue;
 
 // Determines the smallest Y-axis value from all the points
-- (float)minValue;
+- (CGFloat)minValue;
 
 @end
 
@@ -56,7 +56,7 @@
 
 #pragma mark - Initialization
 
-- (id)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     
     if (self) {
@@ -66,7 +66,7 @@
     return self;
 }
 
-- (id)initWithCoder:(NSCoder *)coder {
+- (instancetype)initWithCoder:(NSCoder *)coder {
     self = [super initWithCoder:coder];
     
     if (self) {
@@ -179,11 +179,11 @@
 }
 
 - (void)drawDots {
-    float maxValue = [self maxValue]; // Biggest Y-axis value from all the points.
-    float minValue = [self minValue]; // Smallest Y-axis value from all the points.
+    CGFloat maxValue = [self maxValue]; // Biggest Y-axis value from all the points.
+    CGFloat minValue = [self minValue]; // Smallest Y-axis value from all the points.
     
-    float positionOnXAxis; // The position on the X-axis of the point currently being created.
-    float positionOnYAxis; // The position on the Y-axis of the point currently being created.
+    CGFloat positionOnXAxis; // The position on the X-axis of the point currently being created.
+    CGFloat positionOnYAxis; // The position on the Y-axis of the point currently being created.
     
     // Remove all dots that were previously on the graph
     for (UIView *subview in [self subviews]) {
@@ -195,8 +195,8 @@
     [dataPoints removeAllObjects];
     
     // Loop through each point and add it to the graph
-    for (int i = 0; i < numberOfPoints; i++) {
-        float dotValue = 0;
+    for (NSUInteger i = 0; i < numberOfPoints; i++) {
+        CGFloat dotValue = 0;
         
         if ([self.delegate respondsToSelector:@selector(lineGraph:valueForPointAtIndex:)]) {
             dotValue = [self.delegate lineGraph:self valueForPointAtIndex:i];
@@ -209,7 +209,7 @@
             dotValue = [self.delegate valueForIndex:i];
 #pragma clang diagnostic pop
             
-        } else [NSException raise:@"lineGraph:valueForPointAtIndex: protocol method is not implemented in the delegate. Throwing exception here before the system throws a CALayerInvalidGeometry Exception." format:@"Value for point %f at index %i is invalid. CALayer position may contain NaN: [0 nan]", dotValue, i];
+        } else [NSException raise:@"lineGraph:valueForPointAtIndex: protocol method is not implemented in the delegate. Throwing exception here before the system throws a CALayerInvalidGeometry Exception." format:@"Value for point %f at index %lu is invalid. CALayer position may contain NaN: [0 nan]", dotValue, (unsigned long)i];
         
         [dataPoints addObject:[NSNumber numberWithFloat:dotValue]];
         
@@ -229,23 +229,23 @@
 }
 
 - (void)drawLines {
-    float xDot1; // Postion on the X-axis of the first dot.
-    float yDot1; // Postion on the Y-axis of the first dot.
-    float xDot2; // Postion on the X-axis of the second dot.
-    float yDot2; // Postion on the Y-axis of the second dot.
+    CGFloat xDot1; // Postion on the X-axis of the first dot.
+    CGFloat yDot1; // Postion on the Y-axis of the first dot.
+    CGFloat xDot2; // Postion on the X-axis of the second dot.
+    CGFloat yDot2; // Postion on the Y-axis of the second dot.
     
     // For Bezier Curved Lines
-    float xDot0; // Postion on the X-axis of the previous dot.
-    float yDot0; // Postion on the Y-axis of the previous dot.
-    float xDot3; // Postion on the X-axis of the next dot.
-    float yDot3; // Postion on the Y-axis of the next dot.
+    CGFloat xDot0; // Postion on the X-axis of the previous dot.
+    CGFloat yDot0; // Postion on the Y-axis of the previous dot.
+    CGFloat xDot3; // Postion on the X-axis of the next dot.
+    CGFloat yDot3; // Postion on the Y-axis of the next dot.
     
     for (UIView *subview in [self subviews]) {
         if ([subview isKindOfClass:[BEMLine class]])
             [subview removeFromSuperview];
     }
     
-    for (int i = 0; i < numberOfPoints; i++) {
+    for (NSUInteger i = 0; i < numberOfPoints; i++) {
         for (UIView *dot in [self.viewForBaselineLayout subviews]) {
             if (dot.tag == i + 100)  {
                 xDot1 = dot.center.x;
@@ -298,7 +298,7 @@
             [subview removeFromSuperview];
     }
     
-    int numberOfGaps = 0;
+    NSUInteger numberOfGaps = 0;
     
     if ([self.delegate respondsToSelector:@selector(numberOfGapsBetweenLabelsOnLineGraph:)]) {
         numberOfGaps = [self.delegate numberOfGapsBetweenLabelsOnLineGraph:self] + 1;
@@ -356,7 +356,7 @@
     } else {
         NSInteger offset = [self offsetForXAxisWithNumberOfGaps:numberOfGaps]; // The offset (if possible and necessary) used to shift the Labels on the X-Axis for them to be centered.
         
-        for (int i = 1; i <= (numberOfPoints/numberOfGaps); i++) {
+        for (NSUInteger i = 1; i <= (numberOfPoints/numberOfGaps); i++) {
             NSString *xAxisLabel = @"";
             
             if ([self.delegate respondsToSelector:@selector(lineGraph:labelOnXAxisForIndex:)]) {
@@ -394,7 +394,7 @@
     NSInteger offset = 0;
     
     if (leftGap != rightGap) {
-        for (int i = 0; i <= numberOfGaps; i++) {
+        for (NSUInteger i = 0; i <= numberOfGaps; i++) {
             if (leftGap - i == rightGap + i) {
                 offset = i;
             }
@@ -500,7 +500,7 @@
     
     if (closestDot.tag > 99 && closestDot.tag < 1000) {
         if ([self.delegate respondsToSelector:@selector(lineGraph:didTouchGraphWithClosestIndex:)]) {
-            [self.delegate lineGraph:self didTouchGraphWithClosestIndex:((int)closestDot.tag - 100)];
+            [self.delegate lineGraph:self didTouchGraphWithClosestIndex:((NSUInteger)closestDot.tag - 100)];
             
         } else if ([self.delegate respondsToSelector:@selector(didTouchGraphWithClosestIndex:)]) {
             [self printDeprecationWarningForOldMethod:@"didTouchGraphWithClosestIndex:" andReplacementMethod:@"lineGraph:didTouchGraphWithClosestIndex:"];
@@ -556,11 +556,11 @@
     return closestDot;
 }
 
-- (float)maxValue {
-    float dotValue;
-    float maxValue = 0;
+- (CGFloat)maxValue {
+    CGFloat dotValue;
+    CGFloat maxValue = 0;
     
-    for (int i = 0; i < numberOfPoints; i++) {
+    for (NSUInteger i = 0; i < numberOfPoints; i++) {
         if ([self.delegate respondsToSelector:@selector(lineGraph:valueForPointAtIndex:)]) {
             dotValue = [self.delegate lineGraph:self valueForPointAtIndex:i];
             
@@ -582,11 +582,11 @@
     return maxValue;
 }
 
-- (float)minValue {
-    float dotValue;
-    float minValue = INFINITY;
+- (CGFloat)minValue {
+    CGFloat dotValue;
+    CGFloat minValue = INFINITY;
     
-    for (int i = 0; i < numberOfPoints; i++) {
+    for (NSUInteger i = 0; i < numberOfPoints; i++) {
         if ([self.delegate respondsToSelector:@selector(lineGraph:valueForPointAtIndex:)]) {
             dotValue = [self.delegate lineGraph:self valueForPointAtIndex:i];
             
