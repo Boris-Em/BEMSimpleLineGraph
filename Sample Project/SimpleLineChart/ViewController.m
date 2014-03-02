@@ -95,7 +95,7 @@
     if (self.graphObjectIncrement.value > previousStepperValue) {
         // Add line
         [self.ArrayOfValues addObject:[NSNumber numberWithInteger:(arc4random() % 70000)]];
-        [self.ArrayOfDates addObject:[NSString stringWithFormat:@"%@",[NSNumber numberWithInt:2000 + 11]]];
+        [self.ArrayOfDates addObject:[NSString stringWithFormat:@"%i", (int)[[self.ArrayOfDates lastObject] integerValue]+1]];
         [self.myGraph reloadGraph];
     } else if (self.graphObjectIncrement.value < previousStepperValue) {
         // Remove line
@@ -148,7 +148,6 @@
 
 - (void)lineGraph:(BEMSimpleLineGraphView *)graph didTouchGraphWithClosestIndex:(int)index {
     self.labelValues.text = [NSString stringWithFormat:@"%@", [self.ArrayOfValues objectAtIndex:index]];
-    
     self.labelDates.text = [NSString stringWithFormat:@"in %@", [self.ArrayOfDates objectAtIndex:index]];
 }
 
@@ -159,7 +158,7 @@
     } completion:^(BOOL finished){
         
         self.labelValues.text = [NSString stringWithFormat:@"%i", [[self.myGraph calculatePointValueSum] intValue]];
-        self.labelDates.text = @"between 2000 and 2010";
+        self.labelDates.text = [NSString stringWithFormat:@"between 2000 and %@", [self.ArrayOfDates lastObject]];
         
         [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
             self.labelValues.alpha = 1.0;
@@ -170,7 +169,7 @@
 
 - (void)lineGraphDidFinishLoading:(BEMSimpleLineGraphView *)graph {
     self.labelValues.text = [NSString stringWithFormat:@"%i", [[self.myGraph calculatePointValueSum] intValue]];
-    self.labelDates.text = @"between 2000 and 2010";
+    self.labelDates.text = [NSString stringWithFormat:@"between 2000 and %@", [self.ArrayOfDates lastObject]];
 }
 
 @end
