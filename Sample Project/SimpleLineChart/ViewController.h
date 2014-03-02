@@ -2,11 +2,13 @@
 //  ViewController.h
 //  SimpleLineGraph
 //
-//  Created by Bobo on 12/27/13.
+//  Created by Bobo on 12/27/13. Updated by Sam Spencer on 1/11/14.
 //  Copyright (c) 2013 Boris Emorine. All rights reserved.
+//  Copyright (c) 2014 Sam Spencer.
 //
 
 #import "BEMSimpleLineGraphView.h"
+#import "StatsViewController.h"
 
 @interface ViewController : UIViewController <BEMSimpleLineGraphDelegate>
 
@@ -19,7 +21,10 @@
 @property (strong, nonatomic) IBOutlet UILabel *labelDates;
 
 - (IBAction)refresh:(id)sender;
+- (IBAction)addOrRemoveLineFromGraph:(id)sender;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *graphColorChoice;
 @property (weak, nonatomic) IBOutlet UIStepper *graphObjectIncrement;
+
+- (IBAction)displayStatistics:(id)sender;
 
 @end

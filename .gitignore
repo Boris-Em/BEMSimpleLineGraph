@@ -6,3 +6,7 @@
 Icon?
 ehthumbs.db
 Thumbs.db
+xcuserdata/
+*.xcuserstate
+
+*.xcuserstate
