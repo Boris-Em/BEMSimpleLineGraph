@@ -128,17 +128,17 @@
 
 #pragma mark - SimpleLineGraph Data Source
 
-- (int)numberOfPointsInLineGraph:(BEMSimpleLineGraphView *)graph {
+- (NSInteger)numberOfPointsInLineGraph:(BEMSimpleLineGraphView *)graph {
     return (int)[self.ArrayOfValues count];
 }
 
-- (float)lineGraph:(BEMSimpleLineGraphView *)graph valueForPointAtIndex:(NSInteger)index {
+- (CGFloat)lineGraph:(BEMSimpleLineGraphView *)graph valueForPointAtIndex:(NSInteger)index {
     return [[self.ArrayOfValues objectAtIndex:index] floatValue];
 }
 
 #pragma mark - SimpleLineGraph Delegate
 
-- (int)numberOfGapsBetweenLabelsOnLineGraph:(BEMSimpleLineGraphView *)graph {
+- (NSInteger)numberOfGapsBetweenLabelsOnLineGraph:(BEMSimpleLineGraphView *)graph {
     return 1;
 }
 
@@ -146,12 +146,12 @@
     return [self.ArrayOfDates objectAtIndex:index];
 }
 
-- (void)lineGraph:(BEMSimpleLineGraphView *)graph didTouchGraphWithClosestIndex:(int)index {
+- (void)lineGraph:(BEMSimpleLineGraphView *)graph didTouchGraphWithClosestIndex:(NSInteger)index {
     self.labelValues.text = [NSString stringWithFormat:@"%@", [self.ArrayOfValues objectAtIndex:index]];
     self.labelDates.text = [NSString stringWithFormat:@"in %@", [self.ArrayOfDates objectAtIndex:index]];
 }
 
-- (void)lineGraph:(BEMSimpleLineGraphView *)graph didReleaseTouchFromGraphWithClosestIndex:(float)index {
+- (void)lineGraph:(BEMSimpleLineGraphView *)graph didReleaseTouchFromGraphWithClosestIndex:(CGFloat)index {
     [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
         self.labelValues.alpha = 0.0;
         self.labelDates.alpha = 0.0;

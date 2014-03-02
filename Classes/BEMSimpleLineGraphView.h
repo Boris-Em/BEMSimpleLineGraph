@@ -171,7 +171,7 @@
 /** The number of points along the X-axis of the graph.
  @param graph The graph object requesting the total number of points.
  @return The total number of points in the line graph. */
-- (NSUInteger)numberOfPointsInLineGraph:(BEMSimpleLineGraphView *)graph;
+- (NSInteger)numberOfPointsInLineGraph:(BEMSimpleLineGraphView *)graph;
 
 
 /** The vertical position for a point at the given index. It corresponds to the Y-axis value of the Graph.
@@ -220,7 +220,7 @@
 /** Sent to the delegate when the user starts touching the graph. The property 'enableTouchReport' must be set to YES.
  @param graph The graph object which was touched by the user.
  @param index The closest index (X-axis) from the location the user is currently touching. */
-- (void)lineGraph:(BEMSimpleLineGraphView *)graph didTouchGraphWithClosestIndex:(NSUInteger)index;
+- (void)lineGraph:(BEMSimpleLineGraphView *)graph didTouchGraphWithClosestIndex:(NSInteger)index;
 
 
 /** Sent to the delegate when the user stops touching the graph.
@@ -236,7 +236,7 @@
  @discussion For example returning '1' would mean that half of the labels on the X-axis are not displayed: the first is not displayed, the second is, the third is not etc. Returning '0' would mean that all of the labels will be displayed. Finally, returning a value equal to the number of labels will only display the first and last label.
  @param graph The graph object which is requesting the number of gaps between the labels.
  @return The number of labels to "jump" between each displayed label on the X-axis. */
-- (NSUInteger)numberOfGapsBetweenLabelsOnLineGraph:(BEMSimpleLineGraphView *)graph;
+- (NSInteger)numberOfGapsBetweenLabelsOnLineGraph:(BEMSimpleLineGraphView *)graph;
 
 
 /** The string to display on the label on the X-axis at a given index. Please note that the number of strings to be returned should be equal to the number of points in the Graph.
