@@ -10,8 +10,8 @@
 #import "BEMSimpleLineGraphView.h"
 
 #if !__has_feature(objc_arc)
-// Add the -fobjc-arc flag to enable ARC for only these files, as described in the ARC documentation: http://clang.llvm.org/docs/AutomaticReferenceCounting.html
-#error BEMSimpleLineGraph is built with Objective-C ARC. You must enable ARC for these files.
+    // Add the -fobjc-arc flag to enable ARC for only these files, as described in the ARC documentation: http://clang.llvm.org/docs/AutomaticReferenceCounting.html
+    #error BEMSimpleLineGraph is built with Objective-C ARC. You must enable ARC for these files.
 #endif
 
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
