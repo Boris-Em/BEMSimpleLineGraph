@@ -73,14 +73,14 @@ Setting up BEMSimpleLineGraph in your project is simple. If you're familiar with
 **Number of Points in Graph**  
 Returns the number of points in the line graph. The line graph gets the value returned by this method from its data source and caches it.
 
-    - (int)numberOfPointsInLineGraph:(BEMSimpleLineGraphView *)graph {
+    - (NSInteger)numberOfPointsInLineGraph:(BEMSimpleLineGraphView *)graph {
     		return X; // Number of points in the graph.
     }
 
 **Value for Point at Index**  
 Informs the position of each point on the Y-Axis at a given index. This method is called for every point specifed in the `numberOfPointsInLineGraph:` method. The parameter `index` is the position from left to right of the point on the X-Axis:
 
-	- (float)lineGraph:(BEMSimpleLineGraphView *)graph valueForPointAtIndex:(NSInteger)index {
+	- (CGFloat)lineGraph:(BEMSimpleLineGraphView *)graph valueForPointAtIndex:(NSInteger)index {
     		return …; // The value of the point on the Y-Axis for the index.
 	}
 
@@ -107,6 +107,9 @@ The values submitted through the data source delegate methods are saved / record
 ### Data Source Calculations
 In addition to recording and displaying data, BEMSimpleLineGraph can also perform advanced calculations with your data. All calculation methods are available publically and begin with `calculate`. BEMSimpleLineGraph can calculate Standard Deviation, Average, Median, Mode, Minimum, and Maximum values.
 
+### Status Reporting
+When the line graph starts or completes loading it will call a delegate method. When it begins reloading the `lineGraphDidBeginLoading:` method is called. When loading is finished, the `lineGraphDidFinishLoading:` method is called.
+
 ### Touch Reporting
 BEMSimpleLineGraph makes it possible to react to the user touching the graph. 
 
@@ -122,14 +125,14 @@ Next, implement the two following methods: `lineGraph:didTouchGraphWithClosestIn
 **Did Touch Graph at Index**  
 This method gets called when the user touches the graph. The parameter `index` is the closest index (X-Axis) from the user's finger position.
 
-	- (void)lineGraph:(BEMSimpleLineGraphView *)graph didTouchGraphWithClosestIndex:(int)index {
+	- (void)lineGraph:(BEMSimpleLineGraphView *)graph didTouchGraphWithClosestIndex:(NSInteger)index {
 		// Here you could change the text of a UILabel with the value of the closest index for example.
 	}
 
 **Did Release Touch at Graph Index**  
 This method gets called when the user stops touching the graph. The parameter `index` is the closest index (X-Axis) from the user's last finger position.
 
-	- (void)lineGraph:(BEMSimpleLineGraphView *)graph didReleaseTouchFromGraphWithClosestIndex:(float)index {
+	- (void)lineGraph:(BEMSimpleLineGraphView *)graph didReleaseTouchFromGraphWithClosestIndex:(CGFloat)index {
 		// Set the UIlabel alpha to 0 for example.
 	}
 
@@ -139,7 +142,7 @@ BEMSimpleLineGraph makes it possible to add labels along the X-Axis. To do so, s
 **Gaps between labels**  
 Informs how much empty space is needed between each displayed label. Returning 0 will display all of the labels. Returning the total number of labels will only display the first and last label. See the image below for clarification.
 
-	- (int)numberOfGapsBetweenLabelsOnLineGraph:(BEMSimpleLineGraphView *)graph {
+	- (NSInteger)numberOfGapsBetweenLabelsOnLineGraph:(BEMSimpleLineGraphView *)graph {
 		return X; // The number of hidden labels between each displayed label.
 	}
 	
@@ -180,7 +183,7 @@ Specify the color of the line at a specific index (the graph is made of multiple
 **Line Alpha**
 Specify the alpha value of the line at a specific index (the graph is made of multiple lines that appear as one).
 
-    - (float)lineGraph:(BEMSimpleLineGraphView *)graph lineAlphaForIndex:(NSInteger)index {
+    - (CGFloat)lineGraph:(BEMSimpleLineGraphView *)graph lineAlphaForIndex:(NSInteger)index {
         return 1.0;
     }
 
