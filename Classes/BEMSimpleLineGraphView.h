@@ -23,18 +23,6 @@
 #import "BEMAnimations.h"
 
 
-/** Graph update type used to specify which animation should be used upon updating the graph.
- @discussion This is typically only used privately when updating the graph from specific public and internal methods. For example, \p kGraphUpdateRemove is used when the \p removePointAtIndex: method is called. Whereas when reloading the graph normally, \p kGraphUpdateFull is used. There are no properties available to change this setting - it is private (for good reason). */
-typedef enum {
-    /// Redraw and animate the entire graph
-    kGraphUpdateFull = 0,
-    /// Remove one data point from the graph, resulting in a resize
-    kGraphUpdateRemove = 1,
-    /// Add a data point to the graph, resulting in a scrunch and added line
-    kGraphUpdateAdd = 2
-} kGraphUpdateType;
-
-
 
 @protocol BEMSimpleLineGraphDelegate;
 
@@ -60,20 +48,6 @@ typedef enum {
 
 /// Reload the graph, all delegate methods are called again and the graph is reloaded. Similar to calling reloadData on a UITableView.
 - (void)reloadGraph;
-
-
-/** Remove the point from the graph at the specified index. If the index exists on the graph, it will be removed with animation. If the index does not exist, no action will be taken. 
- @param indexPath The index path for the line to be removed.
- @return An updated array of NSNumbers, one for each data point. The updated array is sorted from the left side of the graph to the right side. */
-- (NSArray *)removePointAtIndex:(NSInteger)indexPath;
-
-
-/// Adds a new point to the right side of the graph.
-- (NSArray *)insertPointAfterLastIndexWithValue:(float)value;
-
-
-/// Adds a new point to the left side of the graph. Only available on iOS 7 and higher.
-- (NSArray *)insertPointBeforeFirstIndexWithValue:(float)value NS_AVAILABLE_IOS(7_0);
 
 
 /** Takes a snapshot of the graph.

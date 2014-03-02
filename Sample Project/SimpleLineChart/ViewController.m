@@ -93,11 +93,15 @@
 
 - (IBAction)addOrRemoveLineFromGraph:(id)sender {
     if (self.graphObjectIncrement.value > previousStepperValue) {
-        // TODO: Add line
-        self.ArrayOfValues.array = [self.myGraph insertPointAfterLastIndexWithValue:(arc4random() % 70000)];
+        // Add line
+        [self.ArrayOfValues addObject:[NSNumber numberWithInteger:(arc4random() % 70000)]];
+        [self.ArrayOfDates addObject:[NSString stringWithFormat:@"%@",[NSNumber numberWithInt:2000 + 11]]];
+        [self.myGraph reloadGraph];
     } else if (self.graphObjectIncrement.value < previousStepperValue) {
         // Remove line
-        self.ArrayOfValues.array = [self.myGraph removePointAtIndex:0];
+        [self.ArrayOfValues removeObjectAtIndex:0];
+        [self.ArrayOfDates removeObjectAtIndex:0];
+        [self.myGraph reloadGraph];
     }
     
     previousStepperValue = self.graphObjectIncrement.value;

@@ -10,8 +10,8 @@
 #import "BEMSimpleLineGraphView.h"
 
 #if !__has_feature(objc_arc)
-    // Add the -fobjc-arc flag to enable ARC for only these files, as described in the ARC documentation: http://clang.llvm.org/docs/AutomaticReferenceCounting.html
-    #error BEMSimpleLineGraph is built with Objective-C ARC. You must enable ARC for these files.
+// Add the -fobjc-arc flag to enable ARC for only these files, as described in the ARC documentation: http://clang.llvm.org/docs/AutomaticReferenceCounting.html
+#error BEMSimpleLineGraph is built with Objective-C ARC. You must enable ARC for these files.
 #endif
 
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
@@ -33,12 +33,6 @@
     
     /// All of the Data Points
     NSMutableArray *dataPoints;
-    
-    /// Used to determine if the graph needs to be fully updated
-    BOOL fullGraphUpdate;
-    
-    /// Used to determine the animation of the graph
-    kGraphUpdateType *graphUpdateAnimation;
 }
 
 /// The vertical line which appears when the user drags across the graph
@@ -113,9 +107,6 @@
     // Initialize the arrays
     xAxisValues = [NSMutableArray array];
     dataPoints = [NSMutableArray array];
-    
-    graphUpdateAnimation = kGraphUpdateFull;
-    // fullGraphUpdate = YES;
 }
 
 - (void)layoutSubviews {
@@ -168,12 +159,6 @@
         [self.delegate lineGraphDidFinishLoading:self];
 }
 
-- (void)didAddSubview:(UIView *)subview {
-    [super didAddSubview:subview];
-    
-    // This method will help with the insert data point methods
-}
-
 #pragma mark - Drawing
 
 - (void)drawGraph {
@@ -187,7 +172,13 @@
     }
     
     // CREATION OF THE DOTS
+    [self drawDots];
     
+    // CREATION OF THE LINE AND BOTTOM AND TOP FILL
+    [self drawLines];
+}
+
+- (void)drawDots {
     float maxValue = [self maxValue]; // Biggest Y-axis value from all the points.
     float minValue = [self minValue]; // Smallest Y-axis value from all the points.
     
@@ -205,7 +196,6 @@
     
     // Loop through each point and add it to the graph
     for (int i = 0; i < numberOfPoints; i++) {
-        
         float dotValue = 0;
         
         if ([self.delegate respondsToSelector:@selector(lineGraph:valueForPointAtIndex:)]) {
@@ -224,11 +214,8 @@
         [dataPoints addObject:[NSNumber numberWithFloat:dotValue]];
         
         positionOnXAxis = (self.frame.size.width/(numberOfPoints - 1))*i;
-        if (minValue == maxValue) { // Exception if all of the points have the same value.
-            positionOnYAxis = self.frame.size.height/2;
-        } else {
-            positionOnYAxis = (self.frame.size.height - padding) - ((dotValue - minValue) / ((maxValue - minValue) / (self.frame.size.height - padding))) + 20;
-        }
+        if (minValue == maxValue) positionOnYAxis = self.frame.size.height/2;
+        else positionOnYAxis = (self.frame.size.height - padding) - ((dotValue - minValue) / ((maxValue - minValue) / (self.frame.size.height - padding))) + 20;
         
         BEMCircle *circleDot = [[BEMCircle alloc] initWithFrame:CGRectMake(0, 0, circleSize, circleSize)];
         circleDot.center = CGPointMake(positionOnXAxis, positionOnYAxis);
@@ -239,28 +226,26 @@
         
         [self.animationDelegate animationForDot:i circleDot:circleDot animationSpeed:self.animationGraphEntranceSpeed];
     }
-    
-    // CREATION OF THE LINE AND BOTTOM AND TOP FILL
-    
+}
+
+- (void)drawLines {
     float xDot1; // Postion on the X-axis of the first dot.
     float yDot1; // Postion on the Y-axis of the first dot.
     float xDot2; // Postion on the X-axis of the second dot.
     float yDot2; // Postion on the Y-axis of the second dot.
-
-        // For Bezier Curved Lines
+    
+    // For Bezier Curved Lines
     float xDot0; // Postion on the X-axis of the previous dot.
     float yDot0; // Postion on the Y-axis of the previous dot.
     float xDot3; // Postion on the X-axis of the next dot.
     float yDot3; // Postion on the Y-axis of the next dot.
-    
     
     for (UIView *subview in [self subviews]) {
         if ([subview isKindOfClass:[BEMLine class]])
             [subview removeFromSuperview];
     }
     
-    for (int i = 0; i < numberOfPoints - 1; i++) {
-        
+    for (int i = 0; i < numberOfPoints; i++) {
         for (UIView *dot in [self.viewForBaselineLayout subviews]) {
             if (dot.tag == i + 100)  {
                 xDot1 = dot.center.x;
@@ -367,6 +352,7 @@
         lastLabel.backgroundColor = [UIColor clearColor];
         [self addSubview:lastLabel];
         [xAxisValues addObject:lastXLabel];
+        
     } else {
         NSInteger offset = [self offsetForXAxisWithNumberOfGaps:numberOfGaps]; // The offset (if possible and necessary) used to shift the Labels on the X-Axis for them to be centered.
         
@@ -374,7 +360,8 @@
             NSString *xAxisLabel = @"";
             
             if ([self.delegate respondsToSelector:@selector(lineGraph:labelOnXAxisForIndex:)]) {
-                xAxisLabel = [self.delegate lineGraph:self labelOnXAxisForIndex:(i * numberOfGaps - 1 - offset)];
+                NSInteger index = i * numberOfGaps - 1 - offset;
+                xAxisLabel = [self.delegate lineGraph:self labelOnXAxisForIndex:index];
                 
             } else if ([self.delegate respondsToSelector:@selector(labelOnXAxisForIndex:)]) {
                 [self printDeprecationWarningForOldMethod:@"labelOnXAxisForIndex:" andReplacementMethod:@"lineGraph:labelOnXAxisForIndex:"];
@@ -434,49 +421,6 @@
 - (void)reloadGraph {
     [self setNeedsLayout];
 }
-
-- (NSArray *)removePointAtIndex:(NSInteger)indexPath {
-    // Ensure that there is more than one dot on the graph - can't remove something from nothing
-    if ([dataPoints count] <= indexPath || [dataPoints count] == 0) {
-        NSLog(@"[BEMSimpleLineGraph] Attempt to remove a point that doesn't exist using removePointAtIndex:animated:");
-        return dataPoints;
-    }
-    
-    // Set the index value
-    int i = (int)indexPath;
-    
-    // Remove the line
-    UIView *removeLineView = [self viewWithTag:i+1000];
-    [removeLineView removeFromSuperview];
-    
-    // Remove the dot
-    UIView *removeDotView = [self viewWithTag:i+100];
-    [removeDotView removeFromSuperview];
-    
-    // Remove the array data
-    [dataPoints removeObjectAtIndex:indexPath];
-    numberOfPoints--;
-    
-    // Redrawing the graph. TODO: Redraw with different animation
-    //[self setNeedsLayout];
-    
-    return dataPoints;
-}
-
-- (NSArray *)insertPointAfterLastIndexWithValue:(float)dotValue {
-    // Add object to the end of the dataPoints array
-    [dataPoints addObject:[NSNumber numberWithFloat:dotValue]];
-    
-    return dataPoints;
-}
-
-- (NSArray *)insertPointBeforeFirstIndexWithValue:(float)value {
-    // Add object to the end of the dataPoints array
-    [dataPoints insertObject:[NSNumber numberWithFloat:value] atIndex:0];
-    
-    return dataPoints;
-}
-
 
 #pragma mark - Calculations
 
