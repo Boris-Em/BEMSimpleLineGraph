@@ -31,7 +31,7 @@
     previousStepperValue = self.graphObjectIncrement.value;
     totalNumber = 0;
     
-    for (int i = 0; i < 11; i++) {
+    for (int i = 0; i < 9; i++) {
         [self.ArrayOfValues addObject:[NSNumber numberWithInteger:(arc4random() % 70000)]]; // Random values for the graph
         [self.ArrayOfDates addObject:[NSString stringWithFormat:@"%@",[NSNumber numberWithInt:2000 + i]]]; // Dates for the X-Axis of the graph
         

@@ -149,7 +149,7 @@ Informs how much empty space is needed between each displayed label. Returning 0
 The text to be displayed for each UILabel on the X-Axis at a given index. It should return as many strings as the number of points on the graph.
 
 	- (NSString *)lineGraph:(BEMSimpleLineGraphView *)graph labelOnXAxisForIndex:(NSInteger)index {
-		return X;
+		return …;
 	}
 
 **X-Axis Label Color**  
@@ -200,7 +200,7 @@ BEMSimpleLineGraphs are split into three parts - the top, the bottom, and the li
  * Line. The `colorLine` and `alphaLine` properties control the color (UIColor) and alpha (float) of the line of the graph. The `widthLine` property controls the width of the line of graph (float that defaults to 1.0).
 
 ### Graph Snapshots
-On iOS 7.0 and above you can take a snapshot of the line graph view and get a UIImage representation of the snapshot. To do so, simply call the method below at anytime in the graph's lifecycle. Note that the snapshot is not of the completed graph, but of the graph in its current state (whether it is in mid-animation or not). You can use the `lineGraphDidFinishLoading:` delegate method (coming soon) to find out when the graph has finished rendering and animating.
+On iOS 7.0 and above you can take a snapshot of the line graph view and get a UIImage representation of the snapshot. To do so, simply call the method below at anytime in the graph's lifecycle. Note that the snapshot is not of the completed graph, but of the graph in its current state (whether it is in mid-animation or not). You can use the `lineGraphDidFinishLoading:` delegate method to find out when the graph has finished rendering and animating.
 
     // Method Definition
     - (UIImage *)graphSnapshotImage;

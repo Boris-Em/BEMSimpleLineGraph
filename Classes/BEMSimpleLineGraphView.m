@@ -216,7 +216,7 @@
             
             positionOnXAxis = (self.frame.size.width/(numberOfPoints - 1))*i;
             if (minValue == maxValue) positionOnYAxis = self.frame.size.height/2;
-            else positionOnYAxis = (self.frame.size.height - padding) - ((dotValue - minValue) / ((maxValue - minValue) / (self.frame.size.height - padding))) + 20;
+            else positionOnYAxis = (self.frame.size.height - padding) - ((dotValue - minValue) / ((maxValue - minValue) / (self.frame.size.height - padding))) + 30;
             
             BEMCircle *circleDot = [[BEMCircle alloc] initWithFrame:CGRectMake(0, 0, circleSize, circleSize)];
             circleDot.center = CGPointMake(positionOnXAxis, positionOnYAxis);
