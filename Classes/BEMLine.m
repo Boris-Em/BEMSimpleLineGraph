@@ -39,7 +39,7 @@
     CGContextBeginPath(ctx);
     CGContextMoveToPoint(ctx, round(self.P1.x), self.P1.y);
     if (self.bezierCurveIsEnabled == YES) {
-        CGContextAddCurveToPoint(ctx, CP1.x, CP1.y, CP2.x, CP2.y, self.P2.x, self.P2.y);
+        CGContextAddCurveToPoint(ctx, CP1.x, CP1.y, CP2.x, CP2.y, round(self.P2.x), self.P2.y);
     } else {
         CGContextAddLineToPoint(ctx, round(self.P2.x), self.P2.y);
     }
@@ -55,7 +55,7 @@
     CGContextBeginPath(ctx);
     CGContextMoveToPoint(ctx, round(self.P1.x), self.P1.y);
     if (self.bezierCurveIsEnabled == YES) {
-        CGContextAddCurveToPoint(ctx, CP1.x, CP1.y, CP2.x, CP2.y, self.P2.x, self.P2.y);
+        CGContextAddCurveToPoint(ctx, CP1.x, CP1.y, CP2.x, CP2.y, round(self.P2.x), self.P2.y);
     } else {
         CGContextAddLineToPoint(ctx, round(self.P2.x), self.P2.y);
     }

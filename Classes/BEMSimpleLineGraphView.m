@@ -508,7 +508,6 @@
             CGPoint translation = [self.panGesture velocityInView:self.panView];
             return fabs(translation.y) < fabs(translation.x);
             } else {
-                NSLog(@"yo");
                 return NO;
                 }
         }
