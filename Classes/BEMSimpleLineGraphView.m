@@ -41,6 +41,12 @@
 /// The animation delegate for lines and dots
 @property (strong, nonatomic) BEMAnimations *animationDelegate;
 
+/// View for picking up pan gesture
+@property (strong, nonatomic, readwrite) UIView *panView;
+
+/// The gesture recognizer picking up the pan in the graph view
+@property (strong, nonatomic) UIPanGestureRecognizer *panGesture;
+
 /// Find which dot is currently the closest to the vertical line
 - (BEMCircle *)closestDotFromVerticalLine:(UIView *)verticalLine;
 
@@ -144,14 +150,14 @@
         self.verticalLine.alpha = 0;
         [self addSubview:self.verticalLine];
         
-        UIView *panView = [[UIView alloc] initWithFrame:CGRectMake(10, 10, self.viewForBaselineLayout.frame.size.width, self.viewForBaselineLayout.frame.size.height)];
-        panView.backgroundColor = [UIColor clearColor];
-        [self.viewForBaselineLayout addSubview:panView];
+        self.panView = [[UIView alloc] initWithFrame:CGRectMake(10, 10, self.viewForBaselineLayout.frame.size.width, self.viewForBaselineLayout.frame.size.height)];
+        self.panView.backgroundColor = [UIColor clearColor];
+        [self.viewForBaselineLayout addSubview:self.panView];
         
-        UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
-        panGesture.delegate = self;
-        [panGesture setMaximumNumberOfTouches:1];
-        [panView addGestureRecognizer:panGesture];
+        self.panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
+        self.panGesture.delegate = self;
+        [self.panGesture setMaximumNumberOfTouches:1];
+        [self.panView addGestureRecognizer:self.panGesture];
     }
     
     // Let the delegate know that the graph finished layout updates
@@ -495,6 +501,19 @@
 
 
 #pragma mark - Touch Gestures
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    if ([gestureRecognizer isEqual:self.panGesture]) {
+        if (gestureRecognizer.numberOfTouches > 0) {
+            CGPoint translation = [self.panGesture velocityInView:self.panView];
+            return fabs(translation.y) < fabs(translation.x);
+            } else {
+                NSLog(@"yo");
+                return NO;
+                }
+        }
+    return YES;
+}
 
 - (void)handlePan:(UIPanGestureRecognizer *)recognizer {
     CGPoint translation = [recognizer locationInView:self.viewForBaselineLayout];
