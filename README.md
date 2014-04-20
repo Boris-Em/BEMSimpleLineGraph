@@ -5,6 +5,29 @@
 <b>BEMSimpleLineGraph</b> makes it easy to create and customize line graphs for iOS.
 </p>
 
+## Table of Contents
+
+* [**Project Details**](#project-details)
+  * [Requirements](#requirements)
+  * [License](#license)
+  * [Contributions](#contributions)
+  * [Sample App](#sample-app)
+  * [Support](#support)
+* [**Documentation**](#documentation)
+  * [Installation](#installation)
+  * [Setup](#setup)
+  * [Required Delegate / Data Source Methods](#required-delegate--data-source-methods)
+  * [Reloading the Data Source](#reloading-the-data-source) 
+  * [Retrieving the Data Source](#retrieving-the-data-source)
+  * [Data Source Calculations](#data-source-calculations)
+  * [Status Reporting](#status-reporting)
+  * [Touch Reporting](#touch-reporting)
+  * [X-Axis Labels](#x-axis-labels)
+  * [Bezier Curves](#bezier-curves)
+  * [Line Customization](#line-customization)
+  * [Properties](#properties)
+  * [Graph Snapshots](#graph-snapshots)
+
 ## Project Details
 Learn more about the BEMSimpleLineGraph project requirements, licensing, and contributions.
 
