@@ -192,7 +192,7 @@
 - (void)lineGraphDidBeginLoading:(BEMSimpleLineGraphView *)graph;
 
 
-/** Sent to the delegate each time the line graph is finishes loading or reloading.
+/** Sent to the delegate each time the line graph finishes loading or reloading.
  @param graph The graph object that finished loading or reloading. */
 - (void)lineGraphDidFinishLoading:(BEMSimpleLineGraphView *)graph;
 

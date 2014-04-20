@@ -466,10 +466,13 @@
 }
 
 - (NSNumber *)calculateMinimumPointValue {
-    NSExpression *expression = [NSExpression expressionForFunction:@"min:" arguments:@[[NSExpression expressionForConstantValue:dataPoints]]];
-    NSNumber *value = [expression expressionValueWithObject:nil context:nil];
-    
-    return value;
+    if (dataPoints.count > 0) {
+        NSExpression *expression = [NSExpression expressionForFunction:@"min:" arguments:@[[NSExpression expressionForConstantValue:dataPoints]]];
+        NSNumber *value = [expression expressionValueWithObject:nil context:nil];
+        return value;
+    } else {
+        return 0;
+    }
 }
 
 - (NSNumber *)calculateMaximumPointValue {
