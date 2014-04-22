@@ -517,7 +517,14 @@
 - (void)handlePan:(UIPanGestureRecognizer *)recognizer {
     CGPoint translation = [recognizer locationInView:self.viewForBaselineLayout];
     
-    self.verticalLine.frame = CGRectMake(translation.x, 0, 1, self.viewForBaselineLayout.frame.size.height);
+    if ((translation.x + self.frame.origin.x) <= self.frame.origin.x) { // To make sure the vertical line doesn't go beyond the frame of the graph.
+        self.verticalLine.frame = CGRectMake(0, 0, 1, self.viewForBaselineLayout.frame.size.height);
+    } else if ((translation.x + self.frame.origin.x) >= self.frame.origin.x + self.frame.size.width) {
+        self.verticalLine.frame = CGRectMake(self.frame.size.width, 0, 1, self.viewForBaselineLayout.frame.size.height);
+    } else {
+        self.verticalLine.frame = CGRectMake(translation.x, 0, 1, self.viewForBaselineLayout.frame.size.height);
+    }
+    
     [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
         self.verticalLine.alpha = 0.2;
     } completion:nil];
