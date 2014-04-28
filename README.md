@@ -221,6 +221,7 @@ BEMSimpleLineGraphs are split into three parts - the top, the bottom, and the li
  * Top Section. The `colorTop` and `alphaTop` properties control the color (UIColor) and alpha (float) of the top part of the graph.  
  * Bottom Section. The `colorBottom` and `alphaBottom` properties control the color (UIColor) and alpha (float) of the bottom part of the graph.  
  * Line. The `colorLine` and `alphaLine` properties control the color (UIColor) and alpha (float) of the line of the graph. The `widthLine` property controls the width of the line of graph (float that defaults to 1.0).
+ * Point. The `colorPoint` property controls the color (UIColor) of the points of the graph. The `sizePoint` property controls the size (diameter) of the points of graph (float that defaults to 10.0).
 
 ### Graph Snapshots
 On iOS 7.0 and above you can take a snapshot of the line graph view and get a UIImage representation of the snapshot. To do so, simply call the method below at anytime in the graph's lifecycle. Note that the snapshot is not of the completed graph, but of the graph in its current state (whether it is in mid-animation or not). You can use the `lineGraphDidFinishLoading:` delegate method to find out when the graph has finished rendering and animating.

@@ -150,6 +150,14 @@
 @property (nonatomic) CGFloat widthLine;
 
 
+/// The size of the circles that represent each point. Default is 10.0.
+@property (nonatomic) CGFloat sizePoint;
+
+
+/// The color of the circles that represent each point. Default is white.
+@property (strong, nonatomic) UIColor *colorPoint;
+
+
 /// Color of the label's text displayed on the X-Axis.
 @property (strong, nonatomic) UIColor *colorXaxisLabel;
 

@@ -15,8 +15,6 @@
 #endif
 
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
-#define padding 80
-#define circleSize 10
 #define labelXaxisOffset 10
 
 
@@ -24,7 +22,7 @@
     /// The number of Points in the Graph
     NSInteger numberOfPoints;
     
-    /// The closest dot to the touch point
+    /// The closest point to the touch point
     BEMCircle *closestDot;
     NSInteger currentlyCloser;
     
@@ -47,7 +45,7 @@
 /// The gesture recognizer picking up the pan in the graph view
 @property (strong, nonatomic) UIPanGestureRecognizer *panGesture;
 
-/// Find which dot is currently the closest to the vertical line
+/// Find which point is currently the closest to the vertical line
 - (BEMCircle *)closestDotFromVerticalLine:(UIView *)verticalLine;
 
 // Determines the biggest Y-axis value from all the points
@@ -107,6 +105,8 @@
     _alphaBottom = 1.0;
     _alphaLine = 1.0;
     _widthLine = 1.0;
+    _sizePoint = 10.0;
+    _colorPoint = [UIColor whiteColor];
     _enableTouchReport = NO;
     _enableBezierCurve = NO;
     
@@ -169,9 +169,10 @@
 
 - (void)drawGraph {
     if (numberOfPoints <= 1) { // Exception if there is only one point.
-        BEMCircle *circleDot = [[BEMCircle alloc] initWithFrame:CGRectMake(0, 0, circleSize, circleSize)];
+        BEMCircle *circleDot = [[BEMCircle alloc] initWithFrame:CGRectMake(0, 0, self.sizePoint, self.sizePoint)];
         circleDot.center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
-        circleDot.alpha = 0.7;
+        circleDot.Pointcolor = self.colorPoint;
+        circleDot.alpha = 0;
         [self addSubview:circleDot];
         
         return;
@@ -191,6 +192,11 @@
     CGFloat positionOnXAxis; // The position on the X-axis of the point currently being created.
     CGFloat positionOnYAxis; // The position on the Y-axis of the point currently being created.
     
+    CGFloat padding = self.frame.size.height/2;
+    if (padding > 80.0) {
+        padding = 80.0;
+    }
+
     // Remove all dots that were previously on the graph
     for (UIView *subview in [self subviews]) {
         if ([subview isKindOfClass:[BEMCircle class]])
@@ -222,12 +228,17 @@
             
             positionOnXAxis = (self.frame.size.width/(numberOfPoints - 1))*i;
             if (minValue == maxValue) positionOnYAxis = self.frame.size.height/2;
-            else positionOnYAxis = (self.frame.size.height - padding) - ((dotValue - minValue) / ((maxValue - minValue) / (self.frame.size.height - padding))) + 30;
+            else positionOnYAxis = ((self.frame.size.height - padding) - ((dotValue - minValue) / ((maxValue - minValue) / (self.frame.size.height - padding))) + padding/2);
+            if ([self.delegate respondsToSelector:@selector(numberOfGapsBetweenLabelsOnLineGraph:)] || [self.delegate respondsToSelector:@selector(numberOfGapsBetweenLabels)])
+            {
+                positionOnYAxis = positionOnYAxis - 10;
+            }
             
-            BEMCircle *circleDot = [[BEMCircle alloc] initWithFrame:CGRectMake(0, 0, circleSize, circleSize)];
+            BEMCircle *circleDot = [[BEMCircle alloc] initWithFrame:CGRectMake(0, 0, self.sizePoint, self.sizePoint)];
             circleDot.center = CGPointMake(positionOnXAxis, positionOnYAxis);
             circleDot.tag = i+100;
             circleDot.alpha = 0;
+            circleDot.Pointcolor = self.colorPoint;
             
             [self addSubview:circleDot];
             
@@ -237,16 +248,16 @@
 }
 
 - (void)drawLines {
-    CGFloat xDot1; // Postion on the X-axis of the first dot.
-    CGFloat yDot1; // Postion on the Y-axis of the first dot.
-    CGFloat xDot2; // Postion on the X-axis of the second dot.
-    CGFloat yDot2; // Postion on the Y-axis of the second dot.
+    CGFloat xDot1; // Postion on the X-axis of the first point.
+    CGFloat yDot1; // Postion on the Y-axis of the first point.
+    CGFloat xDot2; // Postion on the X-axis of the second point.
+    CGFloat yDot2; // Postion on the Y-axis of the second point.
     
     // For Bezier Curved Lines
-    CGFloat xDot0; // Postion on the X-axis of the previous dot.
-    CGFloat yDot0; // Postion on the Y-axis of the previous dot.
-    CGFloat xDot3; // Postion on the X-axis of the next dot.
-    CGFloat yDot3; // Postion on the Y-axis of the next dot.
+    CGFloat xDot0; // Postion on the X-axis of the previous point.
+    CGFloat yDot0; // Postion on the Y-axis of the previous point.
+    CGFloat xDot3; // Postion on the X-axis of the next point.
+    CGFloat yDot3; // Postion on the Y-axis of the next point.
     
     for (UIView *subview in [self subviews]) {
         if ([subview isKindOfClass:[BEMLine class]])
@@ -255,19 +266,23 @@
     
     @autoreleasepool {
         for (int i = 0; i < numberOfPoints; i++) {
-            for (UIView *dot in [self.viewForBaselineLayout subviews]) {
-                if (dot.tag == i + 100)  {
-                    xDot1 = dot.center.x;
-                    yDot1 = dot.center.y;
-                } else if (dot.tag == i + 101) {
-                    xDot2 = dot.center.x;
-                    yDot2 = dot.center.y;
-                } else if (dot.tag == i + 102 && self.enableBezierCurve == YES) {
-                    xDot3 = dot.center.x;
-                    yDot3 = dot.center.y;
-                } else if (dot.tag == i + 99 && self.enableBezierCurve == YES)  {
-                    xDot0 = dot.center.x;
-                    yDot0 = dot.center.y;
+            for (UIView *point in [self.viewForBaselineLayout subviews]) {
+                if (i == 0) { // Exception for first line, because there is no point before (P0).
+                    xDot0 = xDot1;
+                    yDot0 = yDot1;
+                }
+                if (point.tag == i + 100)  {
+                    xDot1 = point.center.x;
+                    yDot1 = point.center.y;
+                } else if (point.tag == i + 101) {
+                    xDot2 = point.center.x;
+                    yDot2 = point.center.y;
+                } else if (point.tag == i + 102 && self.enableBezierCurve == YES) {
+                    xDot3 = point.center.x;
+                    yDot3 = point.center.y;
+                } else if (point.tag == i + 99 && self.enableBezierCurve == YES)  {
+                    xDot0 = point.center.x;
+                    yDot0 = point.center.y;
                 }
             }
             
@@ -572,17 +587,17 @@
 - (BEMCircle *)closestDotFromVerticalLine:(UIView *)verticalLine {
     currentlyCloser = 1000;
     
-    for (BEMCircle *dot in self.subviews) {
+    for (BEMCircle *point in self.subviews) {
         
-        if (dot.tag > 99 && dot.tag < 1000) {
+        if (point.tag > 99 && point.tag < 1000) {
             
             [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-                dot.alpha = 0;
+                point.alpha = 0;
             } completion:nil];
             
-            if (pow(((dot.center.x) - verticalLine.frame.origin.x), 2) < currentlyCloser) {
-                currentlyCloser = pow(((dot.center.x) - verticalLine.frame.origin.x), 2);
-                closestDot = dot;
+            if (pow(((point.center.x) - verticalLine.frame.origin.x), 2) < currentlyCloser) {
+                currentlyCloser = pow(((point.center.x) - verticalLine.frame.origin.x), 2);
+                closestDot = point;
             }
         }
     }
