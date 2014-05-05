@@ -21,7 +21,7 @@
   * [Retrieving the Data Source](#retrieving-the-data-source)
   * [Data Source Calculations](#data-source-calculations)
   * [Status Reporting](#status-reporting)
-  * [Touch Reporting](#touch-reporting)
+  * [Interactive Graph](#interactive-graph)
   * [X-Axis Labels](#x-axis-labels)
   * [Bezier Curves](#bezier-curves)
   * [Line Customization](#line-customization)
@@ -128,31 +128,37 @@ In addition to recording and displaying data, BEMSimpleLineGraph can also perfor
 ### Status Reporting
 When the line graph starts or completes loading it will call a delegate method. When it begins reloading the `lineGraphDidBeginLoading:` method is called. When loading is finished, the `lineGraphDidFinishLoading:` method is called.
 
-### Touch Reporting
-BEMSimpleLineGraph makes it possible to react to the user touching the graph. 
+### Interactive Graph
+BEMSimpleLineGraph can react to the user touching the graph by two different ways: **Popup Reporting** and **Touch Reporting**.
 
-<p align="center"><img src="http://img30.imageshack.us/img30/4479/gt3s.png"/></p>
-<p align="center"> When the user touches and moves his finger along the graph, the labels on top of the graph indicate the value of the closest point. </p>
+<p align="center"><img src="http://s21.postimg.org/3lkbvgp53/GIF_Touch_Report.gif"/></p>
+<p align="center"> On this example, both Popup Reporting and Touch Reporting are activated. </p>
 
+#### Popup Reporting
+When the user touches and drags his finger along the graph, a popup label will appear on top of the closest dot from the user's finger. The label will display the value of the point.  
+To enable Popup Reporting, simply set the BOOL property `enablePopUpReport` to YES.
+  
+  	self.myGraph.enablePopUpReport = YES;
+
+#### Touch Reporting
+When the user touches and drags his finger along the graph, it's possible to retrive the value of the closest point.  
 To do so, first toggle the `enableTouchReport` property:
 
 	self.myGraph.enableTouchReport = YES;
 
 Next, implement the two following methods: `lineGraph:didTouchGraphWithClosestIndex` and `lineGraph:didReleaseTouchFromGraphWithClosestIndex:`.
 
-**Did Touch Graph at Index**  
-This method gets called when the user touches the graph. The parameter `index` is the closest index (X-Axis) from the user's finger position.
+1. The `lineGraph:didTouchGraphWithClosestIndex` method gets called when the user touches the graph. The parameter `index` is the closest index (X-Axis) from the user's finger position.
 
-	- (void)lineGraph:(BEMSimpleLineGraphView *)graph didTouchGraphWithClosestIndex:(NSInteger)index {
-		// Here you could change the text of a UILabel with the value of the closest index for example.
-	}
+	    - (void)lineGraph:(BEMSimpleLineGraphView *)graph didTouchGraphWithClosestIndex:(NSInteger)index {
+	    	// Here you could change the text of a UILabel with the value of the closest index for example.
+	    }
 
-**Did Release Touch at Graph Index**  
-This method gets called when the user stops touching the graph. The parameter `index` is the closest index (X-Axis) from the user's last finger position.
+2. The `lineGraph:didReleaseTouchFromGraphWithClosestIndex:` method gets called when the user stops touching the graph. The parameter `index` is the closest index (X-Axis) from the user's last finger position.
 
-	- (void)lineGraph:(BEMSimpleLineGraphView *)graph didReleaseTouchFromGraphWithClosestIndex:(CGFloat)index {
-		// Set the UIlabel alpha to 0 for example.
-	}
+	    - (void)lineGraph:(BEMSimpleLineGraphView *)graph didReleaseTouchFromGraphWithClosestIndex:(CGFloat)index {
+	    	// Set the UIlabel alpha to 0 for example.
+	    }
 
 ### X-Axis Labels
 BEMSimpleLineGraph makes it possible to add labels along the X-Axis. To do so, simply implement the two followings methods: `numberOfGapsBetweenLabelsOnLineGraph:` and `lineGraph:labelOnXAxisForIndex:`.
