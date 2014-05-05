@@ -134,13 +134,13 @@ BEMSimpleLineGraph can react to the user touching the graph by two different way
 <p align="center"><img src="http://s21.postimg.org/3lkbvgp53/GIF_Touch_Report.gif"/></p>
 <p align="center"> On this example, both Popup Reporting and Touch Reporting are activated. </p>
 
-#### Popup Reporting
+**Popup Reporting**  
 When the user touches and drags his finger along the graph, a popup label will appear on top of the closest dot from the user's finger. The label will display the value of the point.  
 To enable Popup Reporting, simply set the BOOL property `enablePopUpReport` to YES.
   
   	self.myGraph.enablePopUpReport = YES;
 
-#### Touch Reporting
+**Touch Reporting**  
 When the user touches and drags his finger along the graph, it's possible to retrive the value of the closest point.  
 To do so, first toggle the `enableTouchReport` property:
 
