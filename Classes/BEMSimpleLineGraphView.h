@@ -114,8 +114,12 @@
 @property (nonatomic) NSInteger animationGraphEntranceSpeed;
 
 
-/// If set to yes, the graph will respond to touch events. The 2 methods above should therefore be implemented. Default value is NO.
+/// If set to YES, the graph will report the value of the closest point from the user current touch location. The 2 methods for touch event bellow should therefore be implemented. Default value is NO.
 @property (nonatomic) BOOL enableTouchReport;
+
+
+/// If set to YES, a label will pop up on the graph when the user touches it. It will be displayed on top of the closest point from the user current touch location. Default value is NO.
+@property (nonatomic) BOOL enablePopUpReport;
 
 
 /// The way the graph is drawn, with or withough bezier curved lines. Default value is NO;

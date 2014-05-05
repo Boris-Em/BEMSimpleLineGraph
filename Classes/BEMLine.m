@@ -65,7 +65,7 @@
     
     CGContextDrawPath(ctx, kCGPathFill);
     
-    //BEZIER CURVE
+    //LINE
     
     UIBezierPath *path1 = [UIBezierPath bezierPath];
     [path1 setLineWidth:self.lineWidth];
