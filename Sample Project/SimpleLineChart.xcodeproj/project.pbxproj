@@ -14,13 +14,13 @@
 		C3B90A5F187D15F7003E407D /* BEMCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = C3B90A59187D15F7003E407D /* BEMCircle.m */; };
 		C3B90A60187D15F7003E407D /* BEMLine.m in Sources */ = {isa = PBXBuildFile; fileRef = C3B90A5B187D15F7003E407D /* BEMLine.m */; };
 		C3B90A61187D15F7003E407D /* BEMSimpleLineGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = C3B90A5D187D15F7003E407D /* BEMSimpleLineGraphView.m */; };
+		C3DC80671903845D0080FF06 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3FD816A186DFD9A00FD8ED3 /* Main.storyboard */; };
 		C3FD8159186DFD9A00FD8ED3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3FD8158186DFD9A00FD8ED3 /* Foundation.framework */; };
 		C3FD815B186DFD9A00FD8ED3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3FD815A186DFD9A00FD8ED3 /* CoreGraphics.framework */; };
 		C3FD815D186DFD9A00FD8ED3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3FD815C186DFD9A00FD8ED3 /* UIKit.framework */; };
 		C3FD8163186DFD9A00FD8ED3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C3FD8161186DFD9A00FD8ED3 /* InfoPlist.strings */; };
 		C3FD8165186DFD9A00FD8ED3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C3FD8164186DFD9A00FD8ED3 /* main.m */; };
 		C3FD8169186DFD9A00FD8ED3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C3FD8168186DFD9A00FD8ED3 /* AppDelegate.m */; };
-		C3FD816C186DFD9A00FD8ED3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3FD816A186DFD9A00FD8ED3 /* Main.storyboard */; };
 		C3FD816F186DFD9A00FD8ED3 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C3FD816E186DFD9A00FD8ED3 /* ViewController.m */; };
 		C3FD8171186DFD9A00FD8ED3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3FD8170186DFD9A00FD8ED3 /* Images.xcassets */; };
 		C3FD8178186DFD9A00FD8ED3 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3FD8177186DFD9A00FD8ED3 /* XCTest.framework */; };
@@ -269,10 +269,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				99B3FA3A1877898B00539A7B /* LICENSE in Resources */,
+				C3DC80671903845D0080FF06 /* Main.storyboard in Resources */,
 				C3FD8171186DFD9A00FD8ED3 /* Images.xcassets in Resources */,
 				99B3FA3B1877898B00539A7B /* README.md in Resources */,
 				C3FD8163186DFD9A00FD8ED3 /* InfoPlist.strings in Resources */,
-				C3FD816C186DFD9A00FD8ED3 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

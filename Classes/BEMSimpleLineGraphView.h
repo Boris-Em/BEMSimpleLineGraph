@@ -114,8 +114,12 @@
 @property (nonatomic) NSInteger animationGraphEntranceSpeed;
 
 
-/// If set to yes, the graph will respond to touch events. The 2 methods above should therefore be implemented. Default value is NO.
+/// If set to YES, the graph will report the value of the closest point from the user current touch location. The 2 methods for touch event bellow should therefore be implemented. Default value is NO.
 @property (nonatomic) BOOL enableTouchReport;
+
+
+/// If set to YES, a label will pop up on the graph when the user touches it. It will be displayed on top of the closest point from the user current touch location. Default value is NO.
+@property (nonatomic) BOOL enablePopUpReport;
 
 
 /// The way the graph is drawn, with or withough bezier curved lines. Default value is NO;
@@ -148,6 +152,14 @@
 
 /// Width of the line of the graph. Default value is 1.0.
 @property (nonatomic) CGFloat widthLine;
+
+
+/// The size of the circles that represent each point. Default is 10.0.
+@property (nonatomic) CGFloat sizePoint;
+
+
+/// The color of the circles that represent each point. Default is white.
+@property (strong, nonatomic) UIColor *colorPoint;
 
 
 /// Color of the label's text displayed on the X-Axis.
@@ -192,7 +204,7 @@
 - (void)lineGraphDidBeginLoading:(BEMSimpleLineGraphView *)graph;
 
 
-/** Sent to the delegate each time the line graph is finishes loading or reloading.
+/** Sent to the delegate each time the line graph finishes loading or reloading.
  @param graph The graph object that finished loading or reloading. */
 - (void)lineGraphDidFinishLoading:(BEMSimpleLineGraphView *)graph;
 

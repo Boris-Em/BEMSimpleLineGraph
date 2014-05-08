@@ -15,8 +15,6 @@
 #endif
 
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
-#define padding 80
-#define circleSize 10
 #define labelXaxisOffset 10
 
 
@@ -24,7 +22,7 @@
     /// The number of Points in the Graph
     NSInteger numberOfPoints;
     
-    /// The closest dot to the touch point
+    /// The closest point to the touch point
     BEMCircle *closestDot;
     NSInteger currentlyCloser;
     
@@ -41,13 +39,31 @@
 /// The animation delegate for lines and dots
 @property (strong, nonatomic) BEMAnimations *animationDelegate;
 
-/// Find which dot is currently the closest to the vertical line
+/// View for picking up pan gesture
+@property (strong, nonatomic, readwrite) UIView *panView;
+
+/// The gesture recognizer picking up the pan in the graph view
+@property (strong, nonatomic) UIPanGestureRecognizer *panGesture;
+
+/// The label displayed when enablePopUpReport is set to YES
+@property (strong, nonatomic) UILabel *popUpLabel;
+
+/// The view used for the background of the popup label
+@property (strong, nonatomic) UIView *popUpView;
+
+/// The X position (center) of the view for the popup label
+@property (assign) CGFloat xCenterLabel;
+
+/// The Y position (center) of the view for the popup label
+@property (assign) CGFloat yCenterLabel;
+
+/// Find which point is currently the closest to the vertical line
 - (BEMCircle *)closestDotFromVerticalLine:(UIView *)verticalLine;
 
-// Determines the biggest Y-axis value from all the points
+/// Determines the biggest Y-axis value from all the points
 - (CGFloat)maxValue;
 
-// Determines the smallest Y-axis value from all the points
+/// Determines the smallest Y-axis value from all the points
 - (CGFloat)minValue;
 
 @end
@@ -101,7 +117,10 @@
     _alphaBottom = 1.0;
     _alphaLine = 1.0;
     _widthLine = 1.0;
+    _sizePoint = 10.0;
+    _colorPoint = [UIColor whiteColor];
     _enableTouchReport = NO;
+    _enablePopUpReport = NO;
     _enableBezierCurve = NO;
     
     // Initialize the arrays
@@ -137,21 +156,39 @@
     [self drawXAxis];
     
     // If the touch report is enabled, set it up
-    if (self.enableTouchReport == YES) {
+    if (self.enableTouchReport == YES || self.enablePopUpReport == YES) {
         // Initialize the vertical gray line that appears where the user touches the graph.
         self.verticalLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, self.viewForBaselineLayout.frame.size.height)];
         self.verticalLine.backgroundColor = [UIColor grayColor];
         self.verticalLine.alpha = 0;
         [self addSubview:self.verticalLine];
         
-        UIView *panView = [[UIView alloc] initWithFrame:CGRectMake(10, 10, self.viewForBaselineLayout.frame.size.width, self.viewForBaselineLayout.frame.size.height)];
-        panView.backgroundColor = [UIColor clearColor];
-        [self.viewForBaselineLayout addSubview:panView];
+        self.panView = [[UIView alloc] initWithFrame:CGRectMake(10, 10, self.viewForBaselineLayout.frame.size.width, self.viewForBaselineLayout.frame.size.height)];
+        self.panView.backgroundColor = [UIColor clearColor];
+        [self.viewForBaselineLayout addSubview:self.panView];
         
-        UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
-        panGesture.delegate = self;
-        [panGesture setMaximumNumberOfTouches:1];
-        [panView addGestureRecognizer:panGesture];
+        self.panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
+        self.panGesture.delegate = self;
+        [self.panGesture setMaximumNumberOfTouches:1];
+        [self.panView addGestureRecognizer:self.panGesture];
+        
+        if (self.enablePopUpReport == YES) {
+            self.popUpLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 20)];
+            self.popUpLabel.text = [NSString stringWithFormat:@"%@", [self calculateMaximumPointValue]];
+            self.popUpLabel.textAlignment = 1;
+            self.popUpLabel.numberOfLines = 1;
+            self.popUpLabel.font = self.labelFont;
+            self.popUpLabel.backgroundColor = [UIColor clearColor];
+            [self.popUpLabel sizeToFit];
+            self.popUpLabel.alpha = 0;
+            
+            self.popUpView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.popUpLabel.frame.size.width + 7, self.popUpLabel.frame.size.height + 2)];
+            self.popUpView.backgroundColor = [UIColor whiteColor];
+            self.popUpView.alpha = 0;
+            self.popUpView.layer.cornerRadius = 3;
+            [self addSubview:self.popUpView];
+            [self addSubview:self.popUpLabel];
+        }
     }
     
     // Let the delegate know that the graph finished layout updates
@@ -163,9 +200,10 @@
 
 - (void)drawGraph {
     if (numberOfPoints <= 1) { // Exception if there is only one point.
-        BEMCircle *circleDot = [[BEMCircle alloc] initWithFrame:CGRectMake(0, 0, circleSize, circleSize)];
+        BEMCircle *circleDot = [[BEMCircle alloc] initWithFrame:CGRectMake(0, 0, self.sizePoint, self.sizePoint)];
         circleDot.center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
-        circleDot.alpha = 0.7;
+        circleDot.Pointcolor = self.colorPoint;
+        circleDot.alpha = 0;
         [self addSubview:circleDot];
         
         return;
@@ -185,6 +223,11 @@
     CGFloat positionOnXAxis; // The position on the X-axis of the point currently being created.
     CGFloat positionOnYAxis; // The position on the Y-axis of the point currently being created.
     
+    CGFloat padding = self.frame.size.height/2;
+    if (padding > 80.0) {
+        padding = 80.0;
+    }
+
     // Remove all dots that were previously on the graph
     for (UIView *subview in [self subviews]) {
         if ([subview isKindOfClass:[BEMCircle class]])
@@ -216,12 +259,17 @@
             
             positionOnXAxis = (self.frame.size.width/(numberOfPoints - 1))*i;
             if (minValue == maxValue) positionOnYAxis = self.frame.size.height/2;
-            else positionOnYAxis = (self.frame.size.height - padding) - ((dotValue - minValue) / ((maxValue - minValue) / (self.frame.size.height - padding))) + 20;
+            else positionOnYAxis = ((self.frame.size.height - padding) - ((dotValue - minValue) / ((maxValue - minValue) / (self.frame.size.height - padding))) + padding/2);
+            if ([self.delegate respondsToSelector:@selector(numberOfGapsBetweenLabelsOnLineGraph:)] || [self.delegate respondsToSelector:@selector(numberOfGapsBetweenLabels)])
+            {
+                positionOnYAxis = positionOnYAxis - 10;
+            }
             
-            BEMCircle *circleDot = [[BEMCircle alloc] initWithFrame:CGRectMake(0, 0, circleSize, circleSize)];
+            BEMCircle *circleDot = [[BEMCircle alloc] initWithFrame:CGRectMake(0, 0, self.sizePoint, self.sizePoint)];
             circleDot.center = CGPointMake(positionOnXAxis, positionOnYAxis);
             circleDot.tag = i+100;
             circleDot.alpha = 0;
+            circleDot.Pointcolor = self.colorPoint;
             
             [self addSubview:circleDot];
             
@@ -231,16 +279,16 @@
 }
 
 - (void)drawLines {
-    CGFloat xDot1; // Postion on the X-axis of the first dot.
-    CGFloat yDot1; // Postion on the Y-axis of the first dot.
-    CGFloat xDot2; // Postion on the X-axis of the second dot.
-    CGFloat yDot2; // Postion on the Y-axis of the second dot.
+    CGFloat xDot1; // Postion on the X-axis of the first point.
+    CGFloat yDot1; // Postion on the Y-axis of the first point.
+    CGFloat xDot2; // Postion on the X-axis of the second point.
+    CGFloat yDot2; // Postion on the Y-axis of the second point.
     
     // For Bezier Curved Lines
-    CGFloat xDot0; // Postion on the X-axis of the previous dot.
-    CGFloat yDot0; // Postion on the Y-axis of the previous dot.
-    CGFloat xDot3; // Postion on the X-axis of the next dot.
-    CGFloat yDot3; // Postion on the Y-axis of the next dot.
+    CGFloat xDot0; // Postion on the X-axis of the previous point.
+    CGFloat yDot0; // Postion on the Y-axis of the previous point.
+    CGFloat xDot3; // Postion on the X-axis of the next point.
+    CGFloat yDot3; // Postion on the Y-axis of the next point.
     
     for (UIView *subview in [self subviews]) {
         if ([subview isKindOfClass:[BEMLine class]])
@@ -249,23 +297,27 @@
     
     @autoreleasepool {
         for (int i = 0; i < numberOfPoints; i++) {
-            for (UIView *dot in [self.viewForBaselineLayout subviews]) {
-                if (dot.tag == i + 100)  {
-                    xDot1 = dot.center.x;
-                    yDot1 = dot.center.y;
-                } else if (dot.tag == i + 101) {
-                    xDot2 = dot.center.x;
-                    yDot2 = dot.center.y;
-                } else if (dot.tag == i + 102 && self.enableBezierCurve == YES) {
-                    xDot3 = dot.center.x;
-                    yDot3 = dot.center.y;
-                } else if (dot.tag == i + 99 && self.enableBezierCurve == YES)  {
-                    xDot0 = dot.center.x;
-                    yDot0 = dot.center.y;
+            for (UIView *point in [self.viewForBaselineLayout subviews]) {
+                if (i == 0) { // Exception for first line, because there is no point before (P0).
+                    xDot0 = xDot1;
+                    yDot0 = yDot1;
+                }
+                if (point.tag == i + 100)  {
+                    xDot1 = point.center.x;
+                    yDot1 = point.center.y;
+                } else if (point.tag == i + 101) {
+                    xDot2 = point.center.x;
+                    yDot2 = point.center.y;
+                } else if (point.tag == i + 102 && self.enableBezierCurve == YES) {
+                    xDot3 = point.center.x;
+                    yDot3 = point.center.y;
+                } else if (point.tag == i + 99 && self.enableBezierCurve == YES)  {
+                    xDot0 = point.center.x;
+                    yDot0 = point.center.y;
                 }
             }
             
-            BEMLine *line = [[BEMLine alloc] initWithFrame:CGRectMake(0, 0, self.viewForBaselineLayout.frame.size.width, self.viewForBaselineLayout.frame.size.height)];
+            BEMLine *line = [[BEMLine alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
             line.opaque = NO;
             line.tag = i + 1000;
             line.alpha = 0;
@@ -301,7 +353,7 @@
         if ([subview isKindOfClass:[UILabel class]])
             [subview removeFromSuperview];
     }
-    
+
     NSInteger numberOfGaps = 0;
     
     if ([self.delegate respondsToSelector:@selector(numberOfGapsBetweenLabelsOnLineGraph:)]) {
@@ -425,6 +477,9 @@
 #pragma mark - Data Source
 
 - (void)reloadGraph {
+    for (UIView *subviews in self.subviews) {
+        [subviews removeFromSuperview];
+    }
     [self setNeedsLayout];
 }
 
@@ -466,10 +521,13 @@
 }
 
 - (NSNumber *)calculateMinimumPointValue {
-    NSExpression *expression = [NSExpression expressionForFunction:@"min:" arguments:@[[NSExpression expressionForConstantValue:dataPoints]]];
-    NSNumber *value = [expression expressionValueWithObject:nil context:nil];
-    
-    return value;
+    if (dataPoints.count > 0) {
+        NSExpression *expression = [NSExpression expressionForFunction:@"min:" arguments:@[[NSExpression expressionForConstantValue:dataPoints]]];
+        NSNumber *value = [expression expressionValueWithObject:nil context:nil];
+        return value;
+    } else {
+        return 0;
+    }
 }
 
 - (NSNumber *)calculateMaximumPointValue {
@@ -493,22 +551,46 @@
 
 #pragma mark - Touch Gestures
 
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    if ([gestureRecognizer isEqual:self.panGesture]) {
+        if (gestureRecognizer.numberOfTouches > 0) {
+            CGPoint translation = [self.panGesture velocityInView:self.panView];
+            return fabs(translation.y) < fabs(translation.x);
+            } else {
+                return NO;
+                }
+        }
+    return YES;
+}
+
 - (void)handlePan:(UIPanGestureRecognizer *)recognizer {
     CGPoint translation = [recognizer locationInView:self.viewForBaselineLayout];
-    
-    self.verticalLine.frame = CGRectMake(translation.x, 0, 1, self.viewForBaselineLayout.frame.size.height);
+
+    if ((translation.x + self.frame.origin.x) <= self.frame.origin.x) { // To make sure the vertical line doesn't go beyond the frame of the graph.
+        self.verticalLine.frame = CGRectMake(0, 0, 1, self.viewForBaselineLayout.frame.size.height);
+    } else if ((translation.x + self.frame.origin.x) >= self.frame.origin.x + self.frame.size.width) {
+        self.verticalLine.frame = CGRectMake(self.frame.size.width, 0, 1, self.viewForBaselineLayout.frame.size.height);
+    } else {
+        self.verticalLine.frame = CGRectMake(translation.x, 0, 1, self.viewForBaselineLayout.frame.size.height);
+    }
+
     [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
         self.verticalLine.alpha = 0.2;
     } completion:nil];
-    
+
     closestDot = [self closestDotFromVerticalLine:self.verticalLine];
     closestDot.alpha = 0.8;
     
+    
+    if (self.enablePopUpReport == YES) {
+        [self setUpPopUpLabelAbovePoint:closestDot];
+    }
+    
     if (closestDot.tag > 99 && closestDot.tag < 1000) {
-        if ([self.delegate respondsToSelector:@selector(lineGraph:didTouchGraphWithClosestIndex:)]) {
+        if ([self.delegate respondsToSelector:@selector(lineGraph:didTouchGraphWithClosestIndex:)] && self.enableTouchReport == YES) {
             [self.delegate lineGraph:self didTouchGraphWithClosestIndex:((NSInteger)closestDot.tag - 100)];
             
-        } else if ([self.delegate respondsToSelector:@selector(didTouchGraphWithClosestIndex:)]) {
+        } else if ([self.delegate respondsToSelector:@selector(didTouchGraphWithClosestIndex:)] && self.enableTouchReport == YES) {
             [self printDeprecationWarningForOldMethod:@"didTouchGraphWithClosestIndex:" andReplacementMethod:@"lineGraph:didTouchGraphWithClosestIndex:"];
             
 #pragma clang diagnostic push
@@ -535,7 +617,39 @@
         [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
             closestDot.alpha = 0;
             self.verticalLine.alpha = 0;
+            if (self.enablePopUpReport == YES) {
+                self.popUpView.alpha = 0;
+                self.popUpLabel.alpha = 0;
+            }
         } completion:nil];
+    }
+}
+
+- (void)setUpPopUpLabelAbovePoint:(BEMCircle *)closestPoint {
+    [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        self.popUpView.alpha = 0.7;
+        self.popUpLabel.alpha = 1;
+    } completion:nil];
+    
+    self.xCenterLabel = closestDot.center.x;
+    self.yCenterLabel = closestDot.center.y - closestDot.frame.size.height/2 - 15;
+    self.popUpView.center = CGPointMake(self.xCenterLabel, self.yCenterLabel);
+    self.popUpLabel.center = self.popUpView.center;
+    self.popUpLabel.text = [NSString stringWithFormat:@"%@", [dataPoints objectAtIndex:(NSInteger)closestDot.tag - 100]];
+    
+    if (self.popUpView.frame.origin.x <= 0) {
+        self.xCenterLabel = self.popUpView.frame.size.width/2;
+        self.popUpView.center = CGPointMake(self.xCenterLabel, self.yCenterLabel);
+        self.popUpLabel.center = self.popUpView.center;
+    } else if ((self.popUpView.frame.origin.x + self.popUpView.frame.size.width) >= self.frame.size.width) {
+        self.xCenterLabel = self.frame.size.width - self.popUpView.frame.size.width/2;
+        self.popUpView.center = CGPointMake(self.xCenterLabel, self.yCenterLabel);
+        self.popUpLabel.center = self.popUpView.center;
+    }
+    if (self.popUpView.frame.origin.y <= 2) {
+        self.yCenterLabel = closestDot.center.y + closestDot.frame.size.height/2 + 15;
+        self.popUpView.center = CGPointMake(self.xCenterLabel, closestDot.center.y + closestDot.frame.size.height/2 + 15);
+        self.popUpLabel.center = self.popUpView.center;
     }
 }
 
@@ -543,18 +657,17 @@
 
 - (BEMCircle *)closestDotFromVerticalLine:(UIView *)verticalLine {
     currentlyCloser = 1000;
-    
-    for (BEMCircle *dot in self.subviews) {
+    for (BEMCircle *point in self.subviews) {
         
-        if (dot.tag > 99 && dot.tag < 1000) {
+        if (point.tag > 99 && point.tag < 1000) {
             
             [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-                dot.alpha = 0;
+                point.alpha = 0;
             } completion:nil];
             
-            if (pow(((dot.center.x) - verticalLine.frame.origin.x), 2) < currentlyCloser) {
-                currentlyCloser = pow(((dot.center.x) - verticalLine.frame.origin.x), 2);
-                closestDot = dot;
+            if (pow(((point.center.x) - verticalLine.frame.origin.x), 2) < currentlyCloser) {
+                currentlyCloser = pow(((point.center.x) - verticalLine.frame.origin.x), 2);
+                closestDot = point;
             }
         }
     }

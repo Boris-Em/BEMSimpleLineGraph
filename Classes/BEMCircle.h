@@ -26,4 +26,8 @@
 
 @property (assign, nonatomic) BOOL shouldDisplayConstantly;
 
+/// The point color
+@property (strong, nonatomic) UIColor *Pointcolor;
+
+
 @end

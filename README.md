@@ -1,14 +1,32 @@
-# BEMSimpleLineGraph - Feature Branch
+# BEMSimpleLineGraph
 <p align="center"><img src="http://s29.postimg.org/57dn7ve3r/BEMSimple_Line_Graph_Main.png"/></p>	
 
 <p align="center">
 <b>BEMSimpleLineGraph</b> makes it easy to create and customize line graphs for iOS.
 </p>
 
-## Feature Branch Warning
-You are currently viewing the feature branch of this GitHub repository. The feature branch contains bleeding edge commits / features, otherwise known as **alpha or beta** features. Content in this branch may be unstable, bug-ridden, non-working, and undocumented. The sole purpose of this branch is to test and improve on new features that may or may not be included in future (stable) versions.
+## Table of Contents
 
-It is not recommended that you use this branch in a production app of any kind. **For stable production ready code**, please refer to the [master branch](https://github.com/Boris-Em/BEMSimpleLineGraph/tree/master).
+* [**Project Details**](#project-details)
+  * [Requirements](#requirements)
+  * [License](#license)
+  * [Contributions](#contributions)
+  * [Sample App](#sample-app)
+  * [Support](#support)
+* [**Documentation**](#documentation)
+  * [Installation](#installation)
+  * [Setup](#setup)
+  * [Required Delegate / Data Source Methods](#required-delegate--data-source-methods)
+  * [Reloading the Data Source](#reloading-the-data-source) 
+  * [Retrieving the Data Source](#retrieving-the-data-source)
+  * [Data Source Calculations](#data-source-calculations)
+  * [Status Reporting](#status-reporting)
+  * [Interactive Graph](#interactive-graph)
+  * [X-Axis Labels](#x-axis-labels)
+  * [Bezier Curves](#bezier-curves)
+  * [Line Customization](#line-customization)
+  * [Properties](#properties)
+  * [Graph Snapshots](#graph-snapshots)
 
 ## Project Details
 Learn more about the BEMSimpleLineGraph project requirements, licensing, and contributions.
@@ -19,7 +37,7 @@ Learn more about the BEMSimpleLineGraph project requirements, licensing, and con
 - Optimized for ARM64 Architecture
 
 ### License
-See the [License](https://github.com/Boris-Em/BEMSimpleLineGraph/blob/master/LICENSE). You are free to make changes and use this in either personal or commercial projects. Attribution is not required, but it appreciated. A little Thanks! (or something to that affect) would be much appreciated. If you use BEMSimpleLineGraph in your app, let us know. 
+See the [License](https://github.com/Boris-Em/BEMSimpleLineGraph/blob/master/LICENSE). You are free to make changes and use this in either personal or commercial projects. Attribution is not required, but it is appreciated. A little Thanks! (or something to that affect) would be much appreciated. If you use BEMSimpleLineGraph in your app, let us know.
 
 ### Contributions
 Any contribution is more than welcome! You can contribute through pull requests and issues on GitHub. 
@@ -110,31 +128,37 @@ In addition to recording and displaying data, BEMSimpleLineGraph can also perfor
 ### Status Reporting
 When the line graph starts or completes loading it will call a delegate method. When it begins reloading the `lineGraphDidBeginLoading:` method is called. When loading is finished, the `lineGraphDidFinishLoading:` method is called.
 
-### Touch Reporting
-BEMSimpleLineGraph makes it possible to react to the user touching the graph. 
+### Interactive Graph
+BEMSimpleLineGraph can react to the user touching the graph by two different ways: **Popup Reporting** and **Touch Reporting**.
 
-<p align="center"><img src="http://img30.imageshack.us/img30/4479/gt3s.png"/></p>
-<p align="center"> When the user touches and moves his finger along the graph, the labels on top of the graph indicate the value of the closest point. </p>
+<p align="center"><img src="http://s21.postimg.org/3lkbvgp53/GIF_Touch_Report.gif"/></p>
+<p align="center"> On this example, both Popup Reporting and Touch Reporting are activated. </p>
 
-To do so, first toggle the property  `enableTouchReport` property:
+**Popup Reporting**  
+When the user touches and drags his finger along the graph, a popup label will appear on top of the closest dot from the user's finger. The label will display the value of the point.  
+To enable Popup Reporting, simply set the BOOL property `enablePopUpReport` to YES.
+  
+  	self.myGraph.enablePopUpReport = YES;
+
+**Touch Reporting**  
+When the user touches and drags his finger along the graph, it's possible to retrive the value of the closest point.  
+To do so, first toggle the `enableTouchReport` property:
 
 	self.myGraph.enableTouchReport = YES;
 
 Next, implement the two following methods: `lineGraph:didTouchGraphWithClosestIndex` and `lineGraph:didReleaseTouchFromGraphWithClosestIndex:`.
 
-**Did Touch Graph at Index**  
-This method gets called when the user touches the graph. The parameter `index` is the closest index (X-Axis) from the user's finger position.
+1. The `lineGraph:didTouchGraphWithClosestIndex` method gets called when the user touches the graph. The parameter `index` is the closest index (X-Axis) from the user's finger position.
 
-	- (void)lineGraph:(BEMSimpleLineGraphView *)graph didTouchGraphWithClosestIndex:(NSInteger)index {
-		// Here you could change the text of a UILabel with the value of the closest index for example.
-	}
+	    - (void)lineGraph:(BEMSimpleLineGraphView *)graph didTouchGraphWithClosestIndex:(NSInteger)index {
+	    	// Here you could change the text of a UILabel with the value of the closest index for example.
+	    }
 
-**Did Release Touch at Graph Index**  
-This method gets called when the user stops touching the graph. The parameter `index` is the closest index (X-Axis) from the user's last finger position.
+2. The `lineGraph:didReleaseTouchFromGraphWithClosestIndex:` method gets called when the user stops touching the graph. The parameter `index` is the closest index (X-Axis) from the user's last finger position.
 
-	- (void)lineGraph:(BEMSimpleLineGraphView *)graph didReleaseTouchFromGraphWithClosestIndex:(CGFloat)index {
-		// Set the UIlabel alpha to 0 for example.
-	}
+	    - (void)lineGraph:(BEMSimpleLineGraphView *)graph didReleaseTouchFromGraphWithClosestIndex:(CGFloat)index {
+	    	// Set the UIlabel alpha to 0 for example.
+	    }
 
 ### X-Axis Labels
 BEMSimpleLineGraph makes it possible to add labels along the X-Axis. To do so, simply implement the two followings methods: `numberOfGapsBetweenLabelsOnLineGraph:` and `lineGraph:labelOnXAxisForIndex:`.
@@ -154,7 +178,7 @@ Informs how much empty space is needed between each displayed label. Returning 0
 The text to be displayed for each UILabel on the X-Axis at a given index. It should return as many strings as the number of points on the graph.
 
 	- (NSString *)lineGraph:(BEMSimpleLineGraphView *)graph labelOnXAxisForIndex:(NSInteger)index {
-		return X;
+		return …;
 	}
 
 **X-Axis Label Color**  
@@ -203,9 +227,10 @@ BEMSimpleLineGraphs are split into three parts - the top, the bottom, and the li
  * Top Section. The `colorTop` and `alphaTop` properties control the color (UIColor) and alpha (float) of the top part of the graph.  
  * Bottom Section. The `colorBottom` and `alphaBottom` properties control the color (UIColor) and alpha (float) of the bottom part of the graph.  
  * Line. The `colorLine` and `alphaLine` properties control the color (UIColor) and alpha (float) of the line of the graph. The `widthLine` property controls the width of the line of graph (float that defaults to 1.0).
+ * Point. The `colorPoint` property controls the color (UIColor) of the points of the graph. The `sizePoint` property controls the size (diameter) of the points of the graph (float that defaults to 10.0).
 
 ### Graph Snapshots
-On iOS 7.0 and above you can take a snapshot of the line graph view and get a UIImage representation of the snapshot. To do so, simply call the method below at anytime in the graph's lifecycle. Note that the snapshot is not of the completed graph, but of the graph in its current state (whether it is in mid-animation or not). You can use the `lineGraphDidFinishLoading:` delegate method (coming soon) to find out when the graph has finished rendering and animating.
+On iOS 7.0 and above you can take a snapshot of the line graph view and get a UIImage representation of the snapshot. To do so, simply call the method below at anytime in the graph's lifecycle. Note that the snapshot is not of the completed graph, but of the graph in its current state (whether it is in mid-animation or not). You can use the `lineGraphDidFinishLoading:` delegate method to find out when the graph has finished rendering and animating.
 
     // Method Definition
     - (UIImage *)graphSnapshotImage;
