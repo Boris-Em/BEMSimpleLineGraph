@@ -1,4 +1,4 @@
-# BEMSimpleLineGraph
+# BEMSimpleLineGraph - FEATURE BRANCH
 <p align="center"><img src="http://s29.postimg.org/57dn7ve3r/BEMSimple_Line_Graph_Main.png"/></p>	
 
 <p align="center">
@@ -29,6 +29,7 @@
   * [Graph Snapshots](#graph-snapshots)
 
 ## Project Details
+This is the feature branch of the project. It's not stable and fully tested.
 Learn more about the BEMSimpleLineGraph project requirements, licensing, and contributions.
 
 ### Requirements
