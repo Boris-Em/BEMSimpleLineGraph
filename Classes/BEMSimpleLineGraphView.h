@@ -20,14 +20,13 @@
 
 #import "BEMCircle.h"
 #import "BEMLine.h"
-#import "BEMAnimations.h"
 
 
 
 @protocol BEMSimpleLineGraphDelegate;
 
 /// Simple line graph / chart UIView subclass for iOS apps. Creates beautiful line graphs (without huge memory impacts) using QuartzCore.
-@interface BEMSimpleLineGraphView : UIView <BEMAnimationDelegate, UIGestureRecognizerDelegate>
+@interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDelegate>
 
 
 
@@ -110,8 +109,8 @@
 @property (strong, nonatomic) UIFont *labelFont;
 
 
-/// Speed of the animation when the graph appears. From 0 to 10, 0 meaning no animation, 1 very slow and 10 very fast. Default value is 5.
-@property (nonatomic) NSInteger animationGraphEntranceSpeed;
+/// Time of the animation when the graph appears in seconds. Default value is 1.5.
+@property (nonatomic) CGFloat animationGraphEntranceTime;
 
 
 /// If set to YES, the graph will report the value of the closest point from the user current touch location. The 2 methods for touch event bellow should therefore be implemented. Default value is NO.

@@ -30,7 +30,6 @@
                             <view contentMode="scaleToFill" id="Vsd-lS-ATF" customClass="BEMSimpleLineGraphView">
                                 <rect key="frame" x="0.0" y="65" width="320" height="275"/>
                                 <autoresizingMask key="autoresizingMask" heightSizable="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.1215686275" green="0.73333333329999995" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
                                     <outlet property="delegate" destination="vXZ-lx-hvc" id="bLS-QX-9kI"/>
                                 </connections>

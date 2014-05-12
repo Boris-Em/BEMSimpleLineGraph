@@ -40,6 +40,8 @@
 /// The next point. Necessary for Bezier curve
 @property (assign, nonatomic) CGPoint P3;
 
+@property (assign, nonatomic) NSMutableArray *arrayOfPoints;
+
 
 
 
@@ -81,5 +83,11 @@
 //----- BEZIER CURVE -----//
 
 @property (nonatomic) BOOL bezierCurveIsEnabled;
+
+//----- ANIMATION -----//
+
+@property (nonatomic) CGFloat animationTime;
+
+
 
 @end

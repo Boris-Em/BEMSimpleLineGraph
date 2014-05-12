@@ -216,9 +216,9 @@ Specify the alpha value of the line at a specific index (the graph is made of mu
 BEMSimpleLineGraphs can be customized by using various properties. A variety of properties let you control the animation, colors, and alpha of the graph.
 
 **Entrance Animation**  
-The `animationGraphEntranceSpeed` property controls the speed of the entrance animation. It is an NSInteger who's value should be between 0 and 10.
+The `animationGraphEntranceTime` property controls the time of the entrance animation. It is an CGFloat that default to 1.5 seconds.
 
-A value of 0 will disable the animation. A value of 1 will make the animation very slow. A value of 10 or more will make it fast.
+A value of 0 will disable the animation.
 
 <p align="center"><img src="http://img819.imageshack.us/img819/4290/3vs.gif"/></p>
 

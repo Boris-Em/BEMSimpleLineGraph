@@ -29,15 +29,15 @@
     /// All of the X-Axis Values
     NSMutableArray *xAxisValues;
     
+    /// All of the X-Axis Values
+    NSMutableArray *yAxisValues;
+    
     /// All of the Data Points
     NSMutableArray *dataPoints;
 }
 
 /// The vertical line which appears when the user drags across the graph
 @property (strong, nonatomic) UIView *verticalLine;
-
-/// The animation delegate for lines and dots
-@property (strong, nonatomic) BEMAnimations *animationDelegate;
 
 /// View for picking up pan gesture
 @property (strong, nonatomic, readwrite) UIView *panView;
@@ -95,24 +95,17 @@
 - (void)commonInit {
     // Do any initialization that's common to both -initWithFrame: and -initWithCoder: in this method
     
-    // Set the animation delegate
-    self.animationDelegate = [[BEMAnimations alloc] init];
-    self.animationDelegate.delegate = self;
-    
     // Set the X Axis label font
     _labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:13];
     
     // DEFAULT VALUES
-    _animationGraphEntranceSpeed = 5;
+    _animationGraphEntranceTime = 1.5;
     _colorXaxisLabel = [UIColor blackColor];
     
-    // Set the bottom color to the window's tint color (if no color is set)
-    UIWindow *window = [[[UIApplication sharedApplication] windows] objectAtIndex:0];
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) _colorBottom = window.tintColor;
-    else _colorBottom = [UIColor colorWithRed:0.0/255.0 green:191.0/255.0 blue:243.0/255.0 alpha:0.2];
-    
-    _colorTop = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:0.0];
-    _colorLine = [UIColor colorWithRed:0.0/255.0 green:191.0/255.0 blue:243.0/255.0 alpha:1];
+    _colorTop = [UIColor colorWithRed:0 green:122.0/255.0 blue:255/255 alpha:1];
+    _colorLine = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1];
+    _colorBottom = [UIColor colorWithRed:0 green:122.0/255.0 blue:255/255 alpha:1];
+    self.backgroundColor = [UIColor colorWithRed:0 green:122.0/255.0 blue:255/255 alpha:1];
     _alphaTop = 1.0;
     _alphaBottom = 1.0;
     _alphaLine = 1.0;
@@ -126,6 +119,7 @@
     // Initialize the arrays
     xAxisValues = [NSMutableArray array];
     dataPoints = [NSMutableArray array];
+    yAxisValues = [NSMutableArray array];
 }
 
 - (void)layoutSubviews {
@@ -211,9 +205,6 @@
     
     // CREATION OF THE DOTS
     [self drawDots];
-    
-    // CREATION OF THE LINE AND BOTTOM AND TOP FILL
-    [self drawLines];
 }
 
 - (void)drawDots {
@@ -236,6 +227,9 @@
     
     // Remove all data points before adding them to the array
     [dataPoints removeAllObjects];
+    
+    // Remove all yAxis values before adding them to the array
+    [yAxisValues removeAllObjects];
     
     // Loop through each point and add it to the graph
     @autoreleasepool {
@@ -271,79 +265,52 @@
             circleDot.alpha = 0;
             circleDot.Pointcolor = self.colorPoint;
             
+            [yAxisValues addObject:[NSNumber numberWithFloat:positionOnYAxis]];
+
             [self addSubview:circleDot];
             
-            [self.animationDelegate animationForDot:i circleDot:circleDot animationSpeed:self.animationGraphEntranceSpeed];
+            // Dot entrance animation
+            if (self.animationGraphEntranceTime == 0) {
+                circleDot.alpha = 0;
+            } else {
+                [UIView animateWithDuration:(float)self.animationGraphEntranceTime/numberOfPoints delay:(float)i*((float)self.animationGraphEntranceTime/numberOfPoints) options:UIViewAnimationOptionCurveLinear animations:^{
+                    circleDot.alpha = 0.7;
+                } completion:^(BOOL finished){
+                    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+                        circleDot.alpha = 0;
+                    } completion:nil];
+                }];
+            }
         }
     }
+    
+    // CREATION OF THE LINE AND BOTTOM AND TOP FILL
+    [self drawLines];
 }
 
+
 - (void)drawLines {
-    CGFloat xDot1; // Postion on the X-axis of the first point.
-    CGFloat yDot1; // Postion on the Y-axis of the first point.
-    CGFloat xDot2; // Postion on the X-axis of the second point.
-    CGFloat yDot2; // Postion on the Y-axis of the second point.
-    
-    // For Bezier Curved Lines
-    CGFloat xDot0; // Postion on the X-axis of the previous point.
-    CGFloat yDot0; // Postion on the Y-axis of the previous point.
-    CGFloat xDot3; // Postion on the X-axis of the next point.
-    CGFloat yDot3; // Postion on the Y-axis of the next point.
-    
     for (UIView *subview in [self subviews]) {
         if ([subview isKindOfClass:[BEMLine class]])
             [subview removeFromSuperview];
     }
+    BEMLine *line = [[BEMLine alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+    line.opaque = NO;
+    line.alpha = 1;
+    line.backgroundColor = [UIColor clearColor];
+    line.topColor = self.colorTop;
+    line.bottomColor = self.colorBottom;
+    line.topAlpha = self.alphaTop;
+    line.bottomAlpha = self.alphaBottom;
+    line.lineWidth = self.widthLine;
+    line.lineAlpha = self.alphaLine;
+    line.bezierCurveIsEnabled = self.enableBezierCurve;
+    line.arrayOfPoints = yAxisValues;
+    line.color = self.colorLine;
+    line.animationTime = self.animationGraphEntranceTime;
+    [self addSubview:line];
+    [self sendSubviewToBack:line];
     
-    @autoreleasepool {
-        for (int i = 0; i < numberOfPoints; i++) {
-            for (UIView *point in [self.viewForBaselineLayout subviews]) {
-                if (i == 0) { // Exception for first line, because there is no point before (P0).
-                    xDot0 = xDot1;
-                    yDot0 = yDot1;
-                }
-                if (point.tag == i + 100)  {
-                    xDot1 = point.center.x;
-                    yDot1 = point.center.y;
-                } else if (point.tag == i + 101) {
-                    xDot2 = point.center.x;
-                    yDot2 = point.center.y;
-                } else if (point.tag == i + 102 && self.enableBezierCurve == YES) {
-                    xDot3 = point.center.x;
-                    yDot3 = point.center.y;
-                } else if (point.tag == i + 99 && self.enableBezierCurve == YES)  {
-                    xDot0 = point.center.x;
-                    yDot0 = point.center.y;
-                }
-            }
-            
-            BEMLine *line = [[BEMLine alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
-            line.opaque = NO;
-            line.tag = i + 1000;
-            line.alpha = 0;
-            line.backgroundColor = [UIColor clearColor];
-            line.P1 = CGPointMake(xDot1, yDot1);
-            line.P2 = CGPointMake(xDot2, yDot2);
-            if (self.enableBezierCurve == YES) {
-                line.P0 = CGPointMake(xDot0, yDot0);
-                line.P3 = CGPointMake(xDot3, yDot3);
-            }
-            line.topColor = self.colorTop;
-            line.bottomColor = self.colorBottom;
-            if ([self.delegate respondsToSelector:@selector(lineGraph:lineColorForIndex:)]) line.color = [self.delegate lineGraph:self lineColorForIndex:i];
-            else line.color = self.colorLine;
-            line.topAlpha = self.alphaTop;
-            line.bottomAlpha = self.alphaBottom;
-            if ([self.delegate respondsToSelector:@selector(lineGraph:lineAlphaForIndex:)]) line.alpha = [self.delegate lineGraph:self lineAlphaForIndex:i];
-            else line.lineAlpha = self.alphaLine;
-            line.lineWidth = self.widthLine;
-            line.bezierCurveIsEnabled = self.enableBezierCurve;
-            [self addSubview:line];
-            [self sendSubviewToBack:line];
-            
-            [self.animationDelegate animationForLine:i line:line animationSpeed:self.animationGraphEntranceSpeed];
-        }
-    }
 }
 
 - (void)drawXAxis {
