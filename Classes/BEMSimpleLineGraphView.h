@@ -121,8 +121,17 @@
 @property (nonatomic) BOOL enablePopUpReport;
 
 
-/// The way the graph is drawn, with or withough bezier curved lines. Default value is NO;
+/// The way the graph is drawn, with or withough bezier curved lines. Default value is NO.
 @property (nonatomic) BOOL enableBezierCurve;
+
+
+/** When set to YES, the points on the Y-axis will be set to all fit in the graph view.
+
+When set to NO, the points on the Y-axis will be set with their absolute value (which means that certain points might not be visible because they are outside of the view).
+
+Default value is YES.
+*/
+@property (nonatomic) BOOL autoScaleYAxis;
 
 
 /// Color of the bottom part of the graph (between the line and the X-axis).

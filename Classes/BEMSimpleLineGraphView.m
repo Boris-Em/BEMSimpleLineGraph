@@ -115,6 +115,7 @@
     _enableTouchReport = NO;
     _enablePopUpReport = NO;
     _enableBezierCurve = NO;
+    _autoScaleYAxis = YES;
     
     // Initialize the arrays
     xAxisValues = [NSMutableArray array];
@@ -253,7 +254,14 @@
             
             positionOnXAxis = (self.frame.size.width/(numberOfPoints - 1))*i;
             if (minValue == maxValue) positionOnYAxis = self.frame.size.height/2;
-            else positionOnYAxis = ((self.frame.size.height - padding) - ((dotValue - minValue) / ((maxValue - minValue) / (self.frame.size.height - padding))) + padding/2);
+            else {
+                if (self.autoScaleYAxis == YES) {
+                    positionOnYAxis = ((self.frame.size.height - padding) - ((dotValue - minValue) / ((maxValue - minValue) / (self.frame.size.height - padding))) + padding/2);
+                } else {
+                    positionOnYAxis = ((self.frame.size.height - padding) - dotValue);
+                }
+                
+            }
             if ([self.delegate respondsToSelector:@selector(numberOfGapsBetweenLabelsOnLineGraph:)] || [self.delegate respondsToSelector:@selector(numberOfGapsBetweenLabels)])
             {
                 positionOnYAxis = positionOnYAxis - 10;
