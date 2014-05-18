@@ -540,10 +540,8 @@
     } else {
         self.verticalLine.frame = CGRectMake(translation.x, 0, 1, self.viewForBaselineLayout.frame.size.height);
     }
-
-    [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        self.verticalLine.alpha = 0.2;
-    } completion:nil];
+    
+    self.verticalLine.alpha = 0.2;
 
     closestDot = [self closestDotFromVerticalLine:self.verticalLine];
     closestDot.alpha = 0.8;
@@ -553,7 +551,7 @@
         [self setUpPopUpLabelAbovePoint:closestDot];
     }
     
-    if (closestDot.tag > 99 && closestDot.tag < 1000) {
+    if ([closestDot isMemberOfClass:[BEMCircle class]]) {
         if ([self.delegate respondsToSelector:@selector(lineGraph:didTouchGraphWithClosestIndex:)] && self.enableTouchReport == YES) {
             [self.delegate lineGraph:self didTouchGraphWithClosestIndex:((NSInteger)closestDot.tag - 100)];
             
@@ -625,20 +623,14 @@
 - (BEMCircle *)closestDotFromVerticalLine:(UIView *)verticalLine {
     currentlyCloser = 1000;
     for (BEMCircle *point in self.subviews) {
-        
-        if (point.tag > 99 && point.tag < 1000) {
-            
-            [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-                point.alpha = 0;
-            } completion:nil];
-            
+        if ([point isMemberOfClass:[BEMCircle class]]) {
+            point.alpha = 0;
             if (pow(((point.center.x) - verticalLine.frame.origin.x), 2) < currentlyCloser) {
                 currentlyCloser = pow(((point.center.x) - verticalLine.frame.origin.x), 2);
                 closestDot = point;
             }
         }
     }
-    
     return closestDot;
 }
 
