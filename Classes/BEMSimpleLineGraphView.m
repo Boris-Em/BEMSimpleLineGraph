@@ -330,11 +330,25 @@
             }
             line.topColor = self.colorTop;
             line.bottomColor = self.colorBottom;
-            if ([self.delegate respondsToSelector:@selector(lineGraph:lineColorForIndex:)]) line.color = [self.delegate lineGraph:self lineColorForIndex:i];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            if ([self.delegate respondsToSelector:@selector(lineGraph:lineColorForIndex:)])
+            {
+                NSLog(@"[BEMSimpleLineGraph] DEPRECATION WARNING. The delegate method lineColorForIndex, is deprecated and will become unavailable in a future version. This feature will not be suported in a future version. Update your delegate method as soon as possible.");
+                line.color = [self.delegate lineGraph:self lineColorForIndex:i];
+            }
+#pragma clang diagnostic pop
             else line.color = self.colorLine;
             line.topAlpha = self.alphaTop;
             line.bottomAlpha = self.alphaBottom;
-            if ([self.delegate respondsToSelector:@selector(lineGraph:lineAlphaForIndex:)]) line.alpha = [self.delegate lineGraph:self lineAlphaForIndex:i];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            if ([self.delegate respondsToSelector:@selector(lineGraph:lineAlphaForIndex:)])
+            {
+                NSLog(@"[BEMSimpleLineGraph] DEPRECATION WARNING. The delegate method lineAlphaForIndex, is deprecated and will become unavailable in a future version. This feature will not be suported in a future version. Update your delegate method as soon as possible.");
+                line.lineAlpha = [self.delegate lineGraph:self lineAlphaForIndex:i];
+            }
+#pragma clang diagnostic pop
             else line.lineAlpha = self.alphaLine;
             line.lineWidth = self.widthLine;
             line.bezierCurveIsEnabled = self.enableBezierCurve;

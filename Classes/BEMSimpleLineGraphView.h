@@ -209,22 +209,6 @@
 - (void)lineGraphDidFinishLoading:(BEMSimpleLineGraphView *)graph;
 
 
-//----- CUSTOMIZATION -----//
-
-
-/** The color of the line at the given index. This is called for each line in the graph, every time an update is made.
- @param graph The graph object requesting the line color.
- @param index The index from left to right of a given point (X-axis). The first value for the index is 0.
- @return The color of the line. Specifying nil will cause the line to use the color specifed for the graph. */
-- (UIColor *)lineGraph:(BEMSimpleLineGraphView *)graph lineColorForIndex:(NSInteger)index;
-
-
-/** The alpha of the line at the given index. This is called for each line in the graph, every time an update is made.
- @param graph The graph object requesting the line alpha.
- @param index The index from left to right of a given point (X-axis). The first value for the index is 0.
- @return The alpha value of the line, between 0.0 and 1.0. Specifying nil will cause the line to use the alpha specifed for the graph. */
-- (CGFloat)lineGraph:(BEMSimpleLineGraphView *)graph lineAlphaForIndex:(NSInteger)index;
-
 
 //----- TOUCH EVENTS -----//
 
@@ -298,5 +282,18 @@
 - (NSString *)labelOnXAxisForIndex:(NSInteger)index __deprecated;
 
 
+
+/** The color of the line at the given index. This is called for each line in the graph, every time an update is made.
+ @param graph The graph object requesting the line color.
+ @param index The index from left to right of a given point (X-axis). The first value for the index is 0.
+ @return The color of the line. Specifying nil will cause the line to use the color specifed for the graph. */
+- (UIColor *)lineGraph:(BEMSimpleLineGraphView *)graph lineColorForIndex:(NSInteger)index __deprecated;
+
+
+/** The alpha of the line at the given index. This is called for each line in the graph, every time an update is made.
+ @param graph The graph object requesting the line alpha.
+ @param index The index from left to right of a given point (X-axis). The first value for the index is 0.
+ @return The alpha value of the line, between 0.0 and 1.0. Specifying nil will cause the line to use the alpha specifed for the graph. */
+- (CGFloat)lineGraph:(BEMSimpleLineGraphView *)graph lineAlphaForIndex:(NSInteger)index __deprecated;
 
 @end
