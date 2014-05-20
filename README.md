@@ -34,16 +34,15 @@ Learn more about the BEMSimpleLineGraph project requirements, licensing, and con
 ### Requirements
 - Requires iOS 6 or later. The sample project is optimized for iOS 7.
 - Requires Automatic Reference Counting (ARC).
-- Optimized for ARM64 Architecture
 
 ### License
-See the [License](https://github.com/Boris-Em/BEMSimpleLineGraph/blob/master/LICENSE). You are free to make changes and use this in either personal or commercial projects. Attribution is not required, but it is appreciated. A little Thanks! (or something to that affect) would be much appreciated. If you use BEMSimpleLineGraph in your app, let us know.
+See the [License](https://github.com/Boris-Em/BEMSimpleLineGraph/blob/master/LICENSE). You are free to make changes and use this in either personal or commercial projects. Attribution is not required, but it is welcomed. A little "Thanks!" (or something to that affect) would be much appreciated. If you use BEMSimpleLineGraph in your app, please let us know.
 
 ### Contributions
 Any contribution is more than welcome! You can contribute through pull requests and issues on GitHub. 
 
 ### Sample App
-The iOS Sample App included with this project demonstrates how to correctly setup and use BEMSimpleLineGraph. You can refer to the sample app for an understanding of how to use and setup BEMSimpleLineGraph.
+The iOS Sample App included with this project demonstrates how to correctly setup and use BEMSimpleLineGraph. Some features of the library are not used in the sample app. They are all documented in the [project's wiki](https://github.com/Boris-Em/BEMSimpleLineGraph/wiki).
 
 ### Support
 [![Gitter chat](https://badges.gitter.im/Boris-Em/BEMSimpleLineGraph.png)](https://gitter.im/Boris-Em/BEMSimpleLineGraph)  
