@@ -116,6 +116,7 @@
     _enablePopUpReport = NO;
     _enableBezierCurve = NO;
     _autoScaleYAxis = YES;
+    _alwaysDisplayDots = NO;
     
     // Initialize the arrays
     xAxisValues = [NSMutableArray array];
@@ -200,7 +201,6 @@
         circleDot.Pointcolor = self.colorPoint;
         circleDot.alpha = 0;
         [self addSubview:circleDot];
-        
         return;
     }
     
@@ -284,9 +284,11 @@
                 [UIView animateWithDuration:(float)self.animationGraphEntranceTime/numberOfPoints delay:(float)i*((float)self.animationGraphEntranceTime/numberOfPoints) options:UIViewAnimationOptionCurveLinear animations:^{
                     circleDot.alpha = 0.7;
                 } completion:^(BOOL finished){
-                    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-                        circleDot.alpha = 0;
-                    } completion:nil];
+                    if (self.alwaysDisplayDots == NO) {
+                        [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+                            circleDot.alpha = 0;
+                        } completion:nil];
+                    }
                 }];
             }
         }
@@ -588,7 +590,9 @@
         }
         
         [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-            closestDot.alpha = 0;
+            if (self.alwaysDisplayDots == NO) {
+                closestDot.alpha = 0;
+            }
             self.verticalLine.alpha = 0;
             if (self.enablePopUpReport == YES) {
                 self.popUpView.alpha = 0;
@@ -632,7 +636,9 @@
     currentlyCloser = 1000;
     for (BEMCircle *point in self.subviews) {
         if ([point isMemberOfClass:[BEMCircle class]]) {
-            point.alpha = 0;
+            if (self.alwaysDisplayDots == NO) {
+                point.alpha = 0;
+            }
             if (pow(((point.center.x) - verticalLine.frame.origin.x), 2) < currentlyCloser) {
                 currentlyCloser = pow(((point.center.x) - verticalLine.frame.origin.x), 2);
                 closestDot = point;

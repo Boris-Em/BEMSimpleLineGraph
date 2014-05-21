@@ -134,6 +134,10 @@ Default value is YES.
 @property (nonatomic) BOOL autoScaleYAxis;
 
 
+/// If set to YES, the dots representing the points on the graph will always be visible. Default value is NO.
+@property (nonatomic) BOOL alwaysDisplayDots;
+
+
 /// Color of the bottom part of the graph (between the line and the X-axis).
 @property (strong, nonatomic) UIColor *colorBottom;
 
