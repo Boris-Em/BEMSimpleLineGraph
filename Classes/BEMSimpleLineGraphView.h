@@ -24,6 +24,7 @@
 
 
 @protocol BEMSimpleLineGraphDelegate;
+@protocol BEMSimpleLineGraphDataSource;
 
 /// Simple line graph / chart UIView subclass for iOS apps. Creates beautiful line graphs (without huge memory impacts) using QuartzCore.
 @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDelegate>
@@ -35,8 +36,24 @@
 //------------------------------------------------------------------------------------//
 
 
-/// BEMSimpleLineGraphView delegate object is essential to the line graph. The delegate provides the graph with data and various parameters for creating the line graph. The delegate can be set from the interface or from code.
-@property (assign) IBOutlet id <BEMSimpleLineGraphDelegate> delegate;
+/** The object that acts as the delegate of the receiving line graph.
+ 
+ @abstract The BEMSimpleLineGraphView delegate object plays a key role in changing the appearance of the graph and receiving graph events. Use the delegate to provide appearance changes, receive touch events, and receive graph events. The delegate can be set from the interface or from code.
+ @discussion The delegate must adopt the \p BEMSimpleLineGraphDelegate protocol. The delegate is not retained.*/
+@property (nonatomic, assign) IBOutlet id <BEMSimpleLineGraphDelegate> delegate;
+
+
+
+//------------------------------------------------------------------------------------//
+//----- DATA SOURCE ------------------------------------------------------------------//
+//------------------------------------------------------------------------------------//
+
+
+/** The object that acts as the data source of the receiving line graph.
+ 
+ @abstract The BEMSimpleLineGraphView data source object is essential to the line graph. Use the data source to provide the graph with data (data points and x-axis labels). The delegate can be set from the interface or from code. 
+ @discussion The data source must adopt the \p BEMSimpleLineGraphDataSource protocol. The data source is not retained.*/
+@property (nonatomic, assign) IBOutlet id <BEMSimpleLineGraphDataSource> dataSource;
 
 
 
@@ -121,7 +138,7 @@
 @property (nonatomic) BOOL enablePopUpReport;
 
 
-/// The way the graph is drawn, with or withough bezier curved lines. Default value is NO.
+/// The way the graph is drawn, with or without bezier curved lines. Default value is NO.
 @property (nonatomic) BOOL enableBezierCurve;
 
 
@@ -177,14 +194,15 @@
 @end
 
 
-/// Line Graph Delegate. Used to pupulate the graph with data, similar to how a UITableView works.
-@protocol BEMSimpleLineGraphDelegate <NSObject>
+
+/// Line Graph Data Source. Used to populate the graph with data, similar to how a UITableView works.
+@protocol BEMSimpleLineGraphDataSource <NSObject>
 
 
 @required
 
 
-//----- DATA SOURCE -----//
+//----- DATA POINTS -----//
 
 
 /** The number of points along the X-axis of the graph.
@@ -198,6 +216,25 @@
  @param index The index from left to right of a given point (X-axis). The first value for the index is 0.
  @return The Y-axis value at a given index. */
 - (CGFloat)lineGraph:(BEMSimpleLineGraphView *)graph valueForPointAtIndex:(NSInteger)index;
+
+
+@optional
+
+
+//------- X AXIS -------//
+
+/** The string to display on the label on the X-axis at a given index. Please note that the number of strings to be returned should be equal to the number of points in the Graph.
+ @param graph The graph object which is requesting the label on the specified X-Axis position.
+ @param index The index from left to right of a given label on the X-axis. Is the same index as the one for the points. The first value for the index is 0. */
+- (NSString *)lineGraph:(BEMSimpleLineGraphView *)graph labelOnXAxisForIndex:(NSInteger)index;
+
+
+@end
+
+
+
+/// Line Graph Delegate. Used to change the graph's appearance and recieve events, similar to how a UITableView works.
+@protocol BEMSimpleLineGraphDelegate <NSObject>
 
 
 @optional
@@ -223,14 +260,14 @@
 /** The color of the line at the given index. This is called for each line in the graph, every time an update is made.
  @param graph The graph object requesting the line color.
  @param index The index from left to right of a given point (X-axis). The first value for the index is 0.
- @return The color of the line. Specifying nil will cause the line to use the color specifed for the graph. */
+ @return The color of the line. Specifying nil will cause the line to use the color specified for the graph. */
 - (UIColor *)lineGraph:(BEMSimpleLineGraphView *)graph lineColorForIndex:(NSInteger)index;
 
 
 /** The alpha of the line at the given index. This is called for each line in the graph, every time an update is made.
  @param graph The graph object requesting the line alpha.
  @param index The index from left to right of a given point (X-axis). The first value for the index is 0.
- @return The alpha value of the line, between 0.0 and 1.0. Specifying nil will cause the line to use the alpha specifed for the graph. */
+ @return The alpha value of the line, between 0.0 and 1.0. Specifying nil will cause the line to use the alpha specified for the graph. */
 - (CGFloat)lineGraph:(BEMSimpleLineGraphView *)graph lineAlphaForIndex:(NSInteger)index;
 
 
@@ -264,11 +301,6 @@
  @return The number of labels to "jump" between each displayed label on the X-axis. */
 - (NSInteger)numberOfGapsBetweenLabelsOnLineGraph:(BEMSimpleLineGraphView *)graph;
 
-
-/** The string to display on the label on the X-axis at a given index. Please note that the number of strings to be returned should be equal to the number of points in the Graph.
- @param graph The graph object which is requesting the label on the specified X-Axis position.
- @param index The index from left to right of a given label on the X-axis. Is the same index as the one for the points. The first value for the index is 0. */
-- (NSString *)lineGraph:(BEMSimpleLineGraphView *)graph labelOnXAxisForIndex:(NSInteger)index;
 
 
 //----- DEPRECATED -----//
@@ -310,6 +342,31 @@
  @deprecated Deprecated in 1.3. Use \p lineGraph:labelOnXAxisForIndex: instead.
  @param index The index from left to right of a given label on the X-axis. Is the same index as the one for the points. The first value for the index is 0. */
 - (NSString *)labelOnXAxisForIndex:(NSInteger)index __deprecated;
+
+
+/** \b DEPRECATED. No longer available on \p BEMSimpleLineGraphDelegate. Implement this method on \p BEMSimpleLineGraphDataSource instead. The number of points along the X-axis of the graph.
+ @deprecated Deprecated in 2.3. Implement with \p BEMSimpleLineGraphDataSource instead.
+ 
+ @param graph The graph object requesting the total number of points.
+ @return The total number of points in the line graph. */
+- (NSInteger)numberOfPointsInLineGraph:(BEMSimpleLineGraphView *)graph __unavailable __deprecated;
+
+
+/** \b DEPRECATED. No longer available on \p BEMSimpleLineGraphDelegate. Implement this method on \p BEMSimpleLineGraphDataSource instead. The vertical position for a point at the given index. It corresponds to the Y-axis value of the Graph.
+ @deprecated Deprecated in 2.3. Implement with \p BEMSimpleLineGraphDataSource instead.
+ 
+ @param graph The graph object requesting the point value.
+ @param index The index from left to right of a given point (X-axis). The first value for the index is 0.
+ @return The Y-axis value at a given index. */
+- (CGFloat)lineGraph:(BEMSimpleLineGraphView *)graph valueForPointAtIndex:(NSInteger)index __unavailable __deprecated;
+
+
+/** \b DEPRECATED. No longer available on \p BEMSimpleLineGraphDelegate. Implement this method on \p BEMSimpleLineGraphDataSource instead. The string to display on the label on the X-axis at a given index. Please note that the number of strings to be returned should be equal to the number of points in the Graph.
+ @deprecated Deprecated in 2.3. Implement with \p BEMSimpleLineGraphDataSource instead.
+ 
+ @param graph The graph object which is requesting the label on the specified X-Axis position.
+ @param index The index from left to right of a given label on the X-axis. Is the same index as the one for the points. The first value for the index is 0. */
+- (NSString *)lineGraph:(BEMSimpleLineGraphView *)graph labelOnXAxisForIndex:(NSInteger)index __unavailable __deprecated;
 
 
 

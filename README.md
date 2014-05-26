@@ -34,7 +34,6 @@ It is not recommended that you use this branch in a production app of any kind. 
     * [Graph Snapshots](#graph-snapshots)
 
 ## Project Details
-This is the feature branch of the project. It's not stable and fully tested.
 Learn more about the BEMSimpleLineGraph project requirements, licensing, and contributions.
 
 ### Requirements
@@ -71,9 +70,9 @@ Setting up BEMSimpleLineGraph in your project is simple. If you're familiar with
 
          #import "BEMSimpleLineGraphView.h"
 
- 2. Implement the `BEMSimpleLineGraphDelegate` to the same view controller:
+ 2. Implement the `BEMSimpleLineGraphDelegate` and `BEMSimpleLineGraphDataSource` in the same view controller:
 
-         @interface YourViewController : UIViewController <BEMSimpleLineGraphDelegate>
+         @interface YourViewController : UIViewController <BEMSimpleLineGraphDataSource, BEMSimpleLineGraphDelegate>
 
  3.  BEMSimpleLineGraphView can be initialized in one of two ways. You can either add it directly to your interface (storyboard file) OR through code. Both ways provide the same initialization, just different ways to do the same thing. Use the method that makes sense for your app or project.
 
@@ -81,16 +80,17 @@ Setting up BEMSimpleLineGraph in your project is simple. If you're familiar with
      1 - Add a UIView to your UIViewController  
      2 - Change the class type of the UIView to `BEMSimpleLineGraphView`  
      3 - Link the view to your code using an `IBOutlet`. You can set the property to `weak` and `nonatomic`.  
-     4 - Select the Connect the `BEMSimpleLineGraphView` in your interface. Connect the delegate property to your ViewController.  
+     4 - Select the `BEMSimpleLineGraphView` in your interface. Connect the **dataSource** property and then the **delegate** property to your ViewController.  
 
      **Code Initialization**  
      Just add the following code to your implementation (usually the `viewDidLoad` method).
 
          BEMSimpleLineGraphView *myGraph = [[BEMSimpleLineGraphView alloc] initWithFrame:CGRectMake(0, 0, 320, 200)];
+         myGraph.dataSource = self;
          myGraph.delegate = self;
          [self.view addSubview:myGraph];
 
- 4. Implement the two required methods: `numberOfPointsInLineGraph:` and `lineGraph:valueForPointAtIndex:`. See documentation below for more information
+ 4. Implement the two required data source methods: `numberOfPointsInLineGraph:` and `lineGraph:valueForPointAtIndex:`. See documentation below for more information
 
 ### Required Delegate / Data Source Methods
 

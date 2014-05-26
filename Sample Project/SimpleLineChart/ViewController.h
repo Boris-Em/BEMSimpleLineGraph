@@ -10,7 +10,7 @@
 #import "BEMSimpleLineGraphView.h"
 #import "StatsViewController.h"
 
-@interface ViewController : UIViewController <BEMSimpleLineGraphDelegate>
+@interface ViewController : UIViewController <BEMSimpleLineGraphDataSource, BEMSimpleLineGraphDelegate>
 
 @property (weak, nonatomic) IBOutlet BEMSimpleLineGraphView *myGraph;
 

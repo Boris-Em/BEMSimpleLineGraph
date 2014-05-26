@@ -108,7 +108,7 @@
     _colorTop = [UIColor colorWithRed:0 green:122.0/255.0 blue:255/255 alpha:1];
     _colorLine = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1];
     _colorBottom = [UIColor colorWithRed:0 green:122.0/255.0 blue:255/255 alpha:1];
-    self.backgroundColor = [UIColor colorWithRed:0 green:122.0/255.0 blue:255/255 alpha:1];
+    //self.backgroundColor = [UIColor colorWithRed:0 green:122.0/255.0 blue:255/255 alpha:1];
     _alphaTop = 1.0;
     _alphaBottom = 1.0;
     _alphaLine = 1.0;
@@ -135,8 +135,8 @@
         [self.delegate lineGraphDidBeginLoading:self];
     
     // Get the total number of data points from the delegate
-    if ([self.delegate respondsToSelector:@selector(numberOfPointsInLineGraph:)]) {
-        numberOfPoints = [self.delegate numberOfPointsInLineGraph:self];
+    if ([self.dataSource respondsToSelector:@selector(numberOfPointsInLineGraph:)]) {
+        numberOfPoints = [self.dataSource numberOfPointsInLineGraph:self];
         
     } else if ([self.delegate respondsToSelector:@selector(numberOfPointsInGraph)]) {
         [self printDeprecationWarningForOldMethod:@"numberOfPointsInGraph" andReplacementMethod:@"numberOfPointsInLineGraph:"];
@@ -145,6 +145,10 @@
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         numberOfPoints = [self.delegate numberOfPointsInGraph];
 #pragma clang diagnostic pop
+        
+    } else if ([self.delegate respondsToSelector:@selector(numberOfPointsInLineGraph:)]) {
+        [self printDeprecationAndUnavailableWarningForOldMethod:@"numberOfPointsInLineGraph:"];
+        numberOfPoints = 0;
         
     } else numberOfPoints = 0;
     
@@ -265,8 +269,8 @@
         for (int i = 0; i < numberOfPoints; i++) {
             CGFloat dotValue = 0;
             
-            if ([self.delegate respondsToSelector:@selector(lineGraph:valueForPointAtIndex:)]) {
-                dotValue = [self.delegate lineGraph:self valueForPointAtIndex:i];
+            if ([self.dataSource respondsToSelector:@selector(lineGraph:valueForPointAtIndex:)]) {
+                dotValue = [self.dataSource lineGraph:self valueForPointAtIndex:i];
                 
             } else if ([self.delegate respondsToSelector:@selector(valueForIndex:)]) {
                 [self printDeprecationWarningForOldMethod:@"valueForIndex:" andReplacementMethod:@"lineGraph:valueForPointAtIndex:"];
@@ -276,7 +280,13 @@
                 dotValue = [self.delegate valueForIndex:i];
 #pragma clang diagnostic pop
                 
-            } else [NSException raise:@"lineGraph:valueForPointAtIndex: protocol method is not implemented in the delegate. Throwing exception here before the system throws a CALayerInvalidGeometry Exception." format:@"Value for point %f at index %lu is invalid. CALayer position may contain NaN: [0 nan]", dotValue, (unsigned long)i];
+            } else if ([self.delegate respondsToSelector:@selector(lineGraph:valueForPointAtIndex:)]) {
+                [self printDeprecationAndUnavailableWarningForOldMethod:@"lineGraph:valueForPointAtIndex:"];
+                NSException *exception = [NSException exceptionWithName:@"Implementing Unavailable Delegate Method" reason:@"lineGraph:valueForPointAtIndex: is no longer available on the delegate. It must be implemented on the data source." userInfo:nil];
+                [exception raise];
+                
+                
+            } else [NSException raise:@"lineGraph:valueForPointAtIndex: protocol method is not implemented in the data source. Throwing exception here before the system throws a CALayerInvalidGeometry Exception." format:@"Value for point %f at index %lu is invalid. CALayer position may contain NaN: [0 nan]", dotValue, (unsigned long)i];
             
             [dataPoints addObject:[NSNumber numberWithFloat:dotValue]];
             
@@ -290,8 +300,8 @@
                 }
                 
             }
-            if ([self.delegate respondsToSelector:@selector(numberOfGapsBetweenLabelsOnLineGraph:)] || [self.delegate respondsToSelector:@selector(numberOfGapsBetweenLabels)])
-            {
+            
+            if ([self.delegate respondsToSelector:@selector(numberOfGapsBetweenLabelsOnLineGraph:)] || [self.delegate respondsToSelector:@selector(numberOfGapsBetweenLabels)]) {
                 positionOnYAxis = positionOnYAxis - 10;
             }
             
@@ -380,9 +390,9 @@
         NSString *firstXLabel = @"";
         NSString *lastXLabel = @"";
         
-        if ([self.delegate respondsToSelector:@selector(lineGraph:labelOnXAxisForIndex:)]) {
-            firstXLabel = [self.delegate lineGraph:self labelOnXAxisForIndex:0];
-            lastXLabel = [self.delegate lineGraph:self labelOnXAxisForIndex:(numberOfPoints - 1)];
+        if ([self.dataSource respondsToSelector:@selector(lineGraph:labelOnXAxisForIndex:)]) {
+            firstXLabel = [self.dataSource lineGraph:self labelOnXAxisForIndex:0];
+            lastXLabel = [self.dataSource lineGraph:self labelOnXAxisForIndex:(numberOfPoints - 1)];
             
         } else if ([self.delegate respondsToSelector:@selector(labelOnXAxisForIndex:)]) {
             [self printDeprecationWarningForOldMethod:@"labelOnXAxisForIndex:" andReplacementMethod:@"lineGraph:labelOnXAxisForIndex:"];
@@ -392,6 +402,11 @@
             firstXLabel = [self.delegate labelOnXAxisForIndex:0];
             lastXLabel = [self.delegate labelOnXAxisForIndex:(numberOfPoints - 1)];
 #pragma clang diagnostic pop
+            
+        } else if ([self.delegate respondsToSelector:@selector(lineGraph:labelOnXAxisForIndex:)]) {
+            [self printDeprecationAndUnavailableWarningForOldMethod:@"lineGraph:labelOnXAxisForIndex:"];
+            NSException *exception = [NSException exceptionWithName:@"Implementing Unavailable Delegate Method" reason:@"lineGraph:labelOnXAxisForIndex: is no longer available on the delegate. It must be implemented on the data source." userInfo:nil];
+            [exception raise];
             
         } else firstXLabel = @"";
         
@@ -420,9 +435,9 @@
             for (int i = 1; i <= (numberOfPoints/numberOfGaps); i++) {
                 NSString *xAxisLabel = @"";
                 
-                if ([self.delegate respondsToSelector:@selector(lineGraph:labelOnXAxisForIndex:)]) {
+                if ([self.dataSource respondsToSelector:@selector(lineGraph:labelOnXAxisForIndex:)]) {
                     NSInteger index = i * numberOfGaps - 1 - offset;
-                    xAxisLabel = [self.delegate lineGraph:self labelOnXAxisForIndex:index];
+                    xAxisLabel = [self.dataSource lineGraph:self labelOnXAxisForIndex:index];
                     
                 } else if ([self.delegate respondsToSelector:@selector(labelOnXAxisForIndex:)]) {
                     [self printDeprecationWarningForOldMethod:@"labelOnXAxisForIndex:" andReplacementMethod:@"lineGraph:labelOnXAxisForIndex:"];
@@ -431,6 +446,11 @@
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
                     xAxisLabel = [self.delegate labelOnXAxisForIndex:(i * numberOfGaps - 1 - offset)];
 #pragma clang diagnostic pop
+                    
+                } else if ([self.delegate respondsToSelector:@selector(lineGraph:labelOnXAxisForIndex:)]) {
+                    [self printDeprecationAndUnavailableWarningForOldMethod:@"lineGraph:labelOnXAxisForIndex:"];
+                    NSException *exception = [NSException exceptionWithName:@"Implementing Unavailable Delegate Method" reason:@"lineGraph:labelOnXAxisForIndex: is no longer available on the delegate. It must be implemented on the data source." userInfo:nil];
+                    [exception raise];
                     
                 } else xAxisLabel = @"";
                 
@@ -685,8 +705,8 @@
     
     @autoreleasepool {
         for (int i = 0; i < numberOfPoints; i++) {
-            if ([self.delegate respondsToSelector:@selector(lineGraph:valueForPointAtIndex:)]) {
-                dotValue = [self.delegate lineGraph:self valueForPointAtIndex:i];
+            if ([self.dataSource respondsToSelector:@selector(lineGraph:valueForPointAtIndex:)]) {
+                dotValue = [self.dataSource lineGraph:self valueForPointAtIndex:i];
                 
             } else if ([self.delegate respondsToSelector:@selector(valueForIndex:)]) {
                 [self printDeprecationWarningForOldMethod:@"valueForIndex:" andReplacementMethod:@"lineGraph:valueForPointAtIndex:"];
@@ -695,6 +715,11 @@
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 dotValue = [self.delegate valueForIndex:i];
 #pragma clang diagnostic pop
+                
+            } else if ([self.delegate respondsToSelector:@selector(lineGraph:valueForPointAtIndex:)]) {
+                [self printDeprecationAndUnavailableWarningForOldMethod:@"lineGraph:valueForPointAtIndex:"];
+                NSException *exception = [NSException exceptionWithName:@"Implementing Unavailable Delegate Method" reason:@"lineGraph:valueForPointAtIndex: is no longer available on the delegate. It must be implemented on the data source." userInfo:nil];
+                [exception raise];
                 
             } else dotValue = 0;
             
@@ -712,8 +737,8 @@
     
     @autoreleasepool {
         for (int i = 0; i < numberOfPoints; i++) {
-            if ([self.delegate respondsToSelector:@selector(lineGraph:valueForPointAtIndex:)]) {
-                dotValue = [self.delegate lineGraph:self valueForPointAtIndex:i];
+            if ([self.dataSource respondsToSelector:@selector(lineGraph:valueForPointAtIndex:)]) {
+                dotValue = [self.dataSource lineGraph:self valueForPointAtIndex:i];
                 
             } else if ([self.delegate respondsToSelector:@selector(valueForIndex:)]) {
                 [self printDeprecationWarningForOldMethod:@"valueForIndex:" andReplacementMethod:@"lineGraph:valueForPointAtIndex:"];
@@ -722,6 +747,11 @@
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 dotValue = [self.delegate valueForIndex:i];
 #pragma clang diagnostic pop
+                
+            } else if ([self.delegate respondsToSelector:@selector(lineGraph:valueForPointAtIndex:)]) {
+                [self printDeprecationAndUnavailableWarningForOldMethod:@"lineGraph:valueForPointAtIndex:"];
+                NSException *exception = [NSException exceptionWithName:@"Implementing Unavailable Delegate Method" reason:@"lineGraph:valueForPointAtIndex: is no longer available on the delegate. It must be implemented on the data source." userInfo:nil];
+                [exception raise];
                 
             } else dotValue = 0;
             
@@ -735,6 +765,10 @@
 }
 
 #pragma mark - Other Methods
+
+- (void)printDeprecationAndUnavailableWarningForOldMethod:(NSString *)oldMethod {
+    NSLog(@"[BEMSimpleLineGraph] UNAVAILABLE, DEPRECATION ERROR. The delegate method, %@, is both deprecated and unavailable. It is now a data source method. You must implement this method from BEMSimpleLineGraphDataSource. Update your delegate method as soon as possible. One of two things will now happen: A) an exception will be thrown, or B) the graph will not load.", oldMethod);
+}
 
 - (void)printDeprecationWarningForOldMethod:(NSString *)oldMethod andReplacementMethod:(NSString *)replacementMethod {
     NSLog(@"[BEMSimpleLineGraph] DEPRECATION WARNING. The delegate method, %@, is deprecated and will become unavailable in a future version. Use %@ instead. Update your delegate method as soon as possible. An exception will be thrown in a future version.", oldMethod, replacementMethod);
