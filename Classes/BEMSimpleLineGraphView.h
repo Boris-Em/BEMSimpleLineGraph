@@ -125,12 +125,7 @@
 @property (nonatomic) BOOL enableBezierCurve;
 
 
-/** When set to YES, the points on the Y-axis will be set to all fit in the graph view.
-
-When set to NO, the points on the Y-axis will be set with their absolute value (which means that certain points might not be visible because they are outside of the view).
-
-Default value is YES.
-*/
+/** When set to YES, the points on the Y-axis will be set to all fit in the graph view. When set to NO, the points on the Y-axis will be set with their absolute value (which means that certain points might not be visible because they are outside of the view). Default value is YES. */
 @property (nonatomic) BOOL autoScaleYAxis;
 
 
@@ -208,6 +203,7 @@ Default value is YES.
 @optional
 
 
+
 //----- GRAPH EVENTS -----//
 
 
@@ -236,6 +232,12 @@ Default value is YES.
  @param index The index from left to right of a given point (X-axis). The first value for the index is 0.
  @return The alpha value of the line, between 0.0 and 1.0. Specifying nil will cause the line to use the alpha specifed for the graph. */
 - (CGFloat)lineGraph:(BEMSimpleLineGraphView *)graph lineAlphaForIndex:(NSInteger)index;
+
+
+/** The optional suffix to append to the popup report.
+ @param graph The graph object requesting the total number of points.
+ @return The suffix to append to the popup report. */
+- (NSString *)popUpSuffixForlineGraph:(BEMSimpleLineGraphView *)graph;
 
 
 //----- TOUCH EVENTS -----//
