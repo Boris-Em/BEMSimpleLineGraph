@@ -1,32 +1,37 @@
-# BEMSimpleLineGraph - FEATURE BRANCH
+# BEMSimpleLineGraph - Feature Branch
 <p align="center"><img src="http://s29.postimg.org/57dn7ve3r/BEMSimple_Line_Graph_Main.png"/></p>	
 
 <p align="center">
 <b>BEMSimpleLineGraph</b> makes it easy to create and customize line graphs for iOS.
 </p>
 
+## Feature Branch Warning
+You are currently viewing the feature branch of this GitHub repository. The feature branch contains bleeding edge commits / features, otherwise known as **alpha or beta** features. Content in this branch may be unstable, bug-ridden, non-working, and undocumented. The sole purpose of this branch is to test and improve on new features that may or may not be included in future (stable) versions.
+
+It is not recommended that you use this branch in a production app of any kind. **For stable production ready code**, please refer to the [master branch](https://github.com/Boris-Em/BEMSimpleLineGraph/tree/master).
+
 ## Table of Contents
 
-* [**Project Details**](#project-details)
-  * [Requirements](#requirements)
-  * [License](#license)
-  * [Contributions](#contributions)
-  * [Sample App](#sample-app)
-  * [Support](#support)
+* [**Project Details**](#project-details)  
+    * [Requirements](#requirements)
+    * [License](#license)
+    * [Contributions](#contributions)
+    * [Sample App](#sample-app)
+    * [Support](#support)
 * [**Documentation**](#documentation)
-  * [Installation](#installation)
-  * [Setup](#setup)
-  * [Required Delegate / Data Source Methods](#required-delegate--data-source-methods)
-  * [Reloading the Data Source](#reloading-the-data-source) 
-  * [Retrieving the Data Source](#retrieving-the-data-source)
-  * [Data Source Calculations](#data-source-calculations)
-  * [Status Reporting](#status-reporting)
-  * [Interactive Graph](#interactive-graph)
-  * [X-Axis Labels](#x-axis-labels)
-  * [Bezier Curves](#bezier-curves)
-  * [Line Customization](#line-customization)
-  * [Properties](#properties)
-  * [Graph Snapshots](#graph-snapshots)
+    * [Installation](#installation)
+    * [Setup](#setup)
+    * [Required Delegate / Data Source Methods](#required-delegate--data-source-methods)
+    * [Reloading the Data Source](#reloading-the-data-source) 
+    * [Retrieving the Data Source](#retrieving-the-data-source)
+    * [Data Source Calculations](#data-source-calculations)
+    * [Status Reporting](#status-reporting)
+    * [Interactive Graph](#interactive-graph)
+    * [X-Axis Labels](#x-axis-labels)
+    * [Bezier Curves](#bezier-curves)
+    * [Line Customization](#line-customization)
+    * [Properties](#properties)
+    * [Graph Snapshots](#graph-snapshots)
 
 ## Project Details
 This is the feature branch of the project. It's not stable and fully tested.
