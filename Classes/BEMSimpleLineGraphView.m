@@ -97,7 +97,7 @@
     
     // Set the X Axis label font
     _labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:13];
-    
+
     // DEFAULT VALUES
     _animationGraphEntranceTime = 1.5;
     _colorXaxisLabel = [UIColor blackColor];
@@ -117,6 +117,7 @@
     _enableBezierCurve = NO;
     _autoScaleYAxis = YES;
     _alwaysDisplayDots = NO;
+    _alwaysDisplayPopUpLabels = NO;
     
     // Initialize the arrays
     xAxisValues = [NSMutableArray array];
@@ -168,7 +169,7 @@
         [self.panGesture setMaximumNumberOfTouches:1];
         [self.panView addGestureRecognizer:self.panGesture];
         
-        if (self.enablePopUpReport == YES) {
+        if (self.enablePopUpReport == YES && self.alwaysDisplayPopUpLabels == NO) {
             self.popUpLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 20)];
             self.popUpLabel.text = [NSString stringWithFormat:@"%@", [self calculateMaximumPointValue]];
             self.popUpLabel.textAlignment = 1;
@@ -271,17 +272,26 @@
             circleDot.center = CGPointMake(positionOnXAxis, positionOnYAxis);
             circleDot.tag = i+100;
             circleDot.alpha = 0;
+            circleDot.absoluteValue = dotValue;
             circleDot.Pointcolor = self.colorPoint;
             
             [yAxisValues addObject:[NSNumber numberWithFloat:positionOnYAxis]];
 
             [self addSubview:circleDot];
             
+            if (self.alwaysDisplayPopUpLabels == YES) {
+                [self displayPermanentLabelForPoint:circleDot];
+            }
+            
             // Dot entrance animation
             if (self.animationGraphEntranceTime == 0) {
-                circleDot.alpha = 0;
+                if (self.alwaysDisplayDots == NO) {
+                    circleDot.alpha = 0;
+                }
             } else {
-                [UIView animateWithDuration:(float)self.animationGraphEntranceTime/numberOfPoints delay:(float)i*((float)self.animationGraphEntranceTime/numberOfPoints) options:UIViewAnimationOptionCurveLinear animations:^{
+                [UIView animateWithDuration:(float)self.animationGraphEntranceTime/numberOfPoints
+                                      delay:(float)i*((float)self.animationGraphEntranceTime/numberOfPoints)
+                                    options:UIViewAnimationOptionCurveLinear animations:^{
                     circleDot.alpha = 0.7;
                 } completion:^(BOOL finished){
                     if (self.alwaysDisplayDots == NO) {
@@ -295,11 +305,84 @@
     }
     
     // CREATION OF THE LINE AND BOTTOM AND TOP FILL
-    [self drawLines];
+    [self drawLine];
+}
+
+- (void)displayPermanentLabelForPoint:(BEMCircle *)circleDot
+{
+    self.enablePopUpReport = NO;
+    self.xCenterLabel = circleDot.center.x;
+    UILabel *permanentPopUpLabel = [[UILabel alloc] init];
+    permanentPopUpLabel.textAlignment = 1;
+    permanentPopUpLabel.numberOfLines = 0;
+    permanentPopUpLabel.text = [NSString stringWithFormat:@"%@", [NSNumber numberWithFloat:circleDot.absoluteValue]];
+    permanentPopUpLabel.font = self.labelFont;
+    permanentPopUpLabel.backgroundColor = [UIColor clearColor];
+    [permanentPopUpLabel sizeToFit];
+    permanentPopUpLabel.center = CGPointMake(self.xCenterLabel, circleDot.center.y - circleDot.frame.size.height/2 - 15);
+    permanentPopUpLabel.alpha = 0;
+    
+    UIView *permanentPopUpView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, permanentPopUpLabel.frame.size.width + 7, permanentPopUpLabel.frame.size.height + 2)];
+    permanentPopUpView.backgroundColor = [UIColor whiteColor];
+    permanentPopUpView.alpha = 0;
+    permanentPopUpView.layer.cornerRadius = 3;
+    permanentPopUpView.tag = 2100;
+    permanentPopUpView.center = permanentPopUpLabel.center;
+    
+    if (permanentPopUpLabel.frame.origin.x <= 0) {
+        self.xCenterLabel = permanentPopUpLabel.frame.size.width/2 + 4;
+        permanentPopUpLabel.center = CGPointMake(self.xCenterLabel, circleDot.center.y - circleDot.frame.size.height/2 - 15);
+        permanentPopUpView.center = permanentPopUpLabel.center;
+    } else if ((permanentPopUpLabel.frame.origin.x + permanentPopUpLabel.frame.size.width) >= self.frame.size.width) {
+        self.xCenterLabel = self.frame.size.width - permanentPopUpLabel.frame.size.width/2 - 4;
+        permanentPopUpLabel.center = CGPointMake(self.xCenterLabel, circleDot.center.y - circleDot.frame.size.height/2 - 15);
+        permanentPopUpView.center = permanentPopUpLabel.center;
+    }
+    if (permanentPopUpLabel.frame.origin.y <= 2) {
+        permanentPopUpLabel.center = CGPointMake(self.xCenterLabel, circleDot.center.y + circleDot.frame.size.height/2 + 15);
+        permanentPopUpView.center = permanentPopUpLabel.center;
+    }
+    
+    if ([self checkOverlapsForView:permanentPopUpView] == YES) {
+        permanentPopUpLabel.center = CGPointMake(self.xCenterLabel, circleDot.center.y + circleDot.frame.size.height/2 + 15);
+        permanentPopUpView.center = permanentPopUpLabel.center;
+    }
+    
+    [self addSubview:permanentPopUpView];
+    [self addSubview:permanentPopUpLabel];
+    
+    if (self.animationGraphEntranceTime == 0) {
+        permanentPopUpLabel.alpha = 1;
+        permanentPopUpView.alpha = 0.7;
+    } else {
+        [UIView animateWithDuration:0.5
+                              delay:self.animationGraphEntranceTime
+                            options:UIViewAnimationOptionCurveLinear animations:^{
+                        permanentPopUpLabel.alpha = 1;
+                        permanentPopUpView.alpha = 0.7;
+        } completion:nil];
+    }
+}
+
+-(BOOL)checkOverlapsForView:(UIView *)view
+{
+    for (UIView *viewForLabel in [self subviews]) {
+        if ([viewForLabel isKindOfClass:[UIView class]] && viewForLabel.tag == 2100) {
+            if ((viewForLabel.frame.origin.x + viewForLabel.frame.size.width) >= view.frame.origin.x) {
+                if (viewForLabel.frame.origin.y >= view.frame.origin.y && viewForLabel.frame.origin.y <= view.frame.origin.y + view.frame.size.height) {
+                    return YES;
+                } else if (viewForLabel.frame.origin.y + viewForLabel.frame.size.height >= view.frame.origin.y && viewForLabel.frame.origin.y + viewForLabel.frame.size.height <= view.frame.origin.y + view.frame.size.height){
+                    return YES;
+                }
+                
+            }
+        }
+    }
+    return NO;
 }
 
 
-- (void)drawLines {
+- (void)drawLine {
     for (UIView *subview in [self subviews]) {
         if ([subview isKindOfClass:[BEMLine class]])
             [subview removeFromSuperview];
@@ -327,7 +410,7 @@
     if ((![self.delegate respondsToSelector:@selector(numberOfGapsBetweenLabelsOnLineGraph:)]) && (![self.delegate respondsToSelector:@selector(numberOfGapsBetweenLabels)])) return;
     
     for (UIView *subview in [self subviews]) {
-        if ([subview isKindOfClass:[UILabel class]])
+        if ([subview isKindOfClass:[UILabel class]] && subview.tag == 1000)
             [subview removeFromSuperview];
     }
 
@@ -374,6 +457,7 @@
         firstLabel.textAlignment = 0;
         firstLabel.textColor = self.colorXaxisLabel;
         firstLabel.backgroundColor = [UIColor clearColor];
+        firstLabel.tag = 1000;
         [self addSubview:firstLabel];
         [xAxisValues addObject:firstXLabel];
         
@@ -383,6 +467,7 @@
         lastLabel.textAlignment = 2;
         lastLabel.textColor = self.colorXaxisLabel;
         lastLabel.backgroundColor = [UIColor clearColor];
+        lastLabel.tag = 1000;
         [self addSubview:lastLabel];
         [xAxisValues addObject:lastXLabel];
         
@@ -415,6 +500,7 @@
                 labelXAxis.textAlignment = 1;
                 labelXAxis.textColor = self.colorXaxisLabel;
                 labelXAxis.backgroundColor = [UIColor clearColor];
+                labelXAxis.tag = 1000;
                 [self addSubview:labelXAxis];
                 [xAxisValues addObject:xAxisLabel];
             }
@@ -557,7 +643,7 @@
     closestDot.alpha = 0.8;
     
     
-    if (self.enablePopUpReport == YES) {
+    if (self.enablePopUpReport == YES && self.alwaysDisplayPopUpLabels == NO) {
         [self setUpPopUpLabelAbovePoint:closestDot];
     }
     

@@ -40,7 +40,8 @@
 /// The next point. Necessary for Bezier curve
 @property (assign, nonatomic) CGPoint P3;
 
-@property (assign, nonatomic) NSMutableArray *arrayOfPoints;
+/// All of the Y-axis values for the points
+@property (nonatomic) NSArray *arrayOfPoints;
 
 
 

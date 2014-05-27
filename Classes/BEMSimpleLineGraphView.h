@@ -138,6 +138,10 @@ Default value is YES.
 @property (nonatomic) BOOL alwaysDisplayDots;
 
 
+/// If set to YES, pop up labels with the Y-value of the point will always be visible. Default value is NO.
+@property (nonatomic) BOOL alwaysDisplayPopUpLabels;
+
+
 /// Color of the bottom part of the graph (between the line and the X-axis).
 @property (strong, nonatomic) UIColor *colorBottom;
 

@@ -29,5 +29,7 @@
 /// The point color
 @property (strong, nonatomic) UIColor *Pointcolor;
 
+/// The value of the point
+@property (nonatomic) CGFloat absoluteValue;
 
 @end
