@@ -30,7 +30,7 @@
         CP2 = CGPointMake(self.P1.x + 2*(self.P2.x - self.P1.x)/3, (self.P1.y - 2*(self.P1.y - self.P2.y)/3) + (self.P2.y - self.P3.y)*0.3); // Second control point
     }
     
-    //LINE
+    // LINE
     UIBezierPath *line = [UIBezierPath bezierPath];
     UIBezierPath *fillTop = [UIBezierPath bezierPath];
     UIBezierPath *fillBottom = [UIBezierPath bezierPath];
@@ -39,18 +39,18 @@
     CGPoint p2;
     CGPoint p3;
     
-    [fillTop moveToPoint:CGPointMake(self.frame.size.width, self.frame.size.height)];
-    [fillTop addLineToPoint:CGPointMake(0, self.frame.size.height)];
+    [fillBottom moveToPoint:CGPointMake(self.frame.size.width, self.frame.size.height)];
+    [fillBottom addLineToPoint:CGPointMake(0, self.frame.size.height)];
     
-    [fillBottom moveToPoint:CGPointMake(self.frame.size.width, 0)];
-    [fillBottom addLineToPoint:CGPointMake(0, 0)];
+    [fillTop moveToPoint:CGPointMake(self.frame.size.width, 0)];
+    [fillTop addLineToPoint:CGPointMake(0, 0)];
     
     for (int i = 0; i<[self.arrayOfPoints count]-1; i++) {
         p1 = CGPointMake((self.frame.size.width/([self.arrayOfPoints count] - 1))*i, [[self.arrayOfPoints objectAtIndex:i] floatValue]);
         p2 = CGPointMake((self.frame.size.width/([self.arrayOfPoints count] - 1))*(i+1), [[self.arrayOfPoints objectAtIndex:i+1] floatValue]);
         [line moveToPoint:p1];
-        [fillTop addLineToPoint:p1];
         [fillBottom addLineToPoint:p1];
+        [fillTop addLineToPoint:p1];
         if (self.bezierCurveIsEnabled == YES) {
             if (i > 0) {
                 p0 = CGPointMake((self.frame.size.width/([self.arrayOfPoints count] - 1))*(i-1), [[self.arrayOfPoints objectAtIndex:i-1] floatValue]);
@@ -63,13 +63,13 @@
             CP2 = CGPointMake(p1.x + 2*(p2.x - p1.x)/3, (p1.y - 2*(p1.y - p2.y)/3) + (p2.y - p3.y)*0.3); // Second control point
             
             [line addCurveToPoint:p2 controlPoint1:CP1 controlPoint2:CP2];
-            [fillTop addCurveToPoint:p2 controlPoint1:CP1 controlPoint2:CP2];
             [fillBottom addCurveToPoint:p2 controlPoint1:CP1 controlPoint2:CP2];
+            [fillTop addCurveToPoint:p2 controlPoint1:CP1 controlPoint2:CP2];
             
         } else {
             [line addLineToPoint:p2];
-            [fillTop addLineToPoint:p2];
             [fillBottom addLineToPoint:p2];
+            [fillTop addLineToPoint:p2];
         }
     }
     
