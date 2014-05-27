@@ -419,12 +419,8 @@
     return NO;
 }
 
-<<<<<<< HEAD
 
 - (void)drawLine {
-=======
-- (void)drawLines {
->>>>>>> FETCH_HEAD
     for (UIView *subview in [self subviews]) {
         if ([subview isKindOfClass:[BEMLine class]])
             [subview removeFromSuperview];
