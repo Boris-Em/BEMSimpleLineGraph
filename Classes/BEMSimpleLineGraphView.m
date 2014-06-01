@@ -149,6 +149,11 @@
         
     } else numberOfPoints = 0;
     
+    if (numberOfPoints <= 1) {
+        NSLog(@"BEMSimpleLineGraph - Graph initialized with 0 points.");
+        return;
+    }
+    
     // Draw the graph
     [self drawGraph];
     
@@ -199,16 +204,6 @@
 #pragma mark - Drawing
 
 - (void)drawGraph {
-    if (numberOfPoints <= 1) { // Exception if there is only one point.
-        BEMCircle *circleDot = [[BEMCircle alloc] initWithFrame:CGRectMake(0, 0, self.sizePoint, self.sizePoint)];
-        circleDot.center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
-        circleDot.Pointcolor = self.colorPoint;
-        circleDot.alpha = 0;
-        [self addSubview:circleDot];
-        
-        return;
-    }
-    
     // CREATION OF THE DOTS
     [self drawDots];
     
@@ -595,12 +590,11 @@
     closestDot = [self closestDotFromVerticalLine:self.verticalLine];
     closestDot.alpha = 0.8;
     
-    
-    if (self.enablePopUpReport == YES) {
+    if (self.enablePopUpReport == YES && closestDot.tag > 99 && closestDot.tag < 1000 && [closestDot isKindOfClass:[BEMCircle class]]) {
         [self setUpPopUpLabelAbovePoint:closestDot];
     }
     
-    if (closestDot.tag > 99 && closestDot.tag < 1000) {
+    if (closestDot.tag > 99 && closestDot.tag < 1000 && [closestDot isKindOfClass:[BEMCircle class]]) {
         if ([self.delegate respondsToSelector:@selector(lineGraph:didTouchGraphWithClosestIndex:)] && self.enableTouchReport == YES) {
             [self.delegate lineGraph:self didTouchGraphWithClosestIndex:((NSInteger)closestDot.tag - 100)];
             
@@ -670,22 +664,16 @@
 #pragma mark - Graph Calculations
 
 - (BEMCircle *)closestDotFromVerticalLine:(UIView *)verticalLine {
-    currentlyCloser = 1000;
+    currentlyCloser = pow((self.frame.size.width/(numberOfPoints-1))/2, 2);
     for (BEMCircle *point in self.subviews) {
-        
-        if (point.tag > 99 && point.tag < 1000) {
-            
-            [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-                point.alpha = 0;
-            } completion:nil];
-            
+        if (point.tag > 99 && point.tag < 1000 && [point isKindOfClass:[BEMCircle class]]) {
+            point.alpha = 0;
             if (pow(((point.center.x) - verticalLine.frame.origin.x), 2) < currentlyCloser) {
                 currentlyCloser = pow(((point.center.x) - verticalLine.frame.origin.x), 2);
                 closestDot = point;
             }
         }
     }
-    
     return closestDot;
 }
 
