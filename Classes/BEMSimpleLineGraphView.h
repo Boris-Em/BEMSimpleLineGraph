@@ -261,20 +261,6 @@
 //----- CUSTOMIZATION -----//
 
 
-/** The color of the line at the given index. This is called for each line in the graph, every time an update is made.
- @param graph The graph object requesting the line color.
- @param index The index from left to right of a given point (X-axis). The first value for the index is 0.
- @return The color of the line. Specifying nil will cause the line to use the color specified for the graph. */
-- (UIColor *)lineGraph:(BEMSimpleLineGraphView *)graph lineColorForIndex:(NSInteger)index;
-
-
-/** The alpha of the line at the given index. This is called for each line in the graph, every time an update is made.
- @param graph The graph object requesting the line alpha.
- @param index The index from left to right of a given point (X-axis). The first value for the index is 0.
- @return The alpha value of the line, between 0.0 and 1.0. Specifying nil will cause the line to use the alpha specified for the graph. */
-- (CGFloat)lineGraph:(BEMSimpleLineGraphView *)graph lineAlphaForIndex:(NSInteger)index;
-
-
 /** The optional suffix to append to the popup report.
  @param graph The graph object requesting the total number of points.
  @return The suffix to append to the popup report. */
@@ -371,7 +357,6 @@
  @param graph The graph object which is requesting the label on the specified X-Axis position.
  @param index The index from left to right of a given label on the X-axis. Is the same index as the one for the points. The first value for the index is 0. */
 - (NSString *)lineGraph:(BEMSimpleLineGraphView *)graph labelOnXAxisForIndex:(NSInteger)index __unavailable __deprecated;
-
 
 
 @end

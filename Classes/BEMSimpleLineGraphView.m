@@ -168,8 +168,17 @@
         // Let the delegate know that the graph finished layout updates
         if ([self.delegate respondsToSelector:@selector(lineGraphDidFinishLoading:)])
             [self.delegate lineGraphDidFinishLoading:self];
-        
         return;
+        
+    } else if (numberOfPoints == 1) {
+        NSLog(@"[BEMSimpleLineGraph] Data source contains only one data point. Add more data to the data source and then reload the graph.");
+        BEMCircle *circleDot = [[BEMCircle alloc] initWithFrame:CGRectMake(0, 0, self.sizePoint, self.sizePoint)];
+        circleDot.center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
+        circleDot.Pointcolor = self.colorPoint;
+        circleDot.alpha = 1;
+        [self addSubview:circleDot];
+        return;
+        
     } else {
         // Remove all dots that were previously on the graph
         for (UILabel *subview in [self subviews]) {
@@ -179,7 +188,7 @@
     }
     
     // Draw the graph
-    [self drawGraph];
+    [self drawDots];
     
     // Draw the X-Axis
     [self drawXAxis];
@@ -226,20 +235,6 @@
 }
 
 #pragma mark - Drawing
-
-- (void)drawGraph {
-    if (numberOfPoints <= 1) { // Exception if there is only one point.
-        BEMCircle *circleDot = [[BEMCircle alloc] initWithFrame:CGRectMake(0, 0, self.sizePoint, self.sizePoint)];
-        circleDot.center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
-        circleDot.Pointcolor = self.colorPoint;
-        circleDot.alpha = 0;
-        [self addSubview:circleDot];
-        return;
-    }
-    
-    // CREATION OF THE DOTS
-    [self drawDots];
-}
 
 - (void)drawDots {
     CGFloat maxValue = [self maxValue]; // Biggest Y-axis value from all the points.
@@ -691,11 +686,11 @@
     closestDot.alpha = 0.8;
     
     
-    if (self.enablePopUpReport == YES && self.alwaysDisplayPopUpLabels == NO) {
+    if (self.enablePopUpReport == YES && closestDot.tag > 99 && closestDot.tag < 1000 && [closestDot isKindOfClass:[BEMCircle class]] && self.alwaysDisplayPopUpLabels == NO) {
         [self setUpPopUpLabelAbovePoint:closestDot];
     }
     
-    if ([closestDot isMemberOfClass:[BEMCircle class]]) {
+    if (closestDot.tag > 99 && closestDot.tag < 1000 && [closestDot isMemberOfClass:[BEMCircle class]]) {
         if ([self.delegate respondsToSelector:@selector(lineGraph:didTouchGraphWithClosestIndex:)] && self.enableTouchReport == YES) {
             [self.delegate lineGraph:self didTouchGraphWithClosestIndex:((NSInteger)closestDot.tag - 100)];
             
@@ -771,9 +766,9 @@
 #pragma mark - Graph Calculations
 
 - (BEMCircle *)closestDotFromVerticalLine:(UIView *)verticalLine {
-    currentlyCloser = 1000;
+    currentlyCloser = pow((self.frame.size.width/(numberOfPoints-1))/2, 2);
     for (BEMCircle *point in self.subviews) {
-        if ([point isMemberOfClass:[BEMCircle class]]) {
+        if (point.tag > 99 && point.tag < 1000 && [point isMemberOfClass:[BEMCircle class]]) {
             if (self.alwaysDisplayDots == NO) {
                 point.alpha = 0;
             }
