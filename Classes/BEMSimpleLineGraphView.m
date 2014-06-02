@@ -212,7 +212,10 @@
         
         if (self.enablePopUpReport == YES && self.alwaysDisplayPopUpLabels == NO) {
             self.popUpLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 20)];
-            self.popUpLabel.text = [NSString stringWithFormat:@"%@", [self calculateMaximumPointValue]];
+            if ([self.delegate respondsToSelector:@selector(popUpSuffixForlineGraph:)])
+                self.popUpLabel.text = [NSString stringWithFormat:@"%@%@", [self calculateMaximumPointValue], [self.delegate popUpSuffixForlineGraph:self]];
+            else
+                self.popUpLabel.text = [NSString stringWithFormat:@"%@", [self calculateMaximumPointValue]];
             self.popUpLabel.textAlignment = 1;
             self.popUpLabel.numberOfLines = 1;
             self.popUpLabel.font = self.labelFont;
