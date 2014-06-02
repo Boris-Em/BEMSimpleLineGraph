@@ -44,7 +44,6 @@
      [self.view addSubview:myGraph]; */
     
     // Customization of the graph
-    self.myGraph.enableTouchReport = YES;
     self.myGraph.colorTop = [UIColor colorWithRed:31.0/255.0 green:187.0/255.0 blue:166.0/255.0 alpha:1.0];
     self.myGraph.colorBottom = [UIColor colorWithRed:31.0/255.0 green:187.0/255.0 blue:166.0/255.0 alpha:1.0]; // Leaving this not-set on iOS 7 will default to your window's tintColor
     self.myGraph.colorLine = [UIColor whiteColor];
