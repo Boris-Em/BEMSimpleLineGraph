@@ -33,7 +33,7 @@
     
     for (int i = 0; i < 9; i++) {
         [self.ArrayOfValues addObject:[NSNumber numberWithInteger:(arc4random() % 70000)]]; // Random values for the graph
-        [self.ArrayOfDates addObject:[NSString stringWithFormat:@"%@",[NSNumber numberWithInt:2000 + i]]]; // Dates for the X-Axis of the graph
+        [self.ArrayOfDates addObject:[NSString stringWithFormat:@"Jan %@",[NSNumber numberWithInt:2000 + i]]]; // Dates for the X-Axis of the graph
         
         totalNumber = totalNumber + [[self.ArrayOfValues objectAtIndex:i] intValue]; // All of the values added together
     }
@@ -49,11 +49,15 @@
     self.myGraph.colorBottom = [UIColor colorWithRed:31.0/255.0 green:187.0/255.0 blue:166.0/255.0 alpha:1.0];
     self.myGraph.colorLine = [UIColor whiteColor];
     self.myGraph.colorXaxisLabel = [UIColor whiteColor];
+    self.myGraph.colorYaxisLabel = [UIColor yellowColor];
     self.myGraph.widthLine = 3.0;
     self.myGraph.enableTouchReport = YES;
     self.myGraph.enablePopUpReport = YES;
-    self.myGraph.enableBezierCurve = YES;
-    
+    self.myGraph.enableBezierCurve = NO;
+    self.myGraph.enableYAxisLabel = YES;
+    self.myGraph.enableYAxisLabelOffset = NO;
+    self.myGraph.autoScaleYAxis = NO;
+    self.myGraph.alwaysDisplayDots = NO;
     // The labels to report the values of the graph when the user touches it
     self.labelValues.text = [NSString stringWithFormat:@"%i", [[self.myGraph calculatePointValueSum] intValue]];
     self.labelDates.text = @"between 2000 and 2010";
@@ -71,12 +75,11 @@
     [self.ArrayOfDates removeAllObjects];
     
     for (int i = 0; i < self.graphObjectIncrement.value; i++) {
-        [self.ArrayOfValues addObject:[NSNumber numberWithInteger:(arc4random() % 70000)]]; // Random values for the graph
-        [self.ArrayOfDates addObject:[NSString stringWithFormat:@"%@",[NSNumber numberWithInt:2000 + i]]]; // Dates for the X-Axis of the graph
+        [self.ArrayOfValues addObject:[NSNumber numberWithInteger:(arc4random() % 20)]]; // Random values for the graph
+        [self.ArrayOfDates addObject:[NSString stringWithFormat:@"Jan %@",[NSNumber numberWithInt:2000 + i]]]; // Dates for the X-Axis of the graph
         
         totalNumber = totalNumber + [[self.ArrayOfValues objectAtIndex:i] intValue]; // All of the values added together
     }
-    
     UIColor *color;
     if (self.graphColorChoice.selectedSegmentIndex == 0) color = [UIColor colorWithRed:31.0/255.0 green:187.0/255.0 blue:166.0/255.0 alpha:1.0];
     else if (self.graphColorChoice.selectedSegmentIndex == 1) color = [UIColor colorWithRed:255.0/255.0 green:187.0/255.0 blue:31.0/255.0 alpha:1.0];
@@ -143,8 +146,14 @@
     return 1;
 }
 
+- (NSInteger)stepValueBetweenYLabelsOnLineGraph:(BEMSimpleLineGraphView *)graph{
+    return 25;
+}
+
 - (NSString *)lineGraph:(BEMSimpleLineGraphView *)graph labelOnXAxisForIndex:(NSInteger)index {
-    return [self.ArrayOfDates objectAtIndex:index];
+//    return [self.ArrayOfDates objectAtIndex:index];
+    NSString *label = [self.ArrayOfDates objectAtIndex:index];
+    return [label stringByReplacingOccurrencesOfString:@" " withString:@"\n"];
 }
 
 - (void)lineGraph:(BEMSimpleLineGraphView *)graph didTouchGraphWithClosestIndex:(NSInteger)index {

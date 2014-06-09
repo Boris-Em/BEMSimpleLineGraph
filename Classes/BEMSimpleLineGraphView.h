@@ -142,9 +142,17 @@
 @property (nonatomic) BOOL enableBezierCurve;
 
 
+/** Show Y-Axis label on the side. Default value is NO. \
+ @see autoScaleYAxis - When set YES, Y-Axis will show minimum, maximum and median label only.
+ @todo Could enhance further by specifying the position of Y-Axis, i.e. Left or Right of the view.  Also auto detection on label overlapping. */
+@property (nonatomic) BOOL enableYAxisLabel;
+
+
+/// If set to YES, graph will be drawn after the Y-Axis label area.  Default value is NO.
+@property (nonatomic) BOOL enableYAxisLabelOffset;
+
 /** When set to YES, the points on the Y-axis will be set to all fit in the graph view. When set to NO, the points on the Y-axis will be set with their absolute value (which means that certain points might not be visible because they are outside of the view). Default value is YES. */
 @property (nonatomic) BOOL autoScaleYAxis;
-
 
 /// If set to YES, the dots representing the points on the graph will always be visible. Default value is NO.
 @property (nonatomic) BOOL alwaysDisplayDots;
@@ -194,6 +202,8 @@
 @property (strong, nonatomic) UIColor *colorXaxisLabel;
 
 
+/// Color of the label's text displayed on the Y-Axis.
+@property (strong, nonatomic) UIColor *colorYaxisLabel;
 
 @end
 
@@ -292,6 +302,12 @@
 - (NSInteger)numberOfGapsBetweenLabelsOnLineGraph:(BEMSimpleLineGraphView *)graph;
 
 
+/** The descrete increment value for Y-axis label.
+ @discussion Called only when autoScaleYAxis set to NO.  Default value is 20.
+ @param graph The graph object which is requesting the number of gaps between the labels.
+ @return The stepping value between each displayed label on the Y-axis. */
+//----- Y AXIS -----//
+- (NSInteger)stepValueBetweenYLabelsOnLineGraph:(BEMSimpleLineGraphView *)graph;
 
 //----- DEPRECATED -----//
 
