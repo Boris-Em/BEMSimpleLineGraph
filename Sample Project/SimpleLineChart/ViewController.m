@@ -144,10 +144,6 @@
     return 1;
 }
 
-- (NSInteger)stepValueBetweenYLabelsOnLineGraph:(BEMSimpleLineGraphView *)graph{
-    return 25;
-}
-
 - (NSString *)lineGraph:(BEMSimpleLineGraphView *)graph labelOnXAxisForIndex:(NSInteger)index {
 //    return [self.ArrayOfDates objectAtIndex:index];
     NSString *label = [self.ArrayOfDates objectAtIndex:index];

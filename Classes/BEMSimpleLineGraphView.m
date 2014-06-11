@@ -446,14 +446,14 @@
 }
 
 - (void)drawXAxis {
-    if ((![self.delegate respondsToSelector:@selector(numberOfGapsBetweenLabelsOnLineGraph:)]) && (![self.delegate respondsToSelector:@selector(numberOfGapsBetweenLabels)])) return;
+    if (![self.dataSource respondsToSelector:@selector(lineGraph:labelOnXAxisForIndex:)] && ![self.dataSource respondsToSelector:@selector(labelOnXAxisForIndex:)]) return;
     
     for (UIView *subview in [self subviews]) {
         if ([subview isKindOfClass:[UILabel class]] && subview.tag == 1000)
             [subview removeFromSuperview];
     }
     
-    NSInteger numberOfGaps = 0;
+    NSInteger numberOfGaps = 1;
     
     if ([self.delegate respondsToSelector:@selector(numberOfGapsBetweenLabelsOnLineGraph:)]) {
         numberOfGaps = [self.delegate numberOfGapsBetweenLabelsOnLineGraph:self] + 1;
@@ -466,7 +466,7 @@
         numberOfGaps = [self.delegate numberOfGapsBetweenLabels] + 1;
 #pragma clang diagnostic pop
         
-    } else numberOfGaps = 0;
+    } else numberOfGaps = 1;
     
     // Remove all X-Axis Labels before adding them to the array
     [xAxisValues removeAllObjects];
@@ -1002,7 +1002,7 @@
         }
     }
     
-    if ([self.delegate respondsToSelector:@selector(numberOfGapsBetweenLabelsOnLineGraph:)] || [self.delegate respondsToSelector:@selector(numberOfGapsBetweenLabels)]) {
+    if ([self.dataSource respondsToSelector:@selector(lineGraph:labelOnXAxisForIndex:)] || [self.dataSource respondsToSelector:@selector(labelOnXAxisForIndex:)]) {
         positionOnYAxis = positionOnYAxis - 10;
     }
     return positionOnYAxis;
