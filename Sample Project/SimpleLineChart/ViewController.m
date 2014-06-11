@@ -33,7 +33,7 @@
     
     for (int i = 0; i < 9; i++) {
         [self.ArrayOfValues addObject:[NSNumber numberWithInteger:(arc4random() % 70000)]]; // Random values for the graph
-        [self.ArrayOfDates addObject:[NSString stringWithFormat:@"Jan %@",[NSNumber numberWithInt:2000 + i]]]; // Dates for the X-Axis of the graph
+        [self.ArrayOfDates addObject:[NSString stringWithFormat:@"%@",[NSNumber numberWithInt:2000 + i]]]; // Dates for the X-Axis of the graph
         
         totalNumber = totalNumber + [[self.ArrayOfValues objectAtIndex:i] intValue]; // All of the values added together
     }
@@ -49,14 +49,12 @@
     self.myGraph.colorBottom = [UIColor colorWithRed:31.0/255.0 green:187.0/255.0 blue:166.0/255.0 alpha:1.0];
     self.myGraph.colorLine = [UIColor whiteColor];
     self.myGraph.colorXaxisLabel = [UIColor whiteColor];
-    self.myGraph.colorYaxisLabel = [UIColor yellowColor];
+    self.myGraph.colorYaxisLabel = [UIColor whiteColor];
     self.myGraph.widthLine = 3.0;
     self.myGraph.enableTouchReport = YES;
     self.myGraph.enablePopUpReport = YES;
-    self.myGraph.enableBezierCurve = NO;
-    self.myGraph.enableYAxisLabel = YES;
-    self.myGraph.enableYAxisLabelOffset = NO;
-    self.myGraph.autoScaleYAxis = NO;
+    self.myGraph.enableBezierCurve = YES;
+    self.myGraph.enableYAxisLabel = NO;
     self.myGraph.alwaysDisplayDots = NO;
     // The labels to report the values of the graph when the user touches it
     self.labelValues.text = [NSString stringWithFormat:@"%i", [[self.myGraph calculatePointValueSum] intValue]];

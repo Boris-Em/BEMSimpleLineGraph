@@ -571,7 +571,7 @@
                 [xAxisLabels addObject:labelXAxis];
             }
             
-            __block int lastMatchIndex;
+            __block NSUInteger lastMatchIndex;
             NSMutableArray * overlapLabels = [NSMutableArray arrayWithCapacity:0];
             [xAxisLabels enumerateObjectsUsingBlock:^(UILabel* label, NSUInteger idx, BOOL *stop) {
 
@@ -666,7 +666,7 @@
     }
     
     //Detect overlapped labels
-    __block int lastMatchIndex;
+    __block NSUInteger lastMatchIndex;
     NSMutableArray * overlapLabels = [NSMutableArray arrayWithCapacity:0];
     [yAxisLabels enumerateObjectsUsingBlock:^(UILabel* label, NSUInteger idx, BOOL *stop) {
         

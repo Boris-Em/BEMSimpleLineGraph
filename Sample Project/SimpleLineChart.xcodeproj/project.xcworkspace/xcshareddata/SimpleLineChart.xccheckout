@@ -5,36 +5,36 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>60D85965-CE5E-4BFA-9347-7C052EB8E56C</string>
+	<string>138A4A4D-663D-487B-B0A7-028223F62328</string>
 	<key>IDESourceControlProjectName</key>
 	<string>SimpleLineChart</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>339D1068-D7CF-4229-AA80-04C4F0AE1875</key>
-		<string>https://github.com/japanconman/BEMSimpleLineGraph.git</string>
+		<key>0A440630-CD17-4098-B4B4-CB6D9CEA2228</key>
+		<string>https://github.com/Boris-Em/BEMSimpleLineGraph.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>Sample Project/SimpleLineChart.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>339D1068-D7CF-4229-AA80-04C4F0AE1875</key>
+		<key>0A440630-CD17-4098-B4B4-CB6D9CEA2228</key>
 		<string>../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/japanconman/BEMSimpleLineGraph.git</string>
+	<string>https://github.com/Boris-Em/BEMSimpleLineGraph.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>339D1068-D7CF-4229-AA80-04C4F0AE1875</string>
+	<string>0A440630-CD17-4098-B4B4-CB6D9CEA2228</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>339D1068-D7CF-4229-AA80-04C4F0AE1875</string>
+			<string>0A440630-CD17-4098-B4B4-CB6D9CEA2228</string>
 			<key>IDESourceControlWCCName</key>
-			<string>jc-SimpleChart-feature</string>
+			<string>BEMSimpleLineGraph</string>
 		</dict>
 	</array>
 </dict>
