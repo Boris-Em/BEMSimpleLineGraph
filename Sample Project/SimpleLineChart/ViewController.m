@@ -56,6 +56,9 @@
     self.myGraph.enableBezierCurve = YES;
     self.myGraph.enableYAxisLabel = NO;
     self.myGraph.alwaysDisplayDots = NO;
+    self.myGraph.enableReferenceAxisLines = YES;
+    self.myGraph.enableReferenceAxisFrame = YES;
+    
     // The labels to report the values of the graph when the user touches it
     self.labelValues.text = [NSString stringWithFormat:@"%i", [[self.myGraph calculatePointValueSum] intValue]];
     self.labelDates.text = @"between 2000 and 2010";

@@ -20,8 +20,7 @@
 #endif
 
 
-
-/// Class to draw the cicrle for the points.
+/// Class to draw the circle for the points.
 @interface BEMCircle : UIView
 
 @property (assign, nonatomic) BOOL shouldDisplayConstantly;

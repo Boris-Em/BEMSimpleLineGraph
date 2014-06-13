@@ -43,6 +43,10 @@
 /// All of the Y-axis values for the points
 @property (nonatomic) NSArray *arrayOfPoints;
 
+@property (nonatomic) BOOL enableRefrenceLines;
+@property (nonatomic) BOOL enableRefrenceFrame;
+@property (nonatomic) NSArray *arrayOfRefrenceLinePoints;
+
 
 
 

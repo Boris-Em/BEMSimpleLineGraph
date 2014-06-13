@@ -22,7 +22,6 @@
 #import "BEMLine.h"
 
 
-
 @protocol BEMSimpleLineGraphDelegate;
 @protocol BEMSimpleLineGraphDataSource;
 
@@ -142,17 +141,26 @@
 @property (nonatomic) BOOL enableBezierCurve;
 
 
-/** Show Y-Axis label on the side. Default value is NO. \
- @see autoScaleYAxis - When set YES, Y-Axis will show minimum, maximum and median label only.
+/** Show Y-Axis label on the side. Default value is NO.
+ @see  autoScaleYAxis - When set YES, Y-Axis will show minimum, maximum and median label only.
  @todo Could enhance further by specifying the position of Y-Axis, i.e. Left or Right of the view.  Also auto detection on label overlapping. */
 @property (nonatomic) BOOL enableYAxisLabel;
-
 
 /// If set to YES, graph will be drawn after the Y-Axis label area.  Default value is NO.
 @property (nonatomic) BOOL enableYAxisLabelOffset;
 
 /** When set to YES, the points on the Y-axis will be set to all fit in the graph view. When set to NO, the points on the Y-axis will be set with their absolute value (which means that certain points might not be visible because they are outside of the view). Default value is YES. */
 @property (nonatomic) BOOL autoScaleYAxis;
+
+
+/// Draws a translucent vertical lines along the graph for each X-Axis label, when set to YES. Default value is NO.
+@property (nonatomic) BOOL enableReferenceAxisLines;
+
+/** Draws a translucent frame between the graph and any enabled axis, when set to YES. Default value is NO.
+ @see enableReferenceAxisLines must be set to YES for this property to have any affect.
+ @todo Does not yet draw a frame for the Y-Axis, only the X-Axis. When the X-Axis has more than one line, the label and frame overlap. */
+@property (nonatomic) BOOL enableReferenceAxisFrame;
+
 
 /// If set to YES, the dots representing the points on the graph will always be visible. Default value is NO.
 @property (nonatomic) BOOL alwaysDisplayDots;

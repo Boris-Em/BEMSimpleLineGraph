@@ -11,7 +11,7 @@
 
 @implementation BEMLine
 
-- (id)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
@@ -22,6 +22,34 @@
 
 - (void)drawRect:(CGRect)rect {
     
+    // ---------------------------//
+    // --- Draw Refrence Lines ---//
+    // ---------------------------//
+    UIBezierPath *referenceLinesPath = [UIBezierPath bezierPath];
+    referenceLinesPath.lineCapStyle = kCGLineCapButt;
+    referenceLinesPath.lineWidth = 0.7;
+    
+    if (self.enableRefrenceLines == YES) {
+        for (NSNumber *xNumber in self.arrayOfRefrenceLinePoints) {
+            CGPoint initialPoint = CGPointMake([xNumber floatValue], self.frame.size.height-20);
+            CGPoint finalPoint = CGPointMake([xNumber floatValue], 0);
+            
+            [referenceLinesPath moveToPoint:initialPoint];
+            [referenceLinesPath addLineToPoint:finalPoint];
+        }
+        
+        if (self.enableRefrenceFrame == YES) {
+            [referenceLinesPath moveToPoint:CGPointMake(0, self.frame.size.height-20)];
+            [referenceLinesPath addLineToPoint:CGPointMake(self.frame.size.width, self.frame.size.height-20)];
+        }
+        
+        [referenceLinesPath closePath];
+    } else referenceLinesPath = nil;
+    
+    
+    // ---------------------------//
+    // ----- Draw Graph Line -----//
+    // ---------------------------//
     CGPoint CP1;
     CGPoint CP2;
     
@@ -73,16 +101,30 @@
         }
     }
     
+    
+    // ---------------------------//
+    // ---- Draw Fill Colors -----//
+    // ---------------------------//
     [self.topColor set];
     [fillTop fillWithBlendMode:kCGBlendModeNormal alpha:self.topAlpha];
     
     [self.bottomColor set];
     [fillBottom fillWithBlendMode:kCGBlendModeNormal alpha:self.bottomAlpha];
     
+    
+    // ---------------------------//
+    // ----- Animate Drawing -----//
+    // ---------------------------//
     if (self.animationTime == 0) {
         [self.color set];
+        
         [line setLineWidth:self.lineWidth];
         [line strokeWithBlendMode:kCGBlendModeNormal alpha:self.lineAlpha];
+        
+        if (self.enableRefrenceLines == YES) {
+            [referenceLinesPath setLineWidth:self.lineWidth];
+            [referenceLinesPath strokeWithBlendMode:kCGBlendModeNormal alpha:1.0];
+        }
     } else {
         CAShapeLayer *pathLayer = [CAShapeLayer layer];
         pathLayer.frame = self.bounds;
@@ -91,15 +133,30 @@
         pathLayer.fillColor = nil;
         pathLayer.lineWidth = self.lineWidth;
         pathLayer.lineJoin = kCALineJoinBevel;
-    
+        [self animateForLayer:pathLayer];
         [self.layer addSublayer:pathLayer];
-    
-        CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
-        pathAnimation.duration = 1.5;
-        pathAnimation.fromValue = [NSNumber numberWithFloat:0.0f];
-        pathAnimation.toValue = [NSNumber numberWithFloat:1.0f];
-        [pathLayer addAnimation:pathAnimation forKey:@"strokeEnd"];
+        
+        if (self.enableRefrenceLines == YES) {
+            CAShapeLayer *referenceLinesPathLayer = [CAShapeLayer layer];
+            referenceLinesPathLayer.frame = self.bounds;
+            referenceLinesPathLayer.path = referenceLinesPath.CGPath;
+            referenceLinesPathLayer.opacity = self.lineAlpha/2;
+            referenceLinesPathLayer.strokeColor = self.color.CGColor;
+            referenceLinesPathLayer.fillColor = nil;
+            referenceLinesPathLayer.lineWidth = self.lineWidth/2;
+            referenceLinesPathLayer.lineJoin = kCALineJoinBevel;
+            [self animateForLayer:referenceLinesPathLayer];
+            [self.layer addSublayer:referenceLinesPathLayer];
+        }
     }
+}
+
+- (void)animateForLayer:(CAShapeLayer *)shapeLayer {
+    CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
+    pathAnimation.duration = 1.5;
+    pathAnimation.fromValue = [NSNumber numberWithFloat:0.0f];
+    pathAnimation.toValue = [NSNumber numberWithFloat:1.0f];
+    [shapeLayer addAnimation:pathAnimation forKey:@"strokeEnd"];
 }
 
 @end
