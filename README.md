@@ -55,7 +55,7 @@ All methods, properties, types, and delegate methods available on the BEMSimpleL
 ### Installation
 The easiest way to install BEMSimpleLineGraph is to use <a href="http://cocoapods.org/" target="_blank">CocoaPods</a>. To do so, simply add the following line to your `Podfile`:
 ```ruby
-  pod BEMSimpleLineGraph
+pod BEMSimpleLineGraph
 ```
 
 The other way to install BEMSimpleLineGraph, is to drag and drop the *Classes* folder into your Xcode project. When you do so, check the "*Copy items into destination group's folder*" box.
@@ -64,13 +64,15 @@ The other way to install BEMSimpleLineGraph, is to drag and drop the *Classes* f
 Setting up BEMSimpleLineGraph in your project is simple. If you're familiar with UITableView, then BEMSimpleLineGraph should be a breeze. Follow the steps below to get everything up and running.
 
  1. Import `"BEMSimpleLineGraphView.h"` to the header of your view controller:
-  ```objective-c
+
+    ```objective-c
     #import "BEMSimpleLineGraphView.h"
-  ```
+    ```
  2. Implement the `BEMSimpleLineGraphDelegate` to the same view controller:
-  ```objective-c
+
+    ```objective-c
     @interface YourViewController : UIViewController <BEMSimpleLineGraphDelegate>
-  ```
+    ```
  3.  BEMSimpleLineGraphView can be initialized in one of two ways. You can either add it directly to your interface (storyboard file) OR through code. Both ways provide the same initialization, just different ways to do the same thing. Use the method that makes sense for your app or project.
 
      **Interface Initialization**  
@@ -81,11 +83,11 @@ Setting up BEMSimpleLineGraph in your project is simple. If you're familiar with
 
      **Code Initialization**  
      Just add the following code to your implementation (usually the `viewDidLoad` method).
-      ```objective-c
-      BEMSimpleLineGraphView *myGraph = [[BEMSimpleLineGraphView alloc] initWithFrame:CGRectMake(0, 0, 320, 200)];
-      myGraph.delegate = self;
-      [self.view addSubview:myGraph];
-      ```
+    ```objective-c
+    BEMSimpleLineGraphView *myGraph = [[BEMSimpleLineGraphView alloc] initWithFrame:CGRectMake(0, 0, 320, 200)];
+    myGraph.delegate = self;
+    [self.view addSubview:myGraph];
+    ```
  4. Implement the two required methods: `numberOfPointsInLineGraph:` and `lineGraph:valueForPointAtIndex:`. See documentation below for more information
 
 ### Required Delegate / Data Source Methods
@@ -161,17 +163,19 @@ self.myGraph.enableTouchReport = YES;
 Next, implement the two following methods: `lineGraph:didTouchGraphWithClosestIndex` and `lineGraph:didReleaseTouchFromGraphWithClosestIndex:`.
 
 1. The `lineGraph:didTouchGraphWithClosestIndex` method gets called when the user touches the graph. The parameter `index` is the closest index (X-Axis) from the user's finger position.
-  ```objective-c
-  - (void)lineGraph:(BEMSimpleLineGraphView *)graph didTouchGraphWithClosestIndex:(NSInteger)index {
-  	// Here you could change the text of a UILabel with the value of the closest index for example.
-  }
-  ```
+
+    ```objective-c
+    - (void)lineGraph:(BEMSimpleLineGraphView *)graph didTouchGraphWithClosestIndex:(NSInteger)index {
+    	// Here you could change the text of a UILabel with the value of the closest index for example.
+    }
+    ```
 2. The `lineGraph:didReleaseTouchFromGraphWithClosestIndex:` method gets called when the user stops touching the graph. The parameter `index` is the closest index (X-Axis) from the user's last finger position.
-  ```objective-c
-  - (void)lineGraph:(BEMSimpleLineGraphView *)graph didReleaseTouchFromGraphWithClosestIndex:(CGFloat)index {
-  	// Set the UIlabel alpha to 0 for example.
-  }
-  ```
+
+    ```objective-c
+    - (void)lineGraph:(BEMSimpleLineGraphView *)graph didReleaseTouchFromGraphWithClosestIndex:(CGFloat)index {
+    	// Set the UIlabel alpha to 0 for example.
+    }
+    ```
 ### X-Axis Labels
 BEMSimpleLineGraph makes it possible to add labels along the X-Axis. To do so, simply implement the two followings methods: `numberOfGapsBetweenLabelsOnLineGraph:` and `lineGraph:labelOnXAxisForIndex:`.
 

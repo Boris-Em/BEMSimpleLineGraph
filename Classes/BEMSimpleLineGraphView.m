@@ -31,6 +31,9 @@
     
     /// All of the Data Points
     NSMutableArray *dataPoints;
+  
+    /// All of the X-Axis Labels
+    NSMutableArray *xAxisLabels;
 }
 
 /// The vertical line which appears when the user drags across the graph
@@ -126,6 +129,7 @@
     // Initialize the arrays
     xAxisValues = [NSMutableArray array];
     dataPoints = [NSMutableArray array];
+    xAxisLabels = [NSMutableArray array];
 }
 
 - (void)layoutSubviews {
@@ -380,7 +384,8 @@
     
     // Remove all X-Axis Labels before adding them to the array
     [xAxisValues removeAllObjects];
-    
+    [xAxisLabels removeAllObjects];
+  
     if (numberOfGaps >= (numberOfPoints - 1)) {
         NSString *firstXLabel = @"";
         NSString *lastXLabel = @"";
@@ -447,6 +452,7 @@
                 labelXAxis.textAlignment = 1;
                 labelXAxis.textColor = self.colorXaxisLabel;
                 labelXAxis.backgroundColor = [UIColor clearColor];
+                [xAxisLabels addObject:labelXAxis];
                 [self addSubview:labelXAxis];
                 [xAxisValues addObject:xAxisLabel];
             }
@@ -555,6 +561,10 @@
 
 - (NSArray *)graphValuesForDataPoints {
     return dataPoints;
+}
+
+- (NSArray *)graphLabelsForXAxis {
+    return xAxisLabels;
 }
 
 
