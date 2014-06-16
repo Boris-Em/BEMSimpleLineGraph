@@ -40,6 +40,9 @@
     
     /// The Y-Axis offset, will take max label size width
     CGFloat labelYaxisOffset;
+    
+    /// All of the X-Axis Labels
+    NSMutableArray *xAxisLabels;
 }
 
 /// The vertical line which appears when the user drags across the graph
@@ -65,6 +68,9 @@
 
 /// The Y position (center) of the view for the popup label
 @property (assign) CGFloat yCenterLabel;
+
+/// The Y offset necessary to compensate the labels on the XAxis
+@property (nonatomic) CGFloat XAxisLabelYOffset;
 
 /// Find which point is currently the closest to the vertical line
 - (BEMCircle *)closestDotFromVerticalLine:(UIView *)verticalLine;
@@ -135,6 +141,7 @@
     xAxisValues = [NSMutableArray array];
     xAxisLabelPoints = [NSMutableArray array];
     dataPoints = [NSMutableArray array];
+    xAxisLabels = [NSMutableArray array];
     yAxisValues = [NSMutableArray array];
     labelYaxisOffset = 0;
 }
@@ -446,6 +453,8 @@
         
         line.enableRefrenceLines = YES;
         line.arrayOfRefrenceLinePoints = xAxisLabelPoints;
+        
+        line.frameOffset = self.XAxisLabelYOffset;
     }
     line.color = self.colorLine;
     line.animationTime = self.animationGraphEntranceTime;
@@ -478,6 +487,7 @@
     
     // Remove all X-Axis Labels before adding them to the array
     [xAxisValues removeAllObjects];
+    [xAxisLabels removeAllObjects];
     [xAxisLabelPoints removeAllObjects];
     
     if (numberOfGaps >= (numberOfPoints - 1)) {
@@ -536,7 +546,6 @@
         NSInteger offset = [self offsetForXAxisWithNumberOfGaps:numberOfGaps]; // The offset (if possible and necessary) used to shift the Labels on the X-Axis for them to be centered.
         
         @autoreleasepool {
-            NSMutableArray *xAxisLabels = [NSMutableArray arrayWithCapacity:0];
             
             for (int i = 1; i <= (numberOfPoints/numberOfGaps); i++) {
                 NSString *xAxisLabelText = @"";
@@ -566,6 +575,7 @@
                 labelXAxis.textAlignment = 1;
                 labelXAxis.textColor = self.colorXaxisLabel;
                 labelXAxis.backgroundColor = [UIColor clearColor];
+                [xAxisLabels addObject:labelXAxis];
                 labelXAxis.tag = 1000;
                 
                 // Add support multi-line, but this might overlap with the graph line if text have too many lines
@@ -586,7 +596,6 @@
                 
                 [self addSubview:labelXAxis];
                 [xAxisValues addObject:xAxisLabelText];
-                [xAxisLabels addObject:labelXAxis];
             }
             
             __block NSUInteger lastMatchIndex;
@@ -809,6 +818,10 @@
     return dataPoints;
 }
 
+- (NSArray *)graphLabelsForXAxis {
+    return xAxisLabels;
+}
+
 
 #pragma mark - Touch Gestures
 
@@ -1007,8 +1020,8 @@
     
     CGFloat positionOnYAxis; // The position on the Y-axis of the point currently being created.
     CGFloat padding = self.frame.size.height/2;
-    if (padding > 80.0) {
-        padding = 80.0;
+    if (padding > 90.0) {
+        padding = 90.0;
     }
     
     if (minValue == maxValue) positionOnYAxis = self.frame.size.height/2;
@@ -1021,7 +1034,11 @@
     }
     
     if ([self.dataSource respondsToSelector:@selector(lineGraph:labelOnXAxisForIndex:)] || [self.dataSource respondsToSelector:@selector(labelOnXAxisForIndex:)]) {
-        positionOnYAxis = positionOnYAxis - 10;
+        if ([xAxisLabels count] > 0) {
+            UILabel *label = [xAxisLabels objectAtIndex:0];
+            self.XAxisLabelYOffset = label.frame.size.height;
+            positionOnYAxis = positionOnYAxis - self.XAxisLabelYOffset/2;
+        }
     }
     return positionOnYAxis;
 }

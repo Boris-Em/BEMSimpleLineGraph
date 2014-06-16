@@ -93,6 +93,9 @@
 
 @property (nonatomic) CGFloat animationTime;
 
+//----- FRAME -----//
 
+/// The offset dependant on the size of the labels to create the frame
+@property (nonatomic) CGFloat frameOffset;
 
 @end

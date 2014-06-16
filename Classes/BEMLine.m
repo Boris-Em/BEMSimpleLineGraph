@@ -16,6 +16,7 @@
     if (self) {
         // Initialization code
         self.backgroundColor = [UIColor clearColor];
+        _frameOffset = 0.0;
     }
     return self;
 }
@@ -31,7 +32,7 @@
     
     if (self.enableRefrenceLines == YES) {
         for (NSNumber *xNumber in self.arrayOfRefrenceLinePoints) {
-            CGPoint initialPoint = CGPointMake([xNumber floatValue], self.frame.size.height-20);
+            CGPoint initialPoint = CGPointMake([xNumber floatValue], self.frame.size.height-self.frameOffset);
             CGPoint finalPoint = CGPointMake([xNumber floatValue], 0);
             
             [referenceLinesPath moveToPoint:initialPoint];
@@ -39,8 +40,8 @@
         }
         
         if (self.enableRefrenceFrame == YES) {
-            [referenceLinesPath moveToPoint:CGPointMake(0, self.frame.size.height-20)];
-            [referenceLinesPath addLineToPoint:CGPointMake(self.frame.size.width, self.frame.size.height-20)];
+            [referenceLinesPath moveToPoint:CGPointMake(0, self.frame.size.height-self.frameOffset)];
+            [referenceLinesPath addLineToPoint:CGPointMake(self.frame.size.width, self.frame.size.height-self.frameOffset)];
         }
         
         [referenceLinesPath closePath];
@@ -153,7 +154,7 @@
 
 - (void)animateForLayer:(CAShapeLayer *)shapeLayer {
     CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
-    pathAnimation.duration = 1.5;
+    pathAnimation.duration = self.animationTime;
     pathAnimation.fromValue = [NSNumber numberWithFloat:0.0f];
     pathAnimation.toValue = [NSNumber numberWithFloat:1.0f];
     [shapeLayer addAnimation:pathAnimation forKey:@"strokeEnd"];
