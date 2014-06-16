@@ -15,8 +15,6 @@
 #endif
 
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
-#define labelXaxisOffset 10
-
 
 @interface BEMSimpleLineGraphView () {
     /// The number of Points in the Graph
@@ -516,7 +514,7 @@
         
         CGFloat viewWidth = self.frame.size.width - labelYaxisOffset;
         
-        UILabel *firstLabel = [[UILabel alloc] initWithFrame:CGRectMake(3+labelYaxisOffset, self.frame.size.height - (labelXaxisOffset + 10), viewWidth/2, 20)];
+        UILabel *firstLabel = [[UILabel alloc] initWithFrame:CGRectMake(3+labelYaxisOffset, self.frame.size.height , viewWidth/2, 20)];
         firstLabel.text = firstXLabel;
         firstLabel.font = self.labelFont;
         firstLabel.textAlignment = 0;
@@ -529,7 +527,7 @@
         NSNumber *xFirstAxisLabelCoordinate = [NSNumber numberWithFloat:firstLabel.center.x];
         [xAxisLabelPoints addObject:xFirstAxisLabelCoordinate];
         
-        UILabel *lastLabel = [[UILabel alloc] initWithFrame:CGRectMake(viewWidth/2 - 3, self.frame.size.height - (labelXaxisOffset + 10), viewWidth/2, 20)];
+        UILabel *lastLabel = [[UILabel alloc] initWithFrame:CGRectMake(viewWidth/2 - 3, self.frame.size.height, viewWidth/2, 20)];
         lastLabel.text = lastXLabel;
         lastLabel.font = self.labelFont;
         lastLabel.textAlignment = 2;
