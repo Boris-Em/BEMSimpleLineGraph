@@ -134,6 +134,7 @@
     _autoScaleYAxis = YES;
     _alwaysDisplayDots = NO;
     _alwaysDisplayPopUpLabels = NO;
+    _removeOverlappingLabelsOnAxis = NO;
     
     // Initialize the arrays
     xAxisValues = [NSMutableArray array];
@@ -600,25 +601,27 @@
                 [xAxisValues addObject:xAxisLabelText];
             }
             
-            __block NSUInteger lastMatchIndex;
-            NSMutableArray * overlapLabels = [NSMutableArray arrayWithCapacity:0];
-            [xAxisLabels enumerateObjectsUsingBlock:^(UILabel* label, NSUInteger idx, BOOL *stop) {
-                
-                if (idx==0){
-                    lastMatchIndex = 0;
-                } else { //Skip first one
-                    UILabel * prevLabel = [xAxisLabels objectAtIndex:lastMatchIndex];
-                    CGRect r = CGRectIntersection(prevLabel.frame, label.frame);
-                    if (CGRectIsNull(r)){
-                        lastMatchIndex = idx;
-                    } else {
-                        //overlapped
-                        [overlapLabels addObject:label];
+            if (self.removeOverlappingLabelsOnAxis == YES) {
+                __block NSUInteger lastMatchIndex;
+                NSMutableArray * overlapLabels = [NSMutableArray arrayWithCapacity:0];
+                [xAxisLabels enumerateObjectsUsingBlock:^(UILabel* label, NSUInteger idx, BOOL *stop) {
+                    
+                    if (idx==0){
+                        lastMatchIndex = 0;
+                    } else { //Skip first one
+                        UILabel * prevLabel = [xAxisLabels objectAtIndex:lastMatchIndex];
+                        CGRect r = CGRectIntersection(prevLabel.frame, label.frame);
+                        if (CGRectIsNull(r)){
+                            lastMatchIndex = idx;
+                        } else {
+                            //overlapped
+                            [overlapLabels addObject:label];
+                        }
                     }
+                }];
+                for (UILabel * l in overlapLabels) {
+                    [l removeFromSuperview];
                 }
-            }];
-            for (UILabel * l in overlapLabels) {
-                [l removeFromSuperview];
             }
         }
     }
