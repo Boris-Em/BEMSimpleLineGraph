@@ -315,7 +315,7 @@
             
             [dataPoints addObject:[NSNumber numberWithFloat:dotValue]];
             
-            positionOnXAxis = (( (self.frame.size.width -labelYaxisOffset) /(numberOfPoints - 1) )*i) + labelYaxisOffset ;
+            positionOnXAxis = (((self.frame.size.width -labelYaxisOffset) /(numberOfPoints - 1) )*i) + labelYaxisOffset ;
             positionOnYAxis = [self yPositionForDotValue:dotValue];
             
             
@@ -331,7 +331,11 @@
             [self addSubview:circleDot];
             
             if (self.alwaysDisplayPopUpLabels == YES) {
-                [self displayPermanentLabelForPoint:circleDot];
+                if ([self.delegate respondsToSelector:@selector(lineGraph:alwaysDisplayPopUpAtIndex:)]) {
+                    if ([self.delegate lineGraph:self alwaysDisplayPopUpAtIndex:i] == YES) {
+                        [self displayPermanentLabelForPoint:circleDot];
+                    }
+                } else [self displayPermanentLabelForPoint:circleDot];
             }
             
             // Dot entrance animation

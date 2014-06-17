@@ -289,6 +289,13 @@
  @return The suffix to append to the popup report. */
 - (NSString *)popUpSuffixForlineGraph:(BEMSimpleLineGraphView *)graph;
 
+/** Optional method to always display some of the pop up labels on the graph.
+ @see alwaysDisplayPopUpLabels must be set to YES for this method to have any affect.
+ @param graph The graph object requesting the total number of points.
+ @param index The index from left to right of the points on the graph. The first value for the index is 0.
+ @return Return YES if you want the popup label to be displayed for this index. */
+- (BOOL)lineGraph:(BEMSimpleLineGraphView *)graph alwaysDisplayPopUpAtIndex:(CGFloat)index;
+
 
 //----- TOUCH EVENTS -----//
 
