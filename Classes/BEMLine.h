@@ -43,9 +43,17 @@
 /// All of the Y-axis values for the points
 @property (nonatomic) NSArray *arrayOfPoints;
 
+/// All of the X-Axis coordinates used to draw vertical lines through
+@property (nonatomic) NSArray *arrayOfVerticalRefrenceLinePoints;
+
+/// All of the Y-Axis coordinates used to draw horizontal lines through
+@property (nonatomic) NSArray *arrayOfHorizontalRefrenceLinePoints;
+
+/** Draw thin, translucent, reference lines using the provided X-Axis and Y-Axis coordinates.
+ @see Use \p arrayOfVerticalRefrenceLinePoints to specify vertical reference lines' positions. Use \p arrayOfHorizontalRefrenceLinePoints to specify horizontal reference lines' positions. */
 @property (nonatomic) BOOL enableRefrenceLines;
 @property (nonatomic) BOOL enableRefrenceFrame;
-@property (nonatomic) NSArray *arrayOfRefrenceLinePoints;
+
 
 
 

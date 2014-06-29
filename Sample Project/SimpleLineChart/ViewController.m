@@ -32,7 +32,7 @@
     totalNumber = 0;
     
     for (int i = 0; i < 9; i++) {
-        [self.ArrayOfValues addObject:[NSNumber numberWithInteger:(arc4random() % 70000)]]; // Random values for the graph
+        [self.ArrayOfValues addObject:[NSNumber numberWithInteger:(arc4random() % 10000)]]; // Random values for the graph
         [self.ArrayOfDates addObject:[NSString stringWithFormat:@"%@",[NSNumber numberWithInt:2000 + i]]]; // Dates for the X-Axis of the graph
         
         totalNumber = totalNumber + [[self.ArrayOfValues objectAtIndex:i] intValue]; // All of the values added together
@@ -54,7 +54,8 @@
     self.myGraph.enableTouchReport = YES;
     self.myGraph.enablePopUpReport = YES;
     self.myGraph.enableBezierCurve = YES;
-    self.myGraph.enableYAxisLabel = NO;
+    self.myGraph.enableYAxisLabel = YES;
+    self.myGraph.autoScaleYAxis = YES;
     self.myGraph.alwaysDisplayDots = NO;
     self.myGraph.enableReferenceAxisLines = YES;
     self.myGraph.enableReferenceAxisFrame = YES;
@@ -76,7 +77,7 @@
     [self.ArrayOfDates removeAllObjects];
     
     for (int i = 0; i < self.graphObjectIncrement.value; i++) {
-        [self.ArrayOfValues addObject:[NSNumber numberWithInteger:(arc4random() % 20)]]; // Random values for the graph
+        [self.ArrayOfValues addObject:[NSNumber numberWithInteger:(arc4random() % 10000)]]; // Random values for the graph
         [self.ArrayOfDates addObject:[NSString stringWithFormat:@"Jan %@",[NSNumber numberWithInt:2000 + i]]]; // Dates for the X-Axis of the graph
         
         totalNumber = totalNumber + [[self.ArrayOfValues objectAtIndex:i] intValue]; // All of the values added together
@@ -99,7 +100,7 @@
 - (IBAction)addOrRemoveLineFromGraph:(id)sender {
     if (self.graphObjectIncrement.value > previousStepperValue) {
         // Add line
-        [self.ArrayOfValues addObject:[NSNumber numberWithInteger:(arc4random() % 70000)]];
+        [self.ArrayOfValues addObject:[NSNumber numberWithInteger:(arc4random() % 10000)]];
         [self.ArrayOfDates addObject:[NSString stringWithFormat:@"%i", (int)[[self.ArrayOfDates lastObject] integerValue]+1]];
         [self.myGraph reloadGraph];
     } else if (self.graphObjectIncrement.value < previousStepperValue) {
@@ -147,8 +148,11 @@
     return 1;
 }
 
+- (NSInteger)numberOfYAxisLabelsOnLineGraph:(BEMSimpleLineGraphView *)graph {
+    return 5;
+}
+
 - (NSString *)lineGraph:(BEMSimpleLineGraphView *)graph labelOnXAxisForIndex:(NSInteger)index {
-//    return [self.ArrayOfDates objectAtIndex:index];
     NSString *label = [self.ArrayOfDates objectAtIndex:index];
     return [label stringByReplacingOccurrencesOfString:@" " withString:@"\n"];
 }
@@ -162,8 +166,7 @@
     [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
         self.labelValues.alpha = 0.0;
         self.labelDates.alpha = 0.0;
-    } completion:^(BOOL finished){
-        
+    } completion:^(BOOL finished) {
         self.labelValues.text = [NSString stringWithFormat:@"%i", [[self.myGraph calculatePointValueSum] intValue]];
         self.labelDates.text = [NSString stringWithFormat:@"between 2000 and %@", [self.ArrayOfDates lastObject]];
         

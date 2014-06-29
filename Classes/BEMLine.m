@@ -31,17 +31,30 @@
     referenceLinesPath.lineWidth = 0.7;
     
     if (self.enableRefrenceLines == YES) {
-        for (NSNumber *xNumber in self.arrayOfRefrenceLinePoints) {
-            CGPoint initialPoint = CGPointMake([xNumber floatValue], self.frame.size.height-self.frameOffset);
+        for (NSNumber *xNumber in self.arrayOfVerticalRefrenceLinePoints) {
+            CGPoint initialPoint = CGPointMake([xNumber floatValue], self.frame.size.height - self.frameOffset);
             CGPoint finalPoint = CGPointMake([xNumber floatValue], 0);
             
             [referenceLinesPath moveToPoint:initialPoint];
             [referenceLinesPath addLineToPoint:finalPoint];
         }
         
+        if (self.arrayOfHorizontalRefrenceLinePoints.count > 0) {
+            for (NSNumber *yNumber in self.arrayOfHorizontalRefrenceLinePoints) {
+                CGPoint initialPoint = CGPointMake(0, [yNumber floatValue]);
+                CGPoint finalPoint = CGPointMake(self.frame.size.width, [yNumber floatValue]);
+                
+                [referenceLinesPath moveToPoint:initialPoint];
+                [referenceLinesPath addLineToPoint:finalPoint];
+            }
+        }
+        
         if (self.enableRefrenceFrame == YES) {
-            [referenceLinesPath moveToPoint:CGPointMake(0, self.frame.size.height-self.frameOffset)];
-            [referenceLinesPath addLineToPoint:CGPointMake(self.frame.size.width, self.frame.size.height-self.frameOffset)];
+            [referenceLinesPath moveToPoint:CGPointMake(0, self.frame.size.height - self.frameOffset)];
+            [referenceLinesPath addLineToPoint:CGPointMake(self.frame.size.width, self.frame.size.height - self.frameOffset)];
+            
+            [referenceLinesPath moveToPoint:CGPointMake(0, self.frame.size.height - self.frameOffset)];
+            [referenceLinesPath addLineToPoint:CGPointMake(0, 0)];
         }
         
         [referenceLinesPath closePath];

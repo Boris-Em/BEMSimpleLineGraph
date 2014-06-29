@@ -10,11 +10,12 @@
 #import "BEMSimpleLineGraphView.h"
 
 #if !__has_feature(objc_arc)
-// Add the -fobjc-arc flag to enable ARC for only these files, as described in the ARC documentation: http://clang.llvm.org/docs/AutomaticReferenceCounting.html
-#error BEMSimpleLineGraph is built with Objective-C ARC. You must enable ARC for these files.
+    // Add the -fobjc-arc flag to enable ARC for only these files, as described in the ARC documentation: http://clang.llvm.org/docs/AutomaticReferenceCounting.html
+    #error BEMSimpleLineGraph is built with Objective-C ARC. You must enable ARC for these files.
 #endif
 
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
+#define DEFAULT_FONT_NAME @"HelveticaNeue-Light"
 
 @interface BEMSimpleLineGraphView () {
     /// The number of Points in the Graph
@@ -29,6 +30,9 @@
     
     /// All of the X-Axis Label Points
     NSMutableArray *xAxisLabelPoints;
+    
+    /// All of the Y-Axis Label Points
+    NSMutableArray *yAxisLabelPoints;
     
     /// All of the Y-Axis Values
     NSMutableArray *yAxisValues;
@@ -87,21 +91,13 @@
 
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
-    
-    if (self) {
-        [self commonInit];
-    }
-    
+    if (self) [self commonInit];
     return self;
 }
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
     self = [super initWithCoder:coder];
-    
-    if (self) {
-        [self commonInit];
-    }
-    
+    if (self) [self commonInit];
     return self;
 }
 
@@ -109,40 +105,46 @@
     // Do any initialization that's common to both -initWithFrame: and -initWithCoder: in this method
     
     // Set the X Axis label font
-    _labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:13];
+    _labelFont = [UIFont fontWithName:DEFAULT_FONT_NAME size:13];
     
-    // DEFAULT VALUES
+    // Set Animation Values
     _animationGraphEntranceTime = 1.5;
+    
+    // Set Color Values
     _colorXaxisLabel = [UIColor blackColor];
     _colorYaxisLabel = [UIColor blackColor];
-    
     _colorTop = [UIColor colorWithRed:0 green:122.0/255.0 blue:255/255 alpha:1];
     _colorLine = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1];
     _colorBottom = [UIColor colorWithRed:0 green:122.0/255.0 blue:255/255 alpha:1];
-    //self.backgroundColor = [UIColor colorWithRed:0 green:122.0/255.0 blue:255/255 alpha:1];
+    _colorPoint = [UIColor whiteColor];
+    
+    // Set Alpha Values
     _alphaTop = 1.0;
     _alphaBottom = 1.0;
     _alphaLine = 1.0;
+    
+    // Set Size Values
     _widthLine = 1.0;
     _sizePoint = 10.0;
-    _colorPoint = [UIColor whiteColor];
+    
+    // Set Default Feature Values
     _enableTouchReport = NO;
     _enablePopUpReport = NO;
     _enableBezierCurve = NO;
     _enableYAxisLabel = NO;
-    _enableYAxisLabelOffset = NO;
+    labelYaxisOffset = 0;
     _autoScaleYAxis = YES;
     _alwaysDisplayDots = NO;
     _alwaysDisplayPopUpLabels = NO;
     _removeOverlappingLabelsOnAxis = NO;
     
-    // Initialize the arrays
+    // Initialize the various arrays
     xAxisValues = [NSMutableArray array];
     xAxisLabelPoints = [NSMutableArray array];
+    yAxisLabelPoints = [NSMutableArray array];
     dataPoints = [NSMutableArray array];
     xAxisLabels = [NSMutableArray array];
     yAxisValues = [NSMutableArray array];
-    labelYaxisOffset = 0;
 }
 
 - (void)layoutSubviews {
@@ -152,6 +154,21 @@
     if ([self.delegate respondsToSelector:@selector(lineGraphDidBeginLoading:)])
         [self.delegate lineGraphDidBeginLoading:self];
     
+    // Get the number of points in the graph
+    [self layoutNumberOfPoints];
+    
+    // Draw the graph
+    [self drawEntireGraph];
+    
+    // Setup the touch report
+    [self layoutTouchReport];
+    
+    // Let the delegate know that the graph finished layout updates
+    if ([self.delegate respondsToSelector:@selector(lineGraphDidFinishLoading:)])
+        [self.delegate lineGraphDidFinishLoading:self];
+}
+
+- (void)layoutNumberOfPoints {
     // Get the total number of data points from the delegate
     if ([self.dataSource respondsToSelector:@selector(numberOfPointsInLineGraph:)]) {
         numberOfPoints = [self.dataSource numberOfPointsInLineGraph:self];
@@ -159,10 +176,10 @@
     } else if ([self.delegate respondsToSelector:@selector(numberOfPointsInGraph)]) {
         [self printDeprecationWarningForOldMethod:@"numberOfPointsInGraph" andReplacementMethod:@"numberOfPointsInLineGraph:"];
         
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        numberOfPoints = [self.delegate numberOfPointsInGraph];
-#pragma clang diagnostic pop
+        #pragma clang diagnostic push
+        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            numberOfPoints = [self.delegate numberOfPointsInGraph];
+        #pragma clang diagnostic pop
         
     } else if ([self.delegate respondsToSelector:@selector(numberOfPointsInLineGraph:)]) {
         [self printDeprecationAndUnavailableWarningForOldMethod:@"numberOfPointsInLineGraph:"];
@@ -203,18 +220,9 @@
                 [subview removeFromSuperview];
         }
     }
-    
-    // Draw the X-Axis
-    [self drawXAxis];
-    
-    // Draw the Y-Axis
-    if (self.enableYAxisLabel){
-        [self drawYAxis];
-    }
-    
-    // Draw the graph
-    [self drawDots];
-    
+}
+
+- (void)layoutTouchReport {
     // If the touch report is enabled, set it up
     if (self.enableTouchReport == YES || self.enablePopUpReport == YES) {
         // Initialize the vertical gray line that appears where the user touches the graph.
@@ -253,26 +261,27 @@
             [self addSubview:self.popUpLabel];
         }
     }
-    
-    // Draw the refrence lines
-    //[self drawReferenceLines];
-    
-    // Let the delegate know that the graph finished layout updates
-    if ([self.delegate respondsToSelector:@selector(lineGraphDidFinishLoading:)])
-        [self.delegate lineGraphDidFinishLoading:self];
-}
-
-- (void)setEnableYAxisLabel:(BOOL)enableYAxisLabel{
-    _enableYAxisLabel = enableYAxisLabel;
-    labelYaxisOffset = (enableYAxisLabel && self.enableYAxisLabelOffset)? 30 : 0;
-}
-
-- (void)setEnableYAxisLabelOffset:(BOOL)enableYAxisLabelOffset{
-    _enableYAxisLabelOffset = enableYAxisLabelOffset;
-    labelYaxisOffset = (self.enableYAxisLabel && _enableYAxisLabelOffset)? 30 : 0;
 }
 
 #pragma mark - Drawing
+
+- (void)drawEntireGraph {
+    // The following method calls are in this specific order for a reason
+    // Changing the order of the method calls below can result in drawing glitches and even crashes
+    
+    // Set the Y-Axis Offset if the Y-Axis is enabled
+    if (self.enableYAxisLabel) labelYaxisOffset = 30;
+    else labelYaxisOffset = 0;
+    
+    // Draw the X-Axis
+    [self drawXAxis];
+    
+    // Draw the graph
+    [self drawDots];
+    
+    // Draw the Y-Axis
+    if (self.enableYAxisLabel) [self drawYAxis];
+}
 
 - (void)drawDots {
     CGFloat positionOnXAxis; // The position on the X-axis of the point currently being created.
@@ -316,9 +325,8 @@
             
             [dataPoints addObject:[NSNumber numberWithFloat:dotValue]];
             
-            positionOnXAxis = (((self.frame.size.width -labelYaxisOffset) /(numberOfPoints - 1) )*i) + labelYaxisOffset ;
+            positionOnXAxis = (((self.frame.size.width - labelYaxisOffset) / (numberOfPoints - 1)) * i) + labelYaxisOffset;
             positionOnYAxis = [self yPositionForDotValue:dotValue];
-            
             
             BEMCircle *circleDot = [[BEMCircle alloc] initWithFrame:CGRectMake(0, 0, self.sizePoint, self.sizePoint)];
             circleDot.center = CGPointMake(positionOnXAxis, positionOnYAxis);
@@ -345,17 +353,15 @@
                     circleDot.alpha = 0;
                 }
             } else {
-                [UIView animateWithDuration:(float)self.animationGraphEntranceTime/numberOfPoints
-                                      delay:(float)i*((float)self.animationGraphEntranceTime/numberOfPoints)
-                                    options:UIViewAnimationOptionCurveLinear animations:^{
+                [UIView animateWithDuration:(float)self.animationGraphEntranceTime/numberOfPoints delay:(float)i*((float)self.animationGraphEntranceTime/numberOfPoints) options:UIViewAnimationOptionCurveLinear animations:^{
                                         circleDot.alpha = 0.7;
-                                    } completion:^(BOOL finished){
-                                        if (self.alwaysDisplayDots == NO) {
-                                            [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-                                                circleDot.alpha = 0;
-                                            } completion:nil];
-                                        }
-                                    }];
+                } completion:^(BOOL finished) {
+                    if (self.alwaysDisplayDots == NO) {
+                        [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+                            circleDot.alpha = 0;
+                        } completion:nil];
+                    }
+                }];
             }
         }
     }
@@ -363,74 +369,6 @@
     // CREATION OF THE LINE AND BOTTOM AND TOP FILL
     [self drawLine];
 }
-
-- (void)displayPermanentLabelForPoint:(BEMCircle *)circleDot {
-    self.enablePopUpReport = NO;
-    self.xCenterLabel = circleDot.center.x;
-    UILabel *permanentPopUpLabel = [[UILabel alloc] init];
-    permanentPopUpLabel.textAlignment = 1;
-    permanentPopUpLabel.numberOfLines = 0;
-    permanentPopUpLabel.text = [NSString stringWithFormat:@"%@", [NSNumber numberWithFloat:circleDot.absoluteValue]];
-    permanentPopUpLabel.font = self.labelFont;
-    permanentPopUpLabel.backgroundColor = [UIColor clearColor];
-    [permanentPopUpLabel sizeToFit];
-    permanentPopUpLabel.center = CGPointMake(self.xCenterLabel, circleDot.center.y - circleDot.frame.size.height/2 - 15);
-    permanentPopUpLabel.alpha = 0;
-    
-    UIView *permanentPopUpView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, permanentPopUpLabel.frame.size.width + 7, permanentPopUpLabel.frame.size.height + 2)];
-    permanentPopUpView.backgroundColor = [UIColor whiteColor];
-    permanentPopUpView.alpha = 0;
-    permanentPopUpView.layer.cornerRadius = 3;
-    permanentPopUpView.tag = 2100;
-    permanentPopUpView.center = permanentPopUpLabel.center;
-    
-    if (permanentPopUpLabel.frame.origin.x <= 0) {
-        self.xCenterLabel = permanentPopUpLabel.frame.size.width/2 + 4;
-        permanentPopUpLabel.center = CGPointMake(self.xCenterLabel, circleDot.center.y - circleDot.frame.size.height/2 - 15);
-        permanentPopUpView.center = permanentPopUpLabel.center;
-    } else if ((permanentPopUpLabel.frame.origin.x + permanentPopUpLabel.frame.size.width) >= self.frame.size.width) {
-        self.xCenterLabel = self.frame.size.width - permanentPopUpLabel.frame.size.width/2 - 4;
-        permanentPopUpLabel.center = CGPointMake(self.xCenterLabel, circleDot.center.y - circleDot.frame.size.height/2 - 15);
-        permanentPopUpView.center = permanentPopUpLabel.center;
-    }
-    if (permanentPopUpLabel.frame.origin.y <= 2) {
-        permanentPopUpLabel.center = CGPointMake(self.xCenterLabel, circleDot.center.y + circleDot.frame.size.height/2 + 15);
-        permanentPopUpView.center = permanentPopUpLabel.center;
-    }
-    
-    if ([self checkOverlapsForView:permanentPopUpView] == YES) {
-        permanentPopUpLabel.center = CGPointMake(self.xCenterLabel, circleDot.center.y + circleDot.frame.size.height/2 + 15);
-        permanentPopUpView.center = permanentPopUpLabel.center;
-    }
-    
-    [self addSubview:permanentPopUpView];
-    [self addSubview:permanentPopUpLabel];
-    
-    if (self.animationGraphEntranceTime == 0) {
-        permanentPopUpLabel.alpha = 1;
-        permanentPopUpView.alpha = 0.7;
-    } else {
-        [UIView animateWithDuration:0.5
-                              delay:self.animationGraphEntranceTime
-                            options:UIViewAnimationOptionCurveLinear animations:^{
-                                permanentPopUpLabel.alpha = 1;
-                                permanentPopUpView.alpha = 0.7;
-                            } completion:nil];
-    }
-}
-
-- (BOOL)checkOverlapsForView:(UIView *)view {
-    for (UIView *viewForLabel in [self subviews]) {
-        if ([viewForLabel isKindOfClass:[UIView class]] && viewForLabel.tag == 2100) {
-            if ((viewForLabel.frame.origin.x + viewForLabel.frame.size.width) >= view.frame.origin.x) {
-                if (viewForLabel.frame.origin.y >= view.frame.origin.y && viewForLabel.frame.origin.y <= view.frame.origin.y + view.frame.size.height) return YES;
-                else if (viewForLabel.frame.origin.y + viewForLabel.frame.size.height >= view.frame.origin.y && viewForLabel.frame.origin.y + viewForLabel.frame.size.height <= view.frame.origin.y + view.frame.size.height) return YES;
-            }
-        }
-    }
-    return NO;
-}
-
 
 - (void)drawLine {
     for (UIView *subview in [self subviews]) {
@@ -455,10 +393,12 @@
         else line.enableRefrenceFrame = NO;
         
         line.enableRefrenceLines = YES;
-        line.arrayOfRefrenceLinePoints = xAxisLabelPoints;
+        line.arrayOfVerticalRefrenceLinePoints = xAxisLabelPoints;
+        line.arrayOfHorizontalRefrenceLinePoints = yAxisLabelPoints;
         
         line.frameOffset = self.XAxisLabelYOffset;
     }
+    
     line.color = self.colorLine;
     line.animationTime = self.animationGraphEntranceTime;
     [self addSubview:line];
@@ -529,7 +469,7 @@
         [self addSubview:firstLabel];
         [xAxisValues addObject:firstXLabel];
         
-        NSNumber *xFirstAxisLabelCoordinate = [NSNumber numberWithFloat:firstLabel.center.x];
+        NSNumber *xFirstAxisLabelCoordinate = [NSNumber numberWithFloat:firstLabel.center.x-labelYaxisOffset];
         [xAxisLabelPoints addObject:xFirstAxisLabelCoordinate];
         
         UILabel *lastLabel = [[UILabel alloc] initWithFrame:CGRectMake(viewWidth/2 - 3, self.frame.size.height, viewWidth/2, 20)];
@@ -542,7 +482,7 @@
         [self addSubview:lastLabel];
         [xAxisValues addObject:lastXLabel];
         
-        NSNumber *xLastAxisLabelCoordinate = [NSNumber numberWithFloat:lastLabel.center.x];
+        NSNumber *xLastAxisLabelCoordinate = [NSNumber numberWithFloat:lastLabel.center.x-labelYaxisOffset];
         [xAxisLabelPoints addObject:xLastAxisLabelCoordinate];
         
     } else {
@@ -554,7 +494,7 @@
                 NSString *xAxisLabelText = @"";
                 
                 if ([self.dataSource respondsToSelector:@selector(lineGraph:labelOnXAxisForIndex:)]) {
-                    NSInteger index = i * numberOfGaps - 1 - offset;
+                    NSInteger index = i *numberOfGaps - 1 - offset;
                     xAxisLabelText = [self.dataSource lineGraph:self labelOnXAxisForIndex:index];
                     
                 } else if ([self.delegate respondsToSelector:@selector(labelOnXAxisForIndex:)]) {
@@ -562,7 +502,7 @@
                     
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                    xAxisLabelText = [self.delegate labelOnXAxisForIndex:(i * numberOfGaps - 1 - offset)];
+                    xAxisLabelText = [self.delegate labelOnXAxisForIndex:(i *numberOfGaps - 1 - offset)];
 #pragma clang diagnostic pop
                     
                 } else if ([self.delegate respondsToSelector:@selector(lineGraph:labelOnXAxisForIndex:)]) {
@@ -583,18 +523,14 @@
                 
                 // Add support multi-line, but this might overlap with the graph line if text have too many lines
                 labelXAxis.numberOfLines = 0;
-                CGRect lRect = [labelXAxis.text boundingRectWithSize:self.viewForBaselineLayout.frame.size
-                                                             options:NSStringDrawingUsesLineFragmentOrigin
-                                                          attributes:@{NSFontAttributeName:labelXAxis.font}
-                                                             context:nil];
+                CGRect lRect = [labelXAxis.text boundingRectWithSize:self.viewForBaselineLayout.frame.size options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:labelXAxis.font} context:nil];
                 
                 CGRect rect = labelXAxis.frame;
                 rect.size = lRect.size;
                 labelXAxis.frame = rect;
-                [labelXAxis setCenter:CGPointMake(((self.viewForBaselineLayout.frame.size.width - labelYaxisOffset)/ (numberOfPoints-1)) * (i*numberOfGaps - 1 - offset) + labelYaxisOffset,
-                                                  self.frame.size.height - lRect.size.height/2)];
+                [labelXAxis setCenter:CGPointMake(((self.viewForBaselineLayout.frame.size.width - labelYaxisOffset) / (numberOfPoints-1)) * (i*numberOfGaps - 1 - offset) + labelYaxisOffset, self.frame.size.height - lRect.size.height/2)];
                 
-                NSNumber *xAxisLabelCoordinate = [NSNumber numberWithFloat:labelXAxis.center.x];
+                NSNumber *xAxisLabelCoordinate = [NSNumber numberWithFloat:labelXAxis.center.x-labelYaxisOffset];
                 [xAxisLabelPoints addObject:xAxisLabelCoordinate];
                 
                 [self addSubview:labelXAxis];
@@ -603,15 +539,15 @@
             
             if (self.removeOverlappingLabelsOnAxis == YES) {
                 __block NSUInteger lastMatchIndex;
-                NSMutableArray * overlapLabels = [NSMutableArray arrayWithCapacity:0];
-                [xAxisLabels enumerateObjectsUsingBlock:^(UILabel* label, NSUInteger idx, BOOL *stop) {
+                NSMutableArray *overlapLabels = [NSMutableArray arrayWithCapacity:0];
+                [xAxisLabels enumerateObjectsUsingBlock:^(UILabel*label, NSUInteger idx, BOOL *stop) {
                     
-                    if (idx==0){
+                    if (idx==0) {
                         lastMatchIndex = 0;
                     } else { //Skip first one
-                        UILabel * prevLabel = [xAxisLabels objectAtIndex:lastMatchIndex];
+                        UILabel *prevLabel = [xAxisLabels objectAtIndex:lastMatchIndex];
                         CGRect r = CGRectIntersection(prevLabel.frame, label.frame);
-                        if (CGRectIsNull(r)){
+                        if (CGRectIsNull(r)) {
                             lastMatchIndex = idx;
                         } else {
                             //overlapped
@@ -619,7 +555,7 @@
                         }
                     }
                 }];
-                for (UILabel * l in overlapLabels) {
+                for (UILabel *l in overlapLabels) {
                     [l removeFromSuperview];
                 }
             }
@@ -627,22 +563,24 @@
     }
 }
 
-- (void)drawYAxis{
+- (void)drawYAxis {
     for (UIView *subview in [self subviews]) {
         if ([subview isKindOfClass:[UILabel class]] && subview.tag == 2000)
             [subview removeFromSuperview];
     }
     
-    NSMutableArray * yAxisLabels = [NSMutableArray arrayWithCapacity:0];
+    NSMutableArray *yAxisLabels = [NSMutableArray arrayWithCapacity:0];
+    [yAxisLabelPoints removeAllObjects];
     
-    if(self.autoScaleYAxis){
-        //Plot according to min-max range
-        NSArray * dotValues = @[[self calculateMinimumPointValue],
-                                [self calculatePointValueMedian],
-                                [self calculateMaximumPointValue]
-                                ];
+    if (self.autoScaleYAxis) {
+        // Plot according to min-max range
+        NSNumber *minimumValue = [self calculateMinimumPointValue];
+        NSNumber *maximumValue = [self calculateMaximumPointValue];
+        NSNumber *halfwayValue = [NSNumber numberWithInt:maximumValue.intValue/2];
         
-        for (NSNumber * dotValue in dotValues) {
+        NSArray *dotValues = @[minimumValue, halfwayValue, maximumValue];
+        
+        for (NSNumber *dotValue in dotValues) {
             CGFloat yAxisPosition = [self yPositionForDotValue:dotValue.floatValue];
             UILabel *labelYAxis = [[UILabel alloc] initWithFrame:CGRectZero];
             labelYAxis.text = dotValue.stringValue;
@@ -655,67 +593,70 @@
             labelYAxis.center = CGPointMake(labelYAxis.frame.size.width/2, yAxisPosition);
             [self addSubview:labelYAxis];
             [yAxisLabels addObject:labelYAxis];
+            
+            NSNumber *yAxisLabelCoordinate = [NSNumber numberWithFloat:labelYAxis.center.y];
+            [yAxisLabelPoints addObject:yAxisLabelCoordinate];
         }
+    } else {
+        CGFloat numberOfLabels;
+        if ([self.delegate respondsToSelector:@selector(numberOfYAxisLabelsOnLineGraph:)]) numberOfLabels = [self.delegate numberOfYAxisLabelsOnLineGraph:self];
+        else numberOfLabels = 3;
         
-    } else{
-        //Plot according to absolute range of graph
-        CGFloat dotValue = 0;
-        CGFloat gapRange = 20;
-        if ([self.delegate respondsToSelector:@selector(stepValueBetweenYLabelsOnLineGraph:)]) {
-            gapRange = [self.delegate stepValueBetweenYLabelsOnLineGraph:self];
-        }
+        CGFloat graphHeight = self.frame.size.height;
+        CGFloat graphSpacing = graphHeight / numberOfLabels;
+        NSInteger graphValueIncrement = [self maxValue] / numberOfLabels;
         
-        CGFloat yAxisPosition = [self yPositionForDotValue:dotValue];
+        CGFloat yAxisPosition = graphHeight;
+        NSInteger yAxisValue = 0;
         
-        while (yAxisPosition > 0) {
-            NSNumber * value = [NSNumber numberWithFloat:dotValue];
+        for (NSInteger i = numberOfLabels; i > 0; i--) {
+            yAxisPosition -= graphSpacing;
+            yAxisValue += graphValueIncrement;
+            
             UILabel *labelYAxis = [[UILabel alloc] initWithFrame:CGRectZero];
-            labelYAxis.text = value.stringValue;
+            labelYAxis.center = CGPointMake(labelYAxis.frame.size.width/2, yAxisPosition+1);
+            labelYAxis.text = [NSString stringWithFormat:@"%i", (int)yAxisValue];
             labelYAxis.font = self.labelFont;
             labelYAxis.textAlignment = NSTextAlignmentLeft;
             labelYAxis.textColor = self.colorYaxisLabel;
             labelYAxis.backgroundColor = [UIColor clearColor];
             labelYAxis.tag = 2000;
+            
             [labelYAxis sizeToFit];
-            labelYAxis.center = CGPointMake(labelYAxis.frame.size.width/2, yAxisPosition);
             [self addSubview:labelYAxis];
+            
             [yAxisLabels addObject:labelYAxis];
             
-            dotValue += gapRange;
-            yAxisPosition = [self yPositionForDotValue:dotValue];
+            NSNumber *yAxisLabelCoordinate = [NSNumber numberWithFloat:labelYAxis.center.y];
+            [yAxisLabelPoints addObject:yAxisLabelCoordinate];
         }
     }
     
-    if (self.enableYAxisLabelOffset){
-        //Calculate YLabel offset distance
-        labelYaxisOffset = 0;
-        [yAxisLabels enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            UILabel * label = (UILabel*) obj;
-            CGFloat width = label.frame.size.width;
-            if( width > labelYaxisOffset)
-                labelYaxisOffset = width;
-        }];
-    }
+    // Calculate Y-label offset distance
+    labelYaxisOffset = 0;
+    [yAxisLabels enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        UILabel *label = (UILabel *)obj;
+        CGFloat width = label.frame.size.width;
+        if (width > labelYaxisOffset)
+            labelYaxisOffset = width;
+    }];
     
-    //Detect overlapped labels
+    // Detect overlapped labels
     __block NSUInteger lastMatchIndex;
-    NSMutableArray * overlapLabels = [NSMutableArray arrayWithCapacity:0];
-    [yAxisLabels enumerateObjectsUsingBlock:^(UILabel* label, NSUInteger idx, BOOL *stop) {
+    NSMutableArray *overlapLabels = [NSMutableArray arrayWithCapacity:0];
+    [yAxisLabels enumerateObjectsUsingBlock:^(UILabel *label, NSUInteger idx, BOOL *stop) {
         
-        if(idx==0){
-            lastMatchIndex = 0;
-        }else{ //Skip first one
-            UILabel * prevLabel = [yAxisLabels objectAtIndex:lastMatchIndex];
+        if (idx==0) lastMatchIndex = 0;
+        else { // Skip first one
+            UILabel *prevLabel = [yAxisLabels objectAtIndex:lastMatchIndex];
             CGRect r = CGRectIntersection(prevLabel.frame, label.frame);
-            if(CGRectIsNull(r)){
-                lastMatchIndex = idx;
-            }else{
-                [overlapLabels addObject:label]; //overlapped
-            }
+            if (CGRectIsNull(r)) lastMatchIndex = idx;
+            else [overlapLabels addObject:label]; // overlapped
         }
     }];
-    for (UILabel * l in overlapLabels) {
-        [l removeFromSuperview];
+    
+    for (UILabel *label in overlapLabels) {
+        [label removeFromSuperview];
     }
     
 }
@@ -737,6 +678,72 @@
     return offset;
 }
 
+- (void)displayPermanentLabelForPoint:(BEMCircle *)circleDot {
+    self.enablePopUpReport = NO;
+    self.xCenterLabel = circleDot.center.x;
+    UILabel *permanentPopUpLabel = [[UILabel alloc] init];
+    permanentPopUpLabel.textAlignment = 1;
+    permanentPopUpLabel.numberOfLines = 0;
+    permanentPopUpLabel.text = [NSString stringWithFormat:@"%@", [NSNumber numberWithFloat:circleDot.absoluteValue]];
+    permanentPopUpLabel.font = self.labelFont;
+    permanentPopUpLabel.backgroundColor = [UIColor clearColor];
+    [permanentPopUpLabel sizeToFit];
+    permanentPopUpLabel.center = CGPointMake(self.xCenterLabel, circleDot.center.y - circleDot.frame.size.height/2 - 15);
+    permanentPopUpLabel.alpha = 0;
+    
+    UIView *permanentPopUpView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, permanentPopUpLabel.frame.size.width + 7, permanentPopUpLabel.frame.size.height + 2)];
+    permanentPopUpView.backgroundColor = [UIColor whiteColor];
+    permanentPopUpView.alpha = 0;
+    permanentPopUpView.layer.cornerRadius = 3;
+    permanentPopUpView.tag = 2100;
+    permanentPopUpView.center = permanentPopUpLabel.center;
+    
+    if (permanentPopUpLabel.frame.origin.x <= 0) {
+        self.xCenterLabel = permanentPopUpLabel.frame.size.width/2 + 4;
+        permanentPopUpLabel.center = CGPointMake(self.xCenterLabel, circleDot.center.y - circleDot.frame.size.height/2 - 15);
+        permanentPopUpView.center = permanentPopUpLabel.center;
+    } else if ((permanentPopUpLabel.frame.origin.x + permanentPopUpLabel.frame.size.width) >= self.frame.size.width) {
+        self.xCenterLabel = self.frame.size.width - permanentPopUpLabel.frame.size.width/2 - 4;
+        permanentPopUpLabel.center = CGPointMake(self.xCenterLabel, circleDot.center.y - circleDot.frame.size.height/2 - 15);
+        permanentPopUpView.center = permanentPopUpLabel.center;
+    }
+    
+    if (permanentPopUpLabel.frame.origin.y <= 2) {
+        permanentPopUpLabel.center = CGPointMake(self.xCenterLabel, circleDot.center.y + circleDot.frame.size.height/2 + 15);
+        permanentPopUpView.center = permanentPopUpLabel.center;
+    }
+    
+    if ([self checkOverlapsForView:permanentPopUpView] == YES) {
+        permanentPopUpLabel.center = CGPointMake(self.xCenterLabel, circleDot.center.y + circleDot.frame.size.height/2 + 15);
+        permanentPopUpView.center = permanentPopUpLabel.center;
+    }
+    
+    [self addSubview:permanentPopUpView];
+    [self addSubview:permanentPopUpLabel];
+    
+    if (self.animationGraphEntranceTime == 0) {
+        permanentPopUpLabel.alpha = 1;
+        permanentPopUpView.alpha = 0.7;
+    } else {
+        [UIView animateWithDuration:0.5 delay:self.animationGraphEntranceTime options:UIViewAnimationOptionCurveLinear animations:^{
+            permanentPopUpLabel.alpha = 1;
+            permanentPopUpView.alpha = 0.7;
+        } completion:nil];
+    }
+}
+
+- (BOOL)checkOverlapsForView:(UIView *)view {
+    for (UIView *viewForLabel in [self subviews]) {
+        if ([viewForLabel isKindOfClass:[UIView class]] && viewForLabel.tag == 2100) {
+            if ((viewForLabel.frame.origin.x + viewForLabel.frame.size.width) >= view.frame.origin.x) {
+                if (viewForLabel.frame.origin.y >= view.frame.origin.y && viewForLabel.frame.origin.y <= view.frame.origin.y + view.frame.size.height) return YES;
+                else if (viewForLabel.frame.origin.y + viewForLabel.frame.size.height >= view.frame.origin.y && viewForLabel.frame.origin.y + viewForLabel.frame.size.height <= view.frame.origin.y + view.frame.size.height) return YES;
+            }
+        }
+    }
+    return NO;
+}
+
 - (UIImage *)graphSnapshotImage {
     UIGraphicsBeginImageContextWithOptions(self.bounds.size, NO, [UIScreen mainScreen].scale);
     
@@ -755,6 +762,7 @@
     for (UIView *subviews in self.subviews) {
         [subviews removeFromSuperview];
     }
+    
     [self setNeedsLayout];
 }
 
@@ -835,9 +843,7 @@
         if (gestureRecognizer.numberOfTouches > 0) {
             CGPoint translation = [self.panGesture velocityInView:self.panView];
             return fabs(translation.y) < fabs(translation.x);
-        } else {
-            return NO;
-        }
+        } else return NO;
         return YES;
     } else return NO;
 }
@@ -870,10 +876,10 @@
         } else if ([self.delegate respondsToSelector:@selector(didTouchGraphWithClosestIndex:)] && self.enableTouchReport == YES) {
             [self printDeprecationWarningForOldMethod:@"didTouchGraphWithClosestIndex:" andReplacementMethod:@"lineGraph:didTouchGraphWithClosestIndex:"];
             
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            [self.delegate didTouchGraphWithClosestIndex:((int)closestDot.tag - 100)];
-#pragma clang diagnostic pop
+            #pragma clang diagnostic push
+            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+                [self.delegate didTouchGraphWithClosestIndex:((int)closestDot.tag - 100)];
+            #pragma clang diagnostic pop
         }
     }
     
@@ -885,10 +891,10 @@
         } else if ([self.delegate respondsToSelector:@selector(didReleaseGraphWithClosestIndex:)]) {
             [self printDeprecationWarningForOldMethod:@"didReleaseGraphWithClosestIndex:" andReplacementMethod:@"lineGraph:didReleaseTouchFromGraphWithClosestIndex:"];
             
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            [self.delegate didReleaseGraphWithClosestIndex:(closestDot.tag - 100)];
-#pragma clang diagnostic pop
+            #pragma clang diagnostic push
+            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+                [self.delegate didReleaseGraphWithClosestIndex:(closestDot.tag - 100)];
+            #pragma clang diagnostic pop
         }
         
         [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
@@ -1019,7 +1025,7 @@
     return minValue;
 }
 
-- (CGFloat)yPositionForDotValue:(CGFloat)dotValue{
+- (CGFloat)yPositionForDotValue:(CGFloat)dotValue {
     CGFloat maxValue = [self maxValue]; // Biggest Y-axis value from all the points.
     CGFloat minValue = [self minValue]; // Smallest Y-axis value from all the points.
     
@@ -1030,18 +1036,12 @@
     }
     
     if (minValue == maxValue) positionOnYAxis = self.frame.size.height/2;
-    else {
-        if (self.autoScaleYAxis == YES) {
-            positionOnYAxis = ((self.frame.size.height - padding) - ((dotValue - minValue) / ((maxValue - minValue) / (self.frame.size.height - padding))) + padding/2);
-        } else {
-            positionOnYAxis = ((self.frame.size.height - padding) - dotValue);
-        }
-    }
+    else positionOnYAxis = ((self.frame.size.height - padding) - ((dotValue - minValue) / ((maxValue - minValue) / (self.frame.size.height - padding))) + padding/2);
     
     if ([self.dataSource respondsToSelector:@selector(lineGraph:labelOnXAxisForIndex:)] || [self.dataSource respondsToSelector:@selector(labelOnXAxisForIndex:)]) {
         if ([xAxisLabels count] > 0) {
             UILabel *label = [xAxisLabels objectAtIndex:0];
-            self.XAxisLabelYOffset = label.frame.size.height;
+            self.XAxisLabelYOffset = label.frame.size.height+2;
             positionOnYAxis = positionOnYAxis - self.XAxisLabelYOffset/2;
         }
     }
