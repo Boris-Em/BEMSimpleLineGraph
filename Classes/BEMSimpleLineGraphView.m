@@ -48,7 +48,7 @@
 }
 
 /// The vertical line which appears when the user drags across the graph
-@property (strong, nonatomic) UIView *verticalLine;
+@property (strong, nonatomic) UIView *touchInputLine;
 
 /// View for picking up pan gesture
 @property (strong, nonatomic, readwrite) UIView *panView;
@@ -75,7 +75,7 @@
 @property (nonatomic) CGFloat XAxisLabelYOffset;
 
 /// Find which point is currently the closest to the vertical line
-- (BEMCircle *)closestDotFromVerticalLine:(UIView *)verticalLine;
+- (BEMCircle *)closestDotFromtouchInputLine:(UIView *)touchInputLine;
 
 /// Determines the biggest Y-axis value from all the points
 - (CGFloat)maxValue;
@@ -117,6 +117,9 @@
     _colorLine = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1];
     _colorBottom = [UIColor colorWithRed:0 green:122.0/255.0 blue:255/255 alpha:1];
     _colorPoint = [UIColor whiteColor];
+    _colorTouchInputLine = [UIColor grayColor];
+    _alphaTouchInputLine = 0.2;
+    _widthTouchInputLine = 1;
     
     // Set Alpha Values
     _alphaTop = 1.0;
@@ -226,10 +229,10 @@
     // If the touch report is enabled, set it up
     if (self.enableTouchReport == YES || self.enablePopUpReport == YES) {
         // Initialize the vertical gray line that appears where the user touches the graph.
-        self.verticalLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, self.viewForBaselineLayout.frame.size.height)];
-        self.verticalLine.backgroundColor = [UIColor grayColor];
-        self.verticalLine.alpha = 0;
-        [self addSubview:self.verticalLine];
+        self.touchInputLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.widthTouchInputLine, self.frame.size.height)];
+        self.touchInputLine.backgroundColor = self.colorTouchInputLine;
+        self.touchInputLine.alpha = 0;
+        [self addSubview:self.touchInputLine];
         
         self.panView = [[UIView alloc] initWithFrame:CGRectMake(10, 10, self.viewForBaselineLayout.frame.size.width, self.viewForBaselineLayout.frame.size.height)];
         self.panView.backgroundColor = [UIColor clearColor];
@@ -851,17 +854,13 @@
 - (void)handlePan:(UIPanGestureRecognizer *)recognizer {
     CGPoint translation = [recognizer locationInView:self.viewForBaselineLayout];
     
-    if ((translation.x + self.frame.origin.x) <= self.frame.origin.x) { // To make sure the vertical line doesn't go beyond the frame of the graph.
-        self.verticalLine.frame = CGRectMake(0, 0, 1, self.viewForBaselineLayout.frame.size.height);
-    } else if ((translation.x + self.frame.origin.x) >= self.frame.origin.x + self.frame.size.width) {
-        self.verticalLine.frame = CGRectMake(self.frame.size.width, 0, 1, self.viewForBaselineLayout.frame.size.height);
-    } else {
-        self.verticalLine.frame = CGRectMake(translation.x, 0, 1, self.viewForBaselineLayout.frame.size.height);
+    if (!((translation.x + self.frame.origin.x) <= self.frame.origin.x) && !((translation.x + self.frame.origin.x) >= self.frame.origin.x + self.frame.size.width)) { // To make sure the vertical line doesn't go beyond the frame of the graph.
+        self.touchInputLine.frame = CGRectMake(translation.x - self.widthTouchInputLine/2, 0, self.widthTouchInputLine, self.frame.size.height);
     }
     
-    self.verticalLine.alpha = 0.2;
+    self.touchInputLine.alpha = self.alphaTouchInputLine;
     
-    closestDot = [self closestDotFromVerticalLine:self.verticalLine];
+    closestDot = [self closestDotFromtouchInputLine:self.touchInputLine];
     closestDot.alpha = 0.8;
     
     
@@ -901,13 +900,17 @@
             if (self.alwaysDisplayDots == NO) {
                 closestDot.alpha = 0;
             }
-            self.verticalLine.alpha = 0;
+            self.touchInputLine.alpha = 0;
             if (self.enablePopUpReport == YES) {
                 self.popUpView.alpha = 0;
                 self.popUpLabel.alpha = 0;
             }
         } completion:nil];
     }
+}
+
+- (CGFloat)distanceToClosestPoint {
+    return sqrt(pow(closestDot.center.x - self.touchInputLine.center.x, 2));
 }
 
 - (void)setUpPopUpLabelAbovePoint:(BEMCircle *)closestPoint {
@@ -944,15 +947,15 @@
 
 #pragma mark - Graph Calculations
 
-- (BEMCircle *)closestDotFromVerticalLine:(UIView *)verticalLine {
+- (BEMCircle *)closestDotFromtouchInputLine:(UIView *)touchInputLine {
     currentlyCloser = pow((self.frame.size.width/(numberOfPoints-1))/2, 2);
     for (BEMCircle *point in self.subviews) {
         if (point.tag > 99 && point.tag < 1000 && [point isMemberOfClass:[BEMCircle class]]) {
             if (self.alwaysDisplayDots == NO) {
                 point.alpha = 0;
             }
-            if (pow(((point.center.x) - verticalLine.frame.origin.x), 2) < currentlyCloser) {
-                currentlyCloser = pow(((point.center.x) - verticalLine.frame.origin.x), 2);
+            if (pow(((point.center.x) - touchInputLine.center.x), 2) < currentlyCloser) {
+                currentlyCloser = pow(((point.center.x) - touchInputLine.center.x), 2);
                 closestDot = point;
             }
         }
@@ -1046,6 +1049,12 @@
         }
     }
     return positionOnYAxis;
+}
+
+#pragma mark - Customization Methods
+
+- (void)setColorTouchInputLine:(UIColor *)colorTouchInputLine{
+    self.touchInputLine.backgroundColor = colorTouchInputLine;
 }
 
 #pragma mark - Other Methods

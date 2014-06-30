@@ -65,6 +65,11 @@
 - (void)reloadGraph;
 
 
+/** Calculates the distance between the touch input and the closest point on the graph.
+ @return The distance between the touch input and the closest point on the graph. */
+- (CGFloat)distanceToClosestPoint;
+
+
 /** Takes a snapshot of the graph.
  @return The snapshot of the graph as a UIImage object. */
 - (UIImage *)graphSnapshotImage NS_AVAILABLE_IOS(7_0);
@@ -210,6 +215,18 @@
 
 /// The color of the circles that represent each point. Default is white.
 @property (strong, nonatomic) UIColor *colorPoint;
+
+
+/// The color of the line that appears when the user touches the graph.
+@property (strong, nonatomic) UIColor *colorTouchInputLine;
+
+
+/// The alpha of the line that appears when the user touches the graph.
+@property (nonatomic) CGFloat alphaTouchInputLine;
+
+
+/// The width of the line that appears when the user touches the graph.
+@property (nonatomic) CGFloat widthTouchInputLine;
 
 
 /// Color of the label's text displayed on the X-Axis.
