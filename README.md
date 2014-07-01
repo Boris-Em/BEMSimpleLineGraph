@@ -181,6 +181,7 @@ Next, implement the two following methods: `lineGraph:didTouchGraphWithClosestIn
     	// Set the UIlabel alpha to 0 for example.
     }
     ```
+    
 ### X-Axis Labels
 BEMSimpleLineGraph makes it possible to add labels along the X-Axis. To do so, simply implement the two followings methods: `numberOfGapsBetweenLabelsOnLineGraph:` and `lineGraph:labelOnXAxisForIndex:`.
 
