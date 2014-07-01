@@ -118,8 +118,9 @@
     _colorBottom = [UIColor colorWithRed:0 green:122.0/255.0 blue:255/255 alpha:1];
     _colorPoint = [UIColor whiteColor];
     _colorTouchInputLine = [UIColor grayColor];
+    _colorBackgroundPopUplabel = [UIColor whiteColor];
     _alphaTouchInputLine = 0.2;
-    _widthTouchInputLine = 1;
+    _widthTouchInputLine = 1.0;
     
     // Set Alpha Values
     _alphaTop = 1.0;
@@ -257,7 +258,7 @@
             self.popUpLabel.alpha = 0;
             
             self.popUpView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.popUpLabel.frame.size.width + 7, self.popUpLabel.frame.size.height + 2)];
-            self.popUpView.backgroundColor = [UIColor whiteColor];
+            self.popUpView.backgroundColor = self.colorBackgroundPopUplabel;
             self.popUpView.alpha = 0;
             self.popUpView.layer.cornerRadius = 3;
             [self addSubview:self.popUpView];

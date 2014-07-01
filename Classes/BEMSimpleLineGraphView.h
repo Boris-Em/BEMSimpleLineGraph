@@ -236,6 +236,11 @@
 /// Color of the label's text displayed on the Y-Axis.
 @property (strong, nonatomic) UIColor *colorYaxisLabel;
 
+
+/// Color of the pop up label's background displayed when the user touches the graph.
+@property (strong, nonatomic) UIColor *colorBackgroundPopUplabel;
+
+
 @end
 
 
