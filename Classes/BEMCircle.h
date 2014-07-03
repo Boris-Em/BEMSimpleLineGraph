@@ -23,6 +23,7 @@
 /// Class to draw the circle for the points.
 @interface BEMCircle : UIView
 
+/// Set to YES if the data point circles should be constantly displayed. NO if they should only appear when relevant.
 @property (assign, nonatomic) BOOL shouldDisplayConstantly;
 
 /// The point color

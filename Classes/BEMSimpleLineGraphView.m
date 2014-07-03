@@ -405,6 +405,8 @@
     
     line.color = self.colorLine;
     line.animationTime = self.animationGraphEntranceTime;
+    line.animationType = self.animationGraphStyle;
+    
     [self addSubview:line];
     [self sendSubviewToBack:line];
 }

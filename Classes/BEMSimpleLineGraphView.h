@@ -139,6 +139,11 @@
 @property (nonatomic) CGFloat animationGraphEntranceTime;
 
 
+/** Animation style used when the graph appears. Default value is BEMLineAnimationDraw.
+ @see Refer to \p BEMLineAnimation for a complete list of animation styles. */
+@property (nonatomic) BEMLineAnimation animationGraphStyle;
+
+
 /// If set to YES, the graph will report the value of the closest point from the user current touch location. The 2 methods for touch event bellow should therefore be implemented. Default value is NO.
 @property (nonatomic) BOOL enableTouchReport;
 
@@ -164,8 +169,7 @@
 @property (nonatomic) BOOL enableReferenceAxisLines;
 
 /** Draws a translucent frame between the graph and any enabled axis, when set to YES. Default value is NO.
- @see enableReferenceAxisLines must be set to YES for this property to have any affect.
- @todo Does not yet draw a frame for the Y-Axis, only the X-Axis. When the X-Axis has more than one line, the label and frame overlap. */
+ @see enableReferenceAxisLines must be set to YES for this property to have any affect.  */
 @property (nonatomic) BOOL enableReferenceAxisFrame;
 
 
@@ -273,7 +277,8 @@
 
 //------- X AXIS -------//
 
-/** The string to display on the label on the X-axis at a given index. Please note that the number of strings to be returned should be equal to the number of points in the Graph.
+/** The string to display on the label on the X-axis at a given index. 
+ @discussion The number of strings to be returned should be equal to the number of points in the graph (returned in \p numberOfPointsInLineGraph). Otherwise, an exception may be thrown.
  @param graph The graph object which is requesting the label on the specified X-Axis position.
  @param index The index from left to right of a given label on the X-axis. Is the same index as the one for the points. The first value for the index is 0. */
 - (NSString *)lineGraph:(BEMSimpleLineGraphView *)graph labelOnXAxisForIndex:(NSInteger)index;

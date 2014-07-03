@@ -67,9 +67,16 @@
     CGPoint CP1;
     CGPoint CP2;
     
-    if (self.bezierCurveIsEnabled == YES) { // BEZIER CURVE
-        CP1 = CGPointMake(self.P1.x + (self.P2.x - self.P1.x)/3, self.P1.y - (self.P1.y - self.P2.y)/3 - (self.P0.y - self.P1.y)*0.3); // First control point
-        CP2 = CGPointMake(self.P1.x + 2*(self.P2.x - self.P1.x)/3, (self.P1.y - 2*(self.P1.y - self.P2.y)/3) + (self.P2.y - self.P3.y)*0.3); // Second control point
+     // BEZIER CURVE
+    if (self.bezierCurveIsEnabled == YES) {
+        
+        // First control point
+        CP1 = CGPointMake(self.P1.x + (self.P2.x - self.P1.x)/3,
+                          self.P1.y - (self.P1.y - self.P2.y)/3 - (self.P0.y - self.P1.y)*0.3);
+        
+        // Second control point
+        CP2 = CGPointMake(self.P1.x + 2*(self.P2.x - self.P1.x)/3,
+                          (self.P1.y - 2*(self.P1.y - self.P2.y)/3) + (self.P2.y - self.P3.y)*0.3);
     }
     
     // LINE
@@ -90,19 +97,27 @@
     for (int i = 0; i<[self.arrayOfPoints count]-1; i++) {
         p1 = CGPointMake((self.frame.size.width/([self.arrayOfPoints count] - 1))*i, [[self.arrayOfPoints objectAtIndex:i] floatValue]);
         p2 = CGPointMake((self.frame.size.width/([self.arrayOfPoints count] - 1))*(i+1), [[self.arrayOfPoints objectAtIndex:i+1] floatValue]);
+        
         [line moveToPoint:p1];
         [fillBottom addLineToPoint:p1];
         [fillTop addLineToPoint:p1];
+        
         if (self.bezierCurveIsEnabled == YES) {
             if (i > 0) {
                 p0 = CGPointMake((self.frame.size.width/([self.arrayOfPoints count] - 1))*(i-1), [[self.arrayOfPoints objectAtIndex:i-1] floatValue]);
             } else p0 = p1;
+            
             if (i<[self.arrayOfPoints count] - 2) {
                 p3 = CGPointMake((self.frame.size.width/([self.arrayOfPoints count] - 1))*(i+2), [[self.arrayOfPoints objectAtIndex:i+2] floatValue]);
             } else p3 = p2;
             
-            CP1 = CGPointMake(p1.x + (p2.x - p1.x)/3, p1.y - (p1.y - p2.y)/3 - (p0.y - p1.y)*0.3); // First control point
-            CP2 = CGPointMake(p1.x + 2*(p2.x - p1.x)/3, (p1.y - 2*(p1.y - p2.y)/3) + (p2.y - p3.y)*0.3); // Second control point
+            // First control point
+            CP1 = CGPointMake(p1.x + (p2.x - p1.x)/3,
+                              p1.y - (p1.y - p2.y)/3 - (p0.y - p1.y)*0.3);
+            
+            // Second control point
+            CP2 = CGPointMake(p1.x + 2*(p2.x - p1.x)/3,
+                              (p1.y - 2*(p1.y - p2.y)/3) + (p2.y - p3.y)*0.3);
             
             [line addCurveToPoint:p2 controlPoint1:CP1 controlPoint2:CP2];
             [fillBottom addCurveToPoint:p2 controlPoint1:CP1 controlPoint2:CP2];
@@ -147,7 +162,7 @@
         pathLayer.fillColor = nil;
         pathLayer.lineWidth = self.lineWidth;
         pathLayer.lineJoin = kCALineJoinBevel;
-        [self animateForLayer:pathLayer];
+        [self animateForLayer:pathLayer withAnimationType:self.animationType isAnimatingReferenceLine:NO];
         [self.layer addSublayer:pathLayer];
         
         if (self.enableRefrenceLines == YES) {
@@ -159,18 +174,32 @@
             referenceLinesPathLayer.fillColor = nil;
             referenceLinesPathLayer.lineWidth = self.lineWidth/2;
             referenceLinesPathLayer.lineJoin = kCALineJoinBevel;
-            [self animateForLayer:referenceLinesPathLayer];
+            [self animateForLayer:referenceLinesPathLayer withAnimationType:self.animationType isAnimatingReferenceLine:YES];
             [self.layer addSublayer:referenceLinesPathLayer];
         }
     }
 }
 
-- (void)animateForLayer:(CAShapeLayer *)shapeLayer {
-    CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
-    pathAnimation.duration = self.animationTime;
-    pathAnimation.fromValue = [NSNumber numberWithFloat:0.0f];
-    pathAnimation.toValue = [NSNumber numberWithFloat:1.0f];
-    [shapeLayer addAnimation:pathAnimation forKey:@"strokeEnd"];
+- (void)animateForLayer:(CAShapeLayer *)shapeLayer withAnimationType:(BEMLineAnimation)animationType isAnimatingReferenceLine:(BOOL)shouldHalfOpacity {
+    if (animationType == BEMLineAnimationNone) return;
+    else if (animationType == BEMLineAnimationFade) {
+        CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
+        pathAnimation.duration = self.animationTime;
+        pathAnimation.fromValue = [NSNumber numberWithFloat:0.0f];
+        if (shouldHalfOpacity == YES) pathAnimation.toValue = [NSNumber numberWithFloat:self.lineAlpha/2];
+        else pathAnimation.toValue = [NSNumber numberWithFloat:self.lineAlpha];
+        [shapeLayer addAnimation:pathAnimation forKey:@"opacity"];
+        
+        return;
+    } else {
+        CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
+        pathAnimation.duration = self.animationTime;
+        pathAnimation.fromValue = [NSNumber numberWithFloat:0.0f];
+        pathAnimation.toValue = [NSNumber numberWithFloat:1.0f];
+        [shapeLayer addAnimation:pathAnimation forKey:@"strokeEnd"];
+        
+        return;
+    }
 }
 
 @end

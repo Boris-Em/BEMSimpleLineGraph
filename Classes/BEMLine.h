@@ -21,6 +21,18 @@
 
 
 
+/// The type of animation used to display the graph
+typedef NS_ENUM(NSInteger, BEMLineAnimation) {
+    /// The draw animation draws the lines from left to right and bottom to top.
+    BEMLineAnimationDraw,
+    /// The fade animation fades in the lines from 0% opaque to 100% opaque (based on the \p lineAlpha property).
+    BEMLineAnimationFade,
+    /// No animation is used to display the graph
+    BEMLineAnimationNone
+};
+
+
+
 /// Class to draw the line of the graph
 @interface BEMLine : UIView
 
@@ -106,6 +118,9 @@
 
 /// The entrance animation period in seconds.
 @property (nonatomic) CGFloat animationTime;
+
+/// The type of entrance animation.
+@property (nonatomic) BEMLineAnimation animationType;
 
 
 

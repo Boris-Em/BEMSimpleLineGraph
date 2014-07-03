@@ -41,10 +41,10 @@
     /* This is commented out because the graph is created in the interface with this sample app. However, the code remains as an example for creating the graph using code.
      BEMSimpleLineGraphView *myGraph = [[BEMSimpleLineGraphView alloc] initWithFrame:CGRectMake(0, 60, 320, 250)];
      myGraph.delegate = self;
+     myGraph.dataSource = self;
      [self.view addSubview:myGraph]; */
     
     // Customization of the graph
-    self.myGraph.enableTouchReport = YES;
     self.myGraph.colorTop = [UIColor colorWithRed:31.0/255.0 green:187.0/255.0 blue:166.0/255.0 alpha:1.0];
     self.myGraph.colorBottom = [UIColor colorWithRed:31.0/255.0 green:187.0/255.0 blue:166.0/255.0 alpha:1.0];
     self.myGraph.colorLine = [UIColor whiteColor];
@@ -59,6 +59,7 @@
     self.myGraph.alwaysDisplayDots = NO;
     self.myGraph.enableReferenceAxisLines = YES;
     self.myGraph.enableReferenceAxisFrame = YES;
+    self.myGraph.animationGraphStyle = BEMLineAnimationDraw;
     
     // The labels to report the values of the graph when the user touches it
     self.labelValues.text = [NSString stringWithFormat:@"%i", [[self.myGraph calculatePointValueSum] intValue]];
@@ -94,6 +95,7 @@
     self.labelValues.textColor = color;
     self.navigationController.navigationBar.tintColor = color;
     
+    self.myGraph.animationGraphStyle = BEMLineAnimationFade;
     [self.myGraph reloadGraph];
 }
 
@@ -149,7 +151,7 @@
 }
 
 - (NSInteger)numberOfYAxisLabelsOnLineGraph:(BEMSimpleLineGraphView *)graph {
-    return 5;
+    return 3;
 }
 
 - (NSString *)lineGraph:(BEMSimpleLineGraphView *)graph labelOnXAxisForIndex:(NSInteger)index {
