@@ -465,7 +465,7 @@
         
         CGFloat viewWidth = self.frame.size.width - labelYaxisOffset;
         
-        UILabel *firstLabel = [[UILabel alloc] initWithFrame:CGRectMake(3+labelYaxisOffset, self.frame.size.height , viewWidth/2, 20)];
+        UILabel *firstLabel = [[UILabel alloc] initWithFrame:CGRectMake(3+labelYaxisOffset, self.frame.size.height-20, viewWidth/2, 20)];
         firstLabel.text = firstXLabel;
         firstLabel.font = self.labelFont;
         firstLabel.textAlignment = 0;
@@ -474,11 +474,14 @@
         firstLabel.tag = 1000;
         [self addSubview:firstLabel];
         [xAxisValues addObject:firstXLabel];
+        [xAxisLabels addObject:firstLabel];
+        
+        NSLog(@"Y-Coordinate: %f", firstLabel.frame.origin.y);
         
         NSNumber *xFirstAxisLabelCoordinate = [NSNumber numberWithFloat:firstLabel.center.x-labelYaxisOffset];
         [xAxisLabelPoints addObject:xFirstAxisLabelCoordinate];
         
-        UILabel *lastLabel = [[UILabel alloc] initWithFrame:CGRectMake(viewWidth/2 - 3, self.frame.size.height, viewWidth/2, 20)];
+        UILabel *lastLabel = [[UILabel alloc] initWithFrame:CGRectMake(viewWidth/2 - 3, self.frame.size.height-20, viewWidth/2, 20)];
         lastLabel.text = lastXLabel;
         lastLabel.font = self.labelFont;
         lastLabel.textAlignment = 2;
@@ -487,6 +490,9 @@
         lastLabel.tag = 1000;
         [self addSubview:lastLabel];
         [xAxisValues addObject:lastXLabel];
+        [xAxisLabels addObject:lastLabel];
+        
+        NSLog(@"Y-Coordinate: %f", lastLabel.frame.origin.y);
         
         NSNumber *xLastAxisLabelCoordinate = [NSNumber numberWithFloat:lastLabel.center.x-labelYaxisOffset];
         [xAxisLabelPoints addObject:xLastAxisLabelCoordinate];
@@ -541,26 +547,24 @@
                 
                 [self addSubview:labelXAxis];
                 [xAxisValues addObject:xAxisLabelText];
+                
+                NSLog(@"Y-Coordinate: %f", labelXAxis.frame.origin.y);
             }
             
             if (self.removeOverlappingLabelsOnAxis == YES) {
                 __block NSUInteger lastMatchIndex;
                 NSMutableArray *overlapLabels = [NSMutableArray arrayWithCapacity:0];
-                [xAxisLabels enumerateObjectsUsingBlock:^(UILabel*label, NSUInteger idx, BOOL *stop) {
+                [xAxisLabels enumerateObjectsUsingBlock:^(UILabel *label, NSUInteger idx, BOOL *stop) {
                     
-                    if (idx==0) {
-                        lastMatchIndex = 0;
-                    } else { //Skip first one
+                    if (idx == 0) lastMatchIndex = 0;
+                    else { // Skip first one
                         UILabel *prevLabel = [xAxisLabels objectAtIndex:lastMatchIndex];
                         CGRect r = CGRectIntersection(prevLabel.frame, label.frame);
-                        if (CGRectIsNull(r)) {
-                            lastMatchIndex = idx;
-                        } else {
-                            //overlapped
-                            [overlapLabels addObject:label];
-                        }
+                        if (CGRectIsNull(r)) lastMatchIndex = idx;
+                        else [overlapLabels addObject:label]; // Overlapped
                     }
                 }];
+                
                 for (UILabel *l in overlapLabels) {
                     [l removeFromSuperview];
                 }
