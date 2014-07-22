@@ -1,0 +1,3 @@
+language: objective-c
+xcode_project: Sample Project/SimpleLineChart.xcodeproj
+xcode_scheme: SimpleLineChartTests
