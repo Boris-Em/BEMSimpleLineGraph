@@ -96,6 +96,11 @@ The easiest way to install BEMSimpleLineGraph is to use <a href="http://cocoapod
 	
 The other way to install BEMSimpleLineGraph, is to drag and drop the *Classes* folder into your Xcode project. When you do so, check the "*Copy items into destination group's folder*" box.
 
+####Swift Projects
+To use BEMSimpleLineGraph in a Swift project add the following to your bridging header:
+
+    #import "BEMSimpleLineGraph.h"
+
 ### Setup
 Setting up BEMSimpleLineGraph in your project is simple. If you're familiar with UITableView, then BEMSimpleLineGraph should be a breeze. Follow the steps below to get everything up and running.
 
