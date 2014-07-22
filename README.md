@@ -5,57 +5,90 @@
 <b>BEMSimpleLineGraph</b> makes it easy to create and customize line graphs for iOS.
 </p>
 
+***
+
 ## Feature Branch Warning
 You are currently viewing the feature branch of this GitHub repository. The feature branch contains bleeding edge commits / features, otherwise known as **alpha or beta** features. Content in this branch may be unstable, bug-ridden, non-working, and undocumented. The sole purpose of this branch is to test and improve on new features that may or may not be included in future (stable) versions.
 
 It is not recommended that you use this branch in a production app of any kind. **For stable production ready code**, please refer to the [master branch](https://github.com/Boris-Em/BEMSimpleLineGraph/tree/master).
+
+***
+
+BEMSimpleLineGraph is a charting library that makes it easy to create beautiful line graphs for iOS. It is easy to set-up and to use in any iOS Project. It's focused on highly customizable and interactive line graphs. Plus, its lightweight and can be integrated in minutes (maybe even seconds). All of this while remaining familiar, because BEMSimpleLineGraph is modeled after UITableView and UICollectionView.
+
+<p align = center><a href="https://github.com/Boris-Em/BEMSimpleLineGraph/wiki/Axis-Labels"><img src="http://s3.postimg.org/ub8vnbsdf/Axis_labels.png"></a></p>
+
+***
+
+<p align = center><a href="https://github.com/Boris-Em/BEMSimpleLineGraph/wiki/Bézier-Curves"><img src="http://s7.postimg.org/xz6qqo4vf/Bezier_Curves.gif"></a></p>
+
+***
+
+<p align = center><a href="https://github.com/Boris-Em/BEMSimpleLineGraph/wiki/Entrance-Animation"><img src="http://s27.postimg.org/48cpeql9v/Animation.gif"></a></p>
+
+***
+
+<p align = center><a href="https://github.com/Boris-Em/BEMSimpleLineGraph/wiki/Advanced-Calculations"><img src="http://s2.postimg.org/x95asiba1/Calculation.png"></a></p>
+
+***
+
+<p align = center><a href="https://github.com/Boris-Em/BEMSimpleLineGraph/wiki/Graph-Snapshots"><img src="http://s16.postimg.org/tn6qqn1kl/Snapshots.png"></a></p>
+
+***
+
+<p align = center><a href="default.asp"><img src="http://s2.postimg.org/fbbdx7xcp/Touch.gif"></a></p>
+
+***
 
 ## Table of Contents
 
 * [**Project Details**](#project-details)  
     * [Requirements](#requirements)
     * [License](#license)
-    * [Contributions](#contributions)
     * [Sample App](#sample-app)
-    * [Support](#support)
-* [**Documentation**](#documentation)
+* [**Setup**](#setup)
     * [Installation](#installation)
     * [Setup](#setup)
+* [**Documentation**](#documentation)
+    * For full documentation, see the [wiki](https://github.com/Boris-Em/BEMSimpleLineGraph/wiki)
     * [Required Delegate / Data Source Methods](#required-delegate--data-source-methods)
     * [Reloading the Data Source](#reloading-the-data-source) 
-    * [Retrieving the Data Source](#retrieving-the-data-source)
-    * [Data Source Calculations](#data-source-calculations)
-    * [Status Reporting](#status-reporting)
-    * [Interactive Graph](#interactive-graph)
-    * [X-Axis Labels](#x-axis-labels)
     * [Bezier Curves](#bezier-curves)
-    * [Line Customization](#line-customization)
+    * [Interactive Graph](#interactive-graph)
     * [Properties](#properties)
-    * [Graph Snapshots](#graph-snapshots)
+
+***
 
 ## Project Details
 Learn more about the BEMSimpleLineGraph project requirements, licensing, and contributions.
+
+[![Gitter chat](https://badges.gitter.im/Boris-Em/BEMSimpleLineGraph.png)](https://gitter.im/Boris-Em/BEMSimpleLineGraph)  
+Join us on [Gitter](https://gitter.im/Boris-Em/BEMSimpleLineGraph) if you need any help or want to talk about the project.
 
 ### Requirements
 - Requires iOS 6 or later. The sample project is optimized for iOS 7.
 - Requires Automatic Reference Counting (ARC).
 - Optimized for ARM64 Architecture
 
+Requires Xcode 5 for use in any iOS Project. Requires a minimum of iOS 6.0 as the deployment target. 
+
+| Current Build Target 	| Earliest Supported Build Target 	| Earliest Compatible Build Target 	|
+|:--------------------:	|:-------------------------------:	|:--------------------------------:	|
+|       iOS 7.1        	|            iOS 7.0             	|             iOS 6.0              	|
+|     Xcode 5.1.1      	|          Xcode 5.1            	|           Xcode 5.0            	|
+|      LLVM 5.0        	|             LLVM 5.0            	|             LLVM 5.0             	|
+
+> REQUIREMENTS NOTE  
+*Supported* means that the library has been tested with this version. *Compatible* means that the library should work on this OS version (i.e. it doesn't rely on any unavailable SDK features) but is no longer being tested for compatibility and may require tweaking or bug fixes to run correctly.
+
 ### License
 See the [License](https://github.com/Boris-Em/BEMSimpleLineGraph/blob/master/LICENSE). You are free to make changes and use this in either personal or commercial projects. Attribution is not required, but it is appreciated. A little Thanks! (or something to that affect) would be much appreciated. If you use BEMSimpleLineGraph in your app, let us know.
-
-### Contributions
-Any contribution is more than welcome! You can contribute through pull requests and issues on GitHub. 
 
 ### Sample App
 The iOS Sample App included with this project demonstrates how to correctly setup and use BEMSimpleLineGraph. You can refer to the sample app for an understanding of how to use and setup BEMSimpleLineGraph.
 
-### Support
-[![Gitter chat](https://badges.gitter.im/Boris-Em/BEMSimpleLineGraph.png)](https://gitter.im/Boris-Em/BEMSimpleLineGraph)  
-Join us on [Gitter](https://gitter.im/Boris-Em/BEMSimpleLineGraph) if you need any help or want to talk about the project.
-
-## Documentation
-All methods, properties, types, and delegate methods available on the BEMSimpleLineGraph class are documented below. If you're using Xcode 5 with BEMSimpleLineGraph, documentation is available directly within Xcode (just Option-Click any method for Quick Help).
+## Setup
+BEMSimpleLineGraph can be added to any project (big or small) in a matter of minutes (maybe even seconds if you're super speedy). Cocoapods is fully supported, and so are all the latest technologies (eg. ARC, Storyboards, Interface Builder Attributes, Modules, and more).
 
 ### Installation
 The easiest way to install BEMSimpleLineGraph is to use <a href="http://cocoapods.org/" target="_blank">CocoaPods</a>. To do so, simply add the following line to your `Podfile`:
@@ -92,6 +125,9 @@ Setting up BEMSimpleLineGraph in your project is simple. If you're familiar with
 
  4. Implement the two required data source methods: `numberOfPointsInLineGraph:` and `lineGraph:valueForPointAtIndex:`. See documentation below for more information
 
+## Documentation
+The essential parts of BEMSimpleLineGraph are documented below. For full documentation, see the [wiki](https://github.com/Boris-Em/BEMSimpleLineGraph/wiki). If you're using Xcode 5 with BEMSimpleLineGraph, documentation is available directly within Xcode (just Option-Click any method for Quick Help).
+
 ### Required Delegate / Data Source Methods
 
 **Number of Points in Graph**  
@@ -102,7 +138,7 @@ Returns the number of points in the line graph. The line graph gets the value re
     }
 
 **Value for Point at Index**  
-Informs the position of each point on the Y-Axis at a given index. This method is called for every point specifed in the `numberOfPointsInLineGraph:` method. The parameter `index` is the position from left to right of the point on the X-Axis:
+Informs the position of each point on the Y-Axis at a given index. This method is called for every point specified in the `numberOfPointsInLineGraph:` method. The parameter `index` is the position from left to right of the point on the X-Axis:
 
 	- (CGFloat)lineGraph:(BEMSimpleLineGraphView *)graph valueForPointAtIndex:(NSInteger)index {
     		return …; // The value of the point on the Y-Axis for the index.
@@ -119,78 +155,11 @@ Similar to a UITableView's `reloadData` method, BEMSimpleLineGraph has a `reload
         [self.myGraph reloadGraph];
     }
 
-### Retrieving the Data Source
-The values submitted through the data source delegate methods are saved / recorded. You can retrieve the line graph's current data points and X-Axis with the two methods below.
-
-    // Retrieve current X-Axis values
-    NSArray *arrayOfXLabels = [self.myGraph graphValuesForXAxis]; // The returned NSArray contains an array of NSString objects
-    
-    // Retrieve the Data Points
-    NSArray *arrayOfDataPoints = [self.myGraph graphValuesForDataPoints]; // The returned NSArray contains an array of NSNumber objects (originally formatted as a float).
-
-### Data Source Calculations
-In addition to recording and displaying data, BEMSimpleLineGraph can also perform advanced calculations with your data. All calculation methods are available publically and begin with `calculate`. BEMSimpleLineGraph can calculate Standard Deviation, Average, Median, Mode, Minimum, and Maximum values.
-
-### Status Reporting
-When the line graph starts or completes loading it will call a delegate method. When it begins reloading the `lineGraphDidBeginLoading:` method is called. When loading is finished, the `lineGraphDidFinishLoading:` method is called.
-
 ### Interactive Graph
 BEMSimpleLineGraph can react to the user touching the graph by two different ways: **Popup Reporting** and **Touch Reporting**.
 
 <p align="center"><img src="http://s21.postimg.org/3lkbvgp53/GIF_Touch_Report.gif"/></p>
 <p align="center"> On this example, both Popup Reporting and Touch Reporting are activated. </p>
-
-**Popup Reporting**  
-When the user touches and drags his finger along the graph, a popup label will appear on top of the closest dot from the user's finger. The label will display the value of the point.  
-To enable Popup Reporting, simply set the BOOL property `enablePopUpReport` to YES.
-  
-  	self.myGraph.enablePopUpReport = YES;
-
-**Touch Reporting**  
-When the user touches and drags his finger along the graph, it's possible to retrive the value of the closest point.  
-To do so, first toggle the `enableTouchReport` property:
-
-	self.myGraph.enableTouchReport = YES;
-
-Next, implement the two following methods: `lineGraph:didTouchGraphWithClosestIndex` and `lineGraph:didReleaseTouchFromGraphWithClosestIndex:`.
-
-1. The `lineGraph:didTouchGraphWithClosestIndex` method gets called when the user touches the graph. The parameter `index` is the closest index (X-Axis) from the user's finger position.
-
-	    - (void)lineGraph:(BEMSimpleLineGraphView *)graph didTouchGraphWithClosestIndex:(NSInteger)index {
-	    	// Here you could change the text of a UILabel with the value of the closest index for example.
-	    }
-
-2. The `lineGraph:didReleaseTouchFromGraphWithClosestIndex:` method gets called when the user stops touching the graph. The parameter `index` is the closest index (X-Axis) from the user's last finger position.
-
-	    - (void)lineGraph:(BEMSimpleLineGraphView *)graph didReleaseTouchFromGraphWithClosestIndex:(CGFloat)index {
-	    	// Set the UIlabel alpha to 0 for example.
-	    }
-
-### X-Axis Labels
-BEMSimpleLineGraph makes it possible to add labels along the X-Axis. To do so, simply implement the two followings methods: `numberOfGapsBetweenLabelsOnLineGraph:` and `lineGraph:labelOnXAxisForIndex:`.
-
-**Gaps between labels**  
-Informs how much empty space is needed between each displayed label. Returning 0 will display all of the labels. Returning the total number of labels will only display the first and last label. See the image below for clarification.
-
-	- (NSInteger)numberOfGapsBetweenLabelsOnLineGraph:(BEMSimpleLineGraphView *)graph {
-		return X; // The number of hidden labels between each displayed label.
-	}
-	
-<p align="center"><img src="http://img838.imageshack.us/img838/9329/tz01.png"/></p>	
-
-<p align="center"> On the left, <tt>numberOfGapsBetweenLabelsOnLineGraph:</tt> returns 0, on the middle it returns 1 and on the right it returns the number of points in the graph. </p>
-
-**Label on X Axis**  
-The text to be displayed for each UILabel on the X-Axis at a given index. It should return as many strings as the number of points on the graph.
-
-	- (NSString *)lineGraph:(BEMSimpleLineGraphView *)graph labelOnXAxisForIndex:(NSInteger)index {
-		return …;
-	}
-
-**X-Axis Label Color**  
-The property `colorXaxisLabel` controls the color of the text of the UILabels on the X-Axis:
-
-	@property (strong, nonatomic) UIColor *colorXaxisLabel;
 
 ### Bezier Curves
 <img align="left" width="237" height="141" src="http://s4.postimg.org/ucf4zsyd9/BEMSimple_Line_Graph_Bezier_Curve.png">
@@ -200,46 +169,5 @@ To do so, set the property `enableBezierCurve` to YES.
 
 	self.myGraph.enableBezierCurve = YES;
    
-### Line Customization
-Two delegate methods on the `BEMSimpleLineGraphDelegate` let you customize the color and alpha of a specifc line in the graph.
-
-**Line Color**
-Specify the color of the line at a specific index (the graph is made of multiple lines that appear as one).
-
-    - (UIColor *)lineGraph:(BEMSimpleLineGraphView *)graph lineColorForIndex:(NSInteger)index {
-        return [UIColor color];
-    }
-
-**Line Alpha**
-Specify the alpha value of the line at a specific index (the graph is made of multiple lines that appear as one).
-
-    - (CGFloat)lineGraph:(BEMSimpleLineGraphView *)graph lineAlphaForIndex:(NSInteger)index {
-        return 1.0;
-    }
-
 ### Properties
-BEMSimpleLineGraphs can be customized by using various properties. A variety of properties let you control the animation, colors, and alpha of the graph.
-
-**Entrance Animation**  
-The `animationGraphEntranceTime` property controls the time of the entrance animation. It is an CGFloat that default to 1.5 seconds.
-
-A value of 0 will disable the animation.
-
-<p align="center"><img src="http://img819.imageshack.us/img819/4290/3vs.gif"/></p>
-
-**Custom Colors and Alpha**  
-BEMSimpleLineGraphs are split into three parts - the top, the bottom, and the line. You can set the alpha and color of each of these parts separately.
-
- * Top Section. The `colorTop` and `alphaTop` properties control the color (UIColor) and alpha (float) of the top part of the graph.  
- * Bottom Section. The `colorBottom` and `alphaBottom` properties control the color (UIColor) and alpha (float) of the bottom part of the graph.  
- * Line. The `colorLine` and `alphaLine` properties control the color (UIColor) and alpha (float) of the line of the graph. The `widthLine` property controls the width of the line of graph (float that defaults to 1.0).
- * Point. The `colorPoint` property controls the color (UIColor) of the points of the graph. The `sizePoint` property controls the size (diameter) of the points of the graph (float that defaults to 10.0).
-
-### Graph Snapshots
-On iOS 7.0 and above you can take a snapshot of the line graph view and get a UIImage representation of the snapshot. To do so, simply call the method below at anytime in the graph's lifecycle. Note that the snapshot is not of the completed graph, but of the graph in its current state (whether it is in mid-animation or not). You can use the `lineGraphDidFinishLoading:` delegate method to find out when the graph has finished rendering and animating.
-
-    // Method Definition
-    - (UIImage *)graphSnapshotImage;
-    
-    // Method Usage
-    UIImage *imageOfGraph = [self.myGraph graphSnapshotImage];
+BEMSimpleLineGraphs can be customized by using various properties. A multitude of properties let you control the animation, colors, and alpha of the graph. Many of these properties can be set from Interface Build and the Attributes Inspector, others must be set in code.
