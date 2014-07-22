@@ -181,10 +181,6 @@
 @property (nonatomic) BOOL alwaysDisplayPopUpLabels;
 
 
-/// If set to YES, the overlapping labels on the axis will be removed. Default value is NO.
-@property (nonatomic) BOOL removeOverlappingLabelsOnAxis;
-
-
 /// Color of the bottom part of the graph (between the line and the X-axis).
 @property (strong, nonatomic) UIColor *colorBottom;
 

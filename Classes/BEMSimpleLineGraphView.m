@@ -140,7 +140,6 @@
     _autoScaleYAxis = YES;
     _alwaysDisplayDots = NO;
     _alwaysDisplayPopUpLabels = NO;
-    _removeOverlappingLabelsOnAxis = NO;
     
     // Initialize the various arrays
     xAxisValues = [NSMutableArray array];
@@ -476,8 +475,6 @@
         [xAxisValues addObject:firstXLabel];
         [xAxisLabels addObject:firstLabel];
         
-        NSLog(@"Y-Coordinate: %f", firstLabel.frame.origin.y);
-        
         NSNumber *xFirstAxisLabelCoordinate = [NSNumber numberWithFloat:firstLabel.center.x-labelYaxisOffset];
         [xAxisLabelPoints addObject:xFirstAxisLabelCoordinate];
         
@@ -491,8 +488,6 @@
         [self addSubview:lastLabel];
         [xAxisValues addObject:lastXLabel];
         [xAxisLabels addObject:lastLabel];
-        
-        NSLog(@"Y-Coordinate: %f", lastLabel.frame.origin.y);
         
         NSNumber *xLastAxisLabelCoordinate = [NSNumber numberWithFloat:lastLabel.center.x-labelYaxisOffset];
         [xAxisLabelPoints addObject:xLastAxisLabelCoordinate];
@@ -551,23 +546,21 @@
                 NSLog(@"Y-Coordinate: %f", labelXAxis.frame.origin.y);
             }
             
-            if (self.removeOverlappingLabelsOnAxis == YES) {
-                __block NSUInteger lastMatchIndex;
-                NSMutableArray *overlapLabels = [NSMutableArray arrayWithCapacity:0];
-                [xAxisLabels enumerateObjectsUsingBlock:^(UILabel *label, NSUInteger idx, BOOL *stop) {
-                    
-                    if (idx == 0) lastMatchIndex = 0;
-                    else { // Skip first one
-                        UILabel *prevLabel = [xAxisLabels objectAtIndex:lastMatchIndex];
-                        CGRect r = CGRectIntersection(prevLabel.frame, label.frame);
-                        if (CGRectIsNull(r)) lastMatchIndex = idx;
-                        else [overlapLabels addObject:label]; // Overlapped
-                    }
-                }];
+            __block NSUInteger lastMatchIndex;
+            NSMutableArray *overlapLabels = [NSMutableArray arrayWithCapacity:0];
+            [xAxisLabels enumerateObjectsUsingBlock:^(UILabel *label, NSUInteger idx, BOOL *stop) {
                 
-                for (UILabel *l in overlapLabels) {
-                    [l removeFromSuperview];
+                if (idx == 0) lastMatchIndex = 0;
+                else { // Skip first one
+                    UILabel *prevLabel = [xAxisLabels objectAtIndex:lastMatchIndex];
+                    CGRect r = CGRectIntersection(prevLabel.frame, label.frame);
+                    if (CGRectIsNull(r)) lastMatchIndex = idx;
+                    else [overlapLabels addObject:label]; // Overlapped
                 }
+            }];
+            
+            for (UILabel *l in overlapLabels) {
+                [l removeFromSuperview];
             }
         }
     }
@@ -818,9 +811,7 @@
         NSExpression *expression = [NSExpression expressionForFunction:@"min:" arguments:@[[NSExpression expressionForConstantValue:dataPoints]]];
         NSNumber *value = [expression expressionValueWithObject:nil context:nil];
         return value;
-    } else {
-        return 0;
-    }
+    } else return 0;
 }
 
 - (NSNumber *)calculateMaximumPointValue {
@@ -1060,7 +1051,7 @@
 
 #pragma mark - Customization Methods
 
-- (void)setColorTouchInputLine:(UIColor *)colorTouchInputLine{
+- (void)setColorTouchInputLine:(UIColor *)colorTouchInputLine {
     self.touchInputLine.backgroundColor = colorTouchInputLine;
 }
 
