@@ -1,50 +1,28 @@
 # BEMSimpleLineGraph - Feature Branch
+<p align = right><a target="_blank" href="https://twitter.com/intent/tweet?hashtags=iosdev&original_referer=https%3A%2F%2Fabout.twitter.com%2Fresources%2Fbuttons&text=BEMSimpleLineGraph,%20beautiful%20graphs%20for%20iOS!%20Open%20Source%20Library%20on%20GitHub&tw_p=tweetbutton&url=http%3A%2F%2Fgoo.gl%2FzgB6GL&via=Boris_Em"><img src="http://s30.postimg.org/j2q6ql27h/Tweet.png"></a>
+<a target="_blank" href="https://twitter.com/Boris_Em"> <img src="http://s29.postimg.org/avb82kvv7/Follow_Twitter.png"></a>
+</p>
 <p align="center"><img src="http://s29.postimg.org/57dn7ve3r/BEMSimple_Line_Graph_Main.png"/></p>	
 
 <p align="center">
 <b>BEMSimpleLineGraph</b> makes it easy to create and customize line graphs for iOS.
 </p>
 
-***
+BEMSimpleLineGraph is a charting library that makes it easy to create beautiful line graphs for iOS. It is easy to set-up and to use in any iOS Project. It's focused on highly customizable and interactive line graphs. Plus, its lightweight and can be integrated in minutes (maybe even seconds). 
+
+BEMSimpleLineGraph's implementation, data source, and delgate are all modeled off of UITableView and UICollectionView. If you're familiar with using a UITableView, UITableViewController, or UICollectionView, using BEMSimpleLineGraph should be a breeze!
 
 ## Feature Branch Warning
 You are currently viewing the feature branch of this GitHub repository. The feature branch contains bleeding edge commits / features, otherwise known as **alpha or beta** features. Content in this branch may be unstable, bug-ridden, non-working, and undocumented. The sole purpose of this branch is to test and improve on new features that may or may not be included in future (stable) versions.
 
 It is not recommended that you use this branch in a production app of any kind. **For stable production ready code**, please refer to the [master branch](https://github.com/Boris-Em/BEMSimpleLineGraph/tree/master).
 
-***
-
-BEMSimpleLineGraph is a charting library that makes it easy to create beautiful line graphs for iOS. It is easy to set-up and to use in any iOS Project. It's focused on highly customizable and interactive line graphs. Plus, its lightweight and can be integrated in minutes (maybe even seconds). All of this while remaining familiar, because BEMSimpleLineGraph is modeled after UITableView and UICollectionView.
-
-<p align = center><a href="https://github.com/Boris-Em/BEMSimpleLineGraph/wiki/Axis-Labels"><img src="http://s3.postimg.org/ub8vnbsdf/Axis_labels.png"></a></p>
-
-***
-
-<p align = center><a href="https://github.com/Boris-Em/BEMSimpleLineGraph/wiki/Bézier-Curves"><img src="http://s7.postimg.org/xz6qqo4vf/Bezier_Curves.gif"></a></p>
-
-***
-
-<p align = center><a href="https://github.com/Boris-Em/BEMSimpleLineGraph/wiki/Entrance-Animation"><img src="http://s27.postimg.org/48cpeql9v/Animation.gif"></a></p>
-
-***
-
-<p align = center><a href="https://github.com/Boris-Em/BEMSimpleLineGraph/wiki/Advanced-Calculations"><img src="http://s2.postimg.org/x95asiba1/Calculation.png"></a></p>
-
-***
-
-<p align = center><a href="https://github.com/Boris-Em/BEMSimpleLineGraph/wiki/Graph-Snapshots"><img src="http://s16.postimg.org/tn6qqn1kl/Snapshots.png"></a></p>
-
-***
-
-<p align = center><a href="default.asp"><img src="http://s2.postimg.org/fbbdx7xcp/Touch.gif"></a></p>
-
-***
-
 ## Table of Contents
 
 * [**Project Details**](#project-details)  
     * [Requirements](#requirements)
     * [License](#license)
+    * [Support](#support)
     * [Sample App](#sample-app)
 * [**Setup**](#setup)
     * [Installation](#installation)
@@ -57,13 +35,8 @@ BEMSimpleLineGraph is a charting library that makes it easy to create beautiful 
     * [Interactive Graph](#interactive-graph)
     * [Properties](#properties)
 
-***
-
 ## Project Details
 Learn more about the BEMSimpleLineGraph project requirements, licensing, and contributions.
-
-[![Gitter chat](https://badges.gitter.im/Boris-Em/BEMSimpleLineGraph.png)](https://gitter.im/Boris-Em/BEMSimpleLineGraph)  
-Join us on [Gitter](https://gitter.im/Boris-Em/BEMSimpleLineGraph) if you need any help or want to talk about the project.
 
 ### Requirements
 - Requires iOS 6 or later. The sample project is optimized for iOS 7.
@@ -83,6 +56,10 @@ Requires Xcode 5 for use in any iOS Project. Requires a minimum of iOS 6.0 as th
 
 ### License
 See the [License](https://github.com/Boris-Em/BEMSimpleLineGraph/blob/master/LICENSE). You are free to make changes and use this in either personal or commercial projects. Attribution is not required, but it is appreciated. A little Thanks! (or something to that affect) would be much appreciated. If you use BEMSimpleLineGraph in your app, let us know.
+
+###Support
+[![Gitter chat](https://badges.gitter.im/Boris-Em/BEMSimpleLineGraph.png)](https://gitter.im/Boris-Em/BEMSimpleLineGraph)  
+Join us on [Gitter](https://gitter.im/Boris-Em/BEMSimpleLineGraph) if you need any help or want to talk about the project.
 
 ### Sample App
 The iOS Sample App included with this project demonstrates how to correctly setup and use BEMSimpleLineGraph. You can refer to the sample app for an understanding of how to use and setup BEMSimpleLineGraph.
