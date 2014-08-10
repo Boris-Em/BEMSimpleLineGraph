@@ -482,7 +482,7 @@
         NSNumber *xFirstAxisLabelCoordinate = [NSNumber numberWithFloat:firstLabel.center.x-labelYaxisOffset];
         [xAxisLabelPoints addObject:xFirstAxisLabelCoordinate];
         
-        UILabel *lastLabel = [[UILabel alloc] initWithFrame:CGRectMake(viewWidth/2 - 3, self.frame.size.height-20, viewWidth/2, 20)];
+        UILabel *lastLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.frame.size.width/2 - 3, self.frame.size.height-20, self.frame.size.width/2, 20)];
         lastLabel.text = lastXLabel;
         lastLabel.font = self.labelFont;
         lastLabel.textAlignment = 2;
