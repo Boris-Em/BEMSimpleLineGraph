@@ -160,15 +160,19 @@
     // Get the number of points in the graph
     [self layoutNumberOfPoints];
     
-    // Draw the graph
-    [self drawEntireGraph];
+    if (numberOfPoints <= 1) {
+        return;
+    } else {
+        // Draw the graph
+        [self drawEntireGraph];
     
-    // Setup the touch report
-    [self layoutTouchReport];
+        // Setup the touch report
+        [self layoutTouchReport];
     
-    // Let the delegate know that the graph finished layout updates
-    if ([self.delegate respondsToSelector:@selector(lineGraphDidFinishLoading:)])
-        [self.delegate lineGraphDidFinishLoading:self];
+        // Let the delegate know that the graph finished layout updates
+        if ([self.delegate respondsToSelector:@selector(lineGraphDidFinishLoading:)])
+            [self.delegate lineGraphDidFinishLoading:self];
+    }
 }
 
 - (void)layoutNumberOfPoints {
