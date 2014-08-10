@@ -545,9 +545,7 @@
                 [xAxisLabelPoints addObject:xAxisLabelCoordinate];
                 
                 [self addSubview:labelXAxis];
-                [xAxisValues addObject:xAxisLabelText];
-                
-                NSLog(@"Y-Coordinate: %f", labelXAxis.frame.origin.y);
+                [xAxisValues addObject:xAxisLabelText];                
             }
             
             __block NSUInteger lastMatchIndex;
@@ -1041,7 +1039,8 @@
     }
     
     if (minValue == maxValue) positionOnYAxis = self.frame.size.height/2;
-    else positionOnYAxis = ((self.frame.size.height - padding) - ((dotValue - minValue) / ((maxValue - minValue) / (self.frame.size.height - padding))) + padding/2);
+    else if (self.autoScaleYAxis == YES) positionOnYAxis = ((self.frame.size.height - padding) - ((dotValue - minValue) / ((maxValue - minValue) / (self.frame.size.height - padding))) + padding/2);
+    else positionOnYAxis = ((self.frame.size.height - padding) - dotValue);
     
     if ([self.dataSource respondsToSelector:@selector(lineGraph:labelOnXAxisForIndex:)] || [self.dataSource respondsToSelector:@selector(labelOnXAxisForIndex:)]) {
         if ([xAxisLabels count] > 0) {
