@@ -320,6 +320,16 @@
  @return Return YES if you want the popup label to be displayed for this index. */
 - (BOOL)lineGraph:(BEMSimpleLineGraphView *)graph alwaysDisplayPopUpAtIndex:(CGFloat)index;
 
+/** Optional method to set the maximum value of the Y-Axis. If not implemented, the maximum value will be the biggest point of the graph.
+ @param graph The graph object requesting the maximum value.
+ @return The maximum value of the Y-Axis. */
+- (CGFloat)maxValueForLineGraph:(BEMSimpleLineGraphView *)graph;
+
+/** Optional method to set the minimum value of the Y-Axis. If not implemented, the minimum value will be the smallest point of the graph.
+ @param graph The graph object requesting the minimum value.
+ @return The minimum value of the Y-Axis. */
+- (CGFloat)minValueForLineGraph:(BEMSimpleLineGraphView *)graph;
+
 
 //----- TOUCH EVENTS -----//
 

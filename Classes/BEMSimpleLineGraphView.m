@@ -964,68 +964,75 @@
 }
 
 - (CGFloat)maxValue {
-    CGFloat dotValue;
-    CGFloat maxValue = 0;
+    if ([self.delegate respondsToSelector:@selector(maxValueForLineGraph:)]) {
+        return [self.delegate maxValueForLineGraph:self];
+        } else {
+            CGFloat dotValue;
+            CGFloat maxValue = 0;
     
-    @autoreleasepool {
-        for (int i = 0; i < numberOfPoints; i++) {
-            if ([self.dataSource respondsToSelector:@selector(lineGraph:valueForPointAtIndex:)]) {
-                dotValue = [self.dataSource lineGraph:self valueForPointAtIndex:i];
+            @autoreleasepool {
+                for (int i = 0; i < numberOfPoints; i++) {
+                    if ([self.dataSource respondsToSelector:@selector(lineGraph:valueForPointAtIndex:)]) {
+                        dotValue = [self.dataSource lineGraph:self valueForPointAtIndex:i];
                 
-            } else if ([self.delegate respondsToSelector:@selector(valueForIndex:)]) {
-                [self printDeprecationWarningForOldMethod:@"valueForIndex:" andReplacementMethod:@"lineGraph:valueForPointAtIndex:"];
+                    } else if ([self.delegate respondsToSelector:@selector(valueForIndex:)]) {
+                        [self printDeprecationWarningForOldMethod:@"valueForIndex:" andReplacementMethod:@"lineGraph:valueForPointAtIndex:"];
                 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                dotValue = [self.delegate valueForIndex:i];
+                        dotValue = [self.delegate valueForIndex:i];
 #pragma clang diagnostic pop
                 
-            } else if ([self.delegate respondsToSelector:@selector(lineGraph:valueForPointAtIndex:)]) {
-                [self printDeprecationAndUnavailableWarningForOldMethod:@"lineGraph:valueForPointAtIndex:"];
-                NSException *exception = [NSException exceptionWithName:@"Implementing Unavailable Delegate Method" reason:@"lineGraph:valueForPointAtIndex: is no longer available on the delegate. It must be implemented on the data source." userInfo:nil];
-                [exception raise];
+                    } else if ([self.delegate respondsToSelector:@selector(lineGraph:valueForPointAtIndex:)]) {
+                        [self printDeprecationAndUnavailableWarningForOldMethod:@"lineGraph:valueForPointAtIndex:"];
+                        NSException *exception = [NSException exceptionWithName:@"Implementing Unavailable Delegate Method" reason:@"lineGraph:valueForPointAtIndex: is no longer available on the delegate. It must be implemented on the data source." userInfo:nil];
+                        [exception raise];
                 
-            } else dotValue = 0;
+                    } else dotValue = 0;
             
-            if (dotValue > maxValue) {
-                maxValue = dotValue;
+                    if (dotValue > maxValue) {
+                        maxValue = dotValue;
+                    }
+                }
             }
-        }
+        return maxValue;
     }
-    return maxValue;
 }
 
 - (CGFloat)minValue {
-    CGFloat dotValue;
-    CGFloat minValue = INFINITY;
+    if ([self.delegate respondsToSelector:@selector(minValueForLineGraph:)]) {
+        return [self.delegate minValueForLineGraph:self];
+    } else {
+        CGFloat dotValue;
+        CGFloat minValue = INFINITY;
     
-    @autoreleasepool {
-        for (int i = 0; i < numberOfPoints; i++) {
-            if ([self.dataSource respondsToSelector:@selector(lineGraph:valueForPointAtIndex:)]) {
-                dotValue = [self.dataSource lineGraph:self valueForPointAtIndex:i];
+        @autoreleasepool {
+            for (int i = 0; i < numberOfPoints; i++) {
+                if ([self.dataSource respondsToSelector:@selector(lineGraph:valueForPointAtIndex:)]) {
+                    dotValue = [self.dataSource lineGraph:self valueForPointAtIndex:i];
                 
-            } else if ([self.delegate respondsToSelector:@selector(valueForIndex:)]) {
-                [self printDeprecationWarningForOldMethod:@"valueForIndex:" andReplacementMethod:@"lineGraph:valueForPointAtIndex:"];
+                } else if ([self.delegate respondsToSelector:@selector(valueForIndex:)]) {
+                    [self printDeprecationWarningForOldMethod:@"valueForIndex:" andReplacementMethod:@"lineGraph:valueForPointAtIndex:"];
                 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                dotValue = [self.delegate valueForIndex:i];
+                    dotValue = [self.delegate valueForIndex:i];
 #pragma clang diagnostic pop
                 
-            } else if ([self.delegate respondsToSelector:@selector(lineGraph:valueForPointAtIndex:)]) {
-                [self printDeprecationAndUnavailableWarningForOldMethod:@"lineGraph:valueForPointAtIndex:"];
-                NSException *exception = [NSException exceptionWithName:@"Implementing Unavailable Delegate Method" reason:@"lineGraph:valueForPointAtIndex: is no longer available on the delegate. It must be implemented on the data source." userInfo:nil];
-                [exception raise];
+                } else if ([self.delegate respondsToSelector:@selector(lineGraph:valueForPointAtIndex:)]) {
+                    [self printDeprecationAndUnavailableWarningForOldMethod:@"lineGraph:valueForPointAtIndex:"];
+                    NSException *exception = [NSException exceptionWithName:@"Implementing Unavailable Delegate Method" reason:@"lineGraph:valueForPointAtIndex: is no longer available on the delegate. It must be implemented on the data source." userInfo:nil];
+                    [exception raise];
                 
-            } else dotValue = 0;
+                } else dotValue = 0;
             
-            if (dotValue < minValue) {
-                minValue = dotValue;
+                if (dotValue < minValue) {
+                    minValue = dotValue;
+                }
             }
         }
+        return minValue;
     }
-    
-    return minValue;
 }
 
 - (CGFloat)yPositionForDotValue:(CGFloat)dotValue {
