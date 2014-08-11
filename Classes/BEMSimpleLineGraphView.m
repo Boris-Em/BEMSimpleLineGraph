@@ -276,8 +276,13 @@
     // The following method calls are in this specific order for a reason
     // Changing the order of the method calls below can result in drawing glitches and even crashes
     
-    // Set the Y-Axis Offset if the Y-Axis is enabled
-    if (self.enableYAxisLabel) labelYaxisOffset = 30;
+    // Set the Y-Axis Offset if the Y-Axis is enabled. The offset is relative to the size of the longest label on the Y-Axis. 
+    if (self.enableYAxisLabel) {
+        UILabel *longestLabel = [[UILabel alloc] init];
+        longestLabel.text = [NSString stringWithFormat:@"%i", (int)[self maxValue]];
+        NSDictionary *attributes = @{NSFontAttributeName: self.labelFont};
+        labelYaxisOffset = [longestLabel.text sizeWithAttributes:attributes].width + 5;
+    }
     else labelYaxisOffset = 0;
     
     // Draw the X-Axis
@@ -581,21 +586,20 @@
         // Plot according to min-max range
         NSNumber *minimumValue = [self calculateMinimumPointValue];
         NSNumber *maximumValue = [self calculateMaximumPointValue];
-        NSNumber *halfwayValue = [NSNumber numberWithInt:maximumValue.intValue/2];
+        NSNumber *halfwayValue = [NSNumber numberWithInt:(minimumValue.intValue + maximumValue.intValue)/2];
         
         NSArray *dotValues = @[minimumValue, halfwayValue, maximumValue];
         
         for (NSNumber *dotValue in dotValues) {
             CGFloat yAxisPosition = [self yPositionForDotValue:dotValue.floatValue];
-            UILabel *labelYAxis = [[UILabel alloc] initWithFrame:CGRectZero];
+            UILabel *labelYAxis = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, labelYaxisOffset - 5, 10)];
             labelYAxis.text = dotValue.stringValue;
+            labelYAxis.textAlignment = NSTextAlignmentRight;
             labelYAxis.font = self.labelFont;
-            labelYAxis.textAlignment = NSTextAlignmentLeft;
             labelYAxis.textColor = self.colorYaxisLabel;
             labelYAxis.backgroundColor = [UIColor clearColor];
             labelYAxis.tag = 2000;
-            [labelYAxis sizeToFit];
-            labelYAxis.center = CGPointMake(labelYAxis.frame.size.width/2, yAxisPosition);
+            labelYAxis.center = CGPointMake(labelYaxisOffset/2, yAxisPosition);
             [self addSubview:labelYAxis];
             [yAxisLabels addObject:labelYAxis];
             
