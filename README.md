@@ -59,7 +59,7 @@ All methods, properties, types, and delegate methods available on the BEMSimpleL
 ### Installation
 The easiest way to install BEMSimpleLineGraph is to use <a href="http://cocoapods.org/" target="_blank">CocoaPods</a>. To do so, simply add the following line to your `Podfile`:
 ```ruby
-pod BEMSimpleLineGraph
+pod 'BEMSimpleLineGraph'
 ```
 
 The other way to install BEMSimpleLineGraph, is to drag and drop the *Classes* folder into your Xcode project. When you do so, check the "*Copy items into destination group's folder*" box.
