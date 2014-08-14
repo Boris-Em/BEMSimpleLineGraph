@@ -23,7 +23,7 @@
     
     /// The closest point to the touch point
     BEMCircle *closestDot;
-    NSInteger currentlyCloser;
+    CGFloat currentlyCloser;
     
     /// All of the X-Axis Values
     NSMutableArray *xAxisValues;
