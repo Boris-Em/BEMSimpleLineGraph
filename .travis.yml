@@ -1,3 +1,6 @@
 language: objective-c
 xcode_project: Sample Project/SimpleLineChart.xcodeproj
 xcode_scheme: SimpleLineChartTests
+script:
+- xctool -project SimpleLineChart.xcodeproj -scheme SimpleLineChart -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
+- xctool test -project SimpleLineChart.xcodeproj -scheme SimpleLineChartTests -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
