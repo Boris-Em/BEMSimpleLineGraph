@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="12F37" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="j8C-nX-jcI">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="j8C-nX-jcI">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
         <!--Navigation Controller-->
@@ -28,21 +28,22 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="Vsd-lS-ATF" customClass="BEMSimpleLineGraphView">
-                                <rect key="frame" x="0.0" y="65" width="320" height="275"/>
+                                <rect key="frame" x="0.0" y="65" width="320" height="288"/>
                                 <autoresizingMask key="autoresizingMask" heightSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.1215686275" green="0.73333333329999995" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
+                                    <outlet property="dataSource" destination="vXZ-lx-hvc" id="kcC-np-y0t"/>
                                     <outlet property="delegate" destination="vXZ-lx-hvc" id="bLS-QX-9kI"/>
                                 </connections>
                             </view>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Graph Value" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="WXV-c1-htd">
-                                <rect key="frame" x="20" y="348" width="280" height="51"/>
+                                <rect key="frame" x="20" y="361" width="280" height="51"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="40"/>
                                 <color key="textColor" red="0.1215686275" green="0.73333333329999995" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="between 2000 and 2010" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Pp5-Po-ZRV">
-                                <rect key="frame" x="20" y="407" width="280" height="31"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="between 2000 and 2010" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="Pp5-Po-ZRV">
+                                <rect key="frame" x="20" y="407" width="280" height="57"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -55,7 +56,7 @@
                                     <segment title="Blue"/>
                                 </segments>
                             </segmentedControl>
-                            <stepper opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="11" minimumValue="3" maximumValue="14" id="YwO-xh-GEu">
+                            <stepper opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="11" minimumValue="3" maximumValue="140" id="YwO-xh-GEu">
                                 <rect key="frame" x="20" y="519" width="94" height="29"/>
                                 <connections>
                                     <action selector="addOrRemoveLineFromGraph:" destination="vXZ-lx-hvc" eventType="valueChanged" id="fKi-RB-vtk"/>
@@ -74,15 +75,15 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Population Growth" id="jTt-cf-4Tw">
-                        <barButtonItem key="leftBarButtonItem" systemItem="refresh" id="u9a-tW-oTj">
-                            <connections>
-                                <action selector="refresh:" destination="vXZ-lx-hvc" id="zfZ-Os-CD4"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Stat." id="pPS-9K-h6J">
+                        <barButtonItem key="leftBarButtonItem" title="Stat." id="pPS-9K-h6J">
                             <connections>
                                 <action selector="displayStatistics:" destination="vXZ-lx-hvc" id="6Jx-ZZ-TAO"/>
                                 <segue destination="agL-Uo-Ja5" kind="push" identifier="showStats" id="ybP-Bc-vdS"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="oUc-bZ-bbg">
+                            <connections>
+                                <action selector="refresh:" destination="vXZ-lx-hvc" id="KaD-0G-Xt2"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

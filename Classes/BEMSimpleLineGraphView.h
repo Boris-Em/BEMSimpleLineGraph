@@ -20,14 +20,13 @@
 
 #import "BEMCircle.h"
 #import "BEMLine.h"
-#import "BEMAnimations.h"
-
 
 
 @protocol BEMSimpleLineGraphDelegate;
+@protocol BEMSimpleLineGraphDataSource;
 
 /// Simple line graph / chart UIView subclass for iOS apps. Creates beautiful line graphs (without huge memory impacts) using QuartzCore.
-@interface BEMSimpleLineGraphView : UIView <BEMAnimationDelegate, UIGestureRecognizerDelegate>
+@interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDelegate>
 
 
 
@@ -36,8 +35,24 @@
 //------------------------------------------------------------------------------------//
 
 
-/// BEMSimpleLineGraphView delegate object is essential to the line graph. The delegate provides the graph with data and various parameters for creating the line graph. The delegate can be set from the interface or from code.
-@property (assign) IBOutlet id <BEMSimpleLineGraphDelegate> delegate;
+/** The object that acts as the delegate of the receiving line graph.
+ 
+ @abstract The BEMSimpleLineGraphView delegate object plays a key role in changing the appearance of the graph and receiving graph events. Use the delegate to provide appearance changes, receive touch events, and receive graph events. The delegate can be set from the interface or from code.
+ @discussion The delegate must adopt the \p BEMSimpleLineGraphDelegate protocol. The delegate is not retained.*/
+@property (nonatomic, assign) IBOutlet id <BEMSimpleLineGraphDelegate> delegate;
+
+
+
+//------------------------------------------------------------------------------------//
+//----- DATA SOURCE ------------------------------------------------------------------//
+//------------------------------------------------------------------------------------//
+
+
+/** The object that acts as the data source of the receiving line graph.
+ 
+ @abstract The BEMSimpleLineGraphView data source object is essential to the line graph. Use the data source to provide the graph with data (data points and x-axis labels). The delegate can be set from the interface or from code. 
+ @discussion The data source must adopt the \p BEMSimpleLineGraphDataSource protocol. The data source is not retained.*/
+@property (nonatomic, assign) IBOutlet id <BEMSimpleLineGraphDataSource> dataSource;
 
 
 
@@ -48,6 +63,11 @@
 
 /// Reload the graph, all delegate methods are called again and the graph is reloaded. Similar to calling reloadData on a UITableView.
 - (void)reloadGraph;
+
+
+/** Calculates the distance between the touch input and the closest point on the graph.
+ @return The distance between the touch input and the closest point on the graph. */
+- (CGFloat)distanceToClosestPoint;
 
 
 /** Takes a snapshot of the graph.
@@ -100,6 +120,11 @@
 - (NSArray *)graphValuesForDataPoints;
 
 
+/** All the labels of the X-Axis.
+ @return An array of UILabels, one for each displayed X-Axis label. The array is sorted from the left side of the graph to the right side. */
+- (NSArray *)graphLabelsForXAxis;
+
+
 
 //------------------------------------------------------------------------------------//
 //----- PROPERTIES -------------------------------------------------------------------//
@@ -110,8 +135,13 @@
 @property (strong, nonatomic) UIFont *labelFont;
 
 
-/// Speed of the animation when the graph appears. From 0 to 10, 0 meaning no animation, 1 very slow and 10 very fast. Default value is 5.
-@property (nonatomic) NSInteger animationGraphEntranceSpeed;
+/// Time of the animation when the graph appears in seconds. Default value is 1.5.
+@property (nonatomic) CGFloat animationGraphEntranceTime;
+
+
+/** Animation style used when the graph appears. Default value is BEMLineAnimationDraw.
+ @see Refer to \p BEMLineAnimation for a complete list of animation styles. */
+@property (nonatomic) BEMLineAnimation animationGraphStyle;
 
 
 /// If set to YES, the graph will report the value of the closest point from the user current touch location. The 2 methods for touch event bellow should therefore be implemented. Default value is NO.
@@ -122,8 +152,33 @@
 @property (nonatomic) BOOL enablePopUpReport;
 
 
-/// The way the graph is drawn, with or withough bezier curved lines. Default value is NO;
+/// The way the graph is drawn, with or without bezier curved lines. Default value is NO.
 @property (nonatomic) BOOL enableBezierCurve;
+
+
+/** Show Y-Axis label on the side. Default value is NO.
+ @see  autoScaleYAxis - When set YES, Y-Axis will show minimum, maximum and middle label only.
+ @todo Could enhance further by specifying the position of Y-Axis, i.e. Left or Right of the view.  Also auto detection on label overlapping. */
+@property (nonatomic) BOOL enableYAxisLabel;
+
+/** When set to YES, the points on the Y-axis will be set to all fit in the graph view. When set to NO, the points on the Y-axis will be set with their absolute value (which means that certain points might not be visible because they are outside of the view). Default value is YES. */
+@property (nonatomic) BOOL autoScaleYAxis;
+
+
+/// Draws a translucent vertical lines along the graph for each X-Axis label, when set to YES. Default value is NO.
+@property (nonatomic) BOOL enableReferenceAxisLines;
+
+/** Draws a translucent frame between the graph and any enabled axis, when set to YES. Default value is NO.
+ @see enableReferenceAxisLines must be set to YES for this property to have any affect.  */
+@property (nonatomic) BOOL enableReferenceAxisFrame;
+
+
+/// If set to YES, the dots representing the points on the graph will always be visible. Default value is NO.
+@property (nonatomic) BOOL alwaysDisplayDots;
+
+
+/// If set to YES, pop up labels with the Y-value of the point will always be visible. Default value is NO.
+@property (nonatomic) BOOL alwaysDisplayPopUpLabels;
 
 
 /// Color of the bottom part of the graph (between the line and the X-axis).
@@ -162,22 +217,42 @@
 @property (strong, nonatomic) UIColor *colorPoint;
 
 
-/// Color of the label's text displayed on the X-Axis.
+/// The color of the line that appears when the user touches the graph.
+@property (strong, nonatomic) UIColor *colorTouchInputLine;
+
+
+/// The alpha of the line that appears when the user touches the graph.
+@property (nonatomic) CGFloat alphaTouchInputLine;
+
+
+/// The width of the line that appears when the user touches the graph.
+@property (nonatomic) CGFloat widthTouchInputLine;
+
+
+/// Color of the label's text displayed on the X-Axis. Defaut value is blackColor.
 @property (strong, nonatomic) UIColor *colorXaxisLabel;
 
+
+/// Color of the label's text displayed on the Y-Axis. Defaut value is blackColor.
+@property (strong, nonatomic) UIColor *colorYaxisLabel;
+
+
+/// Color of the pop up label's background displayed when the user touches the graph.
+@property (strong, nonatomic) UIColor *colorBackgroundPopUplabel;
 
 
 @end
 
 
-/// Line Graph Delegate. Used to pupulate the graph with data, similar to how a UITableView works.
-@protocol BEMSimpleLineGraphDelegate <NSObject>
+
+/// Line Graph Data Source. Used to populate the graph with data, similar to how a UITableView works.
+@protocol BEMSimpleLineGraphDataSource <NSObject>
 
 
 @required
 
 
-//----- DATA SOURCE -----//
+//----- DATA POINTS -----//
 
 
 /** The number of points along the X-axis of the graph.
@@ -196,6 +271,27 @@
 @optional
 
 
+//------- X AXIS -------//
+
+/** The string to display on the label on the X-axis at a given index. 
+ @discussion The number of strings to be returned should be equal to the number of points in the graph (returned in \p numberOfPointsInLineGraph). Otherwise, an exception may be thrown.
+ @param graph The graph object which is requesting the label on the specified X-Axis position.
+ @param index The index from left to right of a given label on the X-axis. Is the same index as the one for the points. The first value for the index is 0. */
+- (NSString *)lineGraph:(BEMSimpleLineGraphView *)graph labelOnXAxisForIndex:(NSInteger)index;
+
+
+@end
+
+
+
+/// Line Graph Delegate. Used to change the graph's appearance and recieve events, similar to how a UITableView works.
+@protocol BEMSimpleLineGraphDelegate <NSObject>
+
+
+@optional
+
+
+
 //----- GRAPH EVENTS -----//
 
 
@@ -208,6 +304,31 @@
  @param graph The graph object that finished loading or reloading. */
 - (void)lineGraphDidFinishLoading:(BEMSimpleLineGraphView *)graph;
 
+
+//----- CUSTOMIZATION -----//
+
+
+/** The optional suffix to append to the popup report.
+ @param graph The graph object requesting the total number of points.
+ @return The suffix to append to the popup report. */
+- (NSString *)popUpSuffixForlineGraph:(BEMSimpleLineGraphView *)graph;
+
+/** Optional method to always display some of the pop up labels on the graph.
+ @see alwaysDisplayPopUpLabels must be set to YES for this method to have any affect.
+ @param graph The graph object requesting the total number of points.
+ @param index The index from left to right of the points on the graph. The first value for the index is 0.
+ @return Return YES if you want the popup label to be displayed for this index. */
+- (BOOL)lineGraph:(BEMSimpleLineGraphView *)graph alwaysDisplayPopUpAtIndex:(CGFloat)index;
+
+/** Optional method to set the maximum value of the Y-Axis. If not implemented, the maximum value will be the biggest point of the graph.
+ @param graph The graph object requesting the maximum value.
+ @return The maximum value of the Y-Axis. */
+- (CGFloat)maxValueForLineGraph:(BEMSimpleLineGraphView *)graph;
+
+/** Optional method to set the minimum value of the Y-Axis. If not implemented, the minimum value will be the smallest point of the graph.
+ @param graph The graph object requesting the minimum value.
+ @return The minimum value of the Y-Axis. */
+- (CGFloat)minValueForLineGraph:(BEMSimpleLineGraphView *)graph;
 
 
 //----- TOUCH EVENTS -----//
@@ -235,10 +356,17 @@
 - (NSInteger)numberOfGapsBetweenLabelsOnLineGraph:(BEMSimpleLineGraphView *)graph;
 
 
-/** The string to display on the label on the X-axis at a given index. Please note that the number of strings to be returned should be equal to the number of points in the Graph.
- @param graph The graph object which is requesting the label on the specified X-Axis position.
- @param index The index from left to right of a given label on the X-axis. Is the same index as the one for the points. The first value for the index is 0. */
-- (NSString *)lineGraph:(BEMSimpleLineGraphView *)graph labelOnXAxisForIndex:(NSInteger)index;
+
+//----- Y AXIS -----//
+
+
+/** The total number of Y-axis labels on the line graph.
+ @discussion Called only when autoScaleYAxis set to NO. Calculates the total height of the graph and evenly spaces the labels based on the graph height. Default value is 3.
+ @param graph The graph object which is requesting the number of labels.
+ @return The number of labels displayed on the Y-axis. */
+- (NSInteger)numberOfYAxisLabelsOnLineGraph:(BEMSimpleLineGraphView *)graph;
+
+
 
 
 //----- DEPRECATED -----//
@@ -282,18 +410,29 @@
 - (NSString *)labelOnXAxisForIndex:(NSInteger)index __deprecated;
 
 
+/** \b DEPRECATED. No longer available on \p BEMSimpleLineGraphDelegate. Implement this method on \p BEMSimpleLineGraphDataSource instead. The number of points along the X-axis of the graph.
+ @deprecated Deprecated in 2.3. Implement with \p BEMSimpleLineGraphDataSource instead.
+ 
+ @param graph The graph object requesting the total number of points.
+ @return The total number of points in the line graph. */
+- (NSInteger)numberOfPointsInLineGraph:(BEMSimpleLineGraphView *)graph __unavailable __deprecated;
 
-/** The color of the line at the given index. This is called for each line in the graph, every time an update is made.
- @param graph The graph object requesting the line color.
+
+/** \b DEPRECATED. No longer available on \p BEMSimpleLineGraphDelegate. Implement this method on \p BEMSimpleLineGraphDataSource instead. The vertical position for a point at the given index. It corresponds to the Y-axis value of the Graph.
+ @deprecated Deprecated in 2.3. Implement with \p BEMSimpleLineGraphDataSource instead.
+ 
+ @param graph The graph object requesting the point value.
  @param index The index from left to right of a given point (X-axis). The first value for the index is 0.
- @return The color of the line. Specifying nil will cause the line to use the color specifed for the graph. */
-- (UIColor *)lineGraph:(BEMSimpleLineGraphView *)graph lineColorForIndex:(NSInteger)index __deprecated;
+ @return The Y-axis value at a given index. */
+- (CGFloat)lineGraph:(BEMSimpleLineGraphView *)graph valueForPointAtIndex:(NSInteger)index __unavailable __deprecated;
 
 
-/** The alpha of the line at the given index. This is called for each line in the graph, every time an update is made.
- @param graph The graph object requesting the line alpha.
- @param index The index from left to right of a given point (X-axis). The first value for the index is 0.
- @return The alpha value of the line, between 0.0 and 1.0. Specifying nil will cause the line to use the alpha specifed for the graph. */
-- (CGFloat)lineGraph:(BEMSimpleLineGraphView *)graph lineAlphaForIndex:(NSInteger)index __deprecated;
+/** \b DEPRECATED. No longer available on \p BEMSimpleLineGraphDelegate. Implement this method on \p BEMSimpleLineGraphDataSource instead. The string to display on the label on the X-axis at a given index. Please note that the number of strings to be returned should be equal to the number of points in the Graph.
+ @deprecated Deprecated in 2.3. Implement with \p BEMSimpleLineGraphDataSource instead.
+ 
+ @param graph The graph object which is requesting the label on the specified X-Axis position.
+ @param index The index from left to right of a given label on the X-axis. Is the same index as the one for the points. The first value for the index is 0. */
+- (NSString *)lineGraph:(BEMSimpleLineGraphView *)graph labelOnXAxisForIndex:(NSInteger)index __unavailable __deprecated;
+
 
 @end

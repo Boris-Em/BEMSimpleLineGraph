@@ -32,7 +32,7 @@
     totalNumber = 0;
     
     for (int i = 0; i < 9; i++) {
-        [self.ArrayOfValues addObject:[NSNumber numberWithInteger:(arc4random() % 70000)]]; // Random values for the graph
+        [self.ArrayOfValues addObject:[NSNumber numberWithInteger:(arc4random() % 10000)]]; // Random values for the graph
         [self.ArrayOfDates addObject:[NSString stringWithFormat:@"%@",[NSNumber numberWithInt:2000 + i]]]; // Dates for the X-Axis of the graph
         
         totalNumber = totalNumber + [[self.ArrayOfValues objectAtIndex:i] intValue]; // All of the values added together
@@ -41,17 +41,25 @@
     /* This is commented out because the graph is created in the interface with this sample app. However, the code remains as an example for creating the graph using code.
      BEMSimpleLineGraphView *myGraph = [[BEMSimpleLineGraphView alloc] initWithFrame:CGRectMake(0, 60, 320, 250)];
      myGraph.delegate = self;
+     myGraph.dataSource = self;
      [self.view addSubview:myGraph]; */
     
     // Customization of the graph
     self.myGraph.colorTop = [UIColor colorWithRed:31.0/255.0 green:187.0/255.0 blue:166.0/255.0 alpha:1.0];
-    self.myGraph.colorBottom = [UIColor colorWithRed:31.0/255.0 green:187.0/255.0 blue:166.0/255.0 alpha:1.0]; // Leaving this not-set on iOS 7 will default to your window's tintColor
+    self.myGraph.colorBottom = [UIColor colorWithRed:31.0/255.0 green:187.0/255.0 blue:166.0/255.0 alpha:1.0];
     self.myGraph.colorLine = [UIColor whiteColor];
     self.myGraph.colorXaxisLabel = [UIColor whiteColor];
+    self.myGraph.colorYaxisLabel = [UIColor whiteColor];
     self.myGraph.widthLine = 3.0;
     self.myGraph.enableTouchReport = YES;
     self.myGraph.enablePopUpReport = YES;
     self.myGraph.enableBezierCurve = YES;
+    self.myGraph.enableYAxisLabel = YES;
+    self.myGraph.autoScaleYAxis = YES;
+    self.myGraph.alwaysDisplayDots = NO;
+    self.myGraph.enableReferenceAxisLines = YES;
+    self.myGraph.enableReferenceAxisFrame = YES;
+    self.myGraph.animationGraphStyle = BEMLineAnimationDraw;
     
     // The labels to report the values of the graph when the user touches it
     self.labelValues.text = [NSString stringWithFormat:@"%i", [[self.myGraph calculatePointValueSum] intValue]];
@@ -70,12 +78,11 @@
     [self.ArrayOfDates removeAllObjects];
     
     for (int i = 0; i < self.graphObjectIncrement.value; i++) {
-        [self.ArrayOfValues addObject:[NSNumber numberWithInteger:(arc4random() % 70000)]]; // Random values for the graph
-        [self.ArrayOfDates addObject:[NSString stringWithFormat:@"%@",[NSNumber numberWithInt:2000 + i]]]; // Dates for the X-Axis of the graph
+        [self.ArrayOfValues addObject:[NSNumber numberWithInteger:(arc4random() % 10000)]]; // Random values for the graph
+        [self.ArrayOfDates addObject:[NSString stringWithFormat:@"Jan %@",[NSNumber numberWithInt:2000 + i]]]; // Dates for the X-Axis of the graph
         
         totalNumber = totalNumber + [[self.ArrayOfValues objectAtIndex:i] intValue]; // All of the values added together
     }
-    
     UIColor *color;
     if (self.graphColorChoice.selectedSegmentIndex == 0) color = [UIColor colorWithRed:31.0/255.0 green:187.0/255.0 blue:166.0/255.0 alpha:1.0];
     else if (self.graphColorChoice.selectedSegmentIndex == 1) color = [UIColor colorWithRed:255.0/255.0 green:187.0/255.0 blue:31.0/255.0 alpha:1.0];
@@ -88,13 +95,14 @@
     self.labelValues.textColor = color;
     self.navigationController.navigationBar.tintColor = color;
     
+    self.myGraph.animationGraphStyle = BEMLineAnimationFade;
     [self.myGraph reloadGraph];
 }
 
 - (IBAction)addOrRemoveLineFromGraph:(id)sender {
     if (self.graphObjectIncrement.value > previousStepperValue) {
         // Add line
-        [self.ArrayOfValues addObject:[NSNumber numberWithInteger:(arc4random() % 70000)]];
+        [self.ArrayOfValues addObject:[NSNumber numberWithInteger:(arc4random() % 10000)]];
         [self.ArrayOfDates addObject:[NSString stringWithFormat:@"%i", (int)[[self.ArrayOfDates lastObject] integerValue]+1]];
         [self.myGraph reloadGraph];
     } else if (self.graphObjectIncrement.value < previousStepperValue) {
@@ -143,7 +151,8 @@
 }
 
 - (NSString *)lineGraph:(BEMSimpleLineGraphView *)graph labelOnXAxisForIndex:(NSInteger)index {
-    return [self.ArrayOfDates objectAtIndex:index];
+    NSString *label = [self.ArrayOfDates objectAtIndex:index];
+    return [label stringByReplacingOccurrencesOfString:@" " withString:@"\n"];
 }
 
 - (void)lineGraph:(BEMSimpleLineGraphView *)graph didTouchGraphWithClosestIndex:(NSInteger)index {
@@ -155,8 +164,7 @@
     [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
         self.labelValues.alpha = 0.0;
         self.labelDates.alpha = 0.0;
-    } completion:^(BOOL finished){
-        
+    } completion:^(BOOL finished) {
         self.labelValues.text = [NSString stringWithFormat:@"%i", [[self.myGraph calculatePointValueSum] intValue]];
         self.labelDates.text = [NSString stringWithFormat:@"between 2000 and %@", [self.ArrayOfDates lastObject]];
         

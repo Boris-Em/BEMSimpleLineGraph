@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0500"
+   LastUpgradeVersion = "0510"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -9,14 +9,14 @@
          <BuildActionEntry
             buildForTesting = "YES"
             buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C3FD8154186DFD9A00FD8ED3"
-               BuildableName = "SimpleLineChart.app"
-               BlueprintName = "SimpleLineChart"
+               BlueprintIdentifier = "C3FD8175186DFD9A00FD8ED3"
+               BuildableName = "SimpleLineChartTests.xctest"
+               BlueprintName = "SimpleLineChartTests"
                ReferencedContainer = "container:SimpleLineChart.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -58,15 +58,6 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C3FD8154186DFD9A00FD8ED3"
-            BuildableName = "SimpleLineChart.app"
-            BlueprintName = "SimpleLineChart"
-            ReferencedContainer = "container:SimpleLineChart.xcodeproj">
-         </BuildableReference>
-      </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -76,15 +67,6 @@
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Release"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C3FD8154186DFD9A00FD8ED3"
-            BuildableName = "SimpleLineChart.app"
-            BlueprintName = "SimpleLineChart"
-            ReferencedContainer = "container:SimpleLineChart.xcodeproj">
-         </BuildableReference>
-      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

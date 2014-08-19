@@ -21,6 +21,18 @@
 
 
 
+/// The type of animation used to display the graph
+typedef NS_ENUM(NSInteger, BEMLineAnimation) {
+    /// The draw animation draws the lines from left to right and bottom to top.
+    BEMLineAnimationDraw,
+    /// The fade animation fades in the lines from 0% opaque to 100% opaque (based on the \p lineAlpha property).
+    BEMLineAnimationFade,
+    /// No animation is used to display the graph
+    BEMLineAnimationNone
+};
+
+
+
 /// Class to draw the line of the graph
 @interface BEMLine : UIView
 
@@ -40,12 +52,27 @@
 /// The next point. Necessary for Bezier curve
 @property (assign, nonatomic) CGPoint P3;
 
+/// All of the Y-axis values for the points
+@property (nonatomic) NSArray *arrayOfPoints;
+
+/// All of the X-Axis coordinates used to draw vertical lines through
+@property (nonatomic) NSArray *arrayOfVerticalRefrenceLinePoints;
+
+/// All of the Y-Axis coordinates used to draw horizontal lines through
+@property (nonatomic) NSArray *arrayOfHorizontalRefrenceLinePoints;
+
+/** Draw thin, translucent, reference lines using the provided X-Axis and Y-Axis coordinates.
+ @see Use \p arrayOfVerticalRefrenceLinePoints to specify vertical reference lines' positions. Use \p arrayOfHorizontalRefrenceLinePoints to specify horizontal reference lines' positions. */
+@property (nonatomic) BOOL enableRefrenceLines;
+
+/** Draw a thin, translucent, frame on the edge of the graph to separate it from the labels on the X-Axis and the Y-Axis. */
+@property (nonatomic) BOOL enableRefrenceFrame;
 
 
 
 //----- COLORS -----//
 
-/// The line color
+/// The line color. A single, solid color which is applied to the entire line. If the \p gradient property is non-nil this property will be ignored.
 @property (strong, nonatomic) UIColor *color;
 
 /// The color of the area above the line, inside of its superview
@@ -54,6 +81,9 @@
 /// The color of the area below the line, inside of its superview
 @property (strong, nonatomic) UIColor *bottomColor;
 
+/** A color gradient to be applied to the line. If this property is set, it will mask (override) the \p color property.
+ @todo This property is non-functional at this point in time. It only serves as a marker for further implementation. */
+@property (assign, nonatomic) CGGradientRef gradient;
 
 
 
@@ -70,16 +100,35 @@
 
 
 
-
-
 //----- SIZE -----//
 
 /// The width of the line
 @property (nonatomic) float lineWidth;
 
 
+
 //----- BEZIER CURVE -----//
 
+/// The line is drawn with smooth curves rather than straight lines when set to YES.
 @property (nonatomic) BOOL bezierCurveIsEnabled;
+
+
+
+//----- ANIMATION -----//
+
+/// The entrance animation period in seconds.
+@property (nonatomic) CGFloat animationTime;
+
+/// The type of entrance animation.
+@property (nonatomic) BEMLineAnimation animationType;
+
+
+
+//----- FRAME -----//
+
+/// The offset dependant on the size of the labels to create the frame
+@property (nonatomic) CGFloat frameOffset;
+
+
 
 @end
