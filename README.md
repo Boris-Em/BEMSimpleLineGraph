@@ -12,6 +12,8 @@
 
 <b>BEMSimpleLineGraph's</b> implementation, data source, and delgate are all modeled off of UITableView and UICollectionView. If you're familiar with using a UITableView, UITableViewController, or UICollectionView, using BEMSimpleLineGraph should be a breeze!
 
+The full documentation of the project is available on its [wiki](https://github.com/Boris-Em/BEMSimpleLineGraph/wiki)
+
 ## Table of Contents
 
 * [**Project Details**](#project-details)  
