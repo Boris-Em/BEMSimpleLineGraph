@@ -87,6 +87,7 @@
     CGPoint p1;
     CGPoint p2;
     CGPoint p3;
+    CGFloat tensionBezier = 0.3;
     
     [fillBottom moveToPoint:CGPointMake(self.frame.size.width, self.frame.size.height)];
     [fillBottom addLineToPoint:CGPointMake(0, self.frame.size.height)];
@@ -103,21 +104,25 @@
         [fillTop addLineToPoint:p1];
         
         if (self.bezierCurveIsEnabled == YES) {
-            if (i > 0) {
+            if (i > 0) { // Exception for first line because there is no previous point
                 p0 = CGPointMake((self.frame.size.width/([self.arrayOfPoints count] - 1))*(i-1), [[self.arrayOfPoints objectAtIndex:i-1] floatValue]);
             } else p0 = p1;
             
-            if (i<[self.arrayOfPoints count] - 2) {
+            if (i<[self.arrayOfPoints count] - 2) { // Exception for last line because there is no next point
                 p3 = CGPointMake((self.frame.size.width/([self.arrayOfPoints count] - 1))*(i+2), [[self.arrayOfPoints objectAtIndex:i+2] floatValue]);
             } else p3 = p2;
             
+            if (p2.y - p1.y == p1.y - p0.y || p3.y - p2.y == p2.y - p1.y) { // Exception for line to be expected to be straight (see issue #21)
+                tensionBezier = 0.0;
+            }
+            
             // First control point
             CP1 = CGPointMake(p1.x + (p2.x - p1.x)/3,
-                              p1.y - (p1.y - p2.y)/3 - (p0.y - p1.y)*0.3);
+                              p1.y - (p1.y - p2.y)/3 - (p0.y - p1.y)*tensionBezier);
             
             // Second control point
             CP2 = CGPointMake(p1.x + 2*(p2.x - p1.x)/3,
-                              (p1.y - 2*(p1.y - p2.y)/3) + (p2.y - p3.y)*0.3);
+                              (p1.y - 2*(p1.y - p2.y)/3) + (p2.y - p3.y)*tensionBezier);
             
             [line addCurveToPoint:p2 controlPoint1:CP1 controlPoint2:CP2];
             [fillBottom addCurveToPoint:p2 controlPoint1:CP1 controlPoint2:CP2];

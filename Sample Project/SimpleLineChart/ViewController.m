@@ -150,10 +150,6 @@
     return 1;
 }
 
-- (NSInteger)numberOfYAxisLabelsOnLineGraph:(BEMSimpleLineGraphView *)graph {
-    return 3;
-}
-
 - (NSString *)lineGraph:(BEMSimpleLineGraphView *)graph labelOnXAxisForIndex:(NSInteger)index {
     NSString *label = [self.ArrayOfDates objectAtIndex:index];
     return [label stringByReplacingOccurrencesOfString:@" " withString:@"\n"];

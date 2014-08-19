@@ -229,11 +229,11 @@
 @property (nonatomic) CGFloat widthTouchInputLine;
 
 
-/// Color of the label's text displayed on the X-Axis.
+/// Color of the label's text displayed on the X-Axis. Defaut value is blackColor.
 @property (strong, nonatomic) UIColor *colorXaxisLabel;
 
 
-/// Color of the label's text displayed on the Y-Axis.
+/// Color of the label's text displayed on the Y-Axis. Defaut value is blackColor.
 @property (strong, nonatomic) UIColor *colorYaxisLabel;
 
 
