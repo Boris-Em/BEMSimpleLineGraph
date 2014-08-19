@@ -119,12 +119,18 @@
  @return An array of NSNumbers, one for each data point. The array is sorted from the left side of the graph to the right side. */
 - (NSArray *)graphValuesForDataPoints;
 
+<<<<<<< HEAD
 
 /** All the labels of the X-Axis.
  @return An array of UILabels, one for each displayed X-Axis label. The array is sorted from the left side of the graph to the right side. */
 - (NSArray *)graphLabelsForXAxis;
 
 
+=======
+/** All the labels of the X-Axis.
+ @return An array of UILabels, one for each displayed X-Axis label. The array is sorted from the left side of the graph to the right side. */
+- (NSArray *)graphLabelsForXAxis;
+>>>>>>> FETCH_HEAD
 
 //------------------------------------------------------------------------------------//
 //----- PROPERTIES -------------------------------------------------------------------//

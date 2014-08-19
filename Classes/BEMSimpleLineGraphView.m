@@ -39,10 +39,14 @@
     
     /// All of the Data Points
     NSMutableArray *dataPoints;
+<<<<<<< HEAD
     
     /// The Y-Axis offset, will take max label size width
     CGFloat labelYaxisOffset;
     
+=======
+  
+>>>>>>> FETCH_HEAD
     /// All of the X-Axis Labels
     NSMutableArray *xAxisLabels;
 }
@@ -147,7 +151,10 @@
     yAxisLabelPoints = [NSMutableArray array];
     dataPoints = [NSMutableArray array];
     xAxisLabels = [NSMutableArray array];
+<<<<<<< HEAD
     yAxisValues = [NSMutableArray array];
+=======
+>>>>>>> FETCH_HEAD
 }
 
 - (void)layoutSubviews {
@@ -445,8 +452,12 @@
     // Remove all X-Axis Labels before adding them to the array
     [xAxisValues removeAllObjects];
     [xAxisLabels removeAllObjects];
+<<<<<<< HEAD
     [xAxisLabelPoints removeAllObjects];
     
+=======
+  
+>>>>>>> FETCH_HEAD
     if (numberOfGaps >= (numberOfPoints - 1)) {
         NSString *firstXLabel = @"";
         NSString *lastXLabel = @"";
@@ -535,6 +546,7 @@
                 labelXAxis.textColor = self.colorXaxisLabel;
                 labelXAxis.backgroundColor = [UIColor clearColor];
                 [xAxisLabels addObject:labelXAxis];
+<<<<<<< HEAD
                 labelXAxis.tag = 1000;
                 
                 // Add support multi-line, but this might overlap with the graph line if text have too many lines
@@ -549,6 +561,8 @@
                 NSNumber *xAxisLabelCoordinate = [NSNumber numberWithFloat:labelXAxis.center.x-labelYaxisOffset];
                 [xAxisLabelPoints addObject:xAxisLabelCoordinate];
                 
+=======
+>>>>>>> FETCH_HEAD
                 [self addSubview:labelXAxis];
                 [xAxisValues addObject:xAxisLabelText];                
             }

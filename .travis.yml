@@ -1,4 +1,7 @@
 language: objective-c
+<<<<<<< HEAD
 xcode_project: Sample Project/SimpleLineChart.xcodeproj
 xcode_scheme: SimpleLineChartTests
 xcode_sdk: iphonesimulator
+=======
+>>>>>>> FETCH_HEAD
