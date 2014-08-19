@@ -8,14 +8,14 @@
 //
 
 #if __has_feature(objc_modules)
-    // We recommend enabling Objective-C Modules in your project Build Settings for numerous benefits over regular #imports. Read more from the Modules documentation: http://clang.llvm.org/docs/Modules.html
-    @import Foundation;
-    @import UIKit;
-    @import CoreGraphics;
+// We recommend enabling Objective-C Modules in your project Build Settings for numerous benefits over regular #imports. Read more from the Modules documentation: http://clang.llvm.org/docs/Modules.html
+@import Foundation;
+@import UIKit;
+@import CoreGraphics;
 #else
-    #import <Foundation/Foundation.h>
-    #import <UIKit/UIKit.h>
-    #import <CoreGraphics/CoreGraphics.h>
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import <CoreGraphics/CoreGraphics.h>
 #endif
 
 #import "BEMCircle.h"
@@ -50,7 +50,7 @@
 
 /** The object that acts as the data source of the receiving line graph.
  
- @abstract The BEMSimpleLineGraphView data source object is essential to the line graph. Use the data source to provide the graph with data (data points and x-axis labels). The delegate can be set from the interface or from code. 
+ @abstract The BEMSimpleLineGraphView data source object is essential to the line graph. Use the data source to provide the graph with data (data points and x-axis labels). The delegate can be set from the interface or from code.
  @discussion The data source must adopt the \p BEMSimpleLineGraphDataSource protocol. The data source is not retained.*/
 @property (nonatomic, assign) IBOutlet id <BEMSimpleLineGraphDataSource> dataSource;
 
@@ -119,18 +119,12 @@
  @return An array of NSNumbers, one for each data point. The array is sorted from the left side of the graph to the right side. */
 - (NSArray *)graphValuesForDataPoints;
 
-<<<<<<< HEAD
 
 /** All the labels of the X-Axis.
  @return An array of UILabels, one for each displayed X-Axis label. The array is sorted from the left side of the graph to the right side. */
 - (NSArray *)graphLabelsForXAxis;
 
 
-=======
-/** All the labels of the X-Axis.
- @return An array of UILabels, one for each displayed X-Axis label. The array is sorted from the left side of the graph to the right side. */
-- (NSArray *)graphLabelsForXAxis;
->>>>>>> FETCH_HEAD
 
 //------------------------------------------------------------------------------------//
 //----- PROPERTIES -------------------------------------------------------------------//
@@ -279,7 +273,7 @@
 
 //------- X AXIS -------//
 
-/** The string to display on the label on the X-axis at a given index. 
+/** The string to display on the label on the X-axis at a given index.
  @discussion The number of strings to be returned should be equal to the number of points in the graph (returned in \p numberOfPointsInLineGraph). Otherwise, an exception may be thrown.
  @param graph The graph object which is requesting the label on the specified X-Axis position.
  @param index The index from left to right of a given label on the X-axis. Is the same index as the one for the points. The first value for the index is 0. */

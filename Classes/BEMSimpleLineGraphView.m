@@ -10,8 +10,8 @@
 #import "BEMSimpleLineGraphView.h"
 
 #if !__has_feature(objc_arc)
-    // Add the -fobjc-arc flag to enable ARC for only these files, as described in the ARC documentation: http://clang.llvm.org/docs/AutomaticReferenceCounting.html
-    #error BEMSimpleLineGraph is built with Objective-C ARC. You must enable ARC for these files.
+// Add the -fobjc-arc flag to enable ARC for only these files, as described in the ARC documentation: http://clang.llvm.org/docs/AutomaticReferenceCounting.html
+#error BEMSimpleLineGraph is built with Objective-C ARC. You must enable ARC for these files.
 #endif
 
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
@@ -39,14 +39,10 @@
     
     /// All of the Data Points
     NSMutableArray *dataPoints;
-<<<<<<< HEAD
     
     /// The Y-Axis offset, will take max label size width
     CGFloat labelYaxisOffset;
     
-=======
-  
->>>>>>> FETCH_HEAD
     /// All of the X-Axis Labels
     NSMutableArray *xAxisLabels;
 }
@@ -151,10 +147,7 @@
     yAxisLabelPoints = [NSMutableArray array];
     dataPoints = [NSMutableArray array];
     xAxisLabels = [NSMutableArray array];
-<<<<<<< HEAD
     yAxisValues = [NSMutableArray array];
-=======
->>>>>>> FETCH_HEAD
 }
 
 - (void)layoutSubviews {
@@ -172,10 +165,10 @@
     } else {
         // Draw the graph
         [self drawEntireGraph];
-    
+        
         // Setup the touch report
         [self layoutTouchReport];
-    
+        
         // Let the delegate know that the graph finished layout updates
         if ([self.delegate respondsToSelector:@selector(lineGraphDidFinishLoading:)])
             [self.delegate lineGraphDidFinishLoading:self];
@@ -190,10 +183,10 @@
     } else if ([self.delegate respondsToSelector:@selector(numberOfPointsInGraph)]) {
         [self printDeprecationWarningForOldMethod:@"numberOfPointsInGraph" andReplacementMethod:@"numberOfPointsInLineGraph:"];
         
-        #pragma clang diagnostic push
-        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            numberOfPoints = [self.delegate numberOfPointsInGraph];
-        #pragma clang diagnostic pop
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        numberOfPoints = [self.delegate numberOfPointsInGraph];
+#pragma clang diagnostic pop
         
     } else if ([self.delegate respondsToSelector:@selector(numberOfPointsInLineGraph:)]) {
         [self printDeprecationAndUnavailableWarningForOldMethod:@"numberOfPointsInLineGraph:"];
@@ -283,7 +276,7 @@
     // The following method calls are in this specific order for a reason
     // Changing the order of the method calls below can result in drawing glitches and even crashes
     
-    // Set the Y-Axis Offset if the Y-Axis is enabled. The offset is relative to the size of the longest label on the Y-Axis. 
+    // Set the Y-Axis Offset if the Y-Axis is enabled. The offset is relative to the size of the longest label on the Y-Axis.
     if (self.enableYAxisLabel) {
         UILabel *longestLabel = [[UILabel alloc] init];
         longestLabel.text = [NSString stringWithFormat:@"%i", (int)[self maxValue]];
@@ -373,7 +366,7 @@
                 }
             } else {
                 [UIView animateWithDuration:(float)self.animationGraphEntranceTime/numberOfPoints delay:(float)i*((float)self.animationGraphEntranceTime/numberOfPoints) options:UIViewAnimationOptionCurveLinear animations:^{
-                                        circleDot.alpha = 0.7;
+                    circleDot.alpha = 0.7;
                 } completion:^(BOOL finished) {
                     if (self.alwaysDisplayDots == NO) {
                         [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
@@ -452,12 +445,8 @@
     // Remove all X-Axis Labels before adding them to the array
     [xAxisValues removeAllObjects];
     [xAxisLabels removeAllObjects];
-<<<<<<< HEAD
     [xAxisLabelPoints removeAllObjects];
     
-=======
-  
->>>>>>> FETCH_HEAD
     if (numberOfGaps >= (numberOfPoints - 1)) {
         NSString *firstXLabel = @"";
         NSString *lastXLabel = @"";
@@ -546,7 +535,6 @@
                 labelXAxis.textColor = self.colorXaxisLabel;
                 labelXAxis.backgroundColor = [UIColor clearColor];
                 [xAxisLabels addObject:labelXAxis];
-<<<<<<< HEAD
                 labelXAxis.tag = 1000;
                 
                 // Add support multi-line, but this might overlap with the graph line if text have too many lines
@@ -561,10 +549,8 @@
                 NSNumber *xAxisLabelCoordinate = [NSNumber numberWithFloat:labelXAxis.center.x-labelYaxisOffset];
                 [xAxisLabelPoints addObject:xAxisLabelCoordinate];
                 
-=======
->>>>>>> FETCH_HEAD
                 [self addSubview:labelXAxis];
-                [xAxisValues addObject:xAxisLabelText];                
+                [xAxisValues addObject:xAxisLabelText];
             }
             
             __block NSUInteger lastMatchIndex;
@@ -893,10 +879,10 @@
         } else if ([self.delegate respondsToSelector:@selector(didTouchGraphWithClosestIndex:)] && self.enableTouchReport == YES) {
             [self printDeprecationWarningForOldMethod:@"didTouchGraphWithClosestIndex:" andReplacementMethod:@"lineGraph:didTouchGraphWithClosestIndex:"];
             
-            #pragma clang diagnostic push
-            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                [self.delegate didTouchGraphWithClosestIndex:((int)closestDot.tag - 100)];
-            #pragma clang diagnostic pop
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            [self.delegate didTouchGraphWithClosestIndex:((int)closestDot.tag - 100)];
+#pragma clang diagnostic pop
         }
     }
     
@@ -908,10 +894,10 @@
         } else if ([self.delegate respondsToSelector:@selector(didReleaseGraphWithClosestIndex:)]) {
             [self printDeprecationWarningForOldMethod:@"didReleaseGraphWithClosestIndex:" andReplacementMethod:@"lineGraph:didReleaseTouchFromGraphWithClosestIndex:"];
             
-            #pragma clang diagnostic push
-            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                [self.delegate didReleaseGraphWithClosestIndex:(closestDot.tag - 100)];
-            #pragma clang diagnostic pop
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            [self.delegate didReleaseGraphWithClosestIndex:(closestDot.tag - 100)];
+#pragma clang diagnostic pop
         }
         
         [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
@@ -984,35 +970,35 @@
 - (CGFloat)maxValue {
     if ([self.delegate respondsToSelector:@selector(maxValueForLineGraph:)]) {
         return [self.delegate maxValueForLineGraph:self];
-        } else {
-            CGFloat dotValue;
-            CGFloat maxValue = 0;
-    
-            @autoreleasepool {
-                for (int i = 0; i < numberOfPoints; i++) {
-                    if ([self.dataSource respondsToSelector:@selector(lineGraph:valueForPointAtIndex:)]) {
-                        dotValue = [self.dataSource lineGraph:self valueForPointAtIndex:i];
-                
-                    } else if ([self.delegate respondsToSelector:@selector(valueForIndex:)]) {
-                        [self printDeprecationWarningForOldMethod:@"valueForIndex:" andReplacementMethod:@"lineGraph:valueForPointAtIndex:"];
-                
+    } else {
+        CGFloat dotValue;
+        CGFloat maxValue = 0;
+        
+        @autoreleasepool {
+            for (int i = 0; i < numberOfPoints; i++) {
+                if ([self.dataSource respondsToSelector:@selector(lineGraph:valueForPointAtIndex:)]) {
+                    dotValue = [self.dataSource lineGraph:self valueForPointAtIndex:i];
+                    
+                } else if ([self.delegate respondsToSelector:@selector(valueForIndex:)]) {
+                    [self printDeprecationWarningForOldMethod:@"valueForIndex:" andReplacementMethod:@"lineGraph:valueForPointAtIndex:"];
+                    
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                        dotValue = [self.delegate valueForIndex:i];
+                    dotValue = [self.delegate valueForIndex:i];
 #pragma clang diagnostic pop
+                    
+                } else if ([self.delegate respondsToSelector:@selector(lineGraph:valueForPointAtIndex:)]) {
+                    [self printDeprecationAndUnavailableWarningForOldMethod:@"lineGraph:valueForPointAtIndex:"];
+                    NSException *exception = [NSException exceptionWithName:@"Implementing Unavailable Delegate Method" reason:@"lineGraph:valueForPointAtIndex: is no longer available on the delegate. It must be implemented on the data source." userInfo:nil];
+                    [exception raise];
+                    
+                } else dotValue = 0;
                 
-                    } else if ([self.delegate respondsToSelector:@selector(lineGraph:valueForPointAtIndex:)]) {
-                        [self printDeprecationAndUnavailableWarningForOldMethod:@"lineGraph:valueForPointAtIndex:"];
-                        NSException *exception = [NSException exceptionWithName:@"Implementing Unavailable Delegate Method" reason:@"lineGraph:valueForPointAtIndex: is no longer available on the delegate. It must be implemented on the data source." userInfo:nil];
-                        [exception raise];
-                
-                    } else dotValue = 0;
-            
-                    if (dotValue > maxValue) {
-                        maxValue = dotValue;
-                    }
+                if (dotValue > maxValue) {
+                    maxValue = dotValue;
                 }
             }
+        }
         return maxValue;
     }
 }
@@ -1023,27 +1009,27 @@
     } else {
         CGFloat dotValue;
         CGFloat minValue = INFINITY;
-    
+        
         @autoreleasepool {
             for (int i = 0; i < numberOfPoints; i++) {
                 if ([self.dataSource respondsToSelector:@selector(lineGraph:valueForPointAtIndex:)]) {
                     dotValue = [self.dataSource lineGraph:self valueForPointAtIndex:i];
-                
+                    
                 } else if ([self.delegate respondsToSelector:@selector(valueForIndex:)]) {
                     [self printDeprecationWarningForOldMethod:@"valueForIndex:" andReplacementMethod:@"lineGraph:valueForPointAtIndex:"];
-                
+                    
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
                     dotValue = [self.delegate valueForIndex:i];
 #pragma clang diagnostic pop
-                
+                    
                 } else if ([self.delegate respondsToSelector:@selector(lineGraph:valueForPointAtIndex:)]) {
                     [self printDeprecationAndUnavailableWarningForOldMethod:@"lineGraph:valueForPointAtIndex:"];
                     NSException *exception = [NSException exceptionWithName:@"Implementing Unavailable Delegate Method" reason:@"lineGraph:valueForPointAtIndex: is no longer available on the delegate. It must be implemented on the data source." userInfo:nil];
                     [exception raise];
-                
+                    
                 } else dotValue = 0;
-            
+                
                 if (dotValue < minValue) {
                     minValue = dotValue;
                 }
