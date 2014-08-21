@@ -363,7 +363,7 @@
             if (self.animationGraphEntranceTime == 0) {
                 if (self.alwaysDisplayDots == NO) {
                     circleDot.alpha = 0;
-                }
+                } else circleDot.alpha = 0.7;
             } else {
                 [UIView animateWithDuration:(float)self.animationGraphEntranceTime/numberOfPoints delay:(float)i*((float)self.animationGraphEntranceTime/numberOfPoints) options:UIViewAnimationOptionCurveLinear animations:^{
                     circleDot.alpha = 0.7;

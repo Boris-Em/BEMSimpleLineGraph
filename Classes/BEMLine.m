@@ -156,8 +156,8 @@
         [line strokeWithBlendMode:kCGBlendModeNormal alpha:self.lineAlpha];
         
         if (self.enableRefrenceLines == YES) {
-            [referenceLinesPath setLineWidth:self.lineWidth];
-            [referenceLinesPath strokeWithBlendMode:kCGBlendModeNormal alpha:1.0];
+            [referenceLinesPath setLineWidth:self.lineWidth/2];
+            [referenceLinesPath strokeWithBlendMode:kCGBlendModeNormal alpha:self.lineAlpha/2];
         }
     } else {
         CAShapeLayer *pathLayer = [CAShapeLayer layer];
