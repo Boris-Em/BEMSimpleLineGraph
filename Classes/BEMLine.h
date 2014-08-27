@@ -19,8 +19,6 @@
     #import <CoreGraphics/CoreGraphics.h>
 #endif
 
-
-
 /// The type of animation used to display the graph
 typedef NS_ENUM(NSInteger, BEMLineAnimation) {
     /// The draw animation draws the lines from left to right and bottom to top.
@@ -80,6 +78,10 @@ typedef NS_ENUM(NSInteger, BEMLineAnimation) {
 
 /// The color of the area below the line, inside of its superview
 @property (strong, nonatomic) UIColor *bottomColor;
+
+@property (strong, nonatomic) UIColor *xAxisBackgroundColor;
+
+@property (nonatomic) CGFloat xAxisBackgroundAlpha;
 
 /** A color gradient to be applied to the line. If this property is set, it will mask (override) the \p color property.
  @todo This property is non-functional at this point in time. It only serves as a marker for further implementation. */

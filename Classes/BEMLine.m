@@ -53,8 +53,8 @@
             [referenceLinesPath moveToPoint:CGPointMake(0, self.frame.size.height - self.frameOffset)];
             [referenceLinesPath addLineToPoint:CGPointMake(self.frame.size.width, self.frame.size.height - self.frameOffset)];
             
-            [referenceLinesPath moveToPoint:CGPointMake(0, self.frame.size.height - self.frameOffset)];
-            [referenceLinesPath addLineToPoint:CGPointMake(0, 0)];
+            [referenceLinesPath moveToPoint:CGPointMake(0+self.lineWidth/4, self.frame.size.height - self.frameOffset)];
+            [referenceLinesPath addLineToPoint:CGPointMake(0+self.lineWidth/4, 0)];
         }
         
         [referenceLinesPath closePath];
@@ -89,8 +89,22 @@
     CGPoint p3;
     CGFloat tensionBezier = 0.3;
     
-    [fillBottom moveToPoint:CGPointMake(self.frame.size.width, self.frame.size.height)];
-    [fillBottom addLineToPoint:CGPointMake(0, self.frame.size.height)];
+    if (self.xAxisBackgroundColor == self.bottomColor && self.xAxisBackgroundAlpha == self.bottomAlpha) {
+        [fillBottom moveToPoint:CGPointMake(self.frame.size.width, self.frame.size.height)];
+        [fillBottom addLineToPoint:CGPointMake(0, self.frame.size.height)];
+    } else {
+        UIBezierPath *fillxAxis = [UIBezierPath bezierPath];
+        [fillBottom moveToPoint:CGPointMake(self.frame.size.width, self.frame.size.height - self.frameOffset)];
+        [fillBottom addLineToPoint:CGPointMake(0, self.frame.size.height - self.frameOffset)];
+
+        [fillxAxis moveToPoint:CGPointMake(self.frame.size.width, self.frame.size.height - self.frameOffset)];
+        [fillxAxis addLineToPoint:CGPointMake(0, self.frame.size.height - self.frameOffset)];
+        [fillxAxis addLineToPoint:CGPointMake(0, self.frame.size.height)];
+        [fillxAxis addLineToPoint:CGPointMake(self.frame.size.width, self.frame.size.height)];
+        [self.xAxisBackgroundColor set];
+        [fillxAxis fillWithBlendMode:kCGBlendModeNormal alpha:self.xAxisBackgroundAlpha];
+    }
+    
     
     [fillTop moveToPoint:CGPointMake(self.frame.size.width, 0)];
     [fillTop addLineToPoint:CGPointMake(0, 0)];
@@ -167,6 +181,7 @@
         pathLayer.fillColor = nil;
         pathLayer.lineWidth = self.lineWidth;
         pathLayer.lineJoin = kCALineJoinBevel;
+        pathLayer.lineCap = kCALineCapRound;
         [self animateForLayer:pathLayer withAnimationType:self.animationType isAnimatingReferenceLine:NO];
         [self.layer addSublayer:pathLayer];
         
@@ -178,7 +193,6 @@
             referenceLinesPathLayer.strokeColor = self.color.CGColor;
             referenceLinesPathLayer.fillColor = nil;
             referenceLinesPathLayer.lineWidth = self.lineWidth/2;
-            referenceLinesPathLayer.lineJoin = kCALineJoinBevel;
             [self animateForLayer:referenceLinesPathLayer withAnimationType:self.animationType isAnimatingReferenceLine:YES];
             [self.layer addSublayer:referenceLinesPathLayer];
         }

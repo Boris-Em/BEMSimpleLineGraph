@@ -121,6 +121,10 @@
     _colorBackgroundPopUplabel = [UIColor whiteColor];
     _alphaTouchInputLine = 0.2;
     _widthTouchInputLine = 1.0;
+    _colorBackgroundXaxis = nil;
+    _alphaBackgroundXaxis = 1.0;
+    _colorBackgroundYaxis = nil;
+    _alphaBackgroundYaxis = 1.0;
     
     // Set Alpha Values
     _alphaTop = 1.0;
@@ -250,9 +254,9 @@
         if (self.enablePopUpReport == YES && self.alwaysDisplayPopUpLabels == NO) {
             self.popUpLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 20)];
             if ([self.delegate respondsToSelector:@selector(popUpSuffixForlineGraph:)])
-                self.popUpLabel.text = [NSString stringWithFormat:@"%@%@", [self calculateMaximumPointValue], [self.delegate popUpSuffixForlineGraph:self]];
+                self.popUpLabel.text = [NSString stringWithFormat:@"%@%@", [NSNumber numberWithInteger:[self calculateMaximumPointValue].integerValue], [self.delegate popUpSuffixForlineGraph:self]];
             else
-                self.popUpLabel.text = [NSString stringWithFormat:@"%@", [self calculateMaximumPointValue]];
+                self.popUpLabel.text = [NSString stringWithFormat:@"%@", [NSNumber numberWithInteger:[self calculateMaximumPointValue].integerValue]];
             self.popUpLabel.textAlignment = 1;
             self.popUpLabel.numberOfLines = 1;
             self.popUpLabel.font = self.labelFont;
@@ -282,8 +286,7 @@
         longestLabel.text = [NSString stringWithFormat:@"%i", (int)[self maxValue]];
         NSDictionary *attributes = @{NSFontAttributeName: self.labelFont};
         labelYaxisOffset = [longestLabel.text sizeWithAttributes:attributes].width + 5;
-    }
-    else labelYaxisOffset = 0;
+    } else labelYaxisOffset = 0;
     
     // Draw the X-Axis
     [self drawXAxis];
@@ -400,6 +403,12 @@
     line.lineAlpha = self.alphaLine;
     line.bezierCurveIsEnabled = self.enableBezierCurve;
     line.arrayOfPoints = yAxisValues;
+    line.xAxisBackgroundAlpha = self.alphaBackgroundXaxis;
+    if (self.colorBackgroundXaxis == nil) {
+        line.xAxisBackgroundColor = self.colorBottom;
+    } else {
+        line.xAxisBackgroundColor = self.colorBackgroundXaxis;
+    }
     if (self.enableReferenceAxisLines == YES) {
         if (self.enableReferenceAxisFrame) line.enableRefrenceFrame = YES;
         else line.enableRefrenceFrame = NO;
@@ -579,13 +588,22 @@
             [subview removeFromSuperview];
     }
     
+    UIView *backgroundYaxis = [[UIView alloc]initWithFrame:CGRectMake(0, 0, labelYaxisOffset, self.frame.size.height)];
+    if (self.colorBackgroundYaxis == nil) {
+        self.colorBackgroundYaxis = self.colorTop;
+    }
+    backgroundYaxis.backgroundColor = self.colorBackgroundYaxis;
+    backgroundYaxis.alpha = self.alphaBackgroundYaxis;
+    [self addSubview:backgroundYaxis];
+    
+    
     NSMutableArray *yAxisLabels = [NSMutableArray arrayWithCapacity:0];
     [yAxisLabelPoints removeAllObjects];
     
     if (self.autoScaleYAxis) {
         // Plot according to min-max range
-        NSNumber *minimumValue = [self calculateMinimumPointValue];
-        NSNumber *maximumValue = [self calculateMaximumPointValue];
+        NSNumber *minimumValue = [NSNumber numberWithInteger:[self calculateMinimumPointValue].integerValue];
+        NSNumber *maximumValue = [NSNumber numberWithInteger:[self calculateMaximumPointValue].integerValue];
         NSNumber *halfwayValue = [NSNumber numberWithInt:(minimumValue.intValue + maximumValue.intValue)/2];
         
         NSArray *dotValues = @[minimumValue, halfwayValue, maximumValue];
@@ -693,7 +711,7 @@
     UILabel *permanentPopUpLabel = [[UILabel alloc] init];
     permanentPopUpLabel.textAlignment = 1;
     permanentPopUpLabel.numberOfLines = 0;
-    permanentPopUpLabel.text = [NSString stringWithFormat:@"%@", [NSNumber numberWithFloat:circleDot.absoluteValue]];
+    permanentPopUpLabel.text = [NSString stringWithFormat:@"%@", [NSNumber numberWithInteger:circleDot.absoluteValue]];
     permanentPopUpLabel.font = self.labelFont;
     permanentPopUpLabel.backgroundColor = [UIColor clearColor];
     [permanentPopUpLabel sizeToFit];
@@ -929,10 +947,9 @@
     self.popUpLabel.center = self.popUpView.center;
     
     if ([self.delegate respondsToSelector:@selector(popUpSuffixForlineGraph:)])
-        self.popUpLabel.text = [NSString stringWithFormat:@"%@%@", [dataPoints objectAtIndex:((NSInteger)closestDot.tag - 100)], [self.delegate popUpSuffixForlineGraph:self]];
+        self.popUpLabel.text = [NSString stringWithFormat:@"%li%@", (long)[[dataPoints objectAtIndex:((NSInteger)closestDot.tag - 100)] integerValue], [self.delegate popUpSuffixForlineGraph:self]];
     else
-        self.popUpLabel.text = [NSString stringWithFormat:@"%@", [dataPoints objectAtIndex:((NSInteger)closestDot.tag - 100)]];
-    
+        self.popUpLabel.text = [NSString stringWithFormat:@"%li", (long)[[dataPoints objectAtIndex:((NSInteger)closestDot.tag - 100)] integerValue]];
     if (self.popUpView.frame.origin.x <= 0) {
         self.xCenterLabel = self.popUpView.frame.size.width/2;
         self.popUpView.center = CGPointMake(self.xCenterLabel, self.yCenterLabel);

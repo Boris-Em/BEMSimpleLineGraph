@@ -233,6 +233,18 @@
 @property (strong, nonatomic) UIColor *colorXaxisLabel;
 
 
+@property (strong, nonatomic) UIColor *colorBackgroundXaxis;
+
+
+@property (nonatomic) CGFloat alphaBackgroundXaxis;
+
+
+@property (strong, nonatomic) UIColor *colorBackgroundYaxis;
+
+
+@property (nonatomic) CGFloat alphaBackgroundYaxis;
+
+
 /// Color of the label's text displayed on the Y-Axis. Defaut value is blackColor.
 @property (strong, nonatomic) UIColor *colorYaxisLabel;
 

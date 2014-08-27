@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="j8C-nX-jcI">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="12F37" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="j8C-nX-jcI">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -30,7 +30,6 @@
                             <view contentMode="scaleToFill" id="Vsd-lS-ATF" customClass="BEMSimpleLineGraphView">
                                 <rect key="frame" x="0.0" y="65" width="320" height="288"/>
                                 <autoresizingMask key="autoresizingMask" heightSizable="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.1215686275" green="0.73333333329999995" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
                                     <outlet property="dataSource" destination="vXZ-lx-hvc" id="kcC-np-y0t"/>
                                     <outlet property="delegate" destination="vXZ-lx-hvc" id="bLS-QX-9kI"/>
