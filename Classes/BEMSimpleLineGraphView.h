@@ -233,15 +233,19 @@
 @property (strong, nonatomic) UIColor *colorXaxisLabel;
 
 
+/// Color of the background of the X-Axis
 @property (strong, nonatomic) UIColor *colorBackgroundXaxis;
 
 
+/// Alpha of the background of the X-Axis
 @property (nonatomic) CGFloat alphaBackgroundXaxis;
 
 
+/// Color of the background of the Y-Axis
 @property (strong, nonatomic) UIColor *colorBackgroundYaxis;
 
 
+/// Alpha of the backgrounf of the Y-Axis
 @property (nonatomic) CGFloat alphaBackgroundYaxis;
 
 

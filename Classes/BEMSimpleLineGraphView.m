@@ -66,10 +66,10 @@
 @property (strong, nonatomic) UIView *popUpView;
 
 /// The X position (center) of the view for the popup label
-@property (assign) CGFloat xCenterLabel;
+@property (nonatomic) CGFloat xCenterLabel;
 
 /// The Y position (center) of the view for the popup label
-@property (assign) CGFloat yCenterLabel;
+@property (nonatomic) CGFloat yCenterLabel;
 
 /// The Y offset necessary to compensate the labels on the XAxis
 @property (nonatomic) CGFloat XAxisLabelYOffset;
