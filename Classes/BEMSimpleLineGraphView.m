@@ -416,9 +416,9 @@
         line.enableRefrenceLines = YES;
         line.arrayOfVerticalRefrenceLinePoints = xAxisLabelPoints;
         line.arrayOfHorizontalRefrenceLinePoints = yAxisLabelPoints;
-        
-        line.frameOffset = self.XAxisLabelYOffset;
     }
+    
+    line.frameOffset = self.XAxisLabelYOffset;
     
     line.color = self.colorLine;
     line.animationTime = self.animationGraphEntranceTime;
@@ -584,15 +584,20 @@
 
 - (void)drawYAxis {
     for (UIView *subview in [self subviews]) {
-        if ([subview isKindOfClass:[UILabel class]] && subview.tag == 2000)
+        if ([subview isKindOfClass:[UILabel class]] && subview.tag == 2000) {
             [subview removeFromSuperview];
+        }
+        else if ([subview isKindOfClass:[UIView class] ] && subview.tag == 2100) {
+            [subview removeFromSuperview];
+        }
     }
     
     UIView *backgroundYaxis = [[UIView alloc]initWithFrame:CGRectMake(0, 0, labelYaxisOffset, self.frame.size.height)];
+    backgroundYaxis.tag = 2100;
     if (self.colorBackgroundYaxis == nil) {
-        self.colorBackgroundYaxis = self.colorTop;
-    }
-    backgroundYaxis.backgroundColor = self.colorBackgroundYaxis;
+        backgroundYaxis.backgroundColor = self.colorTop;
+    } else backgroundYaxis.backgroundColor = self.colorBackgroundYaxis;
+    
     backgroundYaxis.alpha = self.alphaBackgroundYaxis;
     [self addSubview:backgroundYaxis];
     
@@ -789,7 +794,7 @@
     for (UIView *subviews in self.subviews) {
         [subviews removeFromSuperview];
     }
-    
+
     [self setNeedsLayout];
 }
 
