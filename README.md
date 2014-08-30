@@ -21,7 +21,7 @@ The full documentation of the project is available on its [wiki.](https://github
     * [License](#license)
     * [Support](#support)
     * [Sample App](#sample-app)
-* [**Setup**](#setup)
+* [**Getting Started**](#getting-started)
     * [Installation](#installation)
     * [Setup](#setup)
 * [**Documentation**](#documentation)
@@ -63,7 +63,7 @@ Join us on [Gitter](https://gitter.im/Boris-Em/BEMSimpleLineGraph) if you need a
 ### Sample App
 The iOS Sample App included with this project demonstrates how to correctly setup and use BEMSimpleLineGraph. You can refer to the sample app for an understanding of how to use and setup BEMSimpleLineGraph.
 
-## Setup
+## Getting Started
 <i>See the full article on the wiki [here.](https://github.com/Boris-Em/BEMSimpleLineGraph/wiki/Getting-Started)</i>
 
 <b>BEMSimpleLineGraph</b> can be added to any project (big or small) in a matter of minutes (maybe even seconds if you're super speedy). Cocoapods is fully supported, and so are all the latest technologies (eg. ARC, Storyboards, Interface Builder Attributes, Modules, and more).
