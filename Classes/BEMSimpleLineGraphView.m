@@ -283,7 +283,8 @@
     // Set the Y-Axis Offset if the Y-Axis is enabled. The offset is relative to the size of the longest label on the Y-Axis.
     if (self.enableYAxisLabel) {
         UILabel *longestLabel = [[UILabel alloc] init];
-        longestLabel.text = [NSString stringWithFormat:@"%i", (int)[self maxValue]];
+        if (self.autoScaleYAxis == YES)longestLabel.text = [NSString stringWithFormat:@"%i", (int)[self maxValue]];
+        else longestLabel.text = [NSString stringWithFormat:@"%i", (int)self.frame.size.height];
         NSDictionary *attributes = @{NSFontAttributeName: self.labelFont};
         labelYaxisOffset = [longestLabel.text sizeWithAttributes:attributes].width + 5;
     } else labelYaxisOffset = 0;
@@ -635,26 +636,22 @@
         else numberOfLabels = 3;
         
         CGFloat graphHeight = self.frame.size.height;
-        CGFloat graphSpacing = graphHeight / numberOfLabels;
-        NSInteger graphValueIncrement = [self maxValue] / numberOfLabels;
+        CGFloat graphSpacing = (graphHeight - self.XAxisLabelYOffset) / numberOfLabels;
         
-        CGFloat yAxisPosition = graphHeight;
-        NSInteger yAxisValue = 0;
+        CGFloat yAxisPosition = graphHeight - self.XAxisLabelYOffset + graphSpacing/2;
         
         for (NSInteger i = numberOfLabels; i > 0; i--) {
             yAxisPosition -= graphSpacing;
-            yAxisValue += graphValueIncrement;
             
-            UILabel *labelYAxis = [[UILabel alloc] initWithFrame:CGRectZero];
-            labelYAxis.center = CGPointMake(labelYAxis.frame.size.width/2, yAxisPosition+1);
-            labelYAxis.text = [NSString stringWithFormat:@"%i", (int)yAxisValue];
+            UILabel *labelYAxis = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, labelYaxisOffset - 5, 10)];
+            labelYAxis.center = CGPointMake(labelYaxisOffset/2, yAxisPosition);
+            labelYAxis.text = [NSString stringWithFormat:@"%i", (int)(graphHeight - self.XAxisLabelYOffset - yAxisPosition)];
             labelYAxis.font = self.labelFont;
-            labelYAxis.textAlignment = NSTextAlignmentLeft;
+            labelYAxis.textAlignment = NSTextAlignmentRight;
             labelYAxis.textColor = self.colorYaxisLabel;
             labelYAxis.backgroundColor = [UIColor clearColor];
             labelYAxis.tag = 2000;
             
-            [labelYAxis sizeToFit];
             [self addSubview:labelYAxis];
             
             [yAxisLabels addObject:labelYAxis];
@@ -663,16 +660,7 @@
             [yAxisLabelPoints addObject:yAxisLabelCoordinate];
         }
     }
-    
-    // Calculate Y-label offset distance
-    labelYaxisOffset = 0;
-    [yAxisLabels enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        UILabel *label = (UILabel *)obj;
-        CGFloat width = label.frame.size.width;
-        if (width > labelYaxisOffset)
-            labelYaxisOffset = width;
-    }];
-    
+
     // Detect overlapped labels
     __block NSUInteger lastMatchIndex;
     NSMutableArray *overlapLabels = [NSMutableArray arrayWithCapacity:0];
@@ -1071,17 +1059,19 @@
         padding = 90.0;
     }
     
-    if (minValue == maxValue) positionOnYAxis = self.frame.size.height/2;
-    else if (self.autoScaleYAxis == YES) positionOnYAxis = ((self.frame.size.height - padding) - ((dotValue - minValue) / ((maxValue - minValue) / (self.frame.size.height - padding))) + padding/2);
-    else positionOnYAxis = ((self.frame.size.height - padding) - dotValue);
-    
     if ([self.dataSource respondsToSelector:@selector(lineGraph:labelOnXAxisForIndex:)] || [self.dataSource respondsToSelector:@selector(labelOnXAxisForIndex:)]) {
         if ([xAxisLabels count] > 0) {
             UILabel *label = [xAxisLabels objectAtIndex:0];
-            self.XAxisLabelYOffset = label.frame.size.height+2;
-            positionOnYAxis = positionOnYAxis - self.XAxisLabelYOffset/2;
+            self.XAxisLabelYOffset = label.frame.size.height + self.widthLine;
         }
     }
+    
+    if (minValue == maxValue && self.autoScaleYAxis == YES) positionOnYAxis = self.frame.size.height/2;
+    else if (self.autoScaleYAxis == YES) positionOnYAxis = ((self.frame.size.height - padding/2) - ((dotValue - minValue) / ((maxValue - minValue) / (self.frame.size.height - padding)))) + self.XAxisLabelYOffset/2;
+    else positionOnYAxis = ((self.frame.size.height) - dotValue);
+    
+    positionOnYAxis -= self.XAxisLabelYOffset;
+    
     return positionOnYAxis;
 }
 
