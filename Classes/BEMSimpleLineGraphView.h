@@ -245,7 +245,7 @@
 @property (strong, nonatomic) UIColor *colorBackgroundYaxis;
 
 
-/// Alpha of the backgrounf of the Y-Axis
+/// Alpha of the background of the Y-Axis
 @property (nonatomic) CGFloat alphaBackgroundYaxis;
 
 

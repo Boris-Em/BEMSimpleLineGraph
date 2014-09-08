@@ -610,9 +610,22 @@
         // Plot according to min-max range
         NSNumber *minimumValue = [NSNumber numberWithInteger:[self calculateMinimumPointValue].integerValue];
         NSNumber *maximumValue = [NSNumber numberWithInteger:[self calculateMaximumPointValue].integerValue];
-        NSNumber *halfwayValue = [NSNumber numberWithInt:(minimumValue.intValue + maximumValue.intValue)/2];
         
-        NSArray *dotValues = @[minimumValue, halfwayValue, maximumValue];
+        CGFloat numberOfLabels;
+        if ([self.delegate respondsToSelector:@selector(numberOfYAxisLabelsOnLineGraph:)]) numberOfLabels = [self.delegate numberOfYAxisLabelsOnLineGraph:self];
+        else numberOfLabels = 3;
+        
+        NSMutableArray *dotValues = [[NSMutableArray alloc] initWithObjects:minimumValue, maximumValue, nil];
+        
+        if (numberOfLabels <= 0) return;
+        else if (numberOfLabels == 1) {
+            [dotValues removeAllObjects];
+            [dotValues addObject:[NSNumber numberWithInt:(minimumValue.intValue + maximumValue.intValue)/2]];
+        } else {
+            for (int i=1; i<numberOfLabels-1; i++) {
+                [dotValues addObject:[NSNumber numberWithInt:(minimumValue.intValue + ((maximumValue.intValue - minimumValue.intValue)/(numberOfLabels-1))*i)]];
+            }
+        }
         
         for (NSNumber *dotValue in dotValues) {
             CGFloat yAxisPosition = [self yPositionForDotValue:dotValue.floatValue];
