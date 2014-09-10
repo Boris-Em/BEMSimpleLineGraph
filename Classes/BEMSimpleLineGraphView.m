@@ -959,20 +959,22 @@
         self.popUpLabel.text = [NSString stringWithFormat:@"%li%@", (long)[[dataPoints objectAtIndex:((NSInteger)closestDot.tag - 100)] integerValue], [self.delegate popUpSuffixForlineGraph:self]];
     else
         self.popUpLabel.text = [NSString stringWithFormat:@"%li", (long)[[dataPoints objectAtIndex:((NSInteger)closestDot.tag - 100)] integerValue]];
-    if (self.popUpView.frame.origin.x <= 0) {
+    if (self.enableYAxisLabel == YES && self.popUpView.frame.origin.x <= self.YAxisLabelXOffset) {
+        self.xCenterLabel = self.popUpView.frame.size.width/2;
+        self.popUpView.center = CGPointMake(self.xCenterLabel + self.YAxisLabelXOffset + 1, self.yCenterLabel);
+    }
+    else if (self.popUpView.frame.origin.x <= 0) {
         self.xCenterLabel = self.popUpView.frame.size.width/2;
         self.popUpView.center = CGPointMake(self.xCenterLabel, self.yCenterLabel);
-        self.popUpLabel.center = self.popUpView.center;
     } else if ((self.popUpView.frame.origin.x + self.popUpView.frame.size.width) >= self.frame.size.width) {
         self.xCenterLabel = self.frame.size.width - self.popUpView.frame.size.width/2;
         self.popUpView.center = CGPointMake(self.xCenterLabel, self.yCenterLabel);
-        self.popUpLabel.center = self.popUpView.center;
     }
     if (self.popUpView.frame.origin.y <= 2) {
         self.yCenterLabel = closestDot.center.y + closestDot.frame.size.height/2 + 15;
         self.popUpView.center = CGPointMake(self.xCenterLabel, closestDot.center.y + closestDot.frame.size.height/2 + 15);
-        self.popUpLabel.center = self.popUpView.center;
     }
+    self.popUpLabel.center = self.popUpView.center;
 }
 
 #pragma mark - Graph Calculations
