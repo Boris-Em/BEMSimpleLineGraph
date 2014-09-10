@@ -1,4 +1,4 @@
-# BEMSimpleLineGraph
+# BEMSimpleLineGraph    [![Build Status](https://travis-ci.org/Boris-Em/BEMSimpleLineGraph.svg?branch=master)](https://travis-ci.org/Boris-Em/BEMSimpleLineGraph)
 <p align = right><a target="_blank" href="https://twitter.com/intent/tweet?hashtags=iosdev&original_referer=https%3A%2F%2Fabout.twitter.com%2Fresources%2Fbuttons&text=BEMSimpleLineGraph,%20beautiful%20graphs%20for%20iOS!%20Open%20Source%20Library%20on%20GitHub&tw_p=tweetbutton&url=http%3A%2F%2Fgoo.gl%2FzgB6GL&via=Boris_Em"><img src="http://s30.postimg.org/j2q6ql27h/Tweet.png"></a>
 <a target="_blank" href="https://twitter.com/Boris_Em"> <img src="http://s29.postimg.org/avb82kvv7/Follow_Twitter.png"></a>
 </p>
