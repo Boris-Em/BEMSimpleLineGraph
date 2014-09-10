@@ -157,7 +157,6 @@
 
 
 /** Show Y-Axis label on the side. Default value is NO.
- @see  autoScaleYAxis - When set YES, Y-Axis will show minimum, maximum and middle label only.
  @todo Could enhance further by specifying the position of Y-Axis, i.e. Left or Right of the view.  Also auto detection on label overlapping. */
 @property (nonatomic) BOOL enableYAxisLabel;
 
@@ -377,7 +376,7 @@
 
 
 /** The total number of Y-axis labels on the line graph.
- @discussion Called only when autoScaleYAxis set to NO. Calculates the total height of the graph and evenly spaces the labels based on the graph height. Default value is 3.
+ @discussion Calculates the total height of the graph and evenly spaces the labels based on the graph height. Default value is 3.
  @param graph The graph object which is requesting the number of labels.
  @return The number of labels displayed on the Y-axis. */
 - (NSInteger)numberOfYAxisLabelsOnLineGraph:(BEMSimpleLineGraphView *)graph;

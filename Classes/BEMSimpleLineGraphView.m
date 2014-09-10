@@ -40,8 +40,7 @@
     /// All of the Data Points
     NSMutableArray *dataPoints;
     
-    /// The Y-Axis offset, will take max label size width
-    CGFloat labelYaxisOffset;
+
     
     /// All of the X-Axis Labels
     NSMutableArray *xAxisLabels;
@@ -71,8 +70,11 @@
 /// The Y position (center) of the view for the popup label
 @property (nonatomic) CGFloat yCenterLabel;
 
-/// The Y offset necessary to compensate the labels on the XAxis
+/// The Y offset necessary to compensate the labels on the X-Axis
 @property (nonatomic) CGFloat XAxisLabelYOffset;
+
+/// The X offset necessary to compensate the labels on the Y-Axis. Will take the value of the bigger label on the Y-Axis
+@property (nonatomic) CGFloat YAxisLabelXOffset;
 
 /// Find which point is currently the closest to the vertical line
 - (BEMCircle *)closestDotFromtouchInputLine:(UIView *)touchInputLine;
@@ -140,7 +142,7 @@
     _enablePopUpReport = NO;
     _enableBezierCurve = NO;
     _enableYAxisLabel = NO;
-    labelYaxisOffset = 0;
+    _YAxisLabelXOffset = 0;
     _autoScaleYAxis = YES;
     _alwaysDisplayDots = NO;
     _alwaysDisplayPopUpLabels = NO;
@@ -286,8 +288,8 @@
         if (self.autoScaleYAxis == YES)longestLabel.text = [NSString stringWithFormat:@"%i", (int)[self maxValue]];
         else longestLabel.text = [NSString stringWithFormat:@"%i", (int)self.frame.size.height];
         NSDictionary *attributes = @{NSFontAttributeName: self.labelFont};
-        labelYaxisOffset = [longestLabel.text sizeWithAttributes:attributes].width + 5;
-    } else labelYaxisOffset = 0;
+        self.YAxisLabelXOffset = [longestLabel.text sizeWithAttributes:attributes].width + 5;
+    } else self.YAxisLabelXOffset = 0;
     
     // Draw the X-Axis
     [self drawXAxis];
@@ -341,7 +343,7 @@
             
             [dataPoints addObject:[NSNumber numberWithFloat:dotValue]];
             
-            positionOnXAxis = (((self.frame.size.width - labelYaxisOffset) / (numberOfPoints - 1)) * i) + labelYaxisOffset;
+            positionOnXAxis = (((self.frame.size.width - self.YAxisLabelXOffset) / (numberOfPoints - 1)) * i) + self.YAxisLabelXOffset;
             positionOnYAxis = [self yPositionForDotValue:dotValue];
             
             BEMCircle *circleDot = [[BEMCircle alloc] initWithFrame:CGRectMake(0, 0, self.sizePoint, self.sizePoint)];
@@ -392,7 +394,7 @@
             [subview removeFromSuperview];
     }
     
-    BEMLine *line = [[BEMLine alloc] initWithFrame:CGRectMake(labelYaxisOffset, 0, self.frame.size.width - labelYaxisOffset, self.frame.size.height)];
+    BEMLine *line = [[BEMLine alloc] initWithFrame:CGRectMake(self.YAxisLabelXOffset, 0, self.frame.size.width - self.YAxisLabelXOffset, self.frame.size.height)];
     line.opaque = NO;
     line.alpha = 1;
     line.backgroundColor = [UIColor clearColor];
@@ -481,9 +483,9 @@
             
         } else firstXLabel = @"";
         
-        CGFloat viewWidth = self.frame.size.width - labelYaxisOffset;
+        CGFloat viewWidth = self.frame.size.width - self.YAxisLabelXOffset;
         
-        UILabel *firstLabel = [[UILabel alloc] initWithFrame:CGRectMake(3+labelYaxisOffset, self.frame.size.height-20, viewWidth/2, 20)];
+        UILabel *firstLabel = [[UILabel alloc] initWithFrame:CGRectMake(3+self.YAxisLabelXOffset, self.frame.size.height-20, viewWidth/2, 20)];
         firstLabel.text = firstXLabel;
         firstLabel.font = self.labelFont;
         firstLabel.textAlignment = 0;
@@ -494,7 +496,7 @@
         [xAxisValues addObject:firstXLabel];
         [xAxisLabels addObject:firstLabel];
         
-        NSNumber *xFirstAxisLabelCoordinate = [NSNumber numberWithFloat:firstLabel.center.x-labelYaxisOffset];
+        NSNumber *xFirstAxisLabelCoordinate = [NSNumber numberWithFloat:firstLabel.center.x-self.YAxisLabelXOffset];
         [xAxisLabelPoints addObject:xFirstAxisLabelCoordinate];
         
         UILabel *lastLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.frame.size.width/2 - 3, self.frame.size.height-20, self.frame.size.width/2, 20)];
@@ -508,7 +510,7 @@
         [xAxisValues addObject:lastXLabel];
         [xAxisLabels addObject:lastLabel];
         
-        NSNumber *xLastAxisLabelCoordinate = [NSNumber numberWithFloat:lastLabel.center.x-labelYaxisOffset];
+        NSNumber *xLastAxisLabelCoordinate = [NSNumber numberWithFloat:lastLabel.center.x-self.YAxisLabelXOffset];
         [xAxisLabelPoints addObject:xLastAxisLabelCoordinate];
         
     } else {
@@ -554,9 +556,9 @@
                 CGRect rect = labelXAxis.frame;
                 rect.size = lRect.size;
                 labelXAxis.frame = rect;
-                [labelXAxis setCenter:CGPointMake(((self.viewForBaselineLayout.frame.size.width - labelYaxisOffset) / (numberOfPoints-1)) * (i*numberOfGaps - 1 - offset) + labelYaxisOffset, self.frame.size.height - lRect.size.height/2)];
+                [labelXAxis setCenter:CGPointMake(((self.viewForBaselineLayout.frame.size.width - self.YAxisLabelXOffset) / (numberOfPoints-1)) * (i*numberOfGaps - 1 - offset) + self.YAxisLabelXOffset, self.frame.size.height - lRect.size.height/2)];
                 
-                NSNumber *xAxisLabelCoordinate = [NSNumber numberWithFloat:labelXAxis.center.x-labelYaxisOffset];
+                NSNumber *xAxisLabelCoordinate = [NSNumber numberWithFloat:labelXAxis.center.x-self.YAxisLabelXOffset];
                 [xAxisLabelPoints addObject:xAxisLabelCoordinate];
                 
                 [self addSubview:labelXAxis];
@@ -593,7 +595,7 @@
         }
     }
     
-    UIView *backgroundYaxis = [[UIView alloc]initWithFrame:CGRectMake(0, 0, labelYaxisOffset, self.frame.size.height)];
+    UIView *backgroundYaxis = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.YAxisLabelXOffset, self.frame.size.height)];
     backgroundYaxis.tag = 2100;
     if (self.colorBackgroundYaxis == nil) {
         backgroundYaxis.backgroundColor = self.colorTop;
@@ -629,14 +631,14 @@
         
         for (NSNumber *dotValue in dotValues) {
             CGFloat yAxisPosition = [self yPositionForDotValue:dotValue.floatValue];
-            UILabel *labelYAxis = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, labelYaxisOffset - 5, 10)];
+            UILabel *labelYAxis = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.YAxisLabelXOffset - 5, 10)];
             labelYAxis.text = dotValue.stringValue;
             labelYAxis.textAlignment = NSTextAlignmentRight;
             labelYAxis.font = self.labelFont;
             labelYAxis.textColor = self.colorYaxisLabel;
             labelYAxis.backgroundColor = [UIColor clearColor];
             labelYAxis.tag = 2000;
-            labelYAxis.center = CGPointMake(labelYaxisOffset/2, yAxisPosition);
+            labelYAxis.center = CGPointMake(self.YAxisLabelXOffset/2, yAxisPosition);
             [self addSubview:labelYAxis];
             [yAxisLabels addObject:labelYAxis];
             
@@ -656,8 +658,8 @@
         for (NSInteger i = numberOfLabels; i > 0; i--) {
             yAxisPosition -= graphSpacing;
             
-            UILabel *labelYAxis = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, labelYaxisOffset - 5, 10)];
-            labelYAxis.center = CGPointMake(labelYaxisOffset/2, yAxisPosition);
+            UILabel *labelYAxis = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.YAxisLabelXOffset - 5, 10)];
+            labelYAxis.center = CGPointMake(self.YAxisLabelXOffset/2, yAxisPosition);
             labelYAxis.text = [NSString stringWithFormat:@"%i", (int)(graphHeight - self.XAxisLabelYOffset - yAxisPosition)];
             labelYAxis.font = self.labelFont;
             labelYAxis.textAlignment = NSTextAlignmentRight;
@@ -728,28 +730,29 @@
     permanentPopUpView.backgroundColor = [UIColor whiteColor];
     permanentPopUpView.alpha = 0;
     permanentPopUpView.layer.cornerRadius = 3;
-    permanentPopUpView.tag = 2100;
+    permanentPopUpView.tag = 3100;
     permanentPopUpView.center = permanentPopUpLabel.center;
     
     if (permanentPopUpLabel.frame.origin.x <= 0) {
         self.xCenterLabel = permanentPopUpLabel.frame.size.width/2 + 4;
         permanentPopUpLabel.center = CGPointMake(self.xCenterLabel, circleDot.center.y - circleDot.frame.size.height/2 - 15);
-        permanentPopUpView.center = permanentPopUpLabel.center;
+    } else if (self.enableYAxisLabel == YES && permanentPopUpLabel.frame.origin.x <= self.YAxisLabelXOffset) {
+        self.xCenterLabel = permanentPopUpLabel.frame.size.width/2 + 4;
+        permanentPopUpLabel.center = CGPointMake(self.xCenterLabel + self.YAxisLabelXOffset, circleDot.center.y - circleDot.frame.size.height/2 - 15);
     } else if ((permanentPopUpLabel.frame.origin.x + permanentPopUpLabel.frame.size.width) >= self.frame.size.width) {
         self.xCenterLabel = self.frame.size.width - permanentPopUpLabel.frame.size.width/2 - 4;
         permanentPopUpLabel.center = CGPointMake(self.xCenterLabel, circleDot.center.y - circleDot.frame.size.height/2 - 15);
-        permanentPopUpView.center = permanentPopUpLabel.center;
     }
     
     if (permanentPopUpLabel.frame.origin.y <= 2) {
         permanentPopUpLabel.center = CGPointMake(self.xCenterLabel, circleDot.center.y + circleDot.frame.size.height/2 + 15);
-        permanentPopUpView.center = permanentPopUpLabel.center;
     }
     
     if ([self checkOverlapsForView:permanentPopUpView] == YES) {
         permanentPopUpLabel.center = CGPointMake(self.xCenterLabel, circleDot.center.y + circleDot.frame.size.height/2 + 15);
-        permanentPopUpView.center = permanentPopUpLabel.center;
     }
+    
+    permanentPopUpView.center = permanentPopUpLabel.center;
     
     [self addSubview:permanentPopUpView];
     [self addSubview:permanentPopUpLabel];
@@ -767,7 +770,7 @@
 
 - (BOOL)checkOverlapsForView:(UIView *)view {
     for (UIView *viewForLabel in [self subviews]) {
-        if ([viewForLabel isKindOfClass:[UIView class]] && viewForLabel.tag == 2100) {
+        if ([viewForLabel isKindOfClass:[UIView class]] && viewForLabel.tag == 3100) {
             if ((viewForLabel.frame.origin.x + viewForLabel.frame.size.width) >= view.frame.origin.x) {
                 if (viewForLabel.frame.origin.y >= view.frame.origin.y && viewForLabel.frame.origin.y <= view.frame.origin.y + view.frame.size.height) return YES;
                 else if (viewForLabel.frame.origin.y + viewForLabel.frame.size.height >= view.frame.origin.y && viewForLabel.frame.origin.y + viewForLabel.frame.size.height <= view.frame.origin.y + view.frame.size.height) return YES;
