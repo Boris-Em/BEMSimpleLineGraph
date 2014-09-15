@@ -32,7 +32,7 @@
     totalNumber = 0;
     
     for (int i = 0; i < 9; i++) {
-        [self.ArrayOfValues addObject:[NSNumber numberWithInteger:(arc4random() % 10000)]]; // Random values for the graph
+        [self.ArrayOfValues addObject:@( [self getInteger])]; // Random values for the graph
         [self.ArrayOfDates addObject:[NSString stringWithFormat:@"%@",[NSNumber numberWithInt:2000 + i]]]; // Dates for the X-Axis of the graph
         
         totalNumber = totalNumber + [[self.ArrayOfValues objectAtIndex:i] intValue]; // All of the values added together
@@ -78,10 +78,11 @@
     [self.ArrayOfDates removeAllObjects];
     
     for (int i = 0; i < self.graphObjectIncrement.value; i++) {
-        [self.ArrayOfValues addObject:[NSNumber numberWithInteger:(arc4random() % 10000)]]; // Random values for the graph
+        NSInteger i1 = [self getInteger];
+        [self.ArrayOfValues addObject:@(i1)]; // Random values for the graph
         [self.ArrayOfDates addObject:[NSString stringWithFormat:@"Jan %@",[NSNumber numberWithInt:2000 + i]]]; // Dates for the X-Axis of the graph
         
-        totalNumber = totalNumber + [[self.ArrayOfValues objectAtIndex:i] intValue]; // All of the values added together
+        totalNumber = totalNumber + [(self.ArrayOfValues)[i] intValue]; // All of the values added together
     }
     UIColor *color;
     if (self.graphColorChoice.selectedSegmentIndex == 0) color = [UIColor colorWithRed:31.0/255.0 green:187.0/255.0 blue:166.0/255.0 alpha:1.0];
@@ -99,10 +100,16 @@
     [self.myGraph reloadGraph];
 }
 
+- (NSInteger)getInteger
+{
+    NSInteger i1 = (int)(arc4random() % 10000);
+    return i1;
+}
+
 - (IBAction)addOrRemoveLineFromGraph:(id)sender {
     if (self.graphObjectIncrement.value > previousStepperValue) {
         // Add line
-        [self.ArrayOfValues addObject:[NSNumber numberWithInteger:(arc4random() % 10000)]];
+        [self.ArrayOfValues addObject:@([self getInteger])];
         [self.ArrayOfDates addObject:[NSString stringWithFormat:@"%i", (int)[[self.ArrayOfDates lastObject] integerValue]+1]];
         [self.myGraph reloadGraph];
     } else if (self.graphObjectIncrement.value < previousStepperValue) {
