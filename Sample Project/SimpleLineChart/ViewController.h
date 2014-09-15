@@ -23,6 +23,7 @@
 - (IBAction)refresh:(id)sender;
 - (IBAction)addOrRemoveLineFromGraph:(id)sender;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *graphColorChoice;
+@property (strong, nonatomic) IBOutlet UISegmentedControl *curveChoice;
 @property (weak, nonatomic) IBOutlet UIStepper *graphObjectIncrement;
 
 - (IBAction)displayStatistics:(id)sender;

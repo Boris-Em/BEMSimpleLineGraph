@@ -61,6 +61,9 @@
     self.myGraph.enableReferenceAxisFrame = YES;
     self.myGraph.animationGraphStyle = BEMLineAnimationDraw;
     
+    //setup initial selectet segment
+    self.curveChoice.selectedSegmentIndex = self.myGraph.enableBezierCurve;
+
     // The labels to report the values of the graph when the user touches it
     self.labelValues.text = [NSString stringWithFormat:@"%i", [[self.myGraph calculatePointValueSum] intValue]];
     self.labelDates.text = @"between 2000 and 2010";
@@ -89,6 +92,7 @@
     else if (self.graphColorChoice.selectedSegmentIndex == 1) color = [UIColor colorWithRed:255.0/255.0 green:187.0/255.0 blue:31.0/255.0 alpha:1.0];
     else if (self.graphColorChoice.selectedSegmentIndex == 2) color = [UIColor colorWithRed:0.0 green:140.0/255.0 blue:255.0/255.0 alpha:1.0];
     
+    self.myGraph.enableBezierCurve = (BOOL) self.curveChoice.selectedSegmentIndex;
     self.myGraph.colorTop = color;
     self.myGraph.colorBottom = color;
     self.myGraph.backgroundColor = color;
