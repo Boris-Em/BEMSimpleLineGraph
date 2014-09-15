@@ -118,6 +118,8 @@
         [fillTop addLineToPoint:p1];
         
         if (self.bezierCurveIsEnabled == YES) {
+            tensionBezier = 0.3;
+            
             if (i > 0) { // Exception for first line because there is no previous point
                 p0 = CGPointMake((self.frame.size.width/([self.arrayOfPoints count] - 1))*(i-1), [[self.arrayOfPoints objectAtIndex:i-1] floatValue]);
             } else p0 = p1;
