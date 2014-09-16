@@ -32,7 +32,7 @@
     totalNumber = 0;
     
     for (int i = 0; i < 9; i++) {
-        [self.ArrayOfValues addObject:[NSNumber numberWithInteger:(arc4random() % 10000)]]; // Random values for the graph
+        [self.ArrayOfValues addObject:@([self getRandomInteger])]; // Random values for the graph
         [self.ArrayOfDates addObject:[NSString stringWithFormat:@"%@",[NSNumber numberWithInt:2000 + i]]]; // Dates for the X-Axis of the graph
         
         totalNumber = totalNumber + [[self.ArrayOfValues objectAtIndex:i] intValue]; // All of the values added together
@@ -61,6 +61,9 @@
     self.myGraph.enableReferenceAxisFrame = YES;
     self.myGraph.animationGraphStyle = BEMLineAnimationDraw;
     
+    //setup initial selectet segment
+    self.curveChoice.selectedSegmentIndex = self.myGraph.enableBezierCurve;
+
     // The labels to report the values of the graph when the user touches it
     self.labelValues.text = [NSString stringWithFormat:@"%i", [[self.myGraph calculatePointValueSum] intValue]];
     self.labelDates.text = @"between 2000 and 2010";
@@ -78,16 +81,17 @@
     [self.ArrayOfDates removeAllObjects];
     
     for (int i = 0; i < self.graphObjectIncrement.value; i++) {
-        [self.ArrayOfValues addObject:[NSNumber numberWithInteger:(arc4random() % 10000)]]; // Random values for the graph
+        [self.ArrayOfValues addObject:@([self getRandomInteger])]; // Random values for the graph
         [self.ArrayOfDates addObject:[NSString stringWithFormat:@"Jan %@",[NSNumber numberWithInt:2000 + i]]]; // Dates for the X-Axis of the graph
         
-        totalNumber = totalNumber + [[self.ArrayOfValues objectAtIndex:i] intValue]; // All of the values added together
+        totalNumber = totalNumber + [(self.ArrayOfValues)[i] intValue]; // All of the values added together
     }
     UIColor *color;
     if (self.graphColorChoice.selectedSegmentIndex == 0) color = [UIColor colorWithRed:31.0/255.0 green:187.0/255.0 blue:166.0/255.0 alpha:1.0];
     else if (self.graphColorChoice.selectedSegmentIndex == 1) color = [UIColor colorWithRed:255.0/255.0 green:187.0/255.0 blue:31.0/255.0 alpha:1.0];
     else if (self.graphColorChoice.selectedSegmentIndex == 2) color = [UIColor colorWithRed:0.0 green:140.0/255.0 blue:255.0/255.0 alpha:1.0];
     
+    self.myGraph.enableBezierCurve = (BOOL) self.curveChoice.selectedSegmentIndex;
     self.myGraph.colorTop = color;
     self.myGraph.colorBottom = color;
     self.myGraph.backgroundColor = color;
@@ -99,10 +103,16 @@
     [self.myGraph reloadGraph];
 }
 
+- (NSInteger)getRandomInteger
+{
+    NSInteger i1 = (int)(arc4random() % 10000);
+    return i1;
+}
+
 - (IBAction)addOrRemoveLineFromGraph:(id)sender {
     if (self.graphObjectIncrement.value > previousStepperValue) {
         // Add line
-        [self.ArrayOfValues addObject:[NSNumber numberWithInteger:(arc4random() % 10000)]];
+        [self.ArrayOfValues addObject:@([self getRandomInteger])];
         [self.ArrayOfDates addObject:[NSString stringWithFormat:@"%i", (int)[[self.ArrayOfDates lastObject] integerValue]+1]];
         [self.myGraph reloadGraph];
     } else if (self.graphObjectIncrement.value < previousStepperValue) {
