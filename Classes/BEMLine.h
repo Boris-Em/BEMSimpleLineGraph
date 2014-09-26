@@ -59,6 +59,9 @@ typedef NS_ENUM(NSInteger, BEMLineAnimation) {
 /// All of the Y-Axis coordinates used to draw horizontal lines through
 @property (nonatomic) NSArray *arrayOfHorizontalRefrenceLinePoints;
 
+/// All of the point values
+@property (nonatomic) NSArray *arrayOfValues;
+
 /** Draw thin, translucent, reference lines using the provided X-Axis and Y-Axis coordinates.
  @see Use \p arrayOfVerticalRefrenceLinePoints to specify vertical reference lines' positions. Use \p arrayOfHorizontalRefrenceLinePoints to specify horizontal reference lines' positions. */
 @property (nonatomic) BOOL enableRefrenceLines;

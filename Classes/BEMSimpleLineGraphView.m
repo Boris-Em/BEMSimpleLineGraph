@@ -407,6 +407,7 @@
     line.bezierCurveIsEnabled = self.enableBezierCurve;
     line.arrayOfPoints = yAxisValues;
     line.xAxisBackgroundAlpha = self.alphaBackgroundXaxis;
+    line.arrayOfValues = self.graphValuesForDataPoints;
     if (self.colorBackgroundXaxis == nil) {
         line.xAxisBackgroundColor = self.colorBottom;
     } else {
@@ -631,7 +632,7 @@
         
         for (NSNumber *dotValue in dotValues) {
             CGFloat yAxisPosition = [self yPositionForDotValue:dotValue.floatValue];
-            UILabel *labelYAxis = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.YAxisLabelXOffset - 5, 10)];
+            UILabel *labelYAxis = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.YAxisLabelXOffset - 5, 15)];
             labelYAxis.text = dotValue.stringValue;
             labelYAxis.textAlignment = NSTextAlignmentRight;
             labelYAxis.font = self.labelFont;
