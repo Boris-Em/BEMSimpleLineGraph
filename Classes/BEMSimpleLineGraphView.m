@@ -254,11 +254,21 @@
         [self.panView addGestureRecognizer:self.panGesture];
         
         if (self.enablePopUpReport == YES && self.alwaysDisplayPopUpLabels == NO) {
+            NSDictionary *labelAttributes = @{NSFontAttributeName: self.labelFont};
+            NSString *maxValueString = [NSString stringWithFormat:@"%li",
+                                        (long)[self calculateMaximumPointValue].integerValue];
+            NSString *minValueString = [NSString stringWithFormat:@"%li",
+                                        (long)[self calculateMinimumPointValue].integerValue];
+            NSString *longestString = nil;
+            if ([minValueString sizeWithAttributes:labelAttributes].width >
+                [maxValueString sizeWithAttributes:labelAttributes].width)
+                longestString = minValueString;
+            else longestString = maxValueString;
+
             self.popUpLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 20)];
             if ([self.delegate respondsToSelector:@selector(popUpSuffixForlineGraph:)])
-                self.popUpLabel.text = [NSString stringWithFormat:@"%@%@", [NSNumber numberWithInteger:[self calculateMaximumPointValue].integerValue], [self.delegate popUpSuffixForlineGraph:self]];
-            else
-                self.popUpLabel.text = [NSString stringWithFormat:@"%@", [NSNumber numberWithInteger:[self calculateMaximumPointValue].integerValue]];
+                self.popUpLabel.text = [NSString stringWithFormat:@"%@%@", longestString, [self.delegate popUpSuffixForlineGraph:self]];
+            else self.popUpLabel.text = longestString;
             self.popUpLabel.textAlignment = 1;
             self.popUpLabel.numberOfLines = 1;
             self.popUpLabel.font = self.labelFont;
@@ -284,11 +294,18 @@
     
     // Set the Y-Axis Offset if the Y-Axis is enabled. The offset is relative to the size of the longest label on the Y-Axis.
     if (self.enableYAxisLabel) {
-        UILabel *longestLabel = [[UILabel alloc] init];
-        if (self.autoScaleYAxis == YES)longestLabel.text = [NSString stringWithFormat:@"%i", (int)[self maxValue]];
-        else longestLabel.text = [NSString stringWithFormat:@"%i", (int)self.frame.size.height];
         NSDictionary *attributes = @{NSFontAttributeName: self.labelFont};
-        self.YAxisLabelXOffset = [longestLabel.text sizeWithAttributes:attributes].width + 5;
+        if (self.autoScaleYAxis == YES){
+            NSString *maxValueString = [NSString stringWithFormat:@"%i", (int)[self maxValue]];
+            NSString *minValueString = [NSString stringWithFormat:@"%i", (int)[self minValue]];
+
+            self.YAxisLabelXOffset = MAX([maxValueString sizeWithAttributes:attributes].width,
+                                         [minValueString sizeWithAttributes:attributes].width) + 5;
+        }
+        else{
+            NSString *longestString = [NSString stringWithFormat:@"%i", (int)self.frame.size.height];
+            self.YAxisLabelXOffset = [longestString sizeWithAttributes:attributes].width + 5;
+        }
     } else self.YAxisLabelXOffset = 0;
     
     // Draw the X-Axis
@@ -1001,7 +1018,7 @@
         return [self.delegate maxValueForLineGraph:self];
     } else {
         CGFloat dotValue;
-        CGFloat maxValue = 0;
+        CGFloat maxValue = -FLT_MAX;
         
         @autoreleasepool {
             for (int i = 0; i < numberOfPoints; i++) {
