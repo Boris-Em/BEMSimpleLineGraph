@@ -141,6 +141,7 @@
     _enableTouchReport = NO;
     _enablePopUpReport = NO;
     _enableBezierCurve = NO;
+    _enableXAxisLabel = NO;
     _enableYAxisLabel = NO;
     _YAxisLabelXOffset = 0;
     _autoScaleYAxis = YES;
@@ -450,6 +451,7 @@
 }
 
 - (void)drawXAxis {
+    if(!self.enableXAxisLabel) return;
     if (![self.dataSource respondsToSelector:@selector(lineGraph:labelOnXAxisForIndex:)] && ![self.dataSource respondsToSelector:@selector(labelOnXAxisForIndex:)]) return;
     
     for (UIView *subview in [self subviews]) {
