@@ -351,6 +351,12 @@
 - (CGFloat)minValueForLineGraph:(BEMSimpleLineGraphView *)graph;
 
 
+/** Optional method to set the static padding distance between the graph line and the whole graph
+ @param graph The graph object requesting the padding value.
+ @return The padding value of the graph. */
+- (CGFloat)staticPaddingForLineGraph:(BEMSimpleLineGraphView *)graph;
+
+
 //----- TOUCH EVENTS -----//
 
 

@@ -1096,11 +1096,16 @@
     if (padding > 90.0) {
         padding = 90.0;
     }
-    
-    if ([self.dataSource respondsToSelector:@selector(lineGraph:labelOnXAxisForIndex:)] || [self.dataSource respondsToSelector:@selector(labelOnXAxisForIndex:)]) {
-        if ([xAxisLabels count] > 0) {
-            UILabel *label = [xAxisLabels objectAtIndex:0];
-            self.XAxisLabelYOffset = label.frame.size.height + self.widthLine;
+
+    if([self.delegate respondsToSelector:@selector(staticPaddingForLineGraph:)])
+        padding = [self.delegate staticPaddingForLineGraph:self];
+
+    if (self.enableXAxisLabel) {
+        if ([self.dataSource respondsToSelector:@selector(lineGraph:labelOnXAxisForIndex:)] || [self.dataSource respondsToSelector:@selector(labelOnXAxisForIndex:)]) {
+            if ([xAxisLabels count] > 0) {
+                UILabel *label = [xAxisLabels objectAtIndex:0];
+                self.XAxisLabelYOffset = label.frame.size.height + self.widthLine;
+            }
         }
     }
     
