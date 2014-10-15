@@ -203,6 +203,10 @@
     
     // There are no points to load
     if (numberOfPoints == 0) {
+        if (self.delegate &&
+            [self.delegate respondsToSelector:@selector(noDataLabelEnableForLineGraph:)] &&
+            ![self.delegate noDataLabelEnableForLineGraph:self]) return;
+
         NSLog(@"[BEMSimpleLineGraph] Data source contains no data. A no data label will be displayed and drawing will stop. Add data to the data source and then reload the graph.");
         
         self.noDataLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.viewForBaselineLayout.frame.size.width, self.viewForBaselineLayout.frame.size.height)];
