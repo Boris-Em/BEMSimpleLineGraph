@@ -368,40 +368,42 @@
             positionOnXAxis = (((self.frame.size.width - self.YAxisLabelXOffset) / (numberOfPoints - 1)) * i) + self.YAxisLabelXOffset;
             positionOnYAxis = [self yPositionForDotValue:dotValue];
             
-            BEMCircle *circleDot = [[BEMCircle alloc] initWithFrame:CGRectMake(0, 0, self.sizePoint, self.sizePoint)];
-            circleDot.center = CGPointMake(positionOnXAxis, positionOnYAxis);
-            circleDot.tag = i+100;
-            circleDot.alpha = 0;
-            circleDot.absoluteValue = dotValue;
-            circleDot.Pointcolor = self.colorPoint;
-            
             [yAxisValues addObject:[NSNumber numberWithFloat:positionOnYAxis]];
-            
-            [self addSubview:circleDot];
-            
-            if (self.alwaysDisplayPopUpLabels == YES) {
-                if ([self.delegate respondsToSelector:@selector(lineGraph:alwaysDisplayPopUpAtIndex:)]) {
-                    if ([self.delegate lineGraph:self alwaysDisplayPopUpAtIndex:i] == YES) {
-                        [self displayPermanentLabelForPoint:circleDot];
-                    }
-                } else [self displayPermanentLabelForPoint:circleDot];
-            }
-            
-            // Dot entrance animation
-            if (self.animationGraphEntranceTime == 0) {
-                if (self.alwaysDisplayDots == NO) {
-                    circleDot.alpha = 0;
-                } else circleDot.alpha = 0.7;
-            } else {
-                [UIView animateWithDuration:(float)self.animationGraphEntranceTime/numberOfPoints delay:(float)i*((float)self.animationGraphEntranceTime/numberOfPoints) options:UIViewAnimationOptionCurveLinear animations:^{
-                    circleDot.alpha = 0.7;
-                } completion:^(BOOL finished) {
+
+            if (self.animationGraphEntranceTime != 0 || self.alwaysDisplayDots == YES) {
+                BEMCircle *circleDot = [[BEMCircle alloc] initWithFrame:CGRectMake(0, 0, self.sizePoint, self.sizePoint)];
+                circleDot.center = CGPointMake(positionOnXAxis, positionOnYAxis);
+                circleDot.tag = i+100;
+                circleDot.alpha = 0;
+                circleDot.absoluteValue = dotValue;
+                circleDot.Pointcolor = self.colorPoint;
+
+                [self addSubview:circleDot];
+                
+                if (self.alwaysDisplayPopUpLabels == YES) {
+                    if ([self.delegate respondsToSelector:@selector(lineGraph:alwaysDisplayPopUpAtIndex:)]) {
+                        if ([self.delegate lineGraph:self alwaysDisplayPopUpAtIndex:i] == YES) {
+                            [self displayPermanentLabelForPoint:circleDot];
+                        }
+                    } else [self displayPermanentLabelForPoint:circleDot];
+                }
+                
+                // Dot entrance animation
+                if (self.animationGraphEntranceTime == 0) {
                     if (self.alwaysDisplayDots == NO) {
-                        [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-                            circleDot.alpha = 0;
-                        } completion:nil];
-                    }
-                }];
+                        circleDot.alpha = 0;  // never reach here
+                    } else circleDot.alpha = 0.7;
+                } else {
+                    [UIView animateWithDuration:(float)self.animationGraphEntranceTime/numberOfPoints delay:(float)i*((float)self.animationGraphEntranceTime/numberOfPoints) options:UIViewAnimationOptionCurveLinear animations:^{
+                        circleDot.alpha = 0.7;
+                    } completion:^(BOOL finished) {
+                        if (self.alwaysDisplayDots == NO) {
+                            [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+                                circleDot.alpha = 0;
+                            } completion:nil];
+                        }
+                    }];
+                }
             }
         }
     }
