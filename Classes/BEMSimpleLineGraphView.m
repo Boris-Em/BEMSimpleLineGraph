@@ -281,28 +281,29 @@
 - (void)drawEntireGraph {
     // The following method calls are in this specific order for a reason
     // Changing the order of the method calls below can result in drawing glitches and even crashes
-    
+
     // Set the Y-Axis Offset if the Y-Axis is enabled. The offset is relative to the size of the longest label on the Y-Axis.
     if (self.enableYAxisLabel) {
         NSDictionary *attributes = @{NSFontAttributeName: self.labelFont};
-        NSString *maxValueString = [NSString stringWithFormat:@"%i", (int)[self maxValue]];
+        if (self.autoScaleYAxis == YES){
+            NSString *maxValueString = [NSString stringWithFormat:@"%i", (int)[self maxValue]];
+            NSString *minValueString = [NSString stringWithFormat:@"%i", (int)[self minValue]];
 
-        if ( self.autoScaleYAxis )
-        {
-            NSString *minValueString = [NSString stringWithFormat:@"%i", (int) [self minValue]];
-            self.YAxisLabelXOffset = MAX([maxValueString sizeWithAttributes:attributes].width, [minValueString sizeWithAttributes:attributes].width) + 5;
+            self.YAxisLabelXOffset = MAX([maxValueString sizeWithAttributes:attributes].width,
+                                         [minValueString sizeWithAttributes:attributes].width) + 5;
         }
-        else
-            self.YAxisLabelXOffset = [maxValueString sizeWithAttributes:attributes].width + 5;
-
+        else{
+            NSString *longestString = [NSString stringWithFormat:@"%i", (int)self.frame.size.height];
+            self.YAxisLabelXOffset = [longestString sizeWithAttributes:attributes].width + 5;
+        }
     } else self.YAxisLabelXOffset = 0;
-    
+
     // Draw the X-Axis
     [self drawXAxis];
-    
+
     // Draw the graph
     [self drawDots];
-    
+
     // Draw the Y-Axis
     if (self.enableYAxisLabel) [self drawYAxis];
 }
