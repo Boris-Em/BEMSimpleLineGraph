@@ -284,11 +284,17 @@
     
     // Set the Y-Axis Offset if the Y-Axis is enabled. The offset is relative to the size of the longest label on the Y-Axis.
     if (self.enableYAxisLabel) {
-        UILabel *longestLabel = [[UILabel alloc] init];
-        if (self.autoScaleYAxis == YES)longestLabel.text = [NSString stringWithFormat:@"%i", (int)[self maxValue]];
-        else longestLabel.text = [NSString stringWithFormat:@"%i", (int)self.frame.size.height];
         NSDictionary *attributes = @{NSFontAttributeName: self.labelFont};
-        self.YAxisLabelXOffset = [longestLabel.text sizeWithAttributes:attributes].width + 5;
+        NSString *maxValueString = [NSString stringWithFormat:@"%i", (int)[self maxValue]];
+
+        if ( self.autoScaleYAxis )
+        {
+            NSString *minValueString = [NSString stringWithFormat:@"%i", (int) [self minValue]];
+            self.YAxisLabelXOffset = MAX([maxValueString sizeWithAttributes:attributes].width, [minValueString sizeWithAttributes:attributes].width) + 5;
+        }
+        else
+            self.YAxisLabelXOffset = [maxValueString sizeWithAttributes:attributes].width + 5;
+
     } else self.YAxisLabelXOffset = 0;
     
     // Draw the X-Axis
