@@ -514,21 +514,21 @@
         UILabel *firstLabel = [[UILabel alloc] initWithFrame:CGRectMake(3+self.YAxisLabelXOffset, self.frame.size.height-20, viewWidth/2, 20)];
         firstLabel.text = firstXLabel;
         firstLabel.font = self.labelFont;
-        firstLabel.textAlignment = 0;
+        firstLabel.textAlignment = NSTextAlignmentLeft;
         firstLabel.textColor = self.colorXaxisLabel;
         firstLabel.backgroundColor = [UIColor clearColor];
         firstLabel.tag = DotLastTag;
         [self addSubview:firstLabel];
         [xAxisValues addObject:firstXLabel];
         [xAxisLabels addObject:firstLabel];
-        
-        NSNumber *xFirstAxisLabelCoordinate = [NSNumber numberWithFloat:firstLabel.center.x-self.YAxisLabelXOffset];
+
+        NSNumber *xFirstAxisLabelCoordinate = @(firstLabel.center.x - self.YAxisLabelXOffset);
         [xAxisLabelPoints addObject:xFirstAxisLabelCoordinate];
         
         UILabel *lastLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.frame.size.width/2 - 3, self.frame.size.height-20, self.frame.size.width/2, 20)];
         lastLabel.text = lastXLabel;
         lastLabel.font = self.labelFont;
-        lastLabel.textAlignment = 2;
+        lastLabel.textAlignment = NSTextAlignmentRight;
         lastLabel.textColor = self.colorXaxisLabel;
         lastLabel.backgroundColor = [UIColor clearColor];
         lastLabel.tag = DotLastTag;
@@ -536,7 +536,7 @@
         [xAxisValues addObject:lastXLabel];
         [xAxisLabels addObject:lastLabel];
         
-        NSNumber *xLastAxisLabelCoordinate = [NSNumber numberWithFloat:lastLabel.center.x-self.YAxisLabelXOffset];
+        NSNumber *xLastAxisLabelCoordinate = @(lastLabel.center.x - self.YAxisLabelXOffset);
         [xAxisLabelPoints addObject:xLastAxisLabelCoordinate];
         
     } else {
@@ -668,11 +668,11 @@
             [self addSubview:labelYAxis];
             [yAxisLabels addObject:labelYAxis];
             
-            NSNumber *yAxisLabelCoordinate = [NSNumber numberWithFloat:labelYAxis.center.y];
+            NSNumber *yAxisLabelCoordinate = @(labelYAxis.center.y);
             [yAxisLabelPoints addObject:yAxisLabelCoordinate];
         }
     } else {
-        CGFloat numberOfLabels;
+        NSInteger numberOfLabels;
         if ([self.delegate respondsToSelector:@selector(numberOfYAxisLabelsOnLineGraph:)]) numberOfLabels = [self.delegate numberOfYAxisLabelsOnLineGraph:self];
         else numberOfLabels = 3;
         
@@ -697,19 +697,19 @@
             
             [yAxisLabels addObject:labelYAxis];
             
-            NSNumber *yAxisLabelCoordinate = [NSNumber numberWithFloat:labelYAxis.center.y];
+            NSNumber *yAxisLabelCoordinate = @(labelYAxis.center.y);
             [yAxisLabelPoints addObject:yAxisLabelCoordinate];
         }
     }
 
     // Detect overlapped labels
-    __block NSUInteger lastMatchIndex;
+    __block NSUInteger lastMatchIndex = 0;
     NSMutableArray *overlapLabels = [NSMutableArray arrayWithCapacity:0];
     [yAxisLabels enumerateObjectsUsingBlock:^(UILabel *label, NSUInteger idx, BOOL *stop) {
         
         if (idx==0) lastMatchIndex = 0;
         else { // Skip first one
-            UILabel *prevLabel = [yAxisLabels objectAtIndex:lastMatchIndex];
+            UILabel *prevLabel = yAxisLabels[lastMatchIndex];
             CGRect r = CGRectIntersection(prevLabel.frame, label.frame);
             if (CGRectIsNull(r)) lastMatchIndex = idx;
             else [overlapLabels addObject:label]; // overlapped
@@ -743,9 +743,9 @@
     self.enablePopUpReport = NO;
     self.xCenterLabel = circleDot.center.x;
     UILabel *permanentPopUpLabel = [[UILabel alloc] init];
-    permanentPopUpLabel.textAlignment = 1;
+    permanentPopUpLabel.textAlignment = NSTextAlignmentCenter;
     permanentPopUpLabel.numberOfLines = 0;
-    permanentPopUpLabel.text = [NSString stringWithFormat:@"%@", [NSNumber numberWithInteger:circleDot.absoluteValue]];
+    permanentPopUpLabel.text = [NSString stringWithFormat:@"%@", @((NSInteger) circleDot.absoluteValue)];
     permanentPopUpLabel.font = self.labelFont;
     permanentPopUpLabel.backgroundColor = [UIColor clearColor];
     [permanentPopUpLabel sizeToFit];
