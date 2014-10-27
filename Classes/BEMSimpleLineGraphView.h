@@ -29,6 +29,8 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 {
     DotFirstTag = 100,
     DotLastTag = 1000,
+    LabelYAxisTag = 2000,
+    BackgroundYAxisTag = 2100,
     PermanentPopUpViewTag = 3100,
 };
 

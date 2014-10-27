@@ -613,16 +613,16 @@
 
 - (void)drawYAxis {
     for (UIView *subview in [self subviews]) {
-        if ([subview isKindOfClass:[UILabel class]] && subview.tag == 2000) {
+        if ([subview isKindOfClass:[UILabel class]] && subview.tag == LabelYAxisTag) {
             [subview removeFromSuperview];
         }
-        else if ([subview isKindOfClass:[UIView class] ] && subview.tag == 2100) {
+        else if ([subview isKindOfClass:[UIView class] ] && subview.tag == BackgroundYAxisTag ) {
             [subview removeFromSuperview];
         }
     }
     
     UIView *backgroundYaxis = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.YAxisLabelXOffset, self.frame.size.height)];
-    backgroundYaxis.tag = 2100;
+    backgroundYaxis.tag = BackgroundYAxisTag;
     if (self.colorBackgroundYaxis == nil) {
         backgroundYaxis.backgroundColor = self.colorTop;
     } else backgroundYaxis.backgroundColor = self.colorBackgroundYaxis;
@@ -663,7 +663,7 @@
             labelYAxis.font = self.labelFont;
             labelYAxis.textColor = self.colorYaxisLabel;
             labelYAxis.backgroundColor = [UIColor clearColor];
-            labelYAxis.tag = 2000;
+            labelYAxis.tag = LabelYAxisTag;
             labelYAxis.center = CGPointMake(self.YAxisLabelXOffset/2, yAxisPosition);
             [self addSubview:labelYAxis];
             [yAxisLabels addObject:labelYAxis];
@@ -691,7 +691,7 @@
             labelYAxis.textAlignment = NSTextAlignmentRight;
             labelYAxis.textColor = self.colorYaxisLabel;
             labelYAxis.backgroundColor = [UIColor clearColor];
-            labelYAxis.tag = 2000;
+            labelYAxis.tag = LabelYAxisTag;
             
             [self addSubview:labelYAxis];
             
@@ -796,7 +796,7 @@
 
 - (BOOL)checkOverlapsForView:(UIView *)view {
     for (UIView *viewForLabel in [self subviews]) {
-        if ([viewForLabel isKindOfClass:[UIView class]] && viewForLabel.tag == 3100) {
+        if ([viewForLabel isKindOfClass:[UIView class]] && viewForLabel.tag == PermanentPopUpViewTag) {
             if ((viewForLabel.frame.origin.x + viewForLabel.frame.size.width) >= view.frame.origin.x) {
                 if (viewForLabel.frame.origin.y >= view.frame.origin.y && viewForLabel.frame.origin.y <= view.frame.origin.y + view.frame.size.height) return YES;
                 else if (viewForLabel.frame.origin.y + viewForLabel.frame.size.height >= view.frame.origin.y && viewForLabel.frame.origin.y + viewForLabel.frame.size.height <= view.frame.origin.y + view.frame.size.height) return YES;
