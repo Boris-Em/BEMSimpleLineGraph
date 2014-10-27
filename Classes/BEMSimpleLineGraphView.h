@@ -29,6 +29,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 {
     DotFirstTag = 100,
     DotLastTag = 1000,
+    PermanentPopUpViewTag = 3100,
 };
 
 /// Simple line graph / chart UIView subclass for iOS apps. Creates beautiful line graphs (without huge memory impacts) using QuartzCore.
