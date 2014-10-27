@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="j8C-nX-jcI">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A388b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="j8C-nX-jcI">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <scenes>
         <!--Navigation Controller-->
@@ -19,7 +20,7 @@
             </objects>
             <point key="canvasLocation" x="-61" y="130"/>
         </scene>
-        <!--View Controller - Population Growth-->
+        <!--Population Growth-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
                 <viewController id="vXZ-lx-hvc" customClass="ViewController" sceneMemberID="viewController">
@@ -53,6 +54,9 @@
                                     <segment title="Straight"/>
                                     <segment title="Bezier"/>
                                 </segments>
+                                <connections>
+                                    <action selector="refresh:" destination="vXZ-lx-hvc" eventType="valueChanged" id="JTo-M3-LZO"/>
+                                </connections>
                             </segmentedControl>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="39E-h4-zNa">
                                 <rect key="frame" x="122" y="519" width="178" height="29"/>
@@ -61,6 +65,9 @@
                                     <segment title="Yellow"/>
                                     <segment title="Blue"/>
                                 </segments>
+                                <connections>
+                                    <action selector="refresh:" destination="vXZ-lx-hvc" eventType="valueChanged" id="LNC-fX-TaP"/>
+                                </connections>
                             </segmentedControl>
                             <stepper opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="11" minimumValue="3" maximumValue="140" id="YwO-xh-GEu">
                                 <rect key="frame" x="20" y="519" width="94" height="29"/>
@@ -106,7 +113,7 @@
             </objects>
             <point key="canvasLocation" x="460" y="130"/>
         </scene>
-        <!--Stats View Controller - Stats-->
+        <!--Stats-->
         <scene sceneID="TBa-Ru-ahc">
             <objects>
                 <tableViewController title="Stats" id="agL-Uo-Ja5" customClass="StatsViewController" sceneMemberID="viewController">
@@ -304,10 +311,10 @@
             <point key="canvasLocation" x="1060" y="130"/>
         </scene>
     </scenes>
-    <color key="tintColor" red="0.1215686275" green="0.73333333329999995" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
+    <color key="tintColor" red="0.1215686275" green="0.73333333329999995" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
 </document>
