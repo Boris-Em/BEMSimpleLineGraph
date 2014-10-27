@@ -25,15 +25,6 @@
 @protocol BEMSimpleLineGraphDelegate;
 @protocol BEMSimpleLineGraphDataSource;
 
-typedef NS_ENUM(NSInteger, BEMInternalTags)
-{
-    DotFirstTag = 100,
-    DotLastTag = 1000,
-    LabelYAxisTag = 2000,
-    BackgroundYAxisTag = 2100,
-    PermanentPopUpViewTag = 3100,
-};
-
 /// Simple line graph / chart UIView subclass for iOS apps. Creates beautiful line graphs (without huge memory impacts) using QuartzCore.
 @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDelegate>
 

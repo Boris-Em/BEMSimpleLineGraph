@@ -17,6 +17,16 @@
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 #define DEFAULT_FONT_NAME @"HelveticaNeue-Light"
 
+
+typedef NS_ENUM(NSInteger, BEMInternalTags)
+{
+    DotFirstTag = 100,
+    DotLastTag = 1000,
+    LabelYAxisTag = 2000,
+    BackgroundYAxisTag = 2100,
+    PermanentPopUpViewTag = 3100,
+};
+
 @interface BEMSimpleLineGraphView () {
     /// The number of Points in the Graph
     NSInteger numberOfPoints;
