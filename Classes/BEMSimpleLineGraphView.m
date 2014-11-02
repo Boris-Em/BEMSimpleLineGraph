@@ -296,7 +296,7 @@
 - (void)drawEntireGraph {
     // The following method calls are in this specific order for a reason
     // Changing the order of the method calls below can result in drawing glitches and even crashes
-    
+
     // Set the Y-Axis Offset if the Y-Axis is enabled. The offset is relative to the size of the longest label on the Y-Axis.
     if (self.enableYAxisLabel) {
         NSDictionary *attributes = @{NSFontAttributeName: self.labelFont};
@@ -312,13 +312,13 @@
             self.YAxisLabelXOffset = [longestString sizeWithAttributes:attributes].width + 5;
         }
     } else self.YAxisLabelXOffset = 0;
-    
+
     // Draw the X-Axis
     [self drawXAxis];
-    
+
     // Draw the graph
     [self drawDots];
-    
+
     // Draw the Y-Axis
     if (self.enableYAxisLabel) [self drawYAxis];
 }
