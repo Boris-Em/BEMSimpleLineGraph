@@ -170,11 +170,14 @@
 @property (nonatomic) BOOL autoScaleYAxis;
 
 
-/// Draws a translucent vertical lines along the graph for each X-Axis label, when set to YES. Default value is NO.
-@property (nonatomic) BOOL enableReferenceAxisLines;
+/// Draws a translucent vertical lines along the graph for each X-Axis when set to YES. Default value is NO.
+@property (nonatomic) BOOL enableReferenceXAxisLines;
+
+/// Draws a translucent horizontal lines along the graph for each Y-Axis label, when set to YES. Default value is NO.
+@property (nonatomic) BOOL enableReferenceYAxisLines;
 
 /** Draws a translucent frame between the graph and any enabled axis, when set to YES. Default value is NO.
- @see enableReferenceAxisLines must be set to YES for this property to have any affect.  */
+ @see enableReferenceXAxisLines or enableReferenceYAxisLines must be set to YES for this property to have any affect.  */
 @property (nonatomic) BOOL enableReferenceAxisFrame;
 
 

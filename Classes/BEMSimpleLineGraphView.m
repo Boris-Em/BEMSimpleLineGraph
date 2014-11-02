@@ -437,13 +437,12 @@
     } else {
         line.xAxisBackgroundColor = self.colorBackgroundXaxis;
     }
-    if (self.enableReferenceAxisLines == YES) {
-        if (self.enableReferenceAxisFrame) line.enableRefrenceFrame = YES;
-        else line.enableRefrenceFrame = NO;
+    if (self.enableReferenceXAxisLines || self.enableReferenceYAxisLines) {
+        line.enableRefrenceFrame = self.enableReferenceAxisFrame;
         
         line.enableRefrenceLines = YES;
-        line.arrayOfVerticalRefrenceLinePoints = xAxisLabelPoints;
-        line.arrayOfHorizontalRefrenceLinePoints = yAxisLabelPoints;
+        line.arrayOfVerticalRefrenceLinePoints = self.enableReferenceXAxisLines ? xAxisLabelPoints : nil;
+        line.arrayOfHorizontalRefrenceLinePoints = self.enableReferenceYAxisLines ? yAxisLabelPoints : nil;
     }
     
     line.frameOffset = self.XAxisLabelYOffset;
