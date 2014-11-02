@@ -141,7 +141,7 @@
     _enableTouchReport = NO;
     _enablePopUpReport = NO;
     _enableBezierCurve = NO;
-    _enableXAxisLabel = NO;
+    _enableXAxisLabel = YES;
     _enableYAxisLabel = NO;
     _YAxisLabelXOffset = 0;
     _autoScaleYAxis = YES;

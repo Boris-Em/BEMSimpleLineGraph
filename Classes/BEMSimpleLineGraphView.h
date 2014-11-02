@@ -161,7 +161,8 @@
 @property (nonatomic) BOOL enableYAxisLabel;
 
 
-/** Show X-Axis label on the side. Default value is NO.
+/** Show X-Axis label at the bottom of the graph. Default value is YES.
+ @see \p labelOnXAxisForIndex
  */
 @property (nonatomic) BOOL enableXAxisLabel;
 
