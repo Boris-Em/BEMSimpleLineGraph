@@ -189,32 +189,23 @@
     // ----- Animate Drawing -----//
     // ---------------------------//
     if (self.animationTime == 0) {
-        [self.color set];
-        
-        [line setLineWidth:self.lineWidth];
-        [line strokeWithBlendMode:kCGBlendModeNormal alpha:self.lineAlpha];
-        
         if (self.enableRefrenceLines == YES) {
             [referenceLinesPath setLineWidth:self.lineWidth/2];
             
             if (self.refrenceLineColor) {
                 [self.refrenceLineColor set];
+            } else {
+                [self.color set];
             }
             
             [referenceLinesPath strokeWithBlendMode:kCGBlendModeNormal alpha:self.lineAlpha/2];
         }
-    } else {
-        CAShapeLayer *pathLayer = [CAShapeLayer layer];
-        pathLayer.frame = self.bounds;
-        pathLayer.path = line.CGPath;
-        pathLayer.strokeColor = self.color.CGColor;
-        pathLayer.fillColor = nil;
-        pathLayer.lineWidth = self.lineWidth;
-        pathLayer.lineJoin = kCALineJoinBevel;
-        pathLayer.lineCap = kCALineCapRound;
-        [self animateForLayer:pathLayer withAnimationType:self.animationType isAnimatingReferenceLine:NO];
-        [self.layer addSublayer:pathLayer];
         
+        [self.color set];
+        [line setLineWidth:self.lineWidth];
+        [line strokeWithBlendMode:kCGBlendModeNormal alpha:self.lineAlpha];
+        
+    } else {
         if (self.enableRefrenceLines == YES) {
             CAShapeLayer *referenceLinesPathLayer = [CAShapeLayer layer];
             referenceLinesPathLayer.frame = self.bounds;
@@ -232,6 +223,17 @@
             [self animateForLayer:referenceLinesPathLayer withAnimationType:self.animationType isAnimatingReferenceLine:YES];
             [self.layer addSublayer:referenceLinesPathLayer];
         }
+        
+        CAShapeLayer *pathLayer = [CAShapeLayer layer];
+        pathLayer.frame = self.bounds;
+        pathLayer.path = line.CGPath;
+        pathLayer.strokeColor = self.color.CGColor;
+        pathLayer.fillColor = nil;
+        pathLayer.lineWidth = self.lineWidth;
+        pathLayer.lineJoin = kCALineJoinBevel;
+        pathLayer.lineCap = kCALineCapRound;
+        [self animateForLayer:pathLayer withAnimationType:self.animationType isAnimatingReferenceLine:NO];
+        [self.layer addSublayer:pathLayer];
     }
 }
 
