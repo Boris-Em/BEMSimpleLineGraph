@@ -216,6 +216,9 @@
 /// Width of the line of the graph. Default value is 1.0.
 @property (nonatomic) CGFloat widthLine;
 
+/// Color of the reference lines of the graph. Default is same color as `colorLine`.
+@property (strong, nonatomic) UIColor *colorReferenceLines;
+
 
 /// The size of the circles that represent each point. Default is 10.0.
 @property (nonatomic) CGFloat sizePoint;

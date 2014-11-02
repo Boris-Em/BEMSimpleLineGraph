@@ -441,6 +441,7 @@
         line.enableRefrenceFrame = self.enableReferenceAxisFrame;
         
         line.enableRefrenceLines = YES;
+        line.refrenceLineColor = self.colorReferenceLines;
         line.arrayOfVerticalRefrenceLinePoints = self.enableReferenceXAxisLines ? xAxisLabelPoints : nil;
         line.arrayOfHorizontalRefrenceLinePoints = self.enableReferenceYAxisLines ? yAxisLabelPoints : nil;
     }

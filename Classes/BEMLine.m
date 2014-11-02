@@ -196,6 +196,11 @@
         
         if (self.enableRefrenceLines == YES) {
             [referenceLinesPath setLineWidth:self.lineWidth/2];
+            
+            if (self.refrenceLineColor) {
+                [self.refrenceLineColor set];
+            }
+            
             [referenceLinesPath strokeWithBlendMode:kCGBlendModeNormal alpha:self.lineAlpha/2];
         }
     } else {
@@ -215,9 +220,15 @@
             referenceLinesPathLayer.frame = self.bounds;
             referenceLinesPathLayer.path = referenceLinesPath.CGPath;
             referenceLinesPathLayer.opacity = self.lineAlpha/2;
-            referenceLinesPathLayer.strokeColor = self.color.CGColor;
             referenceLinesPathLayer.fillColor = nil;
             referenceLinesPathLayer.lineWidth = self.lineWidth/2;
+            
+            if (self.refrenceLineColor) {
+                referenceLinesPathLayer.strokeColor = self.refrenceLineColor.CGColor;
+            } else {
+                referenceLinesPathLayer.strokeColor = self.color.CGColor;
+            }
+            
             [self animateForLayer:referenceLinesPathLayer withAnimationType:self.animationType isAnimatingReferenceLine:YES];
             [self.layer addSublayer:referenceLinesPathLayer];
         }
