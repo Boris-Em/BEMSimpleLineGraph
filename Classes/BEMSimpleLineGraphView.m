@@ -895,6 +895,13 @@
     return xAxisLabels;
 }
 
+- (void)setAnimationGraphStyle:(BEMLineAnimation)animationGraphStyle
+{
+    _animationGraphStyle = animationGraphStyle;
+    if (_animationGraphStyle == BEMLineAnimationNone)
+        self.animationGraphEntranceTime = 0.f;
+}
+
 
 #pragma mark - Touch Gestures
 
