@@ -57,7 +57,8 @@
     self.myGraph.enableYAxisLabel = YES;
     self.myGraph.autoScaleYAxis = YES;
     self.myGraph.alwaysDisplayDots = NO;
-    self.myGraph.enableReferenceAxisLines = YES;
+    self.myGraph.enableReferenceXAxisLines = YES;
+    self.myGraph.enableReferenceYAxisLines = YES;
     self.myGraph.enableReferenceAxisFrame = YES;
     self.myGraph.animationGraphStyle = BEMLineAnimationDraw;
     
