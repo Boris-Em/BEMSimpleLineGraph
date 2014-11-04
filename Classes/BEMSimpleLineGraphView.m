@@ -880,7 +880,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
         NSExpression *expression = [NSExpression expressionForFunction:@"min:" arguments:@[[NSExpression expressionForConstantValue:dataPoints]]];
         NSNumber *value = [expression expressionValueWithObject:nil context:nil];
         return value;
-    } else return 0;
+    } else return @0;
 }
 
 - (NSNumber *)calculateMaximumPointValue {
