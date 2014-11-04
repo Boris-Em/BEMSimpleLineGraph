@@ -20,11 +20,11 @@
 
 typedef NS_ENUM(NSInteger, BEMInternalTags)
 {
-    DotFirstTag = 100,
-    DotLastTag = 1000,
-    LabelYAxisTag = 2000,
-    BackgroundYAxisTag = 2100,
-    PermanentPopUpViewTag = 3100,
+    DotFirstTag100 = 100,
+    DotLastTag1000 = 1000,
+    LabelYAxisTag2000 = 2000,
+    BackgroundYAxisTag2100 = 2100,
+    PermanentPopUpViewTag3100 = 3100,
 };
 
 @interface BEMSimpleLineGraphView () {
@@ -383,7 +383,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
             if (self.animationGraphEntranceTime != 0 || self.alwaysDisplayDots == YES) {
                 BEMCircle *circleDot = [[BEMCircle alloc] initWithFrame:CGRectMake(0, 0, self.sizePoint, self.sizePoint)];
                 circleDot.center = CGPointMake(positionOnXAxis, positionOnYAxis);
-                circleDot.tag = i+ DotFirstTag;
+                circleDot.tag = i+ DotFirstTag100;
                 circleDot.alpha = 0;
                 circleDot.absoluteValue = dotValue;
                 circleDot.Pointcolor = self.colorPoint;
@@ -471,7 +471,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     if (![self.dataSource respondsToSelector:@selector(lineGraph:labelOnXAxisForIndex:)] && ![self.dataSource respondsToSelector:@selector(labelOnXAxisForIndex:)]) return;
     
     for (UIView *subview in [self subviews]) {
-        if ([subview isKindOfClass:[UILabel class]] && subview.tag == DotLastTag )
+        if ([subview isKindOfClass:[UILabel class]] && subview.tag == DotLastTag1000 )
             [subview removeFromSuperview];
     }
     
@@ -527,7 +527,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
         firstLabel.textAlignment = NSTextAlignmentLeft;
         firstLabel.textColor = self.colorXaxisLabel;
         firstLabel.backgroundColor = [UIColor clearColor];
-        firstLabel.tag = DotLastTag;
+        firstLabel.tag = DotLastTag1000;
         [self addSubview:firstLabel];
         [xAxisValues addObject:firstXLabel];
         [xAxisLabels addObject:firstLabel];
@@ -541,7 +541,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
         lastLabel.textAlignment = NSTextAlignmentRight;
         lastLabel.textColor = self.colorXaxisLabel;
         lastLabel.backgroundColor = [UIColor clearColor];
-        lastLabel.tag = DotLastTag;
+        lastLabel.tag = DotLastTag1000;
         [self addSubview:lastLabel];
         [xAxisValues addObject:lastXLabel];
         [xAxisLabels addObject:lastLabel];
@@ -583,7 +583,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
                 labelXAxis.textColor = self.colorXaxisLabel;
                 labelXAxis.backgroundColor = [UIColor clearColor];
                 [xAxisLabels addObject:labelXAxis];
-                labelXAxis.tag = DotLastTag;
+                labelXAxis.tag = DotLastTag1000;
                 
                 // Add support multi-line, but this might overlap with the graph line if text have too many lines
                 labelXAxis.numberOfLines = 0;
@@ -623,16 +623,16 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 
 - (void)drawYAxis {
     for (UIView *subview in [self subviews]) {
-        if ([subview isKindOfClass:[UILabel class]] && subview.tag == LabelYAxisTag) {
+        if ([subview isKindOfClass:[UILabel class]] && subview.tag == LabelYAxisTag2000 ) {
             [subview removeFromSuperview];
         }
-        else if ([subview isKindOfClass:[UIView class] ] && subview.tag == BackgroundYAxisTag ) {
+        else if ([subview isKindOfClass:[UIView class] ] && subview.tag == BackgroundYAxisTag2100 ) {
             [subview removeFromSuperview];
         }
     }
     
     UIView *backgroundYaxis = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.YAxisLabelXOffset, self.frame.size.height)];
-    backgroundYaxis.tag = BackgroundYAxisTag;
+    backgroundYaxis.tag = BackgroundYAxisTag2100;
     if (self.colorBackgroundYaxis == nil) {
         backgroundYaxis.backgroundColor = self.colorTop;
     } else backgroundYaxis.backgroundColor = self.colorBackgroundYaxis;
@@ -673,7 +673,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
             labelYAxis.font = self.labelFont;
             labelYAxis.textColor = self.colorYaxisLabel;
             labelYAxis.backgroundColor = [UIColor clearColor];
-            labelYAxis.tag = LabelYAxisTag;
+            labelYAxis.tag = LabelYAxisTag2000;
             labelYAxis.center = CGPointMake(self.YAxisLabelXOffset/2, yAxisPosition);
             [self addSubview:labelYAxis];
             [yAxisLabels addObject:labelYAxis];
@@ -701,7 +701,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
             labelYAxis.textAlignment = NSTextAlignmentRight;
             labelYAxis.textColor = self.colorYaxisLabel;
             labelYAxis.backgroundColor = [UIColor clearColor];
-            labelYAxis.tag = LabelYAxisTag;
+            labelYAxis.tag = LabelYAxisTag2000;
             
             [self addSubview:labelYAxis];
             
@@ -766,7 +766,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     permanentPopUpView.backgroundColor = [UIColor whiteColor];
     permanentPopUpView.alpha = 0;
     permanentPopUpView.layer.cornerRadius = 3;
-    permanentPopUpView.tag = PermanentPopUpViewTag;
+    permanentPopUpView.tag = PermanentPopUpViewTag3100;
     permanentPopUpView.center = permanentPopUpLabel.center;
     
     if (permanentPopUpLabel.frame.origin.x <= 0) {
@@ -806,7 +806,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 
 - (BOOL)checkOverlapsForView:(UIView *)view {
     for (UIView *viewForLabel in [self subviews]) {
-        if ([viewForLabel isKindOfClass:[UIView class]] && viewForLabel.tag == PermanentPopUpViewTag) {
+        if ([viewForLabel isKindOfClass:[UIView class]] && viewForLabel.tag == PermanentPopUpViewTag3100 ) {
             if ((viewForLabel.frame.origin.x + viewForLabel.frame.size.width) >= view.frame.origin.x) {
                 if (viewForLabel.frame.origin.y >= view.frame.origin.y && viewForLabel.frame.origin.y <= view.frame.origin.y + view.frame.size.height) return YES;
                 else if (viewForLabel.frame.origin.y + viewForLabel.frame.size.height >= view.frame.origin.y && viewForLabel.frame.origin.y + viewForLabel.frame.size.height <= view.frame.origin.y + view.frame.size.height) return YES;
@@ -931,20 +931,20 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     closestDot.alpha = 0.8;
     
     
-    if (self.enablePopUpReport == YES && closestDot.tag >= DotFirstTag && closestDot.tag < DotLastTag && [closestDot isKindOfClass:[BEMCircle class]] && self.alwaysDisplayPopUpLabels == NO) {
+    if (self.enablePopUpReport == YES && closestDot.tag >= DotFirstTag100 && closestDot.tag < DotLastTag1000 && [closestDot isKindOfClass:[BEMCircle class]] && self.alwaysDisplayPopUpLabels == NO) {
         [self setUpPopUpLabelAbovePoint:closestDot];
     }
     
-    if (closestDot.tag >= DotFirstTag && closestDot.tag < DotLastTag && [closestDot isMemberOfClass:[BEMCircle class]]) {
+    if (closestDot.tag >= DotFirstTag100 && closestDot.tag < DotLastTag1000 && [closestDot isMemberOfClass:[BEMCircle class]]) {
         if ([self.delegate respondsToSelector:@selector(lineGraph:didTouchGraphWithClosestIndex:)] && self.enableTouchReport == YES) {
-            [self.delegate lineGraph:self didTouchGraphWithClosestIndex:((NSInteger)closestDot.tag - DotFirstTag)];
+            [self.delegate lineGraph:self didTouchGraphWithClosestIndex:((NSInteger)closestDot.tag - DotFirstTag100)];
             
         } else if ([self.delegate respondsToSelector:@selector(didTouchGraphWithClosestIndex:)] && self.enableTouchReport == YES) {
             [self printDeprecationWarningForOldMethod:@"didTouchGraphWithClosestIndex:" andReplacementMethod:@"lineGraph:didTouchGraphWithClosestIndex:"];
             
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            [self.delegate didTouchGraphWithClosestIndex:((int)closestDot.tag - DotFirstTag)];
+            [self.delegate didTouchGraphWithClosestIndex:((int)closestDot.tag - DotFirstTag100)];
 #pragma clang diagnostic pop
         }
     }
@@ -952,14 +952,14 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     // ON RELEASE
     if (recognizer.state == UIGestureRecognizerStateEnded) {
         if ([self.delegate respondsToSelector:@selector(lineGraph:didReleaseTouchFromGraphWithClosestIndex:)]) {
-            [self.delegate lineGraph:self didReleaseTouchFromGraphWithClosestIndex:(closestDot.tag - DotFirstTag)];
+            [self.delegate lineGraph:self didReleaseTouchFromGraphWithClosestIndex:(closestDot.tag - DotFirstTag100)];
             
         } else if ([self.delegate respondsToSelector:@selector(didReleaseGraphWithClosestIndex:)]) {
             [self printDeprecationWarningForOldMethod:@"didReleaseGraphWithClosestIndex:" andReplacementMethod:@"lineGraph:didReleaseTouchFromGraphWithClosestIndex:"];
             
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            [self.delegate didReleaseGraphWithClosestIndex:(closestDot.tag - DotFirstTag)];
+            [self.delegate didReleaseGraphWithClosestIndex:(closestDot.tag - DotFirstTag100)];
 #pragma clang diagnostic pop
         }
         
@@ -992,9 +992,9 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     self.popUpLabel.center = self.popUpView.center;
     
     if ([self.delegate respondsToSelector:@selector(popUpSuffixForlineGraph:)])
-        self.popUpLabel.text = [NSString stringWithFormat:@"%li%@", (long)[dataPoints[(NSInteger) closestDot.tag - DotFirstTag] integerValue], [self.delegate popUpSuffixForlineGraph:self]];
+        self.popUpLabel.text = [NSString stringWithFormat:@"%li%@", (long)[dataPoints[(NSInteger) closestDot.tag - DotFirstTag100] integerValue], [self.delegate popUpSuffixForlineGraph:self]];
     else
-        self.popUpLabel.text = [NSString stringWithFormat:@"%li", (long)[dataPoints[(NSInteger) closestDot.tag - DotFirstTag] integerValue]];
+        self.popUpLabel.text = [NSString stringWithFormat:@"%li", (long)[dataPoints[(NSInteger) closestDot.tag - DotFirstTag100] integerValue]];
     if (self.enableYAxisLabel == YES && self.popUpView.frame.origin.x <= self.YAxisLabelXOffset) {
         self.xCenterLabel = self.popUpView.frame.size.width/2;
         self.popUpView.center = CGPointMake(self.xCenterLabel + self.YAxisLabelXOffset + 1, self.yCenterLabel);
@@ -1018,7 +1018,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 - (BEMCircle *)closestDotFromtouchInputLine:(UIView *)touchInputLine {
     currentlyCloser = pow((self.frame.size.width/(numberOfPoints-1))/2, 2);
     for (BEMCircle *point in self.subviews) {
-        if (point.tag >= DotFirstTag && point.tag < DotLastTag && [point isMemberOfClass:[BEMCircle class]]) {
+        if (point.tag >= DotFirstTag100 && point.tag < DotLastTag1000 && [point isMemberOfClass:[BEMCircle class]]) {
             if (self.alwaysDisplayDots == NO) {
                 point.alpha = 0;
             }
