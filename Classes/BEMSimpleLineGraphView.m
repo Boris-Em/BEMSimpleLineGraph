@@ -212,7 +212,12 @@
         self.noDataLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.viewForBaselineLayout.frame.size.width, self.viewForBaselineLayout.frame.size.height)];
         self.noDataLabel.backgroundColor = [UIColor clearColor];
         self.noDataLabel.textAlignment = NSTextAlignmentCenter;
-        self.noDataLabel.text = @"No Data";
+        NSString *noDataText;
+        if ([self.delegate respondsToSelector:@selector(noDataLabelTextForLineGraph:)])
+        {
+            noDataText = [self.delegate noDataLabelTextForLineGraph:self];
+        }
+        self.noDataLabel.text = noDataText ?: NSLocalizedString(@"No Data", nil);
         self.noDataLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15];
         self.noDataLabel.textColor = self.colorLine;
         [self.viewForBaselineLayout addSubview:self.noDataLabel];
