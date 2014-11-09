@@ -17,6 +17,16 @@
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 #define DEFAULT_FONT_NAME @"HelveticaNeue-Light"
 
+
+typedef NS_ENUM(NSInteger, BEMInternalTags)
+{
+    DotFirstTag100 = 100,
+    DotLastTag1000 = 1000,
+    LabelYAxisTag2000 = 2000,
+    BackgroundYAxisTag2100 = 2100,
+    PermanentPopUpViewTag3100 = 3100,
+};
+
 @interface BEMSimpleLineGraphView () {
     /// The number of Points in the Graph
     NSInteger numberOfPoints;
@@ -373,7 +383,7 @@
             if (self.animationGraphEntranceTime != 0 || self.alwaysDisplayDots == YES) {
                 BEMCircle *circleDot = [[BEMCircle alloc] initWithFrame:CGRectMake(0, 0, self.sizePoint, self.sizePoint)];
                 circleDot.center = CGPointMake(positionOnXAxis, positionOnYAxis);
-                circleDot.tag = i+100;
+                circleDot.tag = i+ DotFirstTag100;
                 circleDot.alpha = 0;
                 circleDot.absoluteValue = dotValue;
                 circleDot.Pointcolor = self.colorPoint;
@@ -461,7 +471,7 @@
     if (![self.dataSource respondsToSelector:@selector(lineGraph:labelOnXAxisForIndex:)] && ![self.dataSource respondsToSelector:@selector(labelOnXAxisForIndex:)]) return;
     
     for (UIView *subview in [self subviews]) {
-        if ([subview isKindOfClass:[UILabel class]] && subview.tag == 1000)
+        if ([subview isKindOfClass:[UILabel class]] && subview.tag == DotLastTag1000 )
             [subview removeFromSuperview];
     }
     
@@ -514,29 +524,29 @@
         UILabel *firstLabel = [[UILabel alloc] initWithFrame:CGRectMake(3+self.YAxisLabelXOffset, self.frame.size.height-20, viewWidth/2, 20)];
         firstLabel.text = firstXLabel;
         firstLabel.font = self.labelFont;
-        firstLabel.textAlignment = 0;
+        firstLabel.textAlignment = NSTextAlignmentLeft;
         firstLabel.textColor = self.colorXaxisLabel;
         firstLabel.backgroundColor = [UIColor clearColor];
-        firstLabel.tag = 1000;
+        firstLabel.tag = DotLastTag1000;
         [self addSubview:firstLabel];
         [xAxisValues addObject:firstXLabel];
         [xAxisLabels addObject:firstLabel];
-        
-        NSNumber *xFirstAxisLabelCoordinate = [NSNumber numberWithFloat:firstLabel.center.x-self.YAxisLabelXOffset];
+
+        NSNumber *xFirstAxisLabelCoordinate = @(firstLabel.center.x - self.YAxisLabelXOffset);
         [xAxisLabelPoints addObject:xFirstAxisLabelCoordinate];
         
         UILabel *lastLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.frame.size.width/2 - 3, self.frame.size.height-20, self.frame.size.width/2, 20)];
         lastLabel.text = lastXLabel;
         lastLabel.font = self.labelFont;
-        lastLabel.textAlignment = 2;
+        lastLabel.textAlignment = NSTextAlignmentRight;
         lastLabel.textColor = self.colorXaxisLabel;
         lastLabel.backgroundColor = [UIColor clearColor];
-        lastLabel.tag = 1000;
+        lastLabel.tag = DotLastTag1000;
         [self addSubview:lastLabel];
         [xAxisValues addObject:lastXLabel];
         [xAxisLabels addObject:lastLabel];
         
-        NSNumber *xLastAxisLabelCoordinate = [NSNumber numberWithFloat:lastLabel.center.x-self.YAxisLabelXOffset];
+        NSNumber *xLastAxisLabelCoordinate = @(lastLabel.center.x - self.YAxisLabelXOffset);
         [xAxisLabelPoints addObject:xLastAxisLabelCoordinate];
         
     } else {
@@ -573,7 +583,7 @@
                 labelXAxis.textColor = self.colorXaxisLabel;
                 labelXAxis.backgroundColor = [UIColor clearColor];
                 [xAxisLabels addObject:labelXAxis];
-                labelXAxis.tag = 1000;
+                labelXAxis.tag = DotLastTag1000;
                 
                 // Add support multi-line, but this might overlap with the graph line if text have too many lines
                 labelXAxis.numberOfLines = 0;
@@ -613,16 +623,16 @@
 
 - (void)drawYAxis {
     for (UIView *subview in [self subviews]) {
-        if ([subview isKindOfClass:[UILabel class]] && subview.tag == 2000) {
+        if ([subview isKindOfClass:[UILabel class]] && subview.tag == LabelYAxisTag2000 ) {
             [subview removeFromSuperview];
         }
-        else if ([subview isKindOfClass:[UIView class] ] && subview.tag == 2100) {
+        else if ([subview isKindOfClass:[UIView class] ] && subview.tag == BackgroundYAxisTag2100 ) {
             [subview removeFromSuperview];
         }
     }
     
     UIView *backgroundYaxis = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.YAxisLabelXOffset, self.frame.size.height)];
-    backgroundYaxis.tag = 2100;
+    backgroundYaxis.tag = BackgroundYAxisTag2100;
     if (self.colorBackgroundYaxis == nil) {
         backgroundYaxis.backgroundColor = self.colorTop;
     } else backgroundYaxis.backgroundColor = self.colorBackgroundYaxis;
@@ -663,16 +673,16 @@
             labelYAxis.font = self.labelFont;
             labelYAxis.textColor = self.colorYaxisLabel;
             labelYAxis.backgroundColor = [UIColor clearColor];
-            labelYAxis.tag = 2000;
+            labelYAxis.tag = LabelYAxisTag2000;
             labelYAxis.center = CGPointMake(self.YAxisLabelXOffset/2, yAxisPosition);
             [self addSubview:labelYAxis];
             [yAxisLabels addObject:labelYAxis];
             
-            NSNumber *yAxisLabelCoordinate = [NSNumber numberWithFloat:labelYAxis.center.y];
+            NSNumber *yAxisLabelCoordinate = @(labelYAxis.center.y);
             [yAxisLabelPoints addObject:yAxisLabelCoordinate];
         }
     } else {
-        CGFloat numberOfLabels;
+        NSInteger numberOfLabels;
         if ([self.delegate respondsToSelector:@selector(numberOfYAxisLabelsOnLineGraph:)]) numberOfLabels = [self.delegate numberOfYAxisLabelsOnLineGraph:self];
         else numberOfLabels = 3;
         
@@ -691,25 +701,25 @@
             labelYAxis.textAlignment = NSTextAlignmentRight;
             labelYAxis.textColor = self.colorYaxisLabel;
             labelYAxis.backgroundColor = [UIColor clearColor];
-            labelYAxis.tag = 2000;
+            labelYAxis.tag = LabelYAxisTag2000;
             
             [self addSubview:labelYAxis];
             
             [yAxisLabels addObject:labelYAxis];
             
-            NSNumber *yAxisLabelCoordinate = [NSNumber numberWithFloat:labelYAxis.center.y];
+            NSNumber *yAxisLabelCoordinate = @(labelYAxis.center.y);
             [yAxisLabelPoints addObject:yAxisLabelCoordinate];
         }
     }
 
     // Detect overlapped labels
-    __block NSUInteger lastMatchIndex;
+    __block NSUInteger lastMatchIndex = 0;
     NSMutableArray *overlapLabels = [NSMutableArray arrayWithCapacity:0];
     [yAxisLabels enumerateObjectsUsingBlock:^(UILabel *label, NSUInteger idx, BOOL *stop) {
         
         if (idx==0) lastMatchIndex = 0;
         else { // Skip first one
-            UILabel *prevLabel = [yAxisLabels objectAtIndex:lastMatchIndex];
+            UILabel *prevLabel = yAxisLabels[lastMatchIndex];
             CGRect r = CGRectIntersection(prevLabel.frame, label.frame);
             if (CGRectIsNull(r)) lastMatchIndex = idx;
             else [overlapLabels addObject:label]; // overlapped
@@ -743,9 +753,9 @@
     self.enablePopUpReport = NO;
     self.xCenterLabel = circleDot.center.x;
     UILabel *permanentPopUpLabel = [[UILabel alloc] init];
-    permanentPopUpLabel.textAlignment = 1;
+    permanentPopUpLabel.textAlignment = NSTextAlignmentCenter;
     permanentPopUpLabel.numberOfLines = 0;
-    permanentPopUpLabel.text = [NSString stringWithFormat:@"%@", [NSNumber numberWithInteger:circleDot.absoluteValue]];
+    permanentPopUpLabel.text = [NSString stringWithFormat:@"%@", @((NSInteger) circleDot.absoluteValue)];
     permanentPopUpLabel.font = self.labelFont;
     permanentPopUpLabel.backgroundColor = [UIColor clearColor];
     [permanentPopUpLabel sizeToFit];
@@ -756,7 +766,7 @@
     permanentPopUpView.backgroundColor = [UIColor whiteColor];
     permanentPopUpView.alpha = 0;
     permanentPopUpView.layer.cornerRadius = 3;
-    permanentPopUpView.tag = 3100;
+    permanentPopUpView.tag = PermanentPopUpViewTag3100;
     permanentPopUpView.center = permanentPopUpLabel.center;
     
     if (permanentPopUpLabel.frame.origin.x <= 0) {
@@ -796,7 +806,7 @@
 
 - (BOOL)checkOverlapsForView:(UIView *)view {
     for (UIView *viewForLabel in [self subviews]) {
-        if ([viewForLabel isKindOfClass:[UIView class]] && viewForLabel.tag == 3100) {
+        if ([viewForLabel isKindOfClass:[UIView class]] && viewForLabel.tag == PermanentPopUpViewTag3100 ) {
             if ((viewForLabel.frame.origin.x + viewForLabel.frame.size.width) >= view.frame.origin.x) {
                 if (viewForLabel.frame.origin.y >= view.frame.origin.y && viewForLabel.frame.origin.y <= view.frame.origin.y + view.frame.size.height) return YES;
                 else if (viewForLabel.frame.origin.y + viewForLabel.frame.size.height >= view.frame.origin.y && viewForLabel.frame.origin.y + viewForLabel.frame.size.height <= view.frame.origin.y + view.frame.size.height) return YES;
@@ -870,7 +880,7 @@
         NSExpression *expression = [NSExpression expressionForFunction:@"min:" arguments:@[[NSExpression expressionForConstantValue:dataPoints]]];
         NSNumber *value = [expression expressionValueWithObject:nil context:nil];
         return value;
-    } else return 0;
+    } else return @0;
 }
 
 - (NSNumber *)calculateMaximumPointValue {
@@ -928,20 +938,20 @@
     closestDot.alpha = 0.8;
     
     
-    if (self.enablePopUpReport == YES && closestDot.tag > 99 && closestDot.tag < 1000 && [closestDot isKindOfClass:[BEMCircle class]] && self.alwaysDisplayPopUpLabels == NO) {
+    if (self.enablePopUpReport == YES && closestDot.tag >= DotFirstTag100 && closestDot.tag < DotLastTag1000 && [closestDot isKindOfClass:[BEMCircle class]] && self.alwaysDisplayPopUpLabels == NO) {
         [self setUpPopUpLabelAbovePoint:closestDot];
     }
     
-    if (closestDot.tag > 99 && closestDot.tag < 1000 && [closestDot isMemberOfClass:[BEMCircle class]]) {
+    if (closestDot.tag >= DotFirstTag100 && closestDot.tag < DotLastTag1000 && [closestDot isMemberOfClass:[BEMCircle class]]) {
         if ([self.delegate respondsToSelector:@selector(lineGraph:didTouchGraphWithClosestIndex:)] && self.enableTouchReport == YES) {
-            [self.delegate lineGraph:self didTouchGraphWithClosestIndex:((NSInteger)closestDot.tag - 100)];
+            [self.delegate lineGraph:self didTouchGraphWithClosestIndex:((NSInteger)closestDot.tag - DotFirstTag100)];
             
         } else if ([self.delegate respondsToSelector:@selector(didTouchGraphWithClosestIndex:)] && self.enableTouchReport == YES) {
             [self printDeprecationWarningForOldMethod:@"didTouchGraphWithClosestIndex:" andReplacementMethod:@"lineGraph:didTouchGraphWithClosestIndex:"];
             
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            [self.delegate didTouchGraphWithClosestIndex:((int)closestDot.tag - 100)];
+            [self.delegate didTouchGraphWithClosestIndex:((int)closestDot.tag - DotFirstTag100)];
 #pragma clang diagnostic pop
         }
     }
@@ -949,14 +959,14 @@
     // ON RELEASE
     if (recognizer.state == UIGestureRecognizerStateEnded) {
         if ([self.delegate respondsToSelector:@selector(lineGraph:didReleaseTouchFromGraphWithClosestIndex:)]) {
-            [self.delegate lineGraph:self didReleaseTouchFromGraphWithClosestIndex:(closestDot.tag - 100)];
+            [self.delegate lineGraph:self didReleaseTouchFromGraphWithClosestIndex:(closestDot.tag - DotFirstTag100)];
             
         } else if ([self.delegate respondsToSelector:@selector(didReleaseGraphWithClosestIndex:)]) {
             [self printDeprecationWarningForOldMethod:@"didReleaseGraphWithClosestIndex:" andReplacementMethod:@"lineGraph:didReleaseTouchFromGraphWithClosestIndex:"];
             
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            [self.delegate didReleaseGraphWithClosestIndex:(closestDot.tag - 100)];
+            [self.delegate didReleaseGraphWithClosestIndex:(closestDot.tag - DotFirstTag100)];
 #pragma clang diagnostic pop
         }
         
@@ -989,9 +999,9 @@
     self.popUpLabel.center = self.popUpView.center;
     
     if ([self.delegate respondsToSelector:@selector(popUpSuffixForlineGraph:)])
-        self.popUpLabel.text = [NSString stringWithFormat:@"%li%@", (long)[[dataPoints objectAtIndex:((NSInteger)closestDot.tag - 100)] integerValue], [self.delegate popUpSuffixForlineGraph:self]];
+        self.popUpLabel.text = [NSString stringWithFormat:@"%li%@", (long)[dataPoints[(NSInteger) closestDot.tag - DotFirstTag100] integerValue], [self.delegate popUpSuffixForlineGraph:self]];
     else
-        self.popUpLabel.text = [NSString stringWithFormat:@"%li", (long)[[dataPoints objectAtIndex:((NSInteger)closestDot.tag - 100)] integerValue]];
+        self.popUpLabel.text = [NSString stringWithFormat:@"%li", (long)[dataPoints[(NSInteger) closestDot.tag - DotFirstTag100] integerValue]];
     if (self.enableYAxisLabel == YES && self.popUpView.frame.origin.x <= self.YAxisLabelXOffset) {
         self.xCenterLabel = self.popUpView.frame.size.width/2;
         self.popUpView.center = CGPointMake(self.xCenterLabel + self.YAxisLabelXOffset + 1, self.yCenterLabel);
@@ -1015,7 +1025,7 @@
 - (BEMCircle *)closestDotFromtouchInputLine:(UIView *)touchInputLine {
     currentlyCloser = pow((self.frame.size.width/(numberOfPoints-1))/2, 2);
     for (BEMCircle *point in self.subviews) {
-        if (point.tag > 99 && point.tag < 1000 && [point isMemberOfClass:[BEMCircle class]]) {
+        if (point.tag >= DotFirstTag100 && point.tag < DotLastTag1000 && [point isMemberOfClass:[BEMCircle class]]) {
             if (self.alwaysDisplayDots == NO) {
                 point.alpha = 0;
             }
