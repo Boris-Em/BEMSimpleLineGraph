@@ -161,7 +161,8 @@
 @property (nonatomic) BOOL enableYAxisLabel;
 
 
-/** Show X-Axis label on the side. Default value is NO.
+/** Show X-Axis label at the bottom of the graph. Default value is YES.
+ @see \p labelOnXAxisForIndex
  */
 @property (nonatomic) BOOL enableXAxisLabel;
 
@@ -169,11 +170,14 @@
 @property (nonatomic) BOOL autoScaleYAxis;
 
 
-/// Draws a translucent vertical lines along the graph for each X-Axis label, when set to YES. Default value is NO.
-@property (nonatomic) BOOL enableReferenceAxisLines;
+/// Draws a translucent vertical lines along the graph for each X-Axis when set to YES. Default value is NO.
+@property (nonatomic) BOOL enableReferenceXAxisLines;
+
+/// Draws a translucent horizontal lines along the graph for each Y-Axis label, when set to YES. Default value is NO.
+@property (nonatomic) BOOL enableReferenceYAxisLines;
 
 /** Draws a translucent frame between the graph and any enabled axis, when set to YES. Default value is NO.
- @see enableReferenceAxisLines must be set to YES for this property to have any affect.  */
+ @see enableReferenceXAxisLines or enableReferenceYAxisLines must be set to YES for this property to have any affect.  */
 @property (nonatomic) BOOL enableReferenceAxisFrame;
 
 
@@ -211,6 +215,9 @@
 
 /// Width of the line of the graph. Default value is 1.0.
 @property (nonatomic) CGFloat widthLine;
+
+/// Color of the reference lines of the graph. Default is same color as `colorLine`.
+@property (strong, nonatomic) UIColor *colorReferenceLines;
 
 
 /// The size of the circles that represent each point. Default is 10.0.

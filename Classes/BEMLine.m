@@ -189,16 +189,41 @@
     // ----- Animate Drawing -----//
     // ---------------------------//
     if (self.animationTime == 0) {
-        [self.color set];
+        if (self.enableRefrenceLines == YES) {
+            [referenceLinesPath setLineWidth:self.lineWidth/2];
+            
+            if (self.refrenceLineColor) {
+                [self.refrenceLineColor set];
+            } else {
+                [self.color set];
+            }
+            
+            [referenceLinesPath strokeWithBlendMode:kCGBlendModeNormal alpha:self.lineAlpha/2];
+        }
         
+        [self.color set];
         [line setLineWidth:self.lineWidth];
         [line strokeWithBlendMode:kCGBlendModeNormal alpha:self.lineAlpha];
         
-        if (self.enableRefrenceLines == YES) {
-            [referenceLinesPath setLineWidth:self.lineWidth/2];
-            [referenceLinesPath strokeWithBlendMode:kCGBlendModeNormal alpha:self.lineAlpha/2];
-        }
     } else {
+        if (self.enableRefrenceLines == YES) {
+            CAShapeLayer *referenceLinesPathLayer = [CAShapeLayer layer];
+            referenceLinesPathLayer.frame = self.bounds;
+            referenceLinesPathLayer.path = referenceLinesPath.CGPath;
+            referenceLinesPathLayer.opacity = self.lineAlpha/2;
+            referenceLinesPathLayer.fillColor = nil;
+            referenceLinesPathLayer.lineWidth = self.lineWidth/2;
+            
+            if (self.refrenceLineColor) {
+                referenceLinesPathLayer.strokeColor = self.refrenceLineColor.CGColor;
+            } else {
+                referenceLinesPathLayer.strokeColor = self.color.CGColor;
+            }
+            
+            [self animateForLayer:referenceLinesPathLayer withAnimationType:self.animationType isAnimatingReferenceLine:YES];
+            [self.layer addSublayer:referenceLinesPathLayer];
+        }
+        
         CAShapeLayer *pathLayer = [CAShapeLayer layer];
         pathLayer.frame = self.bounds;
         pathLayer.path = line.CGPath;
@@ -209,18 +234,6 @@
         pathLayer.lineCap = kCALineCapRound;
         [self animateForLayer:pathLayer withAnimationType:self.animationType isAnimatingReferenceLine:NO];
         [self.layer addSublayer:pathLayer];
-        
-        if (self.enableRefrenceLines == YES) {
-            CAShapeLayer *referenceLinesPathLayer = [CAShapeLayer layer];
-            referenceLinesPathLayer.frame = self.bounds;
-            referenceLinesPathLayer.path = referenceLinesPath.CGPath;
-            referenceLinesPathLayer.opacity = self.lineAlpha/2;
-            referenceLinesPathLayer.strokeColor = self.color.CGColor;
-            referenceLinesPathLayer.fillColor = nil;
-            referenceLinesPathLayer.lineWidth = self.lineWidth/2;
-            [self animateForLayer:referenceLinesPathLayer withAnimationType:self.animationType isAnimatingReferenceLine:YES];
-            [self.layer addSublayer:referenceLinesPathLayer];
-        }
     }
 }
 

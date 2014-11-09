@@ -77,7 +77,7 @@ The other way to install <b>BEMSimpleLineGraph</b>, is to drag and drop the *Cla
 ####Swift Projects
 To use <b>BEMSimpleLineGraph</b> in a Swift project add the following to your bridging header:
 
-    #import "BEMSimpleLineGraph.h"
+    #import "BEMSimpleLineGraphView.h”
 
 ### Setup
 Setting up <b>BEMSimpleLineGraph</b> in your project is simple. If you're familiar with UITableView, then <b>BEMSimpleLineGraph </b>should be a breeze. Follow the steps below to get everything up and running.

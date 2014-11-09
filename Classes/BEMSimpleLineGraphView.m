@@ -151,7 +151,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     _enableTouchReport = NO;
     _enablePopUpReport = NO;
     _enableBezierCurve = NO;
-    _enableXAxisLabel = NO;
+    _enableXAxisLabel = YES;
     _enableYAxisLabel = NO;
     _YAxisLabelXOffset = 0;
     _autoScaleYAxis = YES;
@@ -306,7 +306,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 - (void)drawEntireGraph {
     // The following method calls are in this specific order for a reason
     // Changing the order of the method calls below can result in drawing glitches and even crashes
-    
+
     // Set the Y-Axis Offset if the Y-Axis is enabled. The offset is relative to the size of the longest label on the Y-Axis.
     if (self.enableYAxisLabel) {
         NSDictionary *attributes = @{NSFontAttributeName: self.labelFont};
@@ -322,13 +322,13 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
             self.YAxisLabelXOffset = [longestString sizeWithAttributes:attributes].width + 5;
         }
     } else self.YAxisLabelXOffset = 0;
-    
+
     // Draw the X-Axis
     [self drawXAxis];
-    
+
     // Draw the graph
     [self drawDots];
-    
+
     // Draw the Y-Axis
     if (self.enableYAxisLabel) [self drawYAxis];
 }
@@ -447,13 +447,13 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     } else {
         line.xAxisBackgroundColor = self.colorBackgroundXaxis;
     }
-    if (self.enableReferenceAxisLines == YES) {
-        if (self.enableReferenceAxisFrame) line.enableRefrenceFrame = YES;
-        else line.enableRefrenceFrame = NO;
+    if (self.enableReferenceXAxisLines || self.enableReferenceYAxisLines) {
+        line.enableRefrenceFrame = self.enableReferenceAxisFrame;
         
         line.enableRefrenceLines = YES;
-        line.arrayOfVerticalRefrenceLinePoints = xAxisLabelPoints;
-        line.arrayOfHorizontalRefrenceLinePoints = yAxisLabelPoints;
+        line.refrenceLineColor = self.colorReferenceLines;
+        line.arrayOfVerticalRefrenceLinePoints = self.enableReferenceXAxisLines ? xAxisLabelPoints : nil;
+        line.arrayOfHorizontalRefrenceLinePoints = self.enableReferenceYAxisLines ? yAxisLabelPoints : nil;
     }
     
     line.frameOffset = self.XAxisLabelYOffset;
@@ -903,6 +903,13 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 
 - (NSArray *)graphLabelsForXAxis {
     return xAxisLabels;
+}
+
+- (void)setAnimationGraphStyle:(BEMLineAnimation)animationGraphStyle
+{
+    _animationGraphStyle = animationGraphStyle;
+    if (_animationGraphStyle == BEMLineAnimationNone)
+        self.animationGraphEntranceTime = 0.f;
 }
 
 
