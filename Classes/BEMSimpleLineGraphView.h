@@ -362,6 +362,11 @@
  @return The boolean value indicating the availability of the NO DATA label. */
 - (BOOL)noDataLabelEnableForLineGraph:(BEMSimpleLineGraphView *)graph;
 
+/** Optional method to control the text to be displayed on NO DATA label
+ @param graph The graph object for the NO DATA label
+ @return The text to show on the NO DATA label. */
+- (NSString *)noDataLabelTextForLineGraph:(BEMSimpleLineGraphView *)graph;
+
 /** Optional method to set the static padding distance between the graph line and the whole graph
  @param graph The graph object requesting the padding value.
  @return The padding value of the graph. */
