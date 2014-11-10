@@ -180,9 +180,26 @@
     // ---------------------------//
     [self.topColor set];
     [fillTop fillWithBlendMode:kCGBlendModeNormal alpha:self.topAlpha];
-    
+
     [self.bottomColor set];
     [fillBottom fillWithBlendMode:kCGBlendModeNormal alpha:self.bottomAlpha];
+
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    if (self.topGradient != nil) {
+        CGContextSaveGState(ctx);
+        CGContextAddPath(ctx, [fillTop CGPath]);
+        CGContextClip(ctx);
+        CGContextDrawLinearGradient(ctx, self.topGradient, CGPointZero, CGPointMake(0, CGRectGetMaxY(fillTop.bounds)), 0);
+        CGContextRestoreGState(ctx);
+    }
+
+    if (self.bottomGradient != nil) {
+        CGContextSaveGState(ctx);
+        CGContextAddPath(ctx, [fillBottom CGPath]);
+        CGContextClip(ctx);
+        CGContextDrawLinearGradient(ctx, self.bottomGradient, CGPointZero, CGPointMake(0, CGRectGetMaxY(fillBottom.bounds)), 0);
+        CGContextRestoreGState(ctx);
+    }
     
     
     // ---------------------------//
