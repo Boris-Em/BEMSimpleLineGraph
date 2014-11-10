@@ -94,7 +94,7 @@ typedef NS_ENUM(NSInteger, BEMLineAnimation) {
 
 /** A color gradient to be applied to the line. If this property is set, it will mask (override) the \p color property.
  @todo This property is non-functional at this point in time. It only serves as a marker for further implementation. */
-@property (assign, nonatomic) CGGradientRef gradient;
+@property (assign, nonatomic) CGGradientRef lineGradient;
 
 /// The reference line color. Defaults to `color`.
 @property (strong, nonatomic) UIColor *refrenceLineColor;
