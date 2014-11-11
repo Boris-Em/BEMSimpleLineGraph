@@ -197,6 +197,10 @@
 @property (nonatomic) CGFloat alphaBottom;
 
 
+/// Fill gradient of the bottom part of the graph (between the line and the X-axis). When set, it will draw a gradient over top of the fill provided by the \p colorBottom and \p alphaBottom properties.
+@property (assign, nonatomic) CGGradientRef gradientBottom;
+
+
 /// Color of the top part of the graph (between the line and the top of the view the graph is drawn in).
 @property (strong, nonatomic) UIColor *colorTop;
 
@@ -204,6 +208,9 @@
 /// Alpha of the top part of the graph (between the line and the top of the view the graph is drawn in).
 @property (nonatomic) CGFloat alphaTop;
 
+
+/// Fill gradient of the top part of the graph (between the line and the top of the view the graph is drawn in). When set, it will draw a gradient over top of the fill provided by the \p colorTop and \p alphaTop properties.
+@property (assign, nonatomic) CGGradientRef gradientTop;
 
 /// Color of the line of the graph.
 @property (strong, nonatomic) UIColor *colorLine;

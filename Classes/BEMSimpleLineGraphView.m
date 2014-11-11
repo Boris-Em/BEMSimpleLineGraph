@@ -441,6 +441,8 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     line.bottomColor = self.colorBottom;
     line.topAlpha = self.alphaTop;
     line.bottomAlpha = self.alphaBottom;
+    line.topGradient = self.gradientTop;
+    line.bottomGradient = self.gradientBottom;
     line.lineWidth = self.widthLine;
     line.lineAlpha = self.alphaLine;
     line.bezierCurveIsEnabled = self.enableBezierCurve;

@@ -79,8 +79,14 @@ typedef NS_ENUM(NSInteger, BEMLineAnimation) {
 /// The color of the area above the line, inside of its superview
 @property (strong, nonatomic) UIColor *topColor;
 
+/// A color gradient applied to the area above the line, inside of its superview. If set, it will be drawn on top of the fill from the \p topColor property.
+@property (assign, nonatomic) CGGradientRef topGradient;
+
 /// The color of the area below the line, inside of its superview
 @property (strong, nonatomic) UIColor *bottomColor;
+
+/// A color gradient applied to the area below the line, inside of its superview. If set, it will be drawn on top of the fill from the \p bottomColor property.
+@property (assign, nonatomic) CGGradientRef bottomGradient;
 
 @property (strong, nonatomic) UIColor *xAxisBackgroundColor;
 
@@ -88,7 +94,7 @@ typedef NS_ENUM(NSInteger, BEMLineAnimation) {
 
 /** A color gradient to be applied to the line. If this property is set, it will mask (override) the \p color property.
  @todo This property is non-functional at this point in time. It only serves as a marker for further implementation. */
-@property (assign, nonatomic) CGGradientRef gradient;
+@property (assign, nonatomic) CGGradientRef lineGradient;
 
 /// The reference line color. Defaults to `color`.
 @property (strong, nonatomic) UIColor *refrenceLineColor;
