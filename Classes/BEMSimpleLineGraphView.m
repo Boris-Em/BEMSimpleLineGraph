@@ -466,6 +466,8 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     line.frameOffset = self.XAxisLabelYOffset;
     
     line.color = self.colorLine;
+    line.lineGradient = self.gradientLine;
+    line.lineGradientDirection = self.gradientLineDirection;
     line.animationTime = self.animationGraphEntranceTime;
     line.animationType = self.animationGraphStyle;
     
