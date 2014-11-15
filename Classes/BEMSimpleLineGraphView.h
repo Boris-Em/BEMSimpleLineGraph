@@ -215,6 +215,11 @@
 /// Color of the line of the graph.
 @property (strong, nonatomic) UIColor *colorLine;
 
+/// Fill gradient of the line of the graph, which will be scaled to the length of the graph. Overrides the line color provided by \p colorLine
+@property (assign, nonatomic) CGGradientRef gradientLine;
+
+/// The drawing direction of the line gradient color, which defaults to horizontal
+@property (nonatomic) BEMLineGradientDirection gradientLineDirection;
 
 /// Alpha of the line of the graph.
 @property (nonatomic) CGFloat alphaLine;

@@ -205,51 +205,38 @@
     // ---------------------------//
     // ----- Animate Drawing -----//
     // ---------------------------//
-    if (self.animationTime == 0) {
-        if (self.enableRefrenceLines == YES) {
-            [referenceLinesPath setLineWidth:self.lineWidth/2];
-            
-            if (self.refrenceLineColor) {
-                [self.refrenceLineColor set];
-            } else {
-                [self.color set];
-            }
-            
-            [referenceLinesPath strokeWithBlendMode:kCGBlendModeNormal alpha:self.lineAlpha/2];
+    if (self.enableRefrenceLines == YES) {
+        CAShapeLayer *referenceLinesPathLayer = [CAShapeLayer layer];
+        referenceLinesPathLayer.frame = self.bounds;
+        referenceLinesPathLayer.path = referenceLinesPath.CGPath;
+        referenceLinesPathLayer.opacity = self.lineAlpha/2;
+        referenceLinesPathLayer.fillColor = nil;
+        referenceLinesPathLayer.lineWidth = self.lineWidth/2;
+
+        if (self.refrenceLineColor) {
+            referenceLinesPathLayer.strokeColor = self.refrenceLineColor.CGColor;
+        } else {
+            referenceLinesPathLayer.strokeColor = self.color.CGColor;
         }
-        
-        [self.color set];
-        [line setLineWidth:self.lineWidth];
-        [line strokeWithBlendMode:kCGBlendModeNormal alpha:self.lineAlpha];
-        
-    } else {
-        if (self.enableRefrenceLines == YES) {
-            CAShapeLayer *referenceLinesPathLayer = [CAShapeLayer layer];
-            referenceLinesPathLayer.frame = self.bounds;
-            referenceLinesPathLayer.path = referenceLinesPath.CGPath;
-            referenceLinesPathLayer.opacity = self.lineAlpha/2;
-            referenceLinesPathLayer.fillColor = nil;
-            referenceLinesPathLayer.lineWidth = self.lineWidth/2;
-            
-            if (self.refrenceLineColor) {
-                referenceLinesPathLayer.strokeColor = self.refrenceLineColor.CGColor;
-            } else {
-                referenceLinesPathLayer.strokeColor = self.color.CGColor;
-            }
-            
+
+        if (self.animationTime > 0)
             [self animateForLayer:referenceLinesPathLayer withAnimationType:self.animationType isAnimatingReferenceLine:YES];
-            [self.layer addSublayer:referenceLinesPathLayer];
-        }
-        
-        CAShapeLayer *pathLayer = [CAShapeLayer layer];
-        pathLayer.frame = self.bounds;
-        pathLayer.path = line.CGPath;
-        pathLayer.strokeColor = self.color.CGColor;
-        pathLayer.fillColor = nil;
-        pathLayer.lineWidth = self.lineWidth;
-        pathLayer.lineJoin = kCALineJoinBevel;
-        pathLayer.lineCap = kCALineCapRound;
+        [self.layer addSublayer:referenceLinesPathLayer];
+    }
+
+    CAShapeLayer *pathLayer = [CAShapeLayer layer];
+    pathLayer.frame = self.bounds;
+    pathLayer.path = line.CGPath;
+    pathLayer.strokeColor = self.color.CGColor;
+    pathLayer.fillColor = nil;
+    pathLayer.lineWidth = self.lineWidth;
+    pathLayer.lineJoin = kCALineJoinBevel;
+    pathLayer.lineCap = kCALineCapRound;
+    if (self.animationTime > 0)
         [self animateForLayer:pathLayer withAnimationType:self.animationType isAnimatingReferenceLine:NO];
+    if (self.lineGradient) {
+        [self.layer addSublayer:[self backgroundGradientLayerForLayer:pathLayer]];
+    } else {
         [self.layer addSublayer:pathLayer];
     }
 }
@@ -274,6 +261,27 @@
         
         return;
     }
+}
+
+- (CALayer*)backgroundGradientLayerForLayer:(CAShapeLayer *)shapeLayer {
+    UIGraphicsBeginImageContext(self.bounds.size);
+    CGContextRef imageCtx = UIGraphicsGetCurrentContext();
+    CGPoint start, end;
+    if (self.lineGradientDirection == BEMLineGradientDirectionHorizontal) {
+        start = CGPointMake(0, CGRectGetMidY(shapeLayer.bounds));
+        end = CGPointMake(CGRectGetMaxX(shapeLayer.bounds), CGRectGetMidY(shapeLayer.bounds));
+    } else {
+        start = CGPointMake(CGRectGetMidX(shapeLayer.bounds), 0);
+        end = CGPointMake(CGRectGetMidX(shapeLayer.bounds), CGRectGetMaxY(shapeLayer.bounds));
+    }
+    CGContextDrawLinearGradient(imageCtx, self.lineGradient, start, end, 0);
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    CALayer *gradientLayer = [CALayer layer];
+    gradientLayer.frame = self.bounds;
+    gradientLayer.contents = (id)image.CGImage;
+    gradientLayer.mask = shapeLayer;
+    return gradientLayer;
 }
 
 @end
