@@ -229,6 +229,7 @@
     pathLayer.path = line.CGPath;
     pathLayer.strokeColor = self.color.CGColor;
     pathLayer.fillColor = nil;
+    pathLayer.opacity = self.lineAlpha;
     pathLayer.lineWidth = self.lineWidth;
     pathLayer.lineJoin = kCALineJoinBevel;
     pathLayer.lineCap = kCALineCapRound;
