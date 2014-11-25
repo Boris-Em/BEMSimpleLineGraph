@@ -314,7 +314,6 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 
 - (void)drawEntireGraph {
     
-    CFTimeInterval start = CFAbsoluteTimeGetCurrent();
     // The following method calls are in this specific order for a reason
     // Changing the order of the method calls below can result in drawing glitches and even crashes]
     
@@ -345,9 +344,6 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 
     // Draw the Y-Axis
     if (self.enableYAxisLabel) [self drawYAxis];
-    
-    CFTimeInterval forLoop = CFAbsoluteTimeGetCurrent();
-    NSLog(@"For loop: %g", forLoop - start);
 }
 
 - (void)drawDots {
