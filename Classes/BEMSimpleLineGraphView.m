@@ -1156,7 +1156,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 #pragma mark - Customization Methods
 
 - (void)setColorTouchInputLine:(UIColor *)colorTouchInputLine {
-    self.touchInputLine.backgroundColor = colorTouchInputLine;
+    _colorTouchInputLine = colorTouchInputLine;
 }
 
 #pragma mark - Other Methods
