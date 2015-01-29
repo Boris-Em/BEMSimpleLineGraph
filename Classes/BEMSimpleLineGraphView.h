@@ -20,7 +20,7 @@
 
 #import "BEMCircle.h"
 #import "BEMLine.h"
-
+#import "BEMPermanentPopupView.h"
 
 @protocol BEMSimpleLineGraphDelegate;
 @protocol BEMSimpleLineGraphDataSource;
