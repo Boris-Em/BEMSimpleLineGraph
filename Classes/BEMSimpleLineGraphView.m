@@ -352,7 +352,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     
     // Remove all dots that were previously on the graph
     for (UIView *subview in [self subviews]) {
-        if ([subview isKindOfClass:[BEMCircle class]])
+        if ([subview isKindOfClass:[BEMCircle class]] || [subview isKindOfClass:[BEMPermanentPopupView class]])
             [subview removeFromSuperview];
     }
     
@@ -776,8 +776,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     [permanentPopUpLabel sizeToFit];
     permanentPopUpLabel.center = CGPointMake(self.xCenterLabel, circleDot.center.y - circleDot.frame.size.height/2 - 15);
     permanentPopUpLabel.alpha = 0;
-    
-    UIView *permanentPopUpView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, permanentPopUpLabel.frame.size.width + 7, permanentPopUpLabel.frame.size.height + 2)];
+    BEMPermanentPopupView *permanentPopUpView = [[BEMPermanentPopupView alloc] initWithFrame:CGRectMake(0, 0, permanentPopUpLabel.frame.size.width + 7, permanentPopUpLabel.frame.size.height + 2)];
     permanentPopUpView.backgroundColor = [UIColor whiteColor];
     permanentPopUpView.alpha = 0;
     permanentPopUpView.layer.cornerRadius = 3;
