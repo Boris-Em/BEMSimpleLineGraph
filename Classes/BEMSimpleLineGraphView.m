@@ -63,9 +63,6 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 /// Label to display when there is no data
 @property (strong, nonatomic) UILabel *noDataLabel;
 
-/// The gesture recognizer picking up the pan in the graph view
-@property (strong, nonatomic) UIPanGestureRecognizer *panGesture;
-
 /// The label displayed when enablePopUpReport is set to YES
 @property (strong, nonatomic) UILabel *popUpLabel;
 
@@ -292,11 +289,6 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
         self.panView = [[UIView alloc] initWithFrame:CGRectMake(10, 10, self.viewForBaselineLayout.frame.size.width, self.viewForBaselineLayout.frame.size.height)];
         self.panView.backgroundColor = [UIColor clearColor];
         [self.viewForBaselineLayout addSubview:self.panView];
-        
-        self.panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
-        self.panGesture.delegate = self;
-        [self.panGesture setMaximumNumberOfTouches:1];
-        [self.panView addGestureRecognizer:self.panGesture];
         
         if (self.enablePopUpReport == YES && self.alwaysDisplayPopUpLabels == NO) {
 
@@ -1099,20 +1091,33 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 }
 
 
-#pragma mark - Touch Gestures
+#pragma mark - Touches
 
-- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
-    if ([gestureRecognizer isEqual:self.panGesture]) {
-        if (gestureRecognizer.numberOfTouches > 0) {
-            CGPoint translation = [self.panGesture velocityInView:self.panView];
-            return fabs(translation.y) < fabs(translation.x);
-        } else return NO;
-        return YES;
-    } else return NO;
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    UITouch *anyTouch = [touches anyObject];
+    [self updatePopupReportWithTouch:anyTouch];
 }
 
-- (void)handlePan:(UIPanGestureRecognizer *)recognizer {
-    CGPoint translation = [recognizer locationInView:self.viewForBaselineLayout];
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    UITouch *anyTouch = [touches anyObject];
+    [self updatePopupReportWithTouch:anyTouch];
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self removePopupReport];
+}
+
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self removePopupReport];
+}
+
+- (void)updatePopupReportWithTouch:(UITouch *)touch
+{
+    CGPoint translation = [touch locationInView:self.viewForBaselineLayout];
     
     if (!((translation.x + self.frame.origin.x) <= self.frame.origin.x) && !((translation.x + self.frame.origin.x) >= self.frame.origin.x + self.frame.size.width)) { // To make sure the vertical line doesn't go beyond the frame of the graph.
         self.touchInputLine.frame = CGRectMake(translation.x - self.widthTouchInputLine/2, 0, self.widthTouchInputLine, self.frame.size.height);
@@ -1141,37 +1146,33 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 #pragma clang diagnostic pop
         }
     }
-    
-    // ON RELEASE
-    if (recognizer.state == UIGestureRecognizerStateEnded) {
-        if ([self.delegate respondsToSelector:@selector(lineGraph:didReleaseTouchFromGraphWithClosestIndex:)]) {
-            [self.delegate lineGraph:self didReleaseTouchFromGraphWithClosestIndex:(closestDot.tag - DotFirstTag100)];
-            
-        } else if ([self.delegate respondsToSelector:@selector(didReleaseGraphWithClosestIndex:)]) {
-            [self printDeprecationWarningForOldMethod:@"didReleaseGraphWithClosestIndex:" andReplacementMethod:@"lineGraph:didReleaseTouchFromGraphWithClosestIndex:"];
-            
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            [self.delegate didReleaseGraphWithClosestIndex:(closestDot.tag - DotFirstTag100)];
-#pragma clang diagnostic pop
-        }
-        
-        [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-            if (self.alwaysDisplayDots == NO) {
-                closestDot.alpha = 0;
-            }
-            self.touchInputLine.alpha = 0;
-            if (self.enablePopUpReport == YES) {
-                self.popUpView.alpha = 0;
-                self.popUpLabel.alpha = 0;
-//                self.customPopUpView.alpha = 0;
-            }
-        } completion:nil];
-    }
 }
 
-- (CGFloat)distanceToClosestPoint {
-    return sqrt(pow(closestDot.center.x - self.touchInputLine.center.x, 2));
+- (void)removePopupReport
+{
+    if ([self.delegate respondsToSelector:@selector(lineGraph:didReleaseTouchFromGraphWithClosestIndex:)]) {
+        [self.delegate lineGraph:self didReleaseTouchFromGraphWithClosestIndex:(closestDot.tag - DotFirstTag100)];
+        
+    } else if ([self.delegate respondsToSelector:@selector(didReleaseGraphWithClosestIndex:)]) {
+        [self printDeprecationWarningForOldMethod:@"didReleaseGraphWithClosestIndex:" andReplacementMethod:@"lineGraph:didReleaseTouchFromGraphWithClosestIndex:"];
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        [self.delegate didReleaseGraphWithClosestIndex:(closestDot.tag - DotFirstTag100)];
+#pragma clang diagnostic pop
+    }
+    
+    [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        if (self.alwaysDisplayDots == NO) {
+            closestDot.alpha = 0;
+        }
+        self.touchInputLine.alpha = 0;
+        if (self.enablePopUpReport == YES) {
+            self.popUpView.alpha = 0;
+            self.popUpLabel.alpha = 0;
+            //                self.customPopUpView.alpha = 0;
+        }
+    } completion:nil];
 }
 
 - (void)setUpPopUpLabelAbovePoint:(BEMCircle *)closestPoint {
