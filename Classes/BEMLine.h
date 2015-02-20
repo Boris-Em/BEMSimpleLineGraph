@@ -95,6 +95,8 @@ typedef NS_ENUM(NSUInteger, BEMLineGradientDirection) {
 /** Dash pattern for the references line on the Y axis */
 @property (nonatomic, strong) NSArray *lineDashPatternForReferenceYAxisLines;
 
+/** If a null value is present, interpolation would draw a best fit line through the null point bound by its surrounding points.  Default: YES*/
+@property (nonatomic) BOOL interpolateNullValues;
 
 
 //----- COLORS -----//

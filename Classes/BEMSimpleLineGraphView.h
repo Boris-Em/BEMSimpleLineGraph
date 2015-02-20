@@ -26,6 +26,9 @@
 @protocol BEMSimpleLineGraphDataSource;
 @protocol BEMSimpleLineGraphPopoverProtocol;
 
+
+extern const CGFloat BEMNullGraphValue;
+
 /// Simple line graph / chart UIView subclass for iOS apps. Creates beautiful line graphs (without huge memory impacts) using QuartzCore.
 @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDelegate>
 
@@ -64,11 +67,6 @@
 
 /// Reload the graph, all delegate methods are called again and the graph is reloaded. Similar to calling reloadData on a UITableView.
 - (void)reloadGraph;
-
-
-/** Calculates the distance between the touch input and the closest point on the graph.
- @return The distance between the touch input and the closest point on the graph. */
-- (CGFloat)distanceToClosestPoint;
 
 
 /** Takes a snapshot of the graph.
@@ -313,6 +311,8 @@
 // Float format string to be used when formatting popover and y axis values
 @property (nonatomic, strong) NSString *formatStringForValues;
 
+/** If a null value is present, interpolation would draw a best fit line through the null point bound by its surrounding points.  Default: YES*/
+@property (nonatomic) BOOL interpolateNullValues;
 
 @end
 

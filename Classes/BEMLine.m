@@ -8,6 +8,7 @@
 //
 
 #import "BEMLine.h"
+#import "BEMSimpleLineGraphView.h"
 
 @implementation BEMLine
 
@@ -19,6 +20,7 @@
         _frameOffset = 0.0;
         _enableLeftReferenceFrameLine = YES;
         _enableBottomReferenceFrameLine = YES;
+        _interpolateNullValues = YES;
     }
     return self;
 }
@@ -92,8 +94,6 @@
         [referenceFramePath closePath];
         [verticalReferenceLinesPath closePath];
         [horizontalReferenceLinesPath closePath];
-    } else {
-//        referenceLinesPath = nil;
     }
     
     
@@ -146,9 +146,24 @@
     [fillTop moveToPoint:CGPointMake(self.frame.size.width, 0)];
     [fillTop addLineToPoint:CGPointMake(0, 0)];
     
+    NSNumber *previousValidPoint = nil;
+    
     for (int i = 0; i<[self.arrayOfPoints count]-1; i++) {
-        p1 = CGPointMake((self.frame.size.width/([self.arrayOfPoints count] - 1))*i, [[self.arrayOfPoints objectAtIndex:i] floatValue]);
-        p2 = CGPointMake((self.frame.size.width/([self.arrayOfPoints count] - 1))*(i+1), [[self.arrayOfPoints objectAtIndex:i+1] floatValue]);
+        NSNumber *firstValue = [self.arrayOfPoints objectAtIndex:i];
+        NSNumber *secondValue = [self.arrayOfPoints objectAtIndex:i + 1];
+        if([firstValue isEqualToNumber:@(BEMNullGraphValue)]) {
+            if (previousValidPoint == nil || !self.interpolateNullValues) {
+                continue;
+            } else {
+                firstValue = previousValidPoint;
+            }
+        }
+        if([secondValue isEqualToNumber:@(BEMNullGraphValue)]) {
+            previousValidPoint = firstValue;
+            continue;
+        }
+        p1 = CGPointMake((self.frame.size.width/([self.arrayOfPoints count] - 1))*i, [firstValue floatValue]);
+        p2 = CGPointMake((self.frame.size.width/([self.arrayOfPoints count] - 1))*(i+1), [secondValue floatValue]);
         
         [line moveToPoint:p1];
         [fillBottom addLineToPoint:p1];
@@ -159,7 +174,11 @@
             tensionBezier2 = 0.3;
             
             if (i > 0) { // Exception for first line because there is no previous point
-                p0 = CGPointMake((self.frame.size.width/([self.arrayOfPoints count] - 1))*(i-1), [[self.arrayOfPoints objectAtIndex:i-1] floatValue]);
+                NSNumber *zeroValue = [self.arrayOfPoints objectAtIndex:i-1];
+                if ([zeroValue isEqualToNumber:@(BEMNullGraphValue)]) {
+                    continue;
+                }
+                p0 = CGPointMake((self.frame.size.width/([self.arrayOfPoints count] - 1))*(i-1), [zeroValue floatValue]);
                 
                 if ([[self.arrayOfValues objectAtIndexedSubscript:i+1] floatValue] - [[self.arrayOfValues objectAtIndexedSubscript:i] floatValue] == [[self.arrayOfValues objectAtIndexedSubscript:i] floatValue] - [[self.arrayOfValues objectAtIndexedSubscript:i-1] floatValue]) {
                     tensionBezier1 = 0;
@@ -171,7 +190,11 @@
             }
             
             if (i<[self.arrayOfPoints count] - 2) { // Exception for last line because there is no next point
-                p3 = CGPointMake((self.frame.size.width/([self.arrayOfPoints count] - 1))*(i+2), [[self.arrayOfPoints objectAtIndex:i+2] floatValue]);
+                NSNumber *thirdValue = [self.arrayOfPoints objectAtIndex:i+2];
+                if ([thirdValue isEqualToNumber:@(BEMNullGraphValue)]) {
+                    continue;
+                }
+                p3 = CGPointMake((self.frame.size.width/([self.arrayOfPoints count] - 1))*(i+2), [thirdValue floatValue]);
                 
                 if ([[self.arrayOfValues objectAtIndexedSubscript:i+2] floatValue] - [[self.arrayOfValues objectAtIndexedSubscript:i+1] floatValue] == [[self.arrayOfValues objectAtIndexedSubscript:i+1] floatValue] - [[self.arrayOfValues objectAtIndexedSubscript:i] floatValue]) {
                     tensionBezier2 = 0;
@@ -204,6 +227,7 @@
             [fillTop addCurveToPoint:p2 controlPoint1:CP1 controlPoint2:CP2];
             
         } else {
+            
             [line addLineToPoint:p2];
             [fillBottom addLineToPoint:p2];
             [fillTop addLineToPoint:p2];
