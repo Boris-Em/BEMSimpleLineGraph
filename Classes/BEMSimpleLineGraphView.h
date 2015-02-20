@@ -24,6 +24,7 @@
 
 @protocol BEMSimpleLineGraphDelegate;
 @protocol BEMSimpleLineGraphDataSource;
+@protocol BEMSimpleLineGraphPopoverProtocol;
 
 /// Simple line graph / chart UIView subclass for iOS apps. Creates beautiful line graphs (without huge memory impacts) using QuartzCore.
 @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDelegate>
@@ -180,9 +181,24 @@
  @see enableReferenceXAxisLines or enableReferenceYAxisLines must be set to YES for this property to have any affect.  */
 @property (nonatomic) BOOL enableReferenceAxisFrame;
 
+/** If reference frames are enabled, this will enable/disable specific borders.  Default: YES */
+@property (nonatomic) BOOL enableLeftReferenceAxisFrameLine;
+
+/** If reference frames are enabled, this will enable/disable specific borders.  Default: YES */
+@property (nonatomic) BOOL enableBottomReferenceAxisFrameLine;
+
+/** If reference frames are enabled, this will enable/disable specific borders.  Default: NO */
+@property (nonatomic) BOOL enableRightReferenceAxisFrameLine;
+
+/** If reference frames are enabled, this will enable/disable specific borders.  Default: NO */
+@property (nonatomic) BOOL enableTopReferenceAxisFrameLine;
+
 
 /// If set to YES, the dots representing the points on the graph will always be visible. Default value is NO.
 @property (nonatomic) BOOL alwaysDisplayDots;
+
+// If set to YES, the dots will be drawn during the animation.  If NO, dots won't show up for the animation if alwaysDisplayDots if false.  Default value is YES
+@property (nonatomic) BOOL displayDotsWhileAnimating;
 
 
 /// If set to YES, pop up labels with the Y-value of the point will always be visible. Default value is NO.
@@ -279,9 +295,32 @@
 /// Color of the pop up label's background displayed when the user touches the graph.
 @property (strong, nonatomic) UIColor *colorBackgroundPopUplabel;
 
+//Position of the y-Axis in relation to the chart (Default: NO)
+@property (nonatomic) BOOL positionYAxisRight;
+
+// A line dash patter to be applied to X axis reference lines.  This allows you to draw a dotted or hashed line
+@property (nonatomic, strong) NSArray *lineDashPatternForReferenceXAxisLines;
+
+// A line dash patter to be applied to Y axis reference lines.  This allows you to draw a dotted or hashed line
+@property (nonatomic, strong) NSArray *lineDashPatternForReferenceYAxisLines;
+
+// Color to be used for the no data label on the chart
+@property (nonatomic, strong) UIColor *noDataLabelColor;
+
+// Font to be used for the no data label on the chart
+@property (nonatomic, strong) UIFont *noDataLabelFont;
+
+// Float format string to be used when formatting popover and y axis values
+@property (nonatomic, strong) NSString *formatStringForValues;
+
 
 @end
 
+
+@interface BEMSimpleLineGraphPopoverView : UIView
+
+
+@end
 
 
 /// Line Graph Data Source. Used to populate the graph with data, similar to how a UITableView works.
@@ -352,6 +391,12 @@
  @return The suffix to append to the popup report. */
 - (NSString *)popUpSuffixForlineGraph:(BEMSimpleLineGraphView *)graph;
 
+
+/** The optional prefix to append to the popup report.
+ @param graph The graph object requesting the total number of points.
+ @return The prefix to prepend to the popup report. */
+- (NSString *)popUpPrefixForlineGraph:(BEMSimpleLineGraphView *)graph;
+
 /** Optional method to always display some of the pop up labels on the graph.
  @see alwaysDisplayPopUpLabels must be set to YES for this method to have any affect.
  @param graph The graph object requesting the total number of points.
@@ -379,10 +424,25 @@
  @return The text to show on the NO DATA label. */
 - (NSString *)noDataLabelTextForLineGraph:(BEMSimpleLineGraphView *)graph;
 
+
+
 /** Optional method to set the static padding distance between the graph line and the whole graph
  @param graph The graph object requesting the padding value.
  @return The padding value of the graph. */
 - (CGFloat)staticPaddingForLineGraph:(BEMSimpleLineGraphView *)graph;
+
+
+/** Optional method to return a custom popup view to be used on the chart 
+ @param graph The graph object requesting the padding value.
+ @return The custom popup view to use */
+- (UIView *)popUpViewForLineGraph:(BEMSimpleLineGraphView *)graph;
+
+/** Optional method that gets called if you are using a custom popup view.  This method allows you to modify your popup view for different graph indices
+ @param graph The graph object requesting the padding value.
+ @param popupView The popup view owned by the graph that needs to be modified
+ @param index The index of the element associated with the popup view
+ @return The custom popup view to use */
+- (void)lineGraph:(BEMSimpleLineGraphView *)graph modifyPopupView:(UIView *)popupView forIndex:(NSUInteger)index;
 
 
 //----- TOUCH EVENTS -----//
@@ -420,6 +480,15 @@
  @return The number of labels displayed on the Y-axis. */
 - (NSInteger)numberOfYAxisLabelsOnLineGraph:(BEMSimpleLineGraphView *)graph;
 
+/** The optional prefix to append to the y axis.
+ @param graph The graph object requesting the total number of points.
+ @return The prefix to prepend to append to the y axis. */
+- (NSString *)yAxisPrefixOnLineGraph:(BEMSimpleLineGraphView *)graph;
+
+/** The optional suffix to append to the y axis.
+ @param graph The graph object requesting the total number of points.
+ @return The suffix to prepend to append to the y axis. */
+- (NSString *)yAxisSuffixOnLineGraph:(BEMSimpleLineGraphView *)graph;
 
 
 

@@ -77,6 +77,25 @@ typedef NS_ENUM(NSUInteger, BEMLineGradientDirection) {
 @property (nonatomic) BOOL enableRefrenceFrame;
 
 
+/** If reference frames are enabled, this will enable/disable specific borders.  Default: YES */
+@property (nonatomic) BOOL enableLeftReferenceFrameLine;
+
+/** If reference frames are enabled, this will enable/disable specific borders.  Default: YES */
+@property (nonatomic) BOOL enableBottomReferenceFrameLine;
+
+/** If reference frames are enabled, this will enable/disable specific borders.  Default: NO */
+@property (nonatomic) BOOL enableRightReferenceFrameLine;
+
+/** If reference frames are enabled, this will enable/disable specific borders.  Default: NO */
+@property (nonatomic) BOOL enableTopReferenceFrameLine;
+
+/** Dash pattern for the references line on the X axis */
+@property (nonatomic, strong) NSArray *lineDashPatternForReferenceXAxisLines;
+
+/** Dash pattern for the references line on the Y axis */
+@property (nonatomic, strong) NSArray *lineDashPatternForReferenceYAxisLines;
+
+
 
 //----- COLORS -----//
 

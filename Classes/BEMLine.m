@@ -17,6 +17,8 @@
         // Initialization code
         self.backgroundColor = [UIColor clearColor];
         _frameOffset = 0.0;
+        _enableLeftReferenceFrameLine = YES;
+        _enableBottomReferenceFrameLine = YES;
     }
     return self;
 }
@@ -26,17 +28,27 @@
     // ---------------------------//
     // --- Draw Refrence Lines ---//
     // ---------------------------//
-    UIBezierPath *referenceLinesPath = [UIBezierPath bezierPath];
-    referenceLinesPath.lineCapStyle = kCGLineCapButt;
-    referenceLinesPath.lineWidth = 0.7;
+    UIBezierPath *verticalReferenceLinesPath = [UIBezierPath bezierPath];
+    UIBezierPath *horizontalReferenceLinesPath = [UIBezierPath bezierPath];
+    UIBezierPath *referenceFramePath = [UIBezierPath bezierPath];
+    
+    verticalReferenceLinesPath.lineCapStyle = kCGLineCapButt;
+    verticalReferenceLinesPath.lineWidth = 0.7;
+    
+    horizontalReferenceLinesPath.lineCapStyle = kCGLineCapButt;
+    horizontalReferenceLinesPath.lineWidth = 0.7;
+
+    
+    referenceFramePath.lineCapStyle = kCGLineCapButt;
+    referenceFramePath.lineWidth = 0.7;
     
     if (self.enableRefrenceLines == YES) {
         for (NSNumber *xNumber in self.arrayOfVerticalRefrenceLinePoints) {
             CGPoint initialPoint = CGPointMake([xNumber floatValue], self.frame.size.height - self.frameOffset);
             CGPoint finalPoint = CGPointMake([xNumber floatValue], 0);
             
-            [referenceLinesPath moveToPoint:initialPoint];
-            [referenceLinesPath addLineToPoint:finalPoint];
+            [verticalReferenceLinesPath moveToPoint:initialPoint];
+            [verticalReferenceLinesPath addLineToPoint:finalPoint];
         }
         
         if (self.arrayOfHorizontalRefrenceLinePoints.count > 0) {
@@ -44,21 +56,45 @@
                 CGPoint initialPoint = CGPointMake(0, [yNumber floatValue]);
                 CGPoint finalPoint = CGPointMake(self.frame.size.width, [yNumber floatValue]);
                 
-                [referenceLinesPath moveToPoint:initialPoint];
-                [referenceLinesPath addLineToPoint:finalPoint];
+                [horizontalReferenceLinesPath moveToPoint:initialPoint];
+                [horizontalReferenceLinesPath addLineToPoint:finalPoint];
             }
         }
         
         if (self.enableRefrenceFrame == YES) {
-            [referenceLinesPath moveToPoint:CGPointMake(0, self.frame.size.height - self.frameOffset)];
-            [referenceLinesPath addLineToPoint:CGPointMake(self.frame.size.width, self.frame.size.height - self.frameOffset)];
             
-            [referenceLinesPath moveToPoint:CGPointMake(0+self.lineWidth/4, self.frame.size.height - self.frameOffset)];
-            [referenceLinesPath addLineToPoint:CGPointMake(0+self.lineWidth/4, 0)];
+            if(self.enableBottomReferenceFrameLine) {
+                //Bottom Line
+                [referenceFramePath moveToPoint:CGPointMake(0, self.frame.size.height - self.frameOffset)];
+                [referenceFramePath addLineToPoint:CGPointMake(self.frame.size.width, self.frame.size.height - self.frameOffset)];
+            }
+            
+            if(self.enableLeftReferenceFrameLine) {
+                //Left Line
+                [referenceFramePath moveToPoint:CGPointMake(0+self.lineWidth/4, self.frame.size.height - self.frameOffset)];
+                [referenceFramePath addLineToPoint:CGPointMake(0+self.lineWidth/4, 0)];
+            }
+            
+            if(self.enableTopReferenceFrameLine) {
+                //Top Line
+                [referenceFramePath moveToPoint:CGPointMake(0+self.lineWidth/4, 0)];
+                [referenceFramePath addLineToPoint:CGPointMake(self.frame.size.width, 0)];
+            }
+            
+            if(self.enableRightReferenceFrameLine) {
+                //Right Line
+                [referenceFramePath moveToPoint:CGPointMake(self.frame.size.width - self.lineWidth/4, self.frame.size.height - self.frameOffset)];
+                [referenceFramePath addLineToPoint:CGPointMake(self.frame.size.width - self.lineWidth/4, 0)];
+            }
+            
         }
         
-        [referenceLinesPath closePath];
-    } else referenceLinesPath = nil;
+        [referenceFramePath closePath];
+        [verticalReferenceLinesPath closePath];
+        [horizontalReferenceLinesPath closePath];
+    } else {
+//        referenceLinesPath = nil;
+    }
     
     
     // ---------------------------//
@@ -206,19 +242,67 @@
     // ----- Animate Drawing -----//
     // ---------------------------//
     if (self.enableRefrenceLines == YES) {
+        
+        CAShapeLayer *verticalReferenceLinesPathLayer = [CAShapeLayer layer];
+        verticalReferenceLinesPathLayer.frame = self.bounds;
+        verticalReferenceLinesPathLayer.path = verticalReferenceLinesPath.CGPath;
+        verticalReferenceLinesPathLayer.opacity = self.lineAlpha/2;
+        verticalReferenceLinesPathLayer.fillColor = nil;
+        verticalReferenceLinesPathLayer.lineWidth = self.lineWidth/2;
+        
+        if(self.lineDashPatternForReferenceYAxisLines) {
+            verticalReferenceLinesPathLayer.lineDashPattern = self.lineDashPatternForReferenceYAxisLines;
+        }
+        
+
+        if (self.refrenceLineColor) {
+            verticalReferenceLinesPathLayer.strokeColor = self.refrenceLineColor.CGColor;
+        } else {
+            verticalReferenceLinesPathLayer.strokeColor = self.color.CGColor;
+        }
+        
+
+        if (self.animationTime > 0)
+            [self animateForLayer:verticalReferenceLinesPathLayer withAnimationType:self.animationType isAnimatingReferenceLine:YES];
+        [self.layer addSublayer:verticalReferenceLinesPathLayer];
+        
+        
+        CAShapeLayer *horizontalReferenceLinesPathLayer = [CAShapeLayer layer];
+        horizontalReferenceLinesPathLayer.frame = self.bounds;
+        horizontalReferenceLinesPathLayer.path = horizontalReferenceLinesPath.CGPath;
+        horizontalReferenceLinesPathLayer.opacity = self.lineAlpha/2;
+        horizontalReferenceLinesPathLayer.fillColor = nil;
+        horizontalReferenceLinesPathLayer.lineWidth = self.lineWidth/2;
+        if(self.lineDashPatternForReferenceXAxisLines) {
+            horizontalReferenceLinesPathLayer.lineDashPattern = self.lineDashPatternForReferenceXAxisLines;
+        }
+        
+        if (self.refrenceLineColor) {
+            horizontalReferenceLinesPathLayer.strokeColor = self.refrenceLineColor.CGColor;
+        } else {
+            horizontalReferenceLinesPathLayer.strokeColor = self.color.CGColor;
+        }
+        
+        
+        if (self.animationTime > 0)
+            [self animateForLayer:horizontalReferenceLinesPathLayer withAnimationType:self.animationType isAnimatingReferenceLine:YES];
+        [self.layer addSublayer:horizontalReferenceLinesPathLayer];
+        
         CAShapeLayer *referenceLinesPathLayer = [CAShapeLayer layer];
         referenceLinesPathLayer.frame = self.bounds;
-        referenceLinesPathLayer.path = referenceLinesPath.CGPath;
+        referenceLinesPathLayer.path = referenceFramePath.CGPath;
         referenceLinesPathLayer.opacity = self.lineAlpha/2;
         referenceLinesPathLayer.fillColor = nil;
         referenceLinesPathLayer.lineWidth = self.lineWidth/2;
-
+        
+        
         if (self.refrenceLineColor) {
             referenceLinesPathLayer.strokeColor = self.refrenceLineColor.CGColor;
         } else {
             referenceLinesPathLayer.strokeColor = self.color.CGColor;
         }
-
+        
+        
         if (self.animationTime > 0)
             [self animateForLayer:referenceLinesPathLayer withAnimationType:self.animationType isAnimatingReferenceLine:YES];
         [self.layer addSublayer:referenceLinesPathLayer];
