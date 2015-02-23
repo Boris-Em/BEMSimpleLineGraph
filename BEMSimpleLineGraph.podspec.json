@@ -21,7 +21,7 @@
   "requires_arc": true,
   "source": {
     "git": "https://github.com/Boris-Em/BEMSimpleLineGraph.git",
-    "tag": "v3.2"
+    "tag": "v3.3"
   },
   "source_files": [
     "Classes",
