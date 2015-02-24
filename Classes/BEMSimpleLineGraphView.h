@@ -43,7 +43,7 @@ extern const CGFloat BEMNullGraphValue;
  
  @abstract The BEMSimpleLineGraphView delegate object plays a key role in changing the appearance of the graph and receiving graph events. Use the delegate to provide appearance changes, receive touch events, and receive graph events. The delegate can be set from the interface or from code.
  @discussion The delegate must adopt the \p BEMSimpleLineGraphDelegate protocol. The delegate is not retained.*/
-@property (nonatomic, assign) IBOutlet id <BEMSimpleLineGraphDelegate> delegate;
+@property (nonatomic, weak) IBOutlet id <BEMSimpleLineGraphDelegate> delegate;
 
 
 
@@ -56,7 +56,7 @@ extern const CGFloat BEMNullGraphValue;
  
  @abstract The BEMSimpleLineGraphView data source object is essential to the line graph. Use the data source to provide the graph with data (data points and x-axis labels). The delegate can be set from the interface or from code.
  @discussion The data source must adopt the \p BEMSimpleLineGraphDataSource protocol. The data source is not retained.*/
-@property (nonatomic, assign) IBOutlet id <BEMSimpleLineGraphDataSource> dataSource;
+@property (nonatomic, weak) IBOutlet id <BEMSimpleLineGraphDataSource> dataSource;
 
 
 
