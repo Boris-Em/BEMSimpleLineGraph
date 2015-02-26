@@ -10,6 +10,12 @@
 #import "BEMLine.h"
 #import "BEMSimpleLineGraphView.h"
 
+#if CGFLOAT_IS_DOUBLE
+#define CGFloatValue doubleValue
+#else
+#define CGFloatValue floatValue
+#endif
+
 @implementation BEMLine
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -119,12 +125,14 @@
     UIBezierPath *line = [UIBezierPath bezierPath];
     UIBezierPath *fillTop = [UIBezierPath bezierPath];
     UIBezierPath *fillBottom = [UIBezierPath bezierPath];
+    
     CGPoint p0;
     CGPoint p1;
     CGPoint p2;
     CGPoint p3;
     CGFloat tensionBezier1 = 0.3;
     CGFloat tensionBezier2 = 0.3;
+    CGFloat xIndexScale = self.frame.size.width/([self.arrayOfPoints count] - 1);
     
     if (self.xAxisBackgroundColor == self.bottomColor && self.xAxisBackgroundAlpha == self.bottomAlpha) {
         [fillBottom moveToPoint:CGPointMake(self.frame.size.width, self.frame.size.height)];
@@ -146,41 +154,38 @@
     [fillTop moveToPoint:CGPointMake(self.frame.size.width, 0)];
     [fillTop addLineToPoint:CGPointMake(0, 0)];
     
-    NSNumber *previousValidPoint = nil;
-    
-    for (int i = 0; i<[self.arrayOfPoints count]-1; i++) {
-        NSNumber *firstValue = [self.arrayOfPoints objectAtIndex:i];
-        NSNumber *secondValue = [self.arrayOfPoints objectAtIndex:i + 1];
-        if([firstValue isEqualToNumber:@(BEMNullGraphValue)]) {
-            if (previousValidPoint == nil || !self.interpolateNullValues) {
-                continue;
-            } else {
-                firstValue = previousValidPoint;
-            }
+    NSMutableArray *points = [NSMutableArray arrayWithCapacity:self.arrayOfPoints.count];
+    for (int i = 0; i < self.arrayOfPoints.count; i++) {
+        CGPoint value = CGPointMake(xIndexScale * i, [self.arrayOfPoints[i] CGFloatValue]);
+        if (value.y != BEMNullGraphValue || !self.interpolateNullValues) {
+            [points addObject:[NSValue valueWithCGPoint:value]];
         }
-        if([secondValue isEqualToNumber:@(BEMNullGraphValue)]) {
-            previousValidPoint = firstValue;
+    }
+
+    CGPoint previousPoint1;
+    CGPoint previousPoint2;
+    
+    for (int i = 0; i < points.count - 1; i++) {
+        p1 = [[points objectAtIndex:i] CGPointValue];
+        p2 = [[points objectAtIndex:i + 1] CGPointValue];
+        
+        if (!self.interpolateNullValues && (p1.y == BEMNullGraphValue || p2.y == BEMNullGraphValue)) {
             continue;
         }
-        p1 = CGPointMake((self.frame.size.width/([self.arrayOfPoints count] - 1))*i, [firstValue floatValue]);
-        p2 = CGPointMake((self.frame.size.width/([self.arrayOfPoints count] - 1))*(i+1), [secondValue floatValue]);
         
         [line moveToPoint:p1];
         [fillBottom addLineToPoint:p1];
         [fillTop addLineToPoint:p1];
         
         if (self.bezierCurveIsEnabled == YES) {
-            tensionBezier1 = 0.3;
-            tensionBezier2 = 0.3;
+            const CGFloat maxTension = 1.0f / 3.0f;
+            tensionBezier1 = maxTension;
+            tensionBezier2 = maxTension;
             
             if (i > 0) { // Exception for first line because there is no previous point
-                NSNumber *zeroValue = [self.arrayOfPoints objectAtIndex:i-1];
-                if ([zeroValue isEqualToNumber:@(BEMNullGraphValue)]) {
-                    continue;
-                }
-                p0 = CGPointMake((self.frame.size.width/([self.arrayOfPoints count] - 1))*(i-1), [zeroValue floatValue]);
+                p0 = previousPoint1;
                 
-                if ([[self.arrayOfValues objectAtIndexedSubscript:i+1] floatValue] - [[self.arrayOfValues objectAtIndexedSubscript:i] floatValue] == [[self.arrayOfValues objectAtIndexedSubscript:i] floatValue] - [[self.arrayOfValues objectAtIndexedSubscript:i-1] floatValue]) {
+                if (p2.y - p1.y == p1.y - p0.y) {
                     tensionBezier1 = 0;
                 }
                 
@@ -189,14 +194,10 @@
                 p0 = p1;
             }
             
-            if (i<[self.arrayOfPoints count] - 2) { // Exception for last line because there is no next point
-                NSNumber *thirdValue = [self.arrayOfPoints objectAtIndex:i+2];
-                if ([thirdValue isEqualToNumber:@(BEMNullGraphValue)]) {
-                    continue;
-                }
-                p3 = CGPointMake((self.frame.size.width/([self.arrayOfPoints count] - 1))*(i+2), [thirdValue floatValue]);
+            if (i < points.count - 2) { // Exception for last line because there is no next point
+                p3 = [[points objectAtIndex:i + 2] CGPointValue];
                 
-                if ([[self.arrayOfValues objectAtIndexedSubscript:i+2] floatValue] - [[self.arrayOfValues objectAtIndexedSubscript:i+1] floatValue] == [[self.arrayOfValues objectAtIndexedSubscript:i+1] floatValue] - [[self.arrayOfValues objectAtIndexedSubscript:i] floatValue]) {
+                if (p3.y - p2.y == p2.y - p1.y) {
                     tensionBezier2 = 0;
                 }
             } else {
@@ -204,12 +205,12 @@
                 tensionBezier2 = 0;
             }
             
-                // The tension should never exceed 0.3
-            if (tensionBezier1 > 0.3) {
-                tensionBezier1 = 0.3;
+            // The tension should never exceed 0.3
+            if (tensionBezier1 > maxTension) {
+                tensionBezier1 = maxTension;
             }
-            if (tensionBezier2 > 0.3) {
-                tensionBezier2 = 0.3;
+            if (tensionBezier2 > maxTension) {
+                tensionBezier2 = maxTension;
             }
 
             // First control point
@@ -232,6 +233,9 @@
             [fillBottom addLineToPoint:p2];
             [fillTop addLineToPoint:p2];
         }
+        
+        previousPoint1 = p1;
+        previousPoint2 = p2;
     }
     
     
