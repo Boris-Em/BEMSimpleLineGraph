@@ -595,183 +595,243 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 
 - (void)drawXAxis {
     if(!self.enableXAxisLabel) return;
-    if (![self.dataSource respondsToSelector:@selector(lineGraph:labelOnXAxisForIndex:)] && ![self.dataSource respondsToSelector:@selector(labelOnXAxisForIndex:)]) return;
+    if (![self.dataSource respondsToSelector:@selector(lineGraph:labelOnXAxisForIndex:)]) {
+        return;
+    }
     
     for (UIView *subview in [self subviews]) {
         if ([subview isKindOfClass:[UILabel class]] && subview.tag == DotLastTag1000 )
             [subview removeFromSuperview];
     }
     
-    NSInteger numberOfGaps = 1;
-    
-    if ([self.delegate respondsToSelector:@selector(numberOfGapsBetweenLabelsOnLineGraph:)]) {
-        numberOfGaps = [self.delegate numberOfGapsBetweenLabelsOnLineGraph:self] + 1;
-        
-    } else if ([self.delegate respondsToSelector:@selector(numberOfGapsBetweenLabels)]) {
-        [self printDeprecationWarningForOldMethod:@"numberOfGapsBetweenLabels" andReplacementMethod:@"numberOfGapsBetweenLabelsOnLineGraph:"];
-        
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        numberOfGaps = [self.delegate numberOfGapsBetweenLabels] + 1;
-#pragma clang diagnostic pop
-        
-    } else numberOfGaps = 1;
     
     // Remove all X-Axis Labels before adding them to the array
     [xAxisValues removeAllObjects];
     [xAxisLabels removeAllObjects];
     [xAxisLabelPoints removeAllObjects];
     
-    if (numberOfGaps >= (numberOfPoints - 1)) {
-        NSString *firstXLabel = @"";
-        NSString *lastXLabel = @"";
-        
-        if ([self.dataSource respondsToSelector:@selector(lineGraph:labelOnXAxisForIndex:)]) {
-            firstXLabel = [self.dataSource lineGraph:self labelOnXAxisForIndex:0];
-            lastXLabel = [self.dataSource lineGraph:self labelOnXAxisForIndex:(numberOfPoints - 1)];
-            
-        } else if ([self.delegate respondsToSelector:@selector(labelOnXAxisForIndex:)]) {
-            [self printDeprecationWarningForOldMethod:@"labelOnXAxisForIndex:" andReplacementMethod:@"lineGraph:labelOnXAxisForIndex:"];
-            
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            firstXLabel = [self.delegate labelOnXAxisForIndex:0];
-            lastXLabel = [self.delegate labelOnXAxisForIndex:(numberOfPoints - 1)];
-#pragma clang diagnostic pop
-            
-        } else if ([self.delegate respondsToSelector:@selector(lineGraph:labelOnXAxisForIndex:)]) {
-            [self printDeprecationAndUnavailableWarningForOldMethod:@"lineGraph:labelOnXAxisForIndex:"];
-            NSException *exception = [NSException exceptionWithName:@"Implementing Unavailable Delegate Method" reason:@"lineGraph:labelOnXAxisForIndex: is no longer available on the delegate. It must be implemented on the data source." userInfo:nil];
-            [exception raise];
-            
-        } else firstXLabel = @"";
-        
-        CGFloat viewWidth = self.frame.size.width - self.YAxisLabelXOffset;
-        
-        CGFloat xAxisXPositionFirstOffset;
-        CGFloat xAxisXPositionLastOffset;
-        if(self.positionYAxisRight) {
-            xAxisXPositionFirstOffset = 3;
-            xAxisXPositionLastOffset = self.frame.size.width/2 - 3 - self.YAxisLabelXOffset;
-        } else {
-            xAxisXPositionFirstOffset = 3+self.YAxisLabelXOffset;
-            xAxisXPositionLastOffset = self.frame.size.width/2 - 3;
-        }
-        UILabel *firstLabel = [[UILabel alloc] initWithFrame:CGRectMake(xAxisXPositionFirstOffset, self.frame.size.height-20, viewWidth/2, 20)];
-        firstLabel.text = firstXLabel;
-        firstLabel.font = self.labelFont;
-        firstLabel.textAlignment = NSTextAlignmentLeft;
-        firstLabel.textColor = self.colorXaxisLabel;
-        firstLabel.backgroundColor = [UIColor clearColor];
-        firstLabel.tag = DotLastTag1000;
-        [self addSubview:firstLabel];
-        [xAxisValues addObject:firstXLabel];
-        [xAxisLabels addObject:firstLabel];
+    if([self.delegate respondsToSelector:@selector(incrementPositionsForXAxisOnLineGraph:)]) {
+        NSArray *axisValues = [self.delegate incrementPositionsForXAxisOnLineGraph:self];
+        for(NSNumber *increment in axisValues) {
+            NSInteger index = increment.integerValue;
+            NSString *xAxisLabelText = [self xAxisTextForIndex:index];
 
+            UILabel *labelXAxis = [self xAxisLabelWithText:xAxisLabelText atIndex:index];
+            [xAxisLabels addObject:labelXAxis];
         
-        if(self.positionYAxisRight) {
-            NSNumber *xFirstAxisLabelCoordinate = @(firstLabel.center.x);
-            [xAxisLabelPoints addObject:xFirstAxisLabelCoordinate];
-        } else {
-            NSNumber *xFirstAxisLabelCoordinate = @(firstLabel.center.x - self.YAxisLabelXOffset);
-            [xAxisLabelPoints addObject:xFirstAxisLabelCoordinate];
-        }
-
-        
-        UILabel *lastLabel = [[UILabel alloc] initWithFrame:CGRectMake(xAxisXPositionLastOffset, self.frame.size.height-20, self.frame.size.width/2, 20)];
-        lastLabel.text = lastXLabel;
-        lastLabel.font = self.labelFont;
-        lastLabel.textAlignment = NSTextAlignmentRight;
-        lastLabel.textColor = self.colorXaxisLabel;
-        lastLabel.backgroundColor = [UIColor clearColor];
-        lastLabel.tag = DotLastTag1000;
-        [self addSubview:lastLabel];
-        [xAxisValues addObject:lastXLabel];
-        [xAxisLabels addObject:lastLabel];
-        
-        NSNumber *xLastAxisLabelCoordinate = @(lastLabel.center.x - self.YAxisLabelXOffset);
-        [xAxisLabelPoints addObject:xLastAxisLabelCoordinate];
-        
-    } else {
-        NSInteger offset = [self offsetForXAxisWithNumberOfGaps:numberOfGaps]; // The offset (if possible and necessary) used to shift the Labels on the X-Axis for them to be centered.
-        
-        @autoreleasepool {
-            
-            for (int i = 1; i <= (numberOfPoints/numberOfGaps); i++) {
-                NSString *xAxisLabelText = @"";
-                
-                if ([self.dataSource respondsToSelector:@selector(lineGraph:labelOnXAxisForIndex:)]) {
-                    NSInteger index = i *numberOfGaps - 1 - offset;
-                    xAxisLabelText = [self.dataSource lineGraph:self labelOnXAxisForIndex:index];
-                    
-                } else if ([self.delegate respondsToSelector:@selector(labelOnXAxisForIndex:)]) {
-                    [self printDeprecationWarningForOldMethod:@"labelOnXAxisForIndex:" andReplacementMethod:@"lineGraph:labelOnXAxisForIndex:"];
-                    
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                    xAxisLabelText = [self.delegate labelOnXAxisForIndex:(i *numberOfGaps - 1 - offset)];
-#pragma clang diagnostic pop
-                    
-                } else if ([self.delegate respondsToSelector:@selector(lineGraph:labelOnXAxisForIndex:)]) {
-                    [self printDeprecationAndUnavailableWarningForOldMethod:@"lineGraph:labelOnXAxisForIndex:"];
-                    NSException *exception = [NSException exceptionWithName:@"Implementing Unavailable Delegate Method" reason:@"lineGraph:labelOnXAxisForIndex: is no longer available on the delegate. It must be implemented on the data source." userInfo:nil];
-                    [exception raise];
-                    
-                } else xAxisLabelText = @"";
-                
-                UILabel *labelXAxis = [[UILabel alloc] init];
-                labelXAxis.text = xAxisLabelText;
-                labelXAxis.font = self.labelFont;
-                labelXAxis.textAlignment = 1;
-                labelXAxis.textColor = self.colorXaxisLabel;
-                labelXAxis.backgroundColor = [UIColor clearColor];
-                [xAxisLabels addObject:labelXAxis];
-                labelXAxis.tag = DotLastTag1000;
-                
-                // Add support multi-line, but this might overlap with the graph line if text have too many lines
-                labelXAxis.numberOfLines = 0;
-                CGRect lRect = [labelXAxis.text boundingRectWithSize:self.viewForBaselineLayout.frame.size options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:labelXAxis.font} context:nil];
-                
-                CGRect rect = labelXAxis.frame;
-                rect.size = lRect.size;
-                labelXAxis.frame = rect;
-                if(self.positionYAxisRight) {
-                    labelXAxis.center = CGPointMake(((self.viewForBaselineLayout.frame.size.width - self.YAxisLabelXOffset) / (numberOfPoints-1)) * (i*numberOfGaps - 1 - offset), self.frame.size.height - lRect.size.height/2);
-                } else {
-                    labelXAxis.center = CGPointMake(((self.viewForBaselineLayout.frame.size.width - self.YAxisLabelXOffset) / (numberOfPoints-1)) * (i*numberOfGaps - 1 - offset) + self.YAxisLabelXOffset, self.frame.size.height - lRect.size.height/2);
-                }
-                
-                if(self.positionYAxisRight) {
-                    NSNumber *xAxisLabelCoordinate = [NSNumber numberWithFloat:labelXAxis.center.x];
-                    [xAxisLabelPoints addObject:xAxisLabelCoordinate];
-                } else {
-                    NSNumber *xAxisLabelCoordinate = [NSNumber numberWithFloat:labelXAxis.center.x-self.YAxisLabelXOffset];
-                    [xAxisLabelPoints addObject:xAxisLabelCoordinate];
-                }
-
-                
-                [self addSubview:labelXAxis];
-                [xAxisValues addObject:xAxisLabelText];
+            if(self.positionYAxisRight) {
+                NSNumber *xAxisLabelCoordinate = [NSNumber numberWithFloat:labelXAxis.center.x];
+                [xAxisLabelPoints addObject:xAxisLabelCoordinate];
+            } else {
+                NSNumber *xAxisLabelCoordinate = [NSNumber numberWithFloat:labelXAxis.center.x-self.YAxisLabelXOffset];
+                [xAxisLabelPoints addObject:xAxisLabelCoordinate];
             }
             
-            __block NSUInteger lastMatchIndex;
-            NSMutableArray *overlapLabels = [NSMutableArray arrayWithCapacity:0];
-            [xAxisLabels enumerateObjectsUsingBlock:^(UILabel *label, NSUInteger idx, BOOL *stop) {
-                
-                if (idx == 0) lastMatchIndex = 0;
-                else { // Skip first one
-                    UILabel *prevLabel = [xAxisLabels objectAtIndex:lastMatchIndex];
-                    CGRect r = CGRectIntersection(prevLabel.frame, label.frame);
-                    if (CGRectIsNull(r)) lastMatchIndex = idx;
-                    else [overlapLabels addObject:label]; // Overlapped
-                }
-            }];
+            [self addSubview:labelXAxis];
+            [xAxisValues addObject:xAxisLabelText];
+        }
+        
+    } else if([self.delegate respondsToSelector:@selector(baseIndexForXAxisOnLineGraph:)] && [self.delegate respondsToSelector:@selector(incrementIndexForXAxisOnLineGraph:)]) {
+        NSInteger baseIndex = [self.delegate baseIndexForXAxisOnLineGraph:self];
+        NSInteger increment = [self.delegate incrementIndexForXAxisOnLineGraph:self];
+        
+        //TODO: Need to make sure while exits
+        NSInteger startingIndex = baseIndex;
+        while(startingIndex < numberOfPoints) {
+           
+            NSString *xAxisLabelText = [self xAxisTextForIndex:startingIndex];
             
-            for (UILabel *l in overlapLabels) {
-                [l removeFromSuperview];
+            UILabel *labelXAxis = [self xAxisLabelWithText:xAxisLabelText atIndex:index];
+            [xAxisLabels addObject:labelXAxis];
+            
+            if(self.positionYAxisRight) {
+                NSNumber *xAxisLabelCoordinate = [NSNumber numberWithFloat:labelXAxis.center.x];
+                [xAxisLabelPoints addObject:xAxisLabelCoordinate];
+            } else {
+                NSNumber *xAxisLabelCoordinate = [NSNumber numberWithFloat:labelXAxis.center.x-self.YAxisLabelXOffset];
+                [xAxisLabelPoints addObject:xAxisLabelCoordinate];
+            }
+            
+            [self addSubview:labelXAxis];
+            [xAxisValues addObject:xAxisLabelText];
+            
+            startingIndex += increment;
+        }
+        
+    } else {
+        NSInteger numberOfGaps = 1;
+        
+        if ([self.delegate respondsToSelector:@selector(numberOfGapsBetweenLabelsOnLineGraph:)]) {
+            numberOfGaps = [self.delegate numberOfGapsBetweenLabelsOnLineGraph:self] + 1;
+            
+        } else if ([self.delegate respondsToSelector:@selector(numberOfGapsBetweenLabels)]) {
+            [self printDeprecationWarningForOldMethod:@"numberOfGapsBetweenLabels" andReplacementMethod:@"numberOfGapsBetweenLabelsOnLineGraph:"];
+            
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            numberOfGaps = [self.delegate numberOfGapsBetweenLabels] + 1;
+#pragma clang diagnostic pop
+            
+        } else {
+            numberOfGaps = 1;
+        }
+        
+        if (numberOfGaps >= (numberOfPoints - 1)) {
+
+            
+            NSString *firstXLabel = [self xAxisTextForIndex:0];
+            NSString *lastXLabel = [self xAxisTextForIndex:numberOfPoints - 1];
+            
+            CGFloat viewWidth = self.frame.size.width - self.YAxisLabelXOffset;
+            
+            CGFloat xAxisXPositionFirstOffset;
+            CGFloat xAxisXPositionLastOffset;
+            if(self.positionYAxisRight) {
+                xAxisXPositionFirstOffset = 3;
+                xAxisXPositionLastOffset = xAxisXPositionFirstOffset + 1 + viewWidth/2;
+            } else {
+                xAxisXPositionFirstOffset = 3+self.YAxisLabelXOffset;
+                xAxisXPositionLastOffset = viewWidth/2 + xAxisXPositionFirstOffset + 1;
+            }
+            UILabel *firstLabel = [self xAxisLabelWithText:firstXLabel atIndex:0];
+            firstLabel.frame = CGRectMake(xAxisXPositionFirstOffset, self.frame.size.height-20, viewWidth/2, 20);
+    
+            firstLabel.textAlignment = NSTextAlignmentLeft;
+            [self addSubview:firstLabel];
+            [xAxisValues addObject:firstXLabel];
+            [xAxisLabels addObject:firstLabel];
+
+            
+            
+            UILabel *lastLabel = [self xAxisLabelWithText:lastXLabel atIndex:numberOfPoints - 1];
+            lastLabel.frame = CGRectMake(xAxisXPositionLastOffset, self.frame.size.height-20, viewWidth/2 - 4, 20);
+            lastLabel.textAlignment = NSTextAlignmentRight;
+            [self addSubview:lastLabel];
+            [xAxisValues addObject:lastXLabel];
+            [xAxisLabels addObject:lastLabel];
+            
+            
+            if(self.positionYAxisRight) {
+                NSNumber *xFirstAxisLabelCoordinate = @(firstLabel.center.x);
+                NSNumber *xLastAxisLabelCoordinate = @(lastLabel.center.x);
+                [xAxisLabelPoints addObject:xFirstAxisLabelCoordinate];
+                [xAxisLabelPoints addObject:xLastAxisLabelCoordinate];
+            } else {
+                NSNumber *xFirstAxisLabelCoordinate = @(firstLabel.center.x - self.YAxisLabelXOffset);
+                NSNumber *xLastAxisLabelCoordinate = @(lastLabel.center.x - self.YAxisLabelXOffset);
+                [xAxisLabelPoints addObject:xFirstAxisLabelCoordinate];
+                [xAxisLabelPoints addObject:xLastAxisLabelCoordinate];
+            }
+            
+        } else {
+            //TODO: Removed the offset logic so let's see what broke
+            @autoreleasepool {
+                NSInteger offset = [self offsetForXAxisWithNumberOfGaps:numberOfGaps]; // The offset (if possible and necessary) used to shift the Labels on the X-Axis for them to be centered.
+                
+                for (int i = 1; i <= (numberOfPoints/numberOfGaps); i++) {
+                    NSInteger index = i *numberOfGaps - 1 - offset;
+                    NSString *xAxisLabelText = [self xAxisTextForIndex:index];
+                
+                    UILabel *labelXAxis = [self xAxisLabelWithText:xAxisLabelText atIndex:index];
+                    [xAxisLabels addObject:labelXAxis];
+                    
+                    if(self.positionYAxisRight) {
+                        NSNumber *xAxisLabelCoordinate = [NSNumber numberWithFloat:labelXAxis.center.x];
+                        [xAxisLabelPoints addObject:xAxisLabelCoordinate];
+                    } else {
+                        NSNumber *xAxisLabelCoordinate = [NSNumber numberWithFloat:labelXAxis.center.x-self.YAxisLabelXOffset];
+                        [xAxisLabelPoints addObject:xAxisLabelCoordinate];
+                    }
+                    
+                    [self addSubview:labelXAxis];
+                    [xAxisValues addObject:xAxisLabelText];
+                }
+                
             }
         }
     }
+    __block NSUInteger lastMatchIndex;
+    
+    NSMutableArray *overlapLabels = [NSMutableArray arrayWithCapacity:0];
+    [xAxisLabels enumerateObjectsUsingBlock:^(UILabel *label, NSUInteger idx, BOOL *stop) {
+        
+        if (idx == 0) {
+            lastMatchIndex = 0;
+        } else { // Skip first one
+            UILabel *prevLabel = [xAxisLabels objectAtIndex:lastMatchIndex];
+            CGRect r = CGRectIntersection(prevLabel.frame, label.frame);
+            if (CGRectIsNull(r)) {
+                lastMatchIndex = idx;
+            }
+            else {
+                [overlapLabels addObject:label]; // Overlapped
+            }
+            
+            
+        }
+        BOOL fullyContainsLabel = CGRectContainsRect(self.bounds, label.frame);
+        if(!fullyContainsLabel) {
+            [overlapLabels addObject:label];
+        }
+    }];
+    
+    for (UILabel *l in overlapLabels) {
+        [l removeFromSuperview];
+    }
+}
+
+- (NSString *)xAxisTextForIndex:(NSInteger)index {
+    NSString *xAxisLabelText = @"";
+    
+    if ([self.dataSource respondsToSelector:@selector(lineGraph:labelOnXAxisForIndex:)]) {
+        xAxisLabelText = [self.dataSource lineGraph:self labelOnXAxisForIndex:index];
+        
+    } else if ([self.delegate respondsToSelector:@selector(labelOnXAxisForIndex:)]) {
+        [self printDeprecationWarningForOldMethod:@"labelOnXAxisForIndex:" andReplacementMethod:@"lineGraph:labelOnXAxisForIndex:"];
+        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        xAxisLabelText = [self.delegate labelOnXAxisForIndex:index];
+#pragma clang diagnostic pop
+        
+    } else if ([self.delegate respondsToSelector:@selector(lineGraph:labelOnXAxisForIndex:)]) {
+        [self printDeprecationAndUnavailableWarningForOldMethod:@"lineGraph:labelOnXAxisForIndex:"];
+        NSException *exception = [NSException exceptionWithName:@"Implementing Unavailable Delegate Method" reason:@"lineGraph:labelOnXAxisForIndex: is no longer available on the delegate. It must be implemented on the data source." userInfo:nil];
+        [exception raise];
+        
+    } else  {
+        xAxisLabelText = @"";
+    }
+    
+    return xAxisLabelText;
+}
+
+- (UILabel *)xAxisLabelWithText:(NSString *)text atIndex:(NSInteger)index {
+    UILabel *labelXAxis = [[UILabel alloc] init];
+    labelXAxis.text = text;
+    labelXAxis.font = self.labelFont;
+    labelXAxis.textAlignment = 1;
+    labelXAxis.textColor = self.colorXaxisLabel;
+    labelXAxis.backgroundColor = [UIColor clearColor];
+    labelXAxis.tag = DotLastTag1000;
+    
+    // Add support multi-line, but this might overlap with the graph line if text have too many lines
+    labelXAxis.numberOfLines = 0;
+    CGRect lRect = [labelXAxis.text boundingRectWithSize:self.viewForBaselineLayout.frame.size options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:labelXAxis.font} context:nil];
+    
+    CGPoint center;
+    CGFloat xPosition = (self.viewForBaselineLayout.frame.size.width - self.YAxisLabelXOffset) * ((float)index / numberOfPoints);
+    if(self.positionYAxisRight) {
+        center = CGPointMake(xPosition, self.frame.size.height - lRect.size.height/2);
+    } else {
+        center = CGPointMake(xPosition + self.YAxisLabelXOffset, self.frame.size.height - lRect.size.height/2);
+    }
+    
+    CGRect rect = labelXAxis.frame;
+    rect.size = lRect.size;
+    labelXAxis.frame = rect;
+    labelXAxis.center = center;
+    return labelXAxis;
 }
 
 - (void)drawYAxis {
@@ -783,7 +843,6 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
             [subview removeFromSuperview];
         }
     }
-    
     
     CGRect frameForBackgroundYAxis;
     CGRect frameForLabelYAxis;
@@ -814,7 +873,6 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     NSMutableArray *yAxisLabels = [NSMutableArray arrayWithCapacity:0];
     [yAxisLabelPoints removeAllObjects];
     
-    
     NSString *yAxisSuffix = @"";
     NSString *yAxisPrefix = @"";
     
@@ -834,30 +892,37 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
         minimumValue = [self calculateMinimumPointValue];
         maximumValue = [self calculateMaximumPointValue];
         
-
-        
-        
         CGFloat numberOfLabels;
-        if ([self.delegate respondsToSelector:@selector(numberOfYAxisLabelsOnLineGraph:)]) numberOfLabels = [self.delegate numberOfYAxisLabelsOnLineGraph:self];
-        else {
+        if ([self.delegate respondsToSelector:@selector(numberOfYAxisLabelsOnLineGraph:)]) {
+            numberOfLabels = [self.delegate numberOfYAxisLabelsOnLineGraph:self];
+        } else {
             numberOfLabels = 3;
         }
         
-        NSMutableArray *dotValues = [[NSMutableArray alloc] initWithObjects:minimumValue, maximumValue, nil];
-        
-        if (numberOfLabels <= 0) return;
-        else if (numberOfLabels == 1) {
+        NSMutableArray *dotValues = [[NSMutableArray alloc] initWithCapacity:numberOfLabels];
+        if ([self.delegate respondsToSelector:@selector(baseValueForYAxisOnLineGraph:)] && [self.delegate respondsToSelector:@selector(incrementValueForYAxisOnLineGraph:)]) {
+            CGFloat baseValue = [self.delegate baseValueForYAxisOnLineGraph:self];
+            CGFloat increment = [self.delegate incrementValueForYAxisOnLineGraph:self];
+            
+            float yAxisPosition = baseValue;
+            if(baseValue + increment * 100 < maximumValue.doubleValue) {
+                NSLog(@"[BEMSimpleLineGraph] Increment does not properly lay out Y axis, bailing early");
+                return;
+            }
+            while(yAxisPosition < maximumValue.floatValue + increment) {
+                [dotValues addObject:@(yAxisPosition)];
+                yAxisPosition += increment;
+            }
+        } else if (numberOfLabels <= 0){
+            return;
+        }  else if (numberOfLabels == 1) {
             [dotValues removeAllObjects];
             [dotValues addObject:[NSNumber numberWithInt:(minimumValue.intValue + maximumValue.intValue)/2]];
         } else {
+            [dotValues addObject:minimumValue];
+            [dotValues addObject:maximumValue];
             for (int i=1; i<numberOfLabels-1; i++) {
-                
-                if(false) {
-                    [dotValues addObject:[NSNumber numberWithInt:(minimumValue.intValue + ((maximumValue.intValue - minimumValue.intValue)/(numberOfLabels-1))*i)]];
-                } else {
-                    [dotValues addObject:[NSNumber numberWithFloat:(minimumValue.doubleValue + ((maximumValue.doubleValue - minimumValue.doubleValue)/(numberOfLabels-1))*i)]];
-                }
-                
+                [dotValues addObject:[NSNumber numberWithFloat:(minimumValue.doubleValue + ((maximumValue.doubleValue - minimumValue.doubleValue)/(numberOfLabels-1))*i)]];
             }
         }
         
@@ -911,18 +976,30 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
         }
     }
     
-    
     // Detect overlapped labels
     __block NSUInteger lastMatchIndex = 0;
     NSMutableArray *overlapLabels = [NSMutableArray arrayWithCapacity:0];
+    
     [yAxisLabels enumerateObjectsUsingBlock:^(UILabel *label, NSUInteger idx, BOOL *stop) {
         
         if (idx==0) lastMatchIndex = 0;
         else { // Skip first one
             UILabel *prevLabel = yAxisLabels[lastMatchIndex];
             CGRect r = CGRectIntersection(prevLabel.frame, label.frame);
-            if (CGRectIsNull(r)) lastMatchIndex = idx;
-            else [overlapLabels addObject:label]; // overlapped
+            if (CGRectIsNull(r)) {
+                lastMatchIndex = idx;
+            }
+            else {
+                [overlapLabels addObject:label]; // overlapped
+            }
+            
+        }
+        
+        //Axis should fit into our own view
+        BOOL fullyContainsLabel = CGRectContainsRect(self.bounds, label.frame);
+        if(!fullyContainsLabel) {
+            [overlapLabels addObject:label];
+            [yAxisLabelPoints removeObject:@(label.center.y)];
         }
     }];
     
@@ -932,6 +1009,19 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     
     
     
+}
+
+//Area on the graph that doesn't include the axes
+- (CGRect)drawableGraphArea {
+    
+//    CGRectMake(xAxisXPositionFirstOffset, self.frame.size.height-20, viewWidth/2, 20);
+    NSInteger xAxisHeight = 20;
+    CGFloat xOrigin = self.positionYAxisRight ? 0 : self.YAxisLabelXOffset;
+    CGFloat viewWidth = self.frame.size.width - self.YAxisLabelXOffset;
+    CGFloat adjustedHeight = self.bounds.size.height - xAxisHeight;
+    
+    CGRect rect = CGRectMake(xOrigin, 0, viewWidth, adjustedHeight);
+    return rect;
 }
 
 - (NSInteger)offsetForXAxisWithNumberOfGaps:(NSInteger)numberOfGaps {

@@ -469,6 +469,28 @@ extern const CGFloat BEMNullGraphValue;
  @return The number of labels to "jump" between each displayed label on the X-axis. */
 - (NSInteger)numberOfGapsBetweenLabelsOnLineGraph:(BEMSimpleLineGraphView *)graph;
 
+/** The starting index to plot X-Axis values.  MUST ALSO IMPLEMENT incrementIndexForXAxisOnLineGraph FOR THIS TO TAKE EFFECT
+ @discussion This allows you to specify a custom starting index for drawing x axis labels
+ @param graph The graph object which is requesting the number of gaps between the labels.
+ @return The graph data index to begin drawing labels */
+- (NSInteger)baseIndexForXAxisOnLineGraph:(BEMSimpleLineGraphView *)graph;
+
+
+/** The increment to apply when drawing X-Axis labels.  This increment is applied to the base x axis index.  MUST ALSO IMPLEMENT baseIndexForXAxisOnLineGraph FOR THIS TO TAKE EFFECT
+ @discussion This allows you to set a custom interval in drawing x axis labels. When this is set in conjuction with baseIndexForXAxisOnLineGraph, `numberOfGapsBetweenLabelsOnLineGraph` is ignored
+ @param graph The graph object which is requesting the number of gaps between the labels.
+ @return The increment between X-Axis labels */
+- (NSInteger)incrementIndexForXAxisOnLineGraph:(BEMSimpleLineGraphView *)graph;
+
+
+/** An array of graph indices where X-Axis labels should be drawn
+ @discussion This allows high customization over where X-Axis labels can be placed.  They can be placed in non-consistent intervals. Additionally,
+    it allows you to draw the X-Axis labels based on traits of your data (eg. when the date corresponding to the data becomes a new day). 
+    When this is set, `numberOfGapsBetweenLabelsOnLineGraph` is ignored
+ @param graph The graph object which is requesting the number of gaps between the labels.
+ @return Array of graph indices to place X-Axis labels */
+- (NSArray *)incrementPositionsForXAxisOnLineGraph:(BEMSimpleLineGraphView *)graph;
+
 
 
 //----- Y AXIS -----//
@@ -489,6 +511,22 @@ extern const CGFloat BEMNullGraphValue;
  @param graph The graph object requesting the total number of points.
  @return The suffix to prepend to append to the y axis. */
 - (NSString *)yAxisSuffixOnLineGraph:(BEMSimpleLineGraphView *)graph;
+
+/** Starting value to begin drawing Y-Axis labels  MUST ALSO IMPLEMENT incrementValueForYAxisOnLineGraph FOR THIS TO TAKE EFFECT
+ @discussion This allows you to finally hone the granularity of the data label.  Instead of drawing values like 11.24, 
+    you can lock these values to draw 11.20 to make it more user friendly.  When this is set, `numberOfYAxisLabelsOnLineGraph` is ignored.
+ @param graph The graph object which is requesting the number of gaps between the labels.
+ @return The base value to draw the first Y-Axis label */
+- (CGFloat)baseValueForYAxisOnLineGraph:(BEMSimpleLineGraphView *)graph;
+
+
+/** Increment value to apply to the base Y-Axis label.  MUST ALSO IMPLEMENT baseValueForYAxisOnLineGraph FOR THIS TO TAKE EFFECT
+ @discussion This value tells the graph the interval to be applied to the base Y-Axis value.  This allows you to increment the Y-Axis via user-friendly values rather than values
+    like 37.17.  This let's you enforce that your Y-Axis have values rounded to whatever granularity best fits your data.
+ @param graph The graph object which is requesting the number of gaps between the labels.
+ @return The increment value to add to the value returned from `baseValueForYAxisOnLineGraph` for future Y-Axis labels */
+- (CGFloat)incrementValueForYAxisOnLineGraph:(BEMSimpleLineGraphView *)graph;
+
 
 
 
