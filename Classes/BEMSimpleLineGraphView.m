@@ -301,11 +301,12 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
         [self.viewForBaselineLayout addSubview:self.panView];
         
         self.panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleGestureAction:)];
+        self.panGesture.delegate = self;
         [self.panGesture setMaximumNumberOfTouches:1];
         [self.panView addGestureRecognizer:self.panGesture];
         
         self.longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleGestureAction:)];
-        self.longPressGesture.minimumPressDuration = 0.0f;
+        self.longPressGesture.minimumPressDuration = 0.1f;
         [self.panView addGestureRecognizer:self.longPressGesture];
         
         if (self.enablePopUpReport == YES && self.alwaysDisplayPopUpLabels == NO) {
