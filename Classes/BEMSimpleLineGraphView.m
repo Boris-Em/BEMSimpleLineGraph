@@ -641,7 +641,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
            
             NSString *xAxisLabelText = [self xAxisTextForIndex:startingIndex];
             
-            UILabel *labelXAxis = [self xAxisLabelWithText:xAxisLabelText atIndex:index];
+            UILabel *labelXAxis = [self xAxisLabelWithText:xAxisLabelText atIndex:startingIndex];
             [xAxisLabels addObject:labelXAxis];
             
             if(self.positionYAxisRight) {
