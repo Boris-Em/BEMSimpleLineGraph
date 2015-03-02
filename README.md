@@ -8,11 +8,11 @@
 <b>BEMSimpleLineGraph</b> makes it easy to create and customize line graphs for iOS.
 </p>
 
-<b>BEMSimpleLineGraph</b> is a charting library that makes it easy to create beautiful line graphs for iOS. It is easy to set-up and to use in any iOS Project. It's focused on highly customizable and interactive line graphs. Plus, it is lightweight and can be integrated in minutes (maybe even seconds). 
+**BEMSimpleLineGraph** is a charting library that makes it easy to create beautiful line graphs for iOS. It is easy to set-up and to use in any iOS Project. It's focused on highly customizable and interactive line graphs. Plus, it is lightweight and can be integrated in minutes (maybe even seconds). 
 
-<b>BEMSimpleLineGraph's</b> implementation, data source, and delegate are all modeled off of UITableView and UICollectionView. If you're familiar with using a UITableView, UITableViewController, or UICollectionView, using BEMSimpleLineGraph should be a breeze!
+**BEMSimpleLineGraph's** implementation, data source, and delegate are all modeled off of UITableView and UICollectionView. If you're familiar with using a UITableView, UITableViewController, or UICollectionView, using BEMSimpleLineGraph should be a breeze!
 
-The full documentation of the project is available on its [wiki.](https://github.com/Boris-Em/BEMSimpleLineGraph/wiki)
+The full documentation of the project is available on its [wiki](https://github.com/Boris-Em/BEMSimpleLineGraph/wiki).
 
 ## Table of Contents
 
@@ -33,22 +33,22 @@ The full documentation of the project is available on its [wiki.](https://github
     * [Properties](#properties)
 
 ## Project Details
-Learn more about the <b>BEMSimpleLineGraph</b> project requirements, licensing, and contributions.
+Learn more about the **BEMSimpleLineGraph** project requirements, licensing, and contributions.
 
 ### Requirements
-<i>See the full article on the wiki [here.](https://github.com/Boris-Em/BEMSimpleLineGraph/wiki/Requirements)</i>
+*See the full article on the wiki [here](https://github.com/Boris-Em/BEMSimpleLineGraph/wiki/Requirements).*
 
-- Requires iOS 6 or later. The sample project is optimized for iOS 7.
+- Requires iOS 7 or later. The sample project is optimized for iOS 8.
 - Requires Automatic Reference Counting (ARC).
 - Optimized for ARM64 Architecture
 
-Requires Xcode 5 for use in any iOS Project. Requires a minimum of iOS 6.0 as the deployment target. 
+Requires Xcode 6 for use in any iOS Project. Requires a minimum of iOS 7.0 as the deployment target. 
 
 | Current Build Target 	| Earliest Supported Build Target 	| Earliest Compatible Build Target 	|
 |:--------------------:	|:-------------------------------:	|:--------------------------------:	|
-|       iOS 7.1        	|            iOS 7.0             	|             iOS 6.0              	|
-|     Xcode 5.1.1      	|          Xcode 5.1            	|           Xcode 5.0            	|
-|      LLVM 5.0        	|             LLVM 5.0            	|             LLVM 5.0             	|
+|       iOS 8.0        	|            iOS 7.0             	|             iOS 6.1              	|
+|     Xcode 6.1.1      	|          Xcode 6.0            	|           Xcode 6.0            	|
+|      LLVM 6.0        	|             LLVM 6.0            	|             LLVM 5.0             	|
 
 > REQUIREMENTS NOTE  
 *Supported* means that the library has been tested with this version. *Compatible* means that the library should work on this OS version (i.e. it doesn't rely on any unavailable SDK features) but is no longer being tested for compatibility and may require tweaking or bug fixes to run correctly.
@@ -64,23 +64,23 @@ Join us on [Gitter](https://gitter.im/Boris-Em/BEMSimpleLineGraph) if you need a
 The iOS Sample App included with this project demonstrates how to correctly setup and use BEMSimpleLineGraph. You can refer to the sample app for an understanding of how to use and setup BEMSimpleLineGraph.
 
 ## Getting Started
-<i>See the full article on the wiki [here.](https://github.com/Boris-Em/BEMSimpleLineGraph/wiki/Getting-Started)</i>
+*See the full article on the wiki [here](https://github.com/Boris-Em/BEMSimpleLineGraph/wiki/Getting-Started).*
 
-<b>BEMSimpleLineGraph</b> can be added to any project (big or small) in a matter of minutes (maybe even seconds if you're super speedy). Cocoapods is fully supported, and so are all the latest technologies (eg. ARC, Storyboards, Interface Builder Attributes, Modules, and more).
+**BEMSimpleLineGraph** can be added to any project (big or small) in a matter of minutes (maybe even seconds if you're super speedy). Cocoapods is fully supported, and so are all the latest technologies (eg. ARC, Storyboards, Interface Builder Attributes, Modules, and more).
 
 ### Installation
 The easiest way to install BEMSimpleLineGraph is to use <a href="http://cocoapods.org/" target="_blank">CocoaPods</a>. To do so, simply add the following line to your `Podfile`:
 	<pre><code>pod 'BEMSimpleLineGraph'</code></pre>
 	
-The other way to install <b>BEMSimpleLineGraph</b>, is to drag and drop the *Classes* folder into your Xcode project. When you do so, check the "*Copy items into destination group's folder*" box.
+The other way to install **BEMSimpleLineGraph**, is to drag and drop the *Classes* folder into your Xcode project. When you do so, check the "*Copy items into destination group's folder*" box.
 
 ####Swift Projects
-To use <b>BEMSimpleLineGraph</b> in a Swift project add the following to your bridging header:
+To use **BEMSimpleLineGraph** in a Swift project add the following to your bridging header:
 
     #import "BEMSimpleLineGraphView.h”
 
 ### Setup
-Setting up <b>BEMSimpleLineGraph</b> in your project is simple. If you're familiar with UITableView, then <b>BEMSimpleLineGraph </b>should be a breeze. Follow the steps below to get everything up and running.
+Setting up **BEMSimpleLineGraph** in your project is simple. If you're familiar with UITableView, then **BEMSimpleLineGraph **should be a breeze. Follow the steps below to get everything up and running.
 
  1. Import `"BEMSimpleLineGraphView.h"` to the header of your view controller:
 
@@ -97,6 +97,7 @@ Setting up <b>BEMSimpleLineGraph</b> in your project is simple. If you're famili
      2 - Change the class type of the UIView to `BEMSimpleLineGraphView`  
      3 - Link the view to your code using an `IBOutlet`. You can set the property to `weak` and `nonatomic`.  
      4 - Select the `BEMSimpleLineGraphView` in your interface. Connect the **dataSource** property and then the **delegate** property to your ViewController.  
+     5 - Select the `BEMSimpleLineGraphView` and open the Attributes Inspector. Most of the line graph's customizable properties can easily be set from the Attributes Inspector. The Sample App demonstrates this capability. Note that graph data will not be loaded in Interface Builder.  
 
      **Code Initialization**  
      Just add the following code to your implementation (usually the `viewDidLoad` method).
@@ -109,7 +110,7 @@ Setting up <b>BEMSimpleLineGraph</b> in your project is simple. If you're famili
  4. Implement the two required data source methods: `numberOfPointsInLineGraph:` and `lineGraph:valueForPointAtIndex:`. See documentation below for more information
 
 ## Documentation
-The essential parts of <b>BEMSimpleLineGraph</b> are documented below. For full documentation, see the [wiki](https://github.com/Boris-Em/BEMSimpleLineGraph/wiki). If you're using Xcode 5 with BEMSimpleLineGraph, documentation is available directly within Xcode (just Option-Click any method for Quick Help).
+The essential parts of **BEMSimpleLineGraph** are documented below. For full documentation, see the [wiki](https://github.com/Boris-Em/BEMSimpleLineGraph/wiki). Documentation is available directly within Xcode (just Option-Click any method for Quick Help).
 
 ### Required Delegate / Data Source Methods
 
@@ -139,7 +140,7 @@ Similar to a UITableView's `reloadData` method, BEMSimpleLineGraph has a `reload
     }
 
 ### Interactive Graph
-<b>BEMSimpleLineGraph</b> can react to the user touching the graph by two different ways: **Popup Reporting** and **Touch Reporting**.
+**BEMSimpleLineGraph** can react to the user touching the graph by two different ways: **Popup Reporting** and **Touch Reporting**.
 
 <p align="center"><img src="http://s21.postimg.org/3lkbvgp53/GIF_Touch_Report.gif"/></p>
 <p align="center"> On this example, both Popup Reporting and Touch Reporting are activated. </p>
@@ -147,10 +148,13 @@ Similar to a UITableView's `reloadData` method, BEMSimpleLineGraph has a `reload
 ### Bezier Curves
 <img align="left" width="237" height="141" src="http://s4.postimg.org/ucf4zsyd9/BEMSimple_Line_Graph_Bezier_Curve.png">
 
-<b>BEMSimpleLineGraph</b> can be drawn with curved lines instead of directly connecting the dots with straight lines.  
+**BEMSimpleLineGraph** can be drawn with curved lines instead of directly connecting the dots with straight lines.  
 To do so, set the property `enableBezierCurve` to YES. 
 
 	self.myGraph.enableBezierCurve = YES;
    
 ### Properties
-<b>BEMSimpleLineGraphs</b> can be customized by using various properties. A multitude of properties let you control the animation, colors, and alpha of the graph. Many of these properties can be set from Interface Build and the Attributes Inspector, others must be set in code.
+**BEMSimpleLineGraphs** can be customized by using various properties. A multitude of properties let you control the animation, colors, and alpha of the graph. Many of these properties can be set from Interface Build and the Attributes Inspector, others must be set in code.
+
+## Contributing
+To contribute to **BEMSimpleLineGraph** please see the `CONTRIBUTING.md` file, which lays out exactly how you can contribute to this project.
