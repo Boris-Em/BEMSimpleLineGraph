@@ -171,6 +171,17 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     yAxisValues = [NSMutableArray array];
 }
 
+- (void)prepareForInterfaceBuilder {
+    // Set points and remove all dots that were previously on the graph
+    numberOfPoints = 10;
+    for (UILabel *subview in [self subviews]) {
+        if ([subview isEqual:self.noDataLabel])
+            [subview removeFromSuperview];
+    }
+    
+    [self drawEntireGraph];
+}
+
 - (void)layoutSubviews {
     [super layoutSubviews];
     
@@ -223,15 +234,24 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 
         NSLog(@"[BEMSimpleLineGraph] Data source contains no data. A no data label will be displayed and drawing will stop. Add data to the data source and then reload the graph.");
         
+#if !TARGET_INTERFACE_BUILDER
         self.noDataLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.viewForBaselineLayout.frame.size.width, self.viewForBaselineLayout.frame.size.height)];
+#else
+        self.noDataLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.viewForBaselineLayout.frame.size.width, self.viewForBaselineLayout.frame.size.height-(self.viewForBaselineLayout.frame.size.height/4))];
+#endif
+        
         self.noDataLabel.backgroundColor = [UIColor clearColor];
         self.noDataLabel.textAlignment = NSTextAlignmentCenter;
+
+#if !TARGET_INTERFACE_BUILDER
         NSString *noDataText;
-        if ([self.delegate respondsToSelector:@selector(noDataLabelTextForLineGraph:)])
-        {
+        if ([self.delegate respondsToSelector:@selector(noDataLabelTextForLineGraph:)]) {
             noDataText = [self.delegate noDataLabelTextForLineGraph:self];
         }
         self.noDataLabel.text = noDataText ?: NSLocalizedString(@"No Data", nil);
+#else
+        self.noDataLabel.text = @"Data is not loaded in Interface Builder";
+#endif
         self.noDataLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15];
         self.noDataLabel.textColor = self.colorLine;
         [self.viewForBaselineLayout addSubview:self.noDataLabel];
@@ -315,7 +335,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 - (void)drawEntireGraph {
     
     // The following method calls are in this specific order for a reason
-    // Changing the order of the method calls below can result in drawing glitches and even crashes]
+    // Changing the order of the method calls below can result in drawing glitches and even crashes
     
     self.maxValue = [self getMaximumValue];
     self.minValue = [self getMinimumValue];
@@ -367,6 +387,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
         for (int i = 0; i < numberOfPoints; i++) {
             CGFloat dotValue = 0;
             
+#if !TARGET_INTERFACE_BUILDER
             if ([self.dataSource respondsToSelector:@selector(lineGraph:valueForPointAtIndex:)]) {
                 dotValue = [self.dataSource lineGraph:self valueForPointAtIndex:i];
                 
@@ -385,7 +406,9 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
                 
                 
             } else [NSException raise:@"lineGraph:valueForPointAtIndex: protocol method is not implemented in the data source. Throwing exception here before the system throws a CALayerInvalidGeometry Exception." format:@"Value for point %f at index %lu is invalid. CALayer position may contain NaN: [0 nan]", dotValue, (unsigned long)i];
-            
+#else
+            dotValue = (int)(arc4random() % 10000);
+#endif
             [dataPoints addObject:[NSNumber numberWithFloat:dotValue]];
             
             positionOnXAxis = (((self.frame.size.width - self.YAxisLabelXOffset) / (numberOfPoints - 1)) * i) + self.YAxisLabelXOffset;
@@ -483,7 +506,9 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 
 - (void)drawXAxis {
     if(!self.enableXAxisLabel) return;
+#if !TARGET_INTERFACE_BUILDER
     if (![self.dataSource respondsToSelector:@selector(lineGraph:labelOnXAxisForIndex:)] && ![self.dataSource respondsToSelector:@selector(labelOnXAxisForIndex:)]) return;
+#endif
     
     for (UIView *subview in [self subviews]) {
         if ([subview isKindOfClass:[UILabel class]] && subview.tag == DotLastTag1000 )
@@ -491,7 +516,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     }
     
     NSInteger numberOfGaps = 1;
-    
+#if !TARGET_INTERFACE_BUILDER
     if ([self.delegate respondsToSelector:@selector(numberOfGapsBetweenLabelsOnLineGraph:)]) {
         numberOfGaps = [self.delegate numberOfGapsBetweenLabelsOnLineGraph:self] + 1;
         
@@ -504,6 +529,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 #pragma clang diagnostic pop
         
     } else numberOfGaps = 1;
+#endif
     
     // Remove all X-Axis Labels before adding them to the array
     [xAxisValues removeAllObjects];
@@ -571,7 +597,8 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
             
             for (int i = 1; i <= (numberOfPoints/numberOfGaps); i++) {
                 NSString *xAxisLabelText = @"";
-                
+
+#if !TARGET_INTERFACE_BUILDER
                 if ([self.dataSource respondsToSelector:@selector(lineGraph:labelOnXAxisForIndex:)]) {
                     NSInteger index = i *numberOfGaps - 1 - offset;
                     xAxisLabelText = [self.dataSource lineGraph:self labelOnXAxisForIndex:index];
@@ -590,6 +617,9 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
                     [exception raise];
                     
                 } else xAxisLabelText = @"";
+#else
+                xAxisLabelText = [NSString stringWithFormat:@"%i", i];
+#endif
                 
                 UILabel *labelXAxis = [[UILabel alloc] init];
                 labelXAxis.text = xAxisLabelText;

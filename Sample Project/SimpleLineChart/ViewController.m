@@ -53,15 +53,8 @@
         1.0, 1.0, 1.0, 0.0
     };
     self.myGraph.gradientBottom = CGGradientCreateWithColorComponents(colorspace, components, locations, num_locations);
-    self.myGraph.colorTop = [UIColor colorWithRed:31.0/255.0 green:187.0/255.0 blue:166.0/255.0 alpha:1.0];
-    self.myGraph.colorBottom = [UIColor colorWithRed:31.0/255.0 green:187.0/255.0 blue:166.0/255.0 alpha:1.0];
-    self.myGraph.colorLine = [UIColor whiteColor];
-    self.myGraph.colorXaxisLabel = [UIColor whiteColor];
-    self.myGraph.colorYaxisLabel = [UIColor whiteColor];
-    self.myGraph.widthLine = 3.0;
     self.myGraph.enableTouchReport = YES;
     self.myGraph.enablePopUpReport = YES;
-    self.myGraph.enableBezierCurve = YES;
     self.myGraph.enableYAxisLabel = YES;
     self.myGraph.autoScaleYAxis = YES;
     self.myGraph.alwaysDisplayDots = NO;
@@ -70,7 +63,7 @@
     self.myGraph.enableReferenceAxisFrame = YES;
     self.myGraph.animationGraphStyle = BEMLineAnimationDraw;
     
-    //setup initial selectet segment
+    // Setup initial curve selection segment
     self.curveChoice.selectedSegmentIndex = self.myGraph.enableBezierCurve;
 
     // The labels to report the values of the graph when the user touches it
@@ -112,8 +105,7 @@
     [self.myGraph reloadGraph];
 }
 
-- (NSInteger)getRandomInteger
-{
+- (NSInteger)getRandomInteger {
     NSInteger i1 = (int)(arc4random() % 10000);
     return i1;
 }
