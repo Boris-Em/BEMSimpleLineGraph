@@ -126,7 +126,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Population Growth" id="jTt-cf-4Tw">
-                        <barButtonItem key="leftBarButtonItem" title="Stat." id="pPS-9K-h6J">
+                        <barButtonItem key="leftBarButtonItem" title="Stats" id="pPS-9K-h6J">
                             <connections>
                                 <action selector="displayStatistics:" destination="vXZ-lx-hvc" id="6Jx-ZZ-TAO"/>
                                 <segue destination="agL-Uo-Ja5" kind="push" identifier="showStats" id="ybP-Bc-vdS"/>

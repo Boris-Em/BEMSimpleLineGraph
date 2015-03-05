@@ -88,6 +88,7 @@
         
         totalNumber = totalNumber + [(self.arrayOfValues)[i] intValue]; // All of the values added together
     }
+    
     UIColor *color;
     if (self.graphColorChoice.selectedSegmentIndex == 0) color = [UIColor colorWithRed:31.0/255.0 green:187.0/255.0 blue:166.0/255.0 alpha:1.0];
     else if (self.graphColorChoice.selectedSegmentIndex == 1) color = [UIColor colorWithRed:255.0/255.0 green:187.0/255.0 blue:31.0/255.0 alpha:1.0];
@@ -189,6 +190,10 @@
 - (void)lineGraphDidFinishLoading:(BEMSimpleLineGraphView *)graph {
     self.labelValues.text = [NSString stringWithFormat:@"%i", [[self.myGraph calculatePointValueSum] intValue]];
     self.labelDates.text = [NSString stringWithFormat:@"between %@ and %@", [self.arrayOfDates firstObject], [self.arrayOfDates lastObject]];
+}
+
+- (NSString *)popUpSuffixForlineGraph:(BEMSimpleLineGraphView *)graph {
+    return @" people";
 }
 
 @end

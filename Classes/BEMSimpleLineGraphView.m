@@ -800,7 +800,11 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     UILabel *permanentPopUpLabel = [[UILabel alloc] init];
     permanentPopUpLabel.textAlignment = NSTextAlignmentCenter;
     permanentPopUpLabel.numberOfLines = 0;
-    permanentPopUpLabel.text = [NSString stringWithFormat:@"%@", @((NSInteger) circleDot.absoluteValue)];
+    if ([self.delegate respondsToSelector:@selector(popUpSuffixForlineGraph:)])
+        permanentPopUpLabel.text = [NSString stringWithFormat:@"%@%@", @((NSInteger) circleDot.absoluteValue), [self.delegate popUpSuffixForlineGraph:self]];
+    else
+        permanentPopUpLabel.text = [NSString stringWithFormat:@"%@", @((NSInteger) circleDot.absoluteValue)];
+    
     permanentPopUpLabel.font = self.labelFont;
     permanentPopUpLabel.backgroundColor = [UIColor clearColor];
     [permanentPopUpLabel sizeToFit];
@@ -1046,21 +1050,23 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
         self.popUpLabel.text = [NSString stringWithFormat:@"%li%@", (long)[dataPoints[(NSInteger) closestDot.tag - DotFirstTag100] integerValue], [self.delegate popUpSuffixForlineGraph:self]];
     else
         self.popUpLabel.text = [NSString stringWithFormat:@"%li", (long)[dataPoints[(NSInteger) closestDot.tag - DotFirstTag100] integerValue]];
+    
     if (self.enableYAxisLabel == YES && self.popUpView.frame.origin.x <= self.YAxisLabelXOffset) {
         self.xCenterLabel = self.popUpView.frame.size.width/2;
         self.popUpView.center = CGPointMake(self.xCenterLabel + self.YAxisLabelXOffset + 1, self.yCenterLabel);
-    }
-    else if (self.popUpView.frame.origin.x <= 0) {
+    } else if (self.popUpView.frame.origin.x <= 0) {
         self.xCenterLabel = self.popUpView.frame.size.width/2;
         self.popUpView.center = CGPointMake(self.xCenterLabel, self.yCenterLabel);
     } else if ((self.popUpView.frame.origin.x + self.popUpView.frame.size.width) >= self.frame.size.width) {
         self.xCenterLabel = self.frame.size.width - self.popUpView.frame.size.width/2;
         self.popUpView.center = CGPointMake(self.xCenterLabel, self.yCenterLabel);
     }
+    
     if (self.popUpView.frame.origin.y <= 2) {
         self.yCenterLabel = closestDot.center.y + closestDot.frame.size.height/2 + 15;
         self.popUpView.center = CGPointMake(self.xCenterLabel, closestDot.center.y + closestDot.frame.size.height/2 + 15);
     }
+    
     self.popUpLabel.center = self.popUpView.center;
 }
 
