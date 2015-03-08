@@ -192,6 +192,10 @@
     self.labelDates.text = [NSString stringWithFormat:@"between %@ and %@", [self.arrayOfDates firstObject], [self.arrayOfDates lastObject]];
 }
 
+/* - (void)lineGraphDidFinishDrawing:(BEMSimpleLineGraphView *)graph {
+    // Use this method for tasks after the graph has finished drawing
+} */
+
 - (NSString *)popUpSuffixForlineGraph:(BEMSimpleLineGraphView *)graph {
     return @" people";
 }
