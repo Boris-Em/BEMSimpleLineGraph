@@ -201,7 +201,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
         // Setup the touch report
         [self layoutTouchReport];
         
-        // Let the delegate know that the graph finished layout updates
+        // Let the delegate know that the graph finished updates
         if ([self.delegate respondsToSelector:@selector(lineGraphDidFinishLoading:)])
             [self.delegate lineGraphDidFinishLoading:self];
     }
@@ -331,6 +331,24 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 }
 
 #pragma mark - Drawing
+
+- (void)didFinishDrawingIncludingYAxis:(BOOL)yAxisFinishedDrawing {
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, self.animationGraphEntranceTime * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        if (self.enableYAxisLabel == NO) {
+            // Let the delegate know that the graph finished rendering
+            if ([self.delegate respondsToSelector:@selector(lineGraphDidFinishDrawing:)])
+                [self.delegate lineGraphDidFinishDrawing:self];
+            return;
+        } else {
+            if (yAxisFinishedDrawing == YES) {
+                // Let the delegate know that the graph finished rendering
+                if ([self.delegate respondsToSelector:@selector(lineGraphDidFinishDrawing:)])
+                    [self.delegate lineGraphDidFinishDrawing:self];
+                return;
+            }
+        }
+    });
+}
 
 - (void)drawEntireGraph {
     
@@ -478,11 +496,8 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     line.arrayOfPoints = yAxisValues;
     line.xAxisBackgroundAlpha = self.alphaBackgroundXaxis;
     line.arrayOfValues = self.graphValuesForDataPoints;
-    if (self.colorBackgroundXaxis == nil) {
-        line.xAxisBackgroundColor = self.colorBottom;
-    } else {
-        line.xAxisBackgroundColor = self.colorBackgroundXaxis;
-    }
+    if (self.colorBackgroundXaxis == nil) line.xAxisBackgroundColor = self.colorBottom;
+    else line.xAxisBackgroundColor = self.colorBackgroundXaxis;
     if (self.enableReferenceXAxisLines || self.enableReferenceYAxisLines) {
         line.enableRefrenceFrame = self.enableReferenceAxisFrame;
         
@@ -502,6 +517,8 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     
     [self addSubview:line];
     [self sendSubviewToBack:line];
+    
+    [self didFinishDrawingIncludingYAxis:NO];
 }
 
 - (void)drawXAxis {
@@ -775,6 +792,8 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
         [label removeFromSuperview];
     }
     
+    
+    [self didFinishDrawingIncludingYAxis:YES];
 }
 
 - (NSInteger)offsetForXAxisWithNumberOfGaps:(NSInteger)numberOfGaps {
@@ -875,7 +894,6 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     return image;
 }
 
-
 #pragma mark - Data Source
 
 - (void)reloadGraph {
@@ -953,8 +971,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     return xAxisLabels;
 }
 
-- (void)setAnimationGraphStyle:(BEMLineAnimation)animationGraphStyle
-{
+- (void)setAnimationGraphStyle:(BEMLineAnimation)animationGraphStyle {
     _animationGraphStyle = animationGraphStyle;
     if (_animationGraphStyle == BEMLineAnimationNone)
         self.animationGraphEntranceTime = 0.f;

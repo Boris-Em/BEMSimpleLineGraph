@@ -334,13 +334,27 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
 
 
 /** Sent to the delegate each time the line graph is loaded or reloaded.
+ @seealso lineGraphDidFinishLoading:
  @param graph The graph object that is about to be loaded or reloaded. */
 - (void)lineGraphDidBeginLoading:(BEMSimpleLineGraphView *)graph;
 
 
 /** Sent to the delegate each time the line graph finishes loading or reloading.
+ @discussion The respective graph object's data has been loaded at this time. However, the graph may not be fully rendered. Use this method to update any content with the new graph object's data.
+ 
+ @seealso lineGraphDidBeginLoading: lineGraphDidFinishDrawing:
  @param graph The graph object that finished loading or reloading. */
 - (void)lineGraphDidFinishLoading:(BEMSimpleLineGraphView *)graph;
+
+
+/** Sent to the delegate each time the line graph finishes animating and drawing.
+ @discussion The respective graph object has been completely drawn and animated at this point. It is safe to use \p graphSnapshotImage after recieving this method call on the delegate.
+ 
+ This method may be called in addition to the \p lineGraphDidFinishLoading: method, after drawing has completed. \p animationGraphEntranceTime is taken into account when calling this method.
+ 
+ @seealso lineGraphDidFinishLoading:
+ @param graph The graph object that finished drawing. */
+- (void)lineGraphDidFinishDrawing:(BEMSimpleLineGraphView *)graph;
 
 
 //----- CUSTOMIZATION -----//

@@ -264,7 +264,7 @@
     }
 }
 
-- (CALayer*)backgroundGradientLayerForLayer:(CAShapeLayer *)shapeLayer {
+- (CALayer *)backgroundGradientLayerForLayer:(CAShapeLayer *)shapeLayer {
     UIGraphicsBeginImageContext(self.bounds.size);
     CGContextRef imageCtx = UIGraphicsGetCurrentContext();
     CGPoint start, end;
@@ -275,6 +275,7 @@
         start = CGPointMake(CGRectGetMidX(shapeLayer.bounds), 0);
         end = CGPointMake(CGRectGetMidX(shapeLayer.bounds), CGRectGetMaxY(shapeLayer.bounds));
     }
+    
     CGContextDrawLinearGradient(imageCtx, self.lineGradient, start, end, 0);
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
