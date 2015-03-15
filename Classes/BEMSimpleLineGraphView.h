@@ -69,6 +69,11 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
 - (void)reloadGraph;
 
 
+/** Calculates the distance between the touch input and the closest point on the graph.
+ @return The distance between the touch input and the closest point on the graph. */
+- (CGFloat)distanceToClosestPoint __deprecated;
+
+
 /** Takes a snapshot of the graph.
  @return The snapshot of the graph as a UIImage object. */
 - (UIImage *)graphSnapshotImage NS_AVAILABLE_IOS(7_0);
@@ -194,7 +199,7 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
 /// If set to YES, the dots representing the points on the graph will always be visible. Default value is NO.
 @property (nonatomic) BOOL alwaysDisplayDots;
 
-// If set to YES, the dots will be drawn during the animation.  If NO, dots won't show up for the animation if alwaysDisplayDots if false.  Default value is YES
+/// If set to YES, the dots will be drawn during the animation.  If NO, dots won't show up for the animation if alwaysDisplayDots if false.  Default value is YES
 @property (nonatomic) BOOL displayDotsWhileAnimating;
 
 
@@ -292,34 +297,44 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
 /// Color of the pop up label's background displayed when the user touches the graph.
 @property (strong, nonatomic) UIColor *colorBackgroundPopUplabel;
 
-//Position of the y-Axis in relation to the chart (Default: NO)
+
+/// Position of the y-Axis in relation to the chart (Default: NO)
 @property (nonatomic) BOOL positionYAxisRight;
 
-// A line dash patter to be applied to X axis reference lines.  This allows you to draw a dotted or hashed line
+
+/// A line dash patter to be applied to X axis reference lines.  This allows you to draw a dotted or hashed line
 @property (nonatomic, strong) NSArray *lineDashPatternForReferenceXAxisLines;
 
-// A line dash patter to be applied to Y axis reference lines.  This allows you to draw a dotted or hashed line
+
+/// A line dash patter to be applied to Y axis reference lines.  This allows you to draw a dotted or hashed line
 @property (nonatomic, strong) NSArray *lineDashPatternForReferenceYAxisLines;
 
-// Color to be used for the no data label on the chart
+
+/// Color to be used for the no data label on the chart
 @property (nonatomic, strong) UIColor *noDataLabelColor;
 
-// Font to be used for the no data label on the chart
+
+/// Font to be used for the no data label on the chart
 @property (nonatomic, strong) UIFont *noDataLabelFont;
 
-// Float format string to be used when formatting popover and y axis values
+
+/// Float format string to be used when formatting popover and y axis values
 @property (nonatomic, strong) NSString *formatStringForValues;
+
 
 /** If a null value is present, interpolation would draw a best fit line through the null point bound by its surrounding points.  Default: YES*/
 @property (nonatomic) BOOL interpolateNullValues;
 
+
 @end
+
 
 
 @interface BEMSimpleLineGraphPopoverView : UIView
 
 
 @end
+
 
 
 /// Line Graph Data Source. Used to populate the graph with data, similar to how a UITableView works.
@@ -410,6 +425,7 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
  @return The prefix to prepend to the popup report. */
 - (NSString *)popUpPrefixForlineGraph:(BEMSimpleLineGraphView *)graph;
 
+
 /** Optional method to always display some of the pop up labels on the graph.
  @see alwaysDisplayPopUpLabels must be set to YES for this method to have any affect.
  @param graph The graph object requesting the total number of points.
@@ -417,26 +433,29 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
  @return Return YES if you want the popup label to be displayed for this index. */
 - (BOOL)lineGraph:(BEMSimpleLineGraphView *)graph alwaysDisplayPopUpAtIndex:(CGFloat)index;
 
+
 /** Optional method to set the maximum value of the Y-Axis. If not implemented, the maximum value will be the biggest point of the graph.
  @param graph The graph object requesting the maximum value.
  @return The maximum value of the Y-Axis. */
 - (CGFloat)maxValueForLineGraph:(BEMSimpleLineGraphView *)graph;
+
 
 /** Optional method to set the minimum value of the Y-Axis. If not implemented, the minimum value will be the smallest point of the graph.
  @param graph The graph object requesting the minimum value.
  @return The minimum value of the Y-Axis. */
 - (CGFloat)minValueForLineGraph:(BEMSimpleLineGraphView *)graph;
 
+
 /** Optional method to control whether a label indicating NO DATA will be shown while number of data is zero
  @param graph The graph object for the NO DATA label
  @return The boolean value indicating the availability of the NO DATA label. */
 - (BOOL)noDataLabelEnableForLineGraph:(BEMSimpleLineGraphView *)graph;
 
+
 /** Optional method to control the text to be displayed on NO DATA label
  @param graph The graph object for the NO DATA label
  @return The text to show on the NO DATA label. */
 - (NSString *)noDataLabelTextForLineGraph:(BEMSimpleLineGraphView *)graph;
-
 
 
 /** Optional method to set the static padding distance between the graph line and the whole graph
@@ -449,6 +468,7 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
  @param graph The graph object requesting the padding value.
  @return The custom popup view to use */
 - (UIView *)popUpViewForLineGraph:(BEMSimpleLineGraphView *)graph;
+
 
 /** Optional method that gets called if you are using a custom popup view.  This method allows you to modify your popup view for different graph indices
  @param graph The graph object requesting the padding value.
@@ -481,6 +501,7 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
  @param graph The graph object which is requesting the number of gaps between the labels.
  @return The number of labels to "jump" between each displayed label on the X-axis. */
 - (NSInteger)numberOfGapsBetweenLabelsOnLineGraph:(BEMSimpleLineGraphView *)graph;
+
 
 /** The starting index to plot X-Axis values.  MUST ALSO IMPLEMENT incrementIndexForXAxisOnLineGraph FOR THIS TO TAKE EFFECT
  @discussion This allows you to specify a custom starting index for drawing x axis labels
@@ -515,15 +536,18 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
  @return The number of labels displayed on the Y-axis. */
 - (NSInteger)numberOfYAxisLabelsOnLineGraph:(BEMSimpleLineGraphView *)graph;
 
+
 /** The optional prefix to append to the y axis.
  @param graph The graph object requesting the total number of points.
  @return The prefix to prepend to append to the y axis. */
 - (NSString *)yAxisPrefixOnLineGraph:(BEMSimpleLineGraphView *)graph;
 
+
 /** The optional suffix to append to the y axis.
  @param graph The graph object requesting the total number of points.
  @return The suffix to prepend to append to the y axis. */
 - (NSString *)yAxisSuffixOnLineGraph:(BEMSimpleLineGraphView *)graph;
+
 
 /** Starting value to begin drawing Y-Axis labels  MUST ALSO IMPLEMENT incrementValueForYAxisOnLineGraph FOR THIS TO TAKE EFFECT
  @discussion This allows you to finally hone the granularity of the data label.  Instead of drawing values like 11.24, 
