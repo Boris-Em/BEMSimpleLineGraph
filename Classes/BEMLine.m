@@ -8,6 +8,13 @@
 //
 
 #import "BEMLine.h"
+#import "BEMSimpleLineGraphView.h"
+
+#if CGFLOAT_IS_DOUBLE
+#define CGFloatValue doubleValue
+#else
+#define CGFloatValue floatValue
+#endif
 
 @implementation BEMLine
 
@@ -17,6 +24,9 @@
         // Initialization code
         self.backgroundColor = [UIColor clearColor];
         _frameOffset = 0.0;
+        _enableLeftReferenceFrameLine = YES;
+        _enableBottomReferenceFrameLine = YES;
+        _interpolateNullValues = YES;
     }
     return self;
 }
@@ -26,17 +36,27 @@
     // ---------------------------//
     // --- Draw Refrence Lines ---//
     // ---------------------------//
-    UIBezierPath *referenceLinesPath = [UIBezierPath bezierPath];
-    referenceLinesPath.lineCapStyle = kCGLineCapButt;
-    referenceLinesPath.lineWidth = 0.7;
+    UIBezierPath *verticalReferenceLinesPath = [UIBezierPath bezierPath];
+    UIBezierPath *horizontalReferenceLinesPath = [UIBezierPath bezierPath];
+    UIBezierPath *referenceFramePath = [UIBezierPath bezierPath];
+    
+    verticalReferenceLinesPath.lineCapStyle = kCGLineCapButt;
+    verticalReferenceLinesPath.lineWidth = 0.7;
+    
+    horizontalReferenceLinesPath.lineCapStyle = kCGLineCapButt;
+    horizontalReferenceLinesPath.lineWidth = 0.7;
+
+    
+    referenceFramePath.lineCapStyle = kCGLineCapButt;
+    referenceFramePath.lineWidth = 0.7;
     
     if (self.enableRefrenceLines == YES) {
         for (NSNumber *xNumber in self.arrayOfVerticalRefrenceLinePoints) {
             CGPoint initialPoint = CGPointMake([xNumber floatValue], self.frame.size.height - self.frameOffset);
             CGPoint finalPoint = CGPointMake([xNumber floatValue], 0);
             
-            [referenceLinesPath moveToPoint:initialPoint];
-            [referenceLinesPath addLineToPoint:finalPoint];
+            [verticalReferenceLinesPath moveToPoint:initialPoint];
+            [verticalReferenceLinesPath addLineToPoint:finalPoint];
         }
         
         if (self.arrayOfHorizontalRefrenceLinePoints.count > 0) {
@@ -44,21 +64,43 @@
                 CGPoint initialPoint = CGPointMake(0, [yNumber floatValue]);
                 CGPoint finalPoint = CGPointMake(self.frame.size.width, [yNumber floatValue]);
                 
-                [referenceLinesPath moveToPoint:initialPoint];
-                [referenceLinesPath addLineToPoint:finalPoint];
+                [horizontalReferenceLinesPath moveToPoint:initialPoint];
+                [horizontalReferenceLinesPath addLineToPoint:finalPoint];
             }
         }
         
         if (self.enableRefrenceFrame == YES) {
-            [referenceLinesPath moveToPoint:CGPointMake(0, self.frame.size.height - self.frameOffset)];
-            [referenceLinesPath addLineToPoint:CGPointMake(self.frame.size.width, self.frame.size.height - self.frameOffset)];
             
-            [referenceLinesPath moveToPoint:CGPointMake(0+self.lineWidth/4, self.frame.size.height - self.frameOffset)];
-            [referenceLinesPath addLineToPoint:CGPointMake(0+self.lineWidth/4, 0)];
+            if(self.enableBottomReferenceFrameLine) {
+                //Bottom Line
+                [referenceFramePath moveToPoint:CGPointMake(0, self.frame.size.height - self.frameOffset)];
+                [referenceFramePath addLineToPoint:CGPointMake(self.frame.size.width, self.frame.size.height - self.frameOffset)];
+            }
+            
+            if(self.enableLeftReferenceFrameLine) {
+                //Left Line
+                [referenceFramePath moveToPoint:CGPointMake(0+self.lineWidth/4, self.frame.size.height - self.frameOffset)];
+                [referenceFramePath addLineToPoint:CGPointMake(0+self.lineWidth/4, 0)];
+            }
+            
+            if(self.enableTopReferenceFrameLine) {
+                //Top Line
+                [referenceFramePath moveToPoint:CGPointMake(0+self.lineWidth/4, 0)];
+                [referenceFramePath addLineToPoint:CGPointMake(self.frame.size.width, 0)];
+            }
+            
+            if(self.enableRightReferenceFrameLine) {
+                //Right Line
+                [referenceFramePath moveToPoint:CGPointMake(self.frame.size.width - self.lineWidth/4, self.frame.size.height - self.frameOffset)];
+                [referenceFramePath addLineToPoint:CGPointMake(self.frame.size.width - self.lineWidth/4, 0)];
+            }
+            
         }
         
-        [referenceLinesPath closePath];
-    } else referenceLinesPath = nil;
+        [referenceFramePath closePath];
+        [verticalReferenceLinesPath closePath];
+        [horizontalReferenceLinesPath closePath];
+    }
     
     
     // ---------------------------//
@@ -83,12 +125,14 @@
     UIBezierPath *line = [UIBezierPath bezierPath];
     UIBezierPath *fillTop = [UIBezierPath bezierPath];
     UIBezierPath *fillBottom = [UIBezierPath bezierPath];
+    
     CGPoint p0;
     CGPoint p1;
     CGPoint p2;
     CGPoint p3;
     CGFloat tensionBezier1 = 0.3;
     CGFloat tensionBezier2 = 0.3;
+    CGFloat xIndexScale = self.frame.size.width/([self.arrayOfPoints count] - 1);
     
     if (self.xAxisBackgroundColor == self.bottomColor && self.xAxisBackgroundAlpha == self.bottomAlpha) {
         [fillBottom moveToPoint:CGPointMake(self.frame.size.width, self.frame.size.height)];
@@ -110,22 +154,38 @@
     [fillTop moveToPoint:CGPointMake(self.frame.size.width, 0)];
     [fillTop addLineToPoint:CGPointMake(0, 0)];
     
-    for (int i = 0; i<[self.arrayOfPoints count]-1; i++) {
-        p1 = CGPointMake((self.frame.size.width/([self.arrayOfPoints count] - 1))*i, [[self.arrayOfPoints objectAtIndex:i] floatValue]);
-        p2 = CGPointMake((self.frame.size.width/([self.arrayOfPoints count] - 1))*(i+1), [[self.arrayOfPoints objectAtIndex:i+1] floatValue]);
+    NSMutableArray *points = [NSMutableArray arrayWithCapacity:self.arrayOfPoints.count];
+    for (int i = 0; i < self.arrayOfPoints.count; i++) {
+        CGPoint value = CGPointMake(xIndexScale * i, [self.arrayOfPoints[i] CGFloatValue]);
+        if (value.y != BEMNullGraphValue || !self.interpolateNullValues) {
+            [points addObject:[NSValue valueWithCGPoint:value]];
+        }
+    }
+
+    CGPoint previousPoint1;
+    CGPoint previousPoint2;
+    
+    for (int i = 0; i < points.count - 1; i++) {
+        p1 = [[points objectAtIndex:i] CGPointValue];
+        p2 = [[points objectAtIndex:i + 1] CGPointValue];
+        
+        if (!self.interpolateNullValues && (p1.y == BEMNullGraphValue || p2.y == BEMNullGraphValue)) {
+            continue;
+        }
         
         [line moveToPoint:p1];
         [fillBottom addLineToPoint:p1];
         [fillTop addLineToPoint:p1];
         
         if (self.bezierCurveIsEnabled == YES) {
-            tensionBezier1 = 0.3;
-            tensionBezier2 = 0.3;
+            const CGFloat maxTension = 1.0f / 3.0f;
+            tensionBezier1 = maxTension;
+            tensionBezier2 = maxTension;
             
             if (i > 0) { // Exception for first line because there is no previous point
-                p0 = CGPointMake((self.frame.size.width/([self.arrayOfPoints count] - 1))*(i-1), [[self.arrayOfPoints objectAtIndex:i-1] floatValue]);
+                p0 = previousPoint1;
                 
-                if ([[self.arrayOfValues objectAtIndexedSubscript:i+1] floatValue] - [[self.arrayOfValues objectAtIndexedSubscript:i] floatValue] == [[self.arrayOfValues objectAtIndexedSubscript:i] floatValue] - [[self.arrayOfValues objectAtIndexedSubscript:i-1] floatValue]) {
+                if (p2.y - p1.y == p1.y - p0.y) {
                     tensionBezier1 = 0;
                 }
                 
@@ -134,10 +194,10 @@
                 p0 = p1;
             }
             
-            if (i<[self.arrayOfPoints count] - 2) { // Exception for last line because there is no next point
-                p3 = CGPointMake((self.frame.size.width/([self.arrayOfPoints count] - 1))*(i+2), [[self.arrayOfPoints objectAtIndex:i+2] floatValue]);
+            if (i < points.count - 2) { // Exception for last line because there is no next point
+                p3 = [[points objectAtIndex:i + 2] CGPointValue];
                 
-                if ([[self.arrayOfValues objectAtIndexedSubscript:i+2] floatValue] - [[self.arrayOfValues objectAtIndexedSubscript:i+1] floatValue] == [[self.arrayOfValues objectAtIndexedSubscript:i+1] floatValue] - [[self.arrayOfValues objectAtIndexedSubscript:i] floatValue]) {
+                if (p3.y - p2.y == p2.y - p1.y) {
                     tensionBezier2 = 0;
                 }
             } else {
@@ -145,12 +205,12 @@
                 tensionBezier2 = 0;
             }
             
-                // The tension should never exceed 0.3
-            if (tensionBezier1 > 0.3) {
-                tensionBezier1 = 0.3;
+            // The tension should never exceed 0.3
+            if (tensionBezier1 > maxTension) {
+                tensionBezier1 = maxTension;
             }
-            if (tensionBezier2 > 0.3) {
-                tensionBezier2 = 0.3;
+            if (tensionBezier2 > maxTension) {
+                tensionBezier2 = maxTension;
             }
 
             // First control point
@@ -168,10 +228,14 @@
             [fillTop addCurveToPoint:p2 controlPoint1:CP1 controlPoint2:CP2];
             
         } else {
+            
             [line addLineToPoint:p2];
             [fillBottom addLineToPoint:p2];
             [fillTop addLineToPoint:p2];
         }
+        
+        previousPoint1 = p1;
+        previousPoint2 = p2;
     }
     
     
@@ -206,19 +270,67 @@
     // ----- Animate Drawing -----//
     // ---------------------------//
     if (self.enableRefrenceLines == YES) {
+        
+        CAShapeLayer *verticalReferenceLinesPathLayer = [CAShapeLayer layer];
+        verticalReferenceLinesPathLayer.frame = self.bounds;
+        verticalReferenceLinesPathLayer.path = verticalReferenceLinesPath.CGPath;
+        verticalReferenceLinesPathLayer.opacity = self.lineAlpha/2;
+        verticalReferenceLinesPathLayer.fillColor = nil;
+        verticalReferenceLinesPathLayer.lineWidth = self.lineWidth/2;
+        
+        if(self.lineDashPatternForReferenceYAxisLines) {
+            verticalReferenceLinesPathLayer.lineDashPattern = self.lineDashPatternForReferenceYAxisLines;
+        }
+        
+
+        if (self.refrenceLineColor) {
+            verticalReferenceLinesPathLayer.strokeColor = self.refrenceLineColor.CGColor;
+        } else {
+            verticalReferenceLinesPathLayer.strokeColor = self.color.CGColor;
+        }
+        
+
+        if (self.animationTime > 0)
+            [self animateForLayer:verticalReferenceLinesPathLayer withAnimationType:self.animationType isAnimatingReferenceLine:YES];
+        [self.layer addSublayer:verticalReferenceLinesPathLayer];
+        
+        
+        CAShapeLayer *horizontalReferenceLinesPathLayer = [CAShapeLayer layer];
+        horizontalReferenceLinesPathLayer.frame = self.bounds;
+        horizontalReferenceLinesPathLayer.path = horizontalReferenceLinesPath.CGPath;
+        horizontalReferenceLinesPathLayer.opacity = self.lineAlpha/2;
+        horizontalReferenceLinesPathLayer.fillColor = nil;
+        horizontalReferenceLinesPathLayer.lineWidth = self.lineWidth/2;
+        if(self.lineDashPatternForReferenceXAxisLines) {
+            horizontalReferenceLinesPathLayer.lineDashPattern = self.lineDashPatternForReferenceXAxisLines;
+        }
+        
+        if (self.refrenceLineColor) {
+            horizontalReferenceLinesPathLayer.strokeColor = self.refrenceLineColor.CGColor;
+        } else {
+            horizontalReferenceLinesPathLayer.strokeColor = self.color.CGColor;
+        }
+        
+        
+        if (self.animationTime > 0)
+            [self animateForLayer:horizontalReferenceLinesPathLayer withAnimationType:self.animationType isAnimatingReferenceLine:YES];
+        [self.layer addSublayer:horizontalReferenceLinesPathLayer];
+        
         CAShapeLayer *referenceLinesPathLayer = [CAShapeLayer layer];
         referenceLinesPathLayer.frame = self.bounds;
-        referenceLinesPathLayer.path = referenceLinesPath.CGPath;
+        referenceLinesPathLayer.path = referenceFramePath.CGPath;
         referenceLinesPathLayer.opacity = self.lineAlpha/2;
         referenceLinesPathLayer.fillColor = nil;
         referenceLinesPathLayer.lineWidth = self.lineWidth/2;
-
+        
+        
         if (self.refrenceLineColor) {
             referenceLinesPathLayer.strokeColor = self.refrenceLineColor.CGColor;
         } else {
             referenceLinesPathLayer.strokeColor = self.color.CGColor;
         }
-
+        
+        
         if (self.animationTime > 0)
             [self animateForLayer:referenceLinesPathLayer withAnimationType:self.animationType isAnimatingReferenceLine:YES];
         [self.layer addSublayer:referenceLinesPathLayer];

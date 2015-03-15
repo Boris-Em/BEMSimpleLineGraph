@@ -12,6 +12,8 @@
 	<dict>
 		<key>1CA8AD815677B6FB0DD135F65EC4576AE68426CF</key>
 		<string>https://github.com/Boris-Em/BEMSimpleLineGraph.git</string>
+		<key>3A216D26EB93D9EB79DE1E013DBEF75CF4509620</key>
+		<string>https://github.dowjones.net/DJMobile/ios-thesituation.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>Sample Project/SimpleLineChart.xcodeproj</string>
@@ -19,6 +21,8 @@
 	<dict>
 		<key>1CA8AD815677B6FB0DD135F65EC4576AE68426CF</key>
 		<string>../../..</string>
+		<key>3A216D26EB93D9EB79DE1E013DBEF75CF4509620</key>
+		<string>../../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/Boris-Em/BEMSimpleLineGraph.git</string>
@@ -28,6 +32,14 @@
 	<string>1CA8AD815677B6FB0DD135F65EC4576AE68426CF</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>3A216D26EB93D9EB79DE1E013DBEF75CF4509620</string>
+			<key>IDESourceControlWCCName</key>
+			<string></string>
+		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
