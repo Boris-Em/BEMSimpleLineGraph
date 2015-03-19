@@ -593,13 +593,13 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     line.lineDashPatternForReferenceXAxisLines = self.lineDashPatternForReferenceXAxisLines;
     line.interpolateNullValues = self.interpolateNullValues;
     
+    line.enableRefrenceFrame = self.enableReferenceAxisFrame;
+    line.enableRightReferenceFrameLine = self.enableRightReferenceAxisFrameLine;
+    line.enableTopReferenceFrameLine = self.enableTopReferenceAxisFrameLine;
+    line.enableLeftReferenceFrameLine = self.enableLeftReferenceAxisFrameLine;
+    line.enableBottomReferenceFrameLine = self.enableBottomReferenceAxisFrameLine;
+    
     if (self.enableReferenceXAxisLines || self.enableReferenceYAxisLines) {
-        line.enableRefrenceFrame = self.enableReferenceAxisFrame;
-        line.enableRightReferenceFrameLine = self.enableRightReferenceAxisFrameLine;
-        line.enableTopReferenceFrameLine = self.enableTopReferenceAxisFrameLine;
-        line.enableLeftReferenceFrameLine = self.enableLeftReferenceAxisFrameLine;
-        line.enableBottomReferenceFrameLine = self.enableBottomReferenceAxisFrameLine;
-        
         line.enableRefrenceLines = YES;
         line.refrenceLineColor = self.colorReferenceLines;
         line.arrayOfVerticalRefrenceLinePoints = self.enableReferenceXAxisLines ? xAxisLabelPoints : nil;
