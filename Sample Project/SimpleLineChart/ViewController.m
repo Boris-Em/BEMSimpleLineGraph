@@ -234,7 +234,7 @@
 }
 
 //- (NSString *)popUpPrefixForlineGraph:(BEMSimpleLineGraphView *)graph {
-//    return @" ";
+//    return @"$ ";
 //}
 
 #pragma mark - Optional Datasource Customizations

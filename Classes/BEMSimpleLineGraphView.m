@@ -331,18 +331,15 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
         [self.panView addGestureRecognizer:self.longPressGesture];
         
         if (self.enablePopUpReport == YES && self.alwaysDisplayPopUpLabels == NO) {
-
             if ([self.delegate respondsToSelector:@selector(popUpViewForLineGraph:)]) {
                 self.popUpView = [self.delegate popUpViewForLineGraph:self];
                 self.usingCustomPopupView = YES;
                 self.popUpView.alpha = 0;
                 [self addSubview:self.popUpView];
             } else {
-
                 NSString *maxValueString = [NSString stringWithFormat:self.formatStringForValues, [self calculateMaximumPointValue].doubleValue];
                 NSString *minValueString = [NSString stringWithFormat:self.formatStringForValues, [self calculateMinimumPointValue].doubleValue];
                 
-        
                 NSString *longestString = @"";
                 if (maxValueString.length > minValueString.length) {
                     longestString = maxValueString;
@@ -350,8 +347,6 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
                     longestString = minValueString;
                 }
                 
-                
-            
                 NSString *prefix = @"";
                 NSString *suffix = @"";
                 if ([self.delegate respondsToSelector:@selector(popUpSuffixForlineGraph:)]) {
@@ -363,9 +358,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
                 
                 NSString *fullString = [NSString stringWithFormat:@"%@%@%@", prefix, longestString, suffix];
                 
-                
                 NSString *mString = [fullString stringByReplacingOccurrencesOfString:@"[0-9-]" withString:@"N" options:NSRegularExpressionSearch range:NSMakeRange(0, [longestString length])];
-                
                 
                 self.popUpLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 200, 20)];
                 self.popUpLabel.text = mString;
@@ -383,8 +376,6 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
                 [self addSubview:self.popUpView];
                 [self addSubview:self.popUpLabel];
             }
-            
-           
         }
     }
 }
@@ -423,13 +414,9 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
             NSString *maxValueString = [NSString stringWithFormat:self.formatStringForValues, self.maxValue];
             NSString *minValueString = [NSString stringWithFormat:self.formatStringForValues, self.minValue];
             
-            
             NSString *longestString = @"";
-            if (maxValueString.length > minValueString.length) {
-                longestString = maxValueString;
-            } else {
-                longestString = minValueString;
-            }
+            if (maxValueString.length > minValueString.length) longestString = maxValueString;
+            else longestString = minValueString;
             
             NSString *prefix = @"";
             NSString *suffix = @"";
@@ -1083,19 +1070,30 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 - (void)displayPermanentLabelForPoint:(BEMCircle *)circleDot {
     self.enablePopUpReport = NO;
     self.xCenterLabel = circleDot.center.x;
+    
     UILabel *permanentPopUpLabel = [[UILabel alloc] init];
     permanentPopUpLabel.textAlignment = NSTextAlignmentCenter;
     permanentPopUpLabel.numberOfLines = 0;
+    
+    NSString *prefix = @"";
+    NSString *suffix = @"";
     if ([self.delegate respondsToSelector:@selector(popUpSuffixForlineGraph:)])
-        permanentPopUpLabel.text = [NSString stringWithFormat:@"%@%@", @((NSInteger) circleDot.absoluteValue), [self.delegate popUpSuffixForlineGraph:self]];
-    else
-        permanentPopUpLabel.text = [NSString stringWithFormat:@"%@", @((NSInteger) circleDot.absoluteValue)];
+        suffix = [self.delegate popUpSuffixForlineGraph:self];
+
+    if ([self.delegate respondsToSelector:@selector(popUpPrefixForlineGraph:)])
+        prefix = [self.delegate popUpPrefixForlineGraph:self];
+
+    int index = (int)(circleDot.tag - DotFirstTag100);
+    NSNumber *value = dataPoints[index]; // @((NSInteger) circleDot.absoluteValue)
+    NSString *formattedValue = [NSString stringWithFormat:self.formatStringForValues, value.doubleValue];
+    permanentPopUpLabel.text = [NSString stringWithFormat:@"%@%@%@", prefix, formattedValue, suffix];
     
     permanentPopUpLabel.font = self.labelFont;
     permanentPopUpLabel.backgroundColor = [UIColor clearColor];
     [permanentPopUpLabel sizeToFit];
     permanentPopUpLabel.center = CGPointMake(self.xCenterLabel, circleDot.center.y - circleDot.frame.size.height/2 - 15);
     permanentPopUpLabel.alpha = 0;
+    
     BEMPermanentPopupView *permanentPopUpView = [[BEMPermanentPopupView alloc] initWithFrame:CGRectMake(0, 0, permanentPopUpLabel.frame.size.width + 7, permanentPopUpLabel.frame.size.height + 2)];
     permanentPopUpView.backgroundColor = [UIColor whiteColor];
     permanentPopUpView.alpha = 0;
@@ -1339,7 +1337,6 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 }
 
 - (void)setUpPopUpLabelAbovePoint:(BEMCircle *)closestPoint {
-    
     self.xCenterLabel = closestDot.center.x;
     self.yCenterLabel = closestDot.center.y - closestDot.frame.size.height/2 - 15;
     self.popUpView.center = CGPointMake(self.xCenterLabel, self.yCenterLabel);
