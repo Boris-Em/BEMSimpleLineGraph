@@ -64,6 +64,8 @@ See the [License](https://github.com/Boris-Em/BEMSimpleLineGraph/blob/master/LIC
 [![Gitter chat](https://badges.gitter.im/Boris-Em/BEMSimpleLineGraph.png)](https://gitter.im/Boris-Em/BEMSimpleLineGraph)  
 Join us on [Gitter](https://gitter.im/Boris-Em/BEMSimpleLineGraph) if you need any help or want to talk about the project.
 
+Ask questions and get answers from a massive community or programmers on StackOverflow when you use the [BEMSimpleLineGraph tag](http://stackoverflow.com/questions/tagged/bemsimplelinegraph).
+
 ### Sample App
 The iOS Sample App included with this project demonstrates how to correctly setup and use BEMSimpleLineGraph. You can refer to the sample app for an understanding of how to use and setup BEMSimpleLineGraph.
 
