@@ -1,6 +1,11 @@
 ## Contributing
 This document lays out exactly how you can contribute to BEMSimpleLineGraph. All contributions are welcome and appreciated. Thanks for contributing!
 
+### Questions
+The best way to ask questions is through [StackOverflow](http://www.stackoverflow.com) using the [BEMSimpleLineGraph tag](http://stackoverflow.com/questions/tagged/bemsimplelinegraph). StackOverflow questions are highly discoverable, viewed by an active and massive community of programmers, and incredibly reapplicable. If another developer using BEMSimpleLineGraph runs into the same question, it is to their advantage to find it on StackOverflow rather than via GitHub issues.
+
+We would like to keep GitHub issues strictly for bugs, feature requests, enhancements, etc. You can [ask your question right here](http://stackoverflow.com/questions/ask). Make sure to add the correct tags.
+
 ### Issues (Bugs, Enhancements, Features)
 The best way to report **issues** (e.g. bugs, glitches, problems, etc.) and **feature requests** (e.g. improvements, new features, API changes, etc.) with BEMSimpleLineGraph is by submitting an issue.
 
