@@ -44,6 +44,9 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     /// All of the X-Axis Label Points
     NSMutableArray *xAxisLabelPoints;
     
+    /// All of the X-Axis Label Points
+    CGFloat xAxisHorizontalFringeNegationValue;
+    
     /// All of the Y-Axis Label Points
     NSMutableArray *yAxisLabelPoints;
     
@@ -179,6 +182,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     
     // Initialize the various arrays
     xAxisValues = [NSMutableArray array];
+    xAxisHorizontalFringeNegationValue = 0.0;
     xAxisLabelPoints = [NSMutableArray array];
     yAxisLabelPoints = [NSMutableArray array];
     dataPoints = [NSMutableArray array];
@@ -535,7 +539,6 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
                     if (self.displayDotsWhileAnimating) {
                         [UIView animateWithDuration:(float)self.animationGraphEntranceTime/numberOfPoints delay:(float)i*((float)self.animationGraphEntranceTime/numberOfPoints) options:UIViewAnimationOptionCurveLinear animations:^{
                             circleDot.alpha = 0.7;
-                            
                         } completion:^(BOOL finished) {
                             if (self.alwaysDisplayDots == NO) {
                                 [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
@@ -543,14 +546,9 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
                                 } completion:nil];
                             }
                         }];
-                        
-                    } else {
-                        //DO nothing
                     }
-                    
                 }
             }
-
         }
     }
     
@@ -602,6 +600,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     if (self.enableReferenceXAxisLines || self.enableReferenceYAxisLines) {
         line.enableRefrenceLines = YES;
         line.refrenceLineColor = self.colorReferenceLines;
+        line.verticalReferenceHorizontalFringeNegation = xAxisHorizontalFringeNegationValue;
         line.arrayOfVerticalRefrenceLinePoints = self.enableReferenceXAxisLines ? xAxisLabelPoints : nil;
         line.arrayOfHorizontalRefrenceLinePoints = self.enableReferenceYAxisLines ? yAxisLabelPoints : nil;
     }
@@ -635,10 +634,11 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     [xAxisValues removeAllObjects];
     [xAxisLabels removeAllObjects];
     [xAxisLabelPoints removeAllObjects];
+    xAxisHorizontalFringeNegationValue = 0.0;
     
     if ([self.delegate respondsToSelector:@selector(incrementPositionsForXAxisOnLineGraph:)]) {
         NSArray *axisValues = [self.delegate incrementPositionsForXAxisOnLineGraph:self];
-        for(NSNumber *increment in axisValues) {
+        for (NSNumber *increment in axisValues) {
             NSInteger index = increment.integerValue;
             NSString *xAxisLabelText = [self xAxisTextForIndex:index];
             
@@ -656,14 +656,13 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
             [self addSubview:labelXAxis];
             [xAxisValues addObject:xAxisLabelText];
         }
-        
     } else if ([self.delegate respondsToSelector:@selector(baseIndexForXAxisOnLineGraph:)] && [self.delegate respondsToSelector:@selector(incrementIndexForXAxisOnLineGraph:)]) {
         NSInteger baseIndex = [self.delegate baseIndexForXAxisOnLineGraph:self];
         NSInteger increment = [self.delegate incrementIndexForXAxisOnLineGraph:self];
         
-        //TODO: Need to make sure while exits
+        // TODO: Need to make sure while exits
         NSInteger startingIndex = baseIndex;
-        while(startingIndex < numberOfPoints) {
+        while (startingIndex < numberOfPoints) {
             
             NSString *xAxisLabelText = [self xAxisTextForIndex:startingIndex];
             
@@ -683,7 +682,6 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
             
             startingIndex += increment;
         }
-        
     } else {
         NSInteger numberOfGaps = 1;
         
@@ -703,8 +701,6 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
         }
         
         if (numberOfGaps >= (numberOfPoints - 1)) {
-            
-            
             NSString *firstXLabel = [self xAxisTextForIndex:0];
             NSString *lastXLabel = [self xAxisTextForIndex:numberOfPoints - 1];
             
@@ -727,15 +723,12 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
             [xAxisValues addObject:firstXLabel];
             [xAxisLabels addObject:firstLabel];
             
-            
-            
             UILabel *lastLabel = [self xAxisLabelWithText:lastXLabel atIndex:numberOfPoints - 1];
             lastLabel.frame = CGRectMake(xAxisXPositionLastOffset, self.frame.size.height-20, viewWidth/2 - 4, 20);
             lastLabel.textAlignment = NSTextAlignmentRight;
             [self addSubview:lastLabel];
             [xAxisValues addObject:lastXLabel];
             [xAxisLabels addObject:lastLabel];
-            
             
             if (self.positionYAxisRight) {
                 NSNumber *xFirstAxisLabelCoordinate = @(firstLabel.center.x);
@@ -748,9 +741,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
                 [xAxisLabelPoints addObject:xFirstAxisLabelCoordinate];
                 [xAxisLabelPoints addObject:xLastAxisLabelCoordinate];
             }
-            
         } else {
-            //TODO: Removed the offset logic so let's see what broke
             @autoreleasepool {
                 NSInteger offset = [self offsetForXAxisWithNumberOfGaps:numberOfGaps]; // The offset (if possible and necessary) used to shift the Labels on the X-Axis for them to be centered.
                 
@@ -765,7 +756,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
                         NSNumber *xAxisLabelCoordinate = [NSNumber numberWithFloat:labelXAxis.center.x];
                         [xAxisLabelPoints addObject:xAxisLabelCoordinate];
                     } else {
-                        NSNumber *xAxisLabelCoordinate = [NSNumber numberWithFloat:labelXAxis.center.x-self.YAxisLabelXOffset];
+                        NSNumber *xAxisLabelCoordinate = [NSNumber numberWithFloat:labelXAxis.center.x - self.YAxisLabelXOffset];
                         [xAxisLabelPoints addObject:xAxisLabelCoordinate];
                     }
                     
@@ -780,21 +771,15 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     
     NSMutableArray *overlapLabels = [NSMutableArray arrayWithCapacity:0];
     [xAxisLabels enumerateObjectsUsingBlock:^(UILabel *label, NSUInteger idx, BOOL *stop) {
-        
         if (idx == 0) {
             lastMatchIndex = 0;
         } else { // Skip first one
             UILabel *prevLabel = [xAxisLabels objectAtIndex:lastMatchIndex];
             CGRect r = CGRectIntersection(prevLabel.frame, label.frame);
-            if (CGRectIsNull(r)) {
-                lastMatchIndex = idx;
-            }
-            else {
-                [overlapLabels addObject:label]; // Overlapped
-            }
-            
-            
+            if (CGRectIsNull(r)) lastMatchIndex = idx;
+            else [overlapLabels addObject:label]; // Overlapped
         }
+        
         BOOL fullyContainsLabel = CGRectContainsRect(self.bounds, label.frame);
         if (!fullyContainsLabel) {
             [overlapLabels addObject:label];
@@ -846,11 +831,37 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     CGRect lRect = [labelXAxis.text boundingRectWithSize:self.viewForBaselineLayout.frame.size options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:labelXAxis.font} context:nil];
     
     CGPoint center;
-    CGFloat xPosition = (self.viewForBaselineLayout.frame.size.width - self.YAxisLabelXOffset) * ((float)index / numberOfPoints);
+    
+    /* OLD LABEL GENERATION CODE
+    CGFloat availablePositionRoom = self.viewForBaselineLayout.frame.size.width; // Get view width of view
+    CGFloat positioningDivisor = (float)index / numberOfPoints; // Generate relative position of point based on current index and total
+    CGFloat horizontalTranslation = self.YAxisLabelXOffset + lRect.size.width;
+    CGFloat xPosition = (availablePositionRoom * positioningDivisor) + horizontalTranslation;
+    // NSLog(@"availablePositionRoom: %f, positioningDivisor: %f, horizontalTranslation: %f, xPosition: %f", availablePositionRoom, positioningDivisor, horizontalTranslation, xPosition); // Uncomment for debugging */
+    
+    // Determine the horizontal translation to perform on the far left and far right labels
+    // This property is negated when calculating the position of reference frames
+    CGFloat horizontalTranslation;
+    if (index == 0) {
+        horizontalTranslation = lRect.size.width/2;
+    } else if (index+1 == numberOfPoints) {
+        horizontalTranslation = -lRect.size.width/2;
+    } else horizontalTranslation = 0;
+    xAxisHorizontalFringeNegationValue = horizontalTranslation;
+    
+    // Determine the final x-axis position
+    CGFloat positionOnXAxis;
     if (self.positionYAxisRight) {
-        center = CGPointMake(xPosition, self.frame.size.height - lRect.size.height/2);
+        positionOnXAxis = (((self.frame.size.width - self.YAxisLabelXOffset) / (numberOfPoints - 1)) * index) + horizontalTranslation;
     } else {
-        center = CGPointMake(xPosition + self.YAxisLabelXOffset, self.frame.size.height - lRect.size.height/2);
+        positionOnXAxis = (((self.frame.size.width - self.YAxisLabelXOffset) / (numberOfPoints - 1)) * index) + self.YAxisLabelXOffset + horizontalTranslation;
+    }
+    
+    // Set the final center point of the x-axis labels
+    if (self.positionYAxisRight) {
+        center = CGPointMake(positionOnXAxis, self.frame.size.height - lRect.size.height/2);
+    } else {
+        center = CGPointMake(positionOnXAxis, self.frame.size.height - lRect.size.height/2);
     }
     
     CGRect rect = labelXAxis.frame;
@@ -1037,10 +1048,9 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     [self didFinishDrawingIncludingYAxis:YES];  
 }
 
-//Area on the graph that doesn't include the axes
+// Area on the graph that doesn't include the axes
 - (CGRect)drawableGraphArea {
-    
-//    CGRectMake(xAxisXPositionFirstOffset, self.frame.size.height-20, viewWidth/2, 20);
+//  CGRectMake(xAxisXPositionFirstOffset, self.frame.size.height-20, viewWidth/2, 20);
     NSInteger xAxisHeight = 20;
     CGFloat xOrigin = self.positionYAxisRight ? 0 : self.YAxisLabelXOffset;
     CGFloat viewWidth = self.frame.size.width - self.YAxisLabelXOffset;

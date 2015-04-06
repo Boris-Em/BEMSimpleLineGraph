@@ -63,6 +63,9 @@ typedef NS_ENUM(NSUInteger, BEMLineGradientDirection) {
 /// All of the X-Axis coordinates used to draw vertical lines through
 @property (nonatomic) NSArray *arrayOfVerticalRefrenceLinePoints;
 
+/// The value used to offset the fringe vertical reference lines when the x-axis labels are on the edge
+@property (assign, nonatomic) CGFloat verticalReferenceHorizontalFringeNegation;
+
 /// All of the Y-Axis coordinates used to draw horizontal lines through
 @property (nonatomic) NSArray *arrayOfHorizontalRefrenceLinePoints;
 

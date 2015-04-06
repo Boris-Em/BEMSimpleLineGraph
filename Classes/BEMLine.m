@@ -50,7 +50,6 @@
     referenceFramePath.lineWidth = 0.7;
     
     if (self.enableRefrenceFrame == YES) {
-        
         if (self.enableBottomReferenceFrameLine) {
             // Bottom Line
             [referenceFramePath moveToPoint:CGPointMake(0, self.frame.size.height - self.frameOffset)];
@@ -81,8 +80,17 @@
     if (self.enableRefrenceLines == YES) {
         if (self.arrayOfVerticalRefrenceLinePoints.count > 0) {
             for (NSNumber *xNumber in self.arrayOfVerticalRefrenceLinePoints) {
-                CGPoint initialPoint = CGPointMake([xNumber floatValue], self.frame.size.height - self.frameOffset);
-                CGPoint finalPoint = CGPointMake([xNumber floatValue], 0);
+                CGFloat xValue;
+                if (self.verticalReferenceHorizontalFringeNegation != 0.0) {
+                    if ([self.arrayOfVerticalRefrenceLinePoints indexOfObject:xNumber] == 0) { // far left reference line
+                        xValue = [xNumber floatValue] + self.verticalReferenceHorizontalFringeNegation;
+                    } else if ([self.arrayOfVerticalRefrenceLinePoints indexOfObject:xNumber] == [self.arrayOfVerticalRefrenceLinePoints count]-1) { // far right reference line
+                        xValue = [xNumber floatValue] - self.verticalReferenceHorizontalFringeNegation;
+                    } else xValue = [xNumber floatValue];
+                } else xValue = [xNumber floatValue];
+                
+                CGPoint initialPoint = CGPointMake(xValue, self.frame.size.height - self.frameOffset);
+                CGPoint finalPoint = CGPointMake(xValue, 0);
                 
                 [verticalReferenceLinesPath moveToPoint:initialPoint];
                 [verticalReferenceLinesPath addLineToPoint:finalPoint];

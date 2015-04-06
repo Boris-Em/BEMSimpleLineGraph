@@ -64,7 +64,7 @@
 
     // The labels to report the values of the graph when the user touches it
     self.labelValues.text = [NSString stringWithFormat:@"%i", [[self.myGraph calculatePointValueSum] intValue]];
-    self.labelDates.text = @"between 2000 and 2010";
+    self.labelDates.text = @"between now and later";
 }
 
 - (void)didReceiveMemoryWarning {
@@ -83,7 +83,6 @@
     NSDate *baseDate = [NSDate date];
     BOOL showNullValue = true;
     
-    
     for (int i = 0; i < 9; i++) {
         [self.arrayOfValues addObject:@([self getRandomFloat])]; // Random values for the graph
         if (i == 0) {
@@ -95,14 +94,13 @@
             [self.arrayOfDates addObject:[self dateForGraphAfterDate:self.arrayOfDates[i-1]]]; // Dates for the X-Axis of the graph
         }
         
-        
         totalNumber = totalNumber + [[self.arrayOfValues objectAtIndex:i] intValue]; // All of the values added together
     }
 }
 
 - (NSDate *)dateForGraphAfterDate:(NSDate *)date {
-    NSTimeInterval secondsInTwelveHours = 12 * 60 * 60;
-    NSDate *newDate = [date dateByAddingTimeInterval:secondsInTwelveHours];
+    NSTimeInterval secondsInTwentyFourHours = 24 * 60 * 60;
+    NSDate *newDate = [date dateByAddingTimeInterval:secondsInTwentyFourHours];
     return newDate;
 }
 
