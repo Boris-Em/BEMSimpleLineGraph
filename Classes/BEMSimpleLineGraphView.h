@@ -74,9 +74,15 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
 - (CGFloat)distanceToClosestPoint __deprecated;
 
 
-/** Takes a snapshot of the graph.
+/** Takes a snapshot of the graph while the app is in the foreground.
  @return The snapshot of the graph as a UIImage object. */
 - (UIImage *)graphSnapshotImage NS_AVAILABLE_IOS(7_0);
+
+
+/** Takes a snapshot of the graph.
+ @param appIsInBackground If your app is currently in the background state, pass YES to \p appIsInBackground. Otherwise, when your app is in the foreground you should take advantage of more efficient APIs by passing NO to \p appIsInBackground.
+ @return The snapshot of the graph as a UIImage object. */
+- (UIImage *)graphSnapshotImageRenderedWhileInBackground:(BOOL)appIsInBackground NS_AVAILABLE_IOS(7_0);
 
 
 /** Calculates the average (mean) of all points on the line graph.

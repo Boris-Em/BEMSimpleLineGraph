@@ -25,7 +25,6 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     
-  
     [self hydrateDatasets];
     
     /* This is commented out because the graph is created in the interface with this sample app. However, the code remains as an example for creating the graph using code.
@@ -189,7 +188,7 @@
 #pragma mark - SimpleLineGraph Delegate
 
 - (NSInteger)numberOfGapsBetweenLabelsOnLineGraph:(BEMSimpleLineGraphView *)graph {
-    return 1;
+    return 2;
 }
 
 - (NSString *)lineGraph:(BEMSimpleLineGraphView *)graph labelOnXAxisForIndex:(NSInteger)index {

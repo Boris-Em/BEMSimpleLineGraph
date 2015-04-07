@@ -1159,9 +1159,14 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 }
 
 - (UIImage *)graphSnapshotImage {
+    return [self graphSnapshotImageRenderedWhileInBackground:NO];
+}
+
+- (UIImage *)graphSnapshotImageRenderedWhileInBackground:(BOOL)appIsInBackground {
     UIGraphicsBeginImageContextWithOptions(self.bounds.size, NO, [UIScreen mainScreen].scale);
     
-    [self drawViewHierarchyInRect:self.bounds afterScreenUpdates:YES]; // Pre-iOS 7 Style [self.layer renderInContext:UIGraphicsGetCurrentContext()];
+    if (appIsInBackground == NO) [self drawViewHierarchyInRect:self.bounds afterScreenUpdates:YES];
+    else [self.layer renderInContext:UIGraphicsGetCurrentContext()];
     
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
