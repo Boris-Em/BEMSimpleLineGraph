@@ -73,7 +73,7 @@ The iOS Sample App included with this project demonstrates how to correctly setu
 ### Apps Using This Project
 Dozens of production apps available on the iOS App Store use **BEMSimpleLineGraph**. You can view a full list of the [known App Store apps using this project on the wiki](https://github.com/Boris-Em/BEMSimpleLineGraph/wiki/Apps-Using-This-Project), read their descriptions, get links, pricing, featured status, and screenshots of graph usage.
 
-Add your **BEMSimpleLineGraph** app to the wiki page for a change to get showcased in the Readme and / or the wiki. We can't wait to see what you create with **BEMSimpleLineGraph**.
+Add your **BEMSimpleLineGraph** app to the wiki page for a chance to get showcased in the Readme and / or the wiki. We can't wait to see what you create with **BEMSimpleLineGraph**.
 
 ## Getting Started
 *See the full article on the wiki [here](https://github.com/Boris-Em/BEMSimpleLineGraph/wiki/Getting-Started).*
