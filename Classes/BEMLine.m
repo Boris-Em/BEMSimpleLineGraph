@@ -283,7 +283,7 @@
         CAShapeLayer *verticalReferenceLinesPathLayer = [CAShapeLayer layer];
         verticalReferenceLinesPathLayer.frame = self.bounds;
         verticalReferenceLinesPathLayer.path = verticalReferenceLinesPath.CGPath;
-        verticalReferenceLinesPathLayer.opacity = self.lineAlpha/2;
+        verticalReferenceLinesPathLayer.opacity = self.lineAlpha == 0 ? 0.1 : self.lineAlpha/2;
         verticalReferenceLinesPathLayer.fillColor = nil;
         verticalReferenceLinesPathLayer.lineWidth = self.lineWidth/2;
         
@@ -305,7 +305,7 @@
         CAShapeLayer *horizontalReferenceLinesPathLayer = [CAShapeLayer layer];
         horizontalReferenceLinesPathLayer.frame = self.bounds;
         horizontalReferenceLinesPathLayer.path = horizontalReferenceLinesPath.CGPath;
-        horizontalReferenceLinesPathLayer.opacity = self.lineAlpha/2;
+        horizontalReferenceLinesPathLayer.opacity = self.lineAlpha == 0 ? 0.1 : self.lineAlpha/2;
         horizontalReferenceLinesPathLayer.fillColor = nil;
         horizontalReferenceLinesPathLayer.lineWidth = self.lineWidth/2;
         if(self.lineDashPatternForReferenceXAxisLines) {
@@ -326,7 +326,7 @@
     CAShapeLayer *referenceLinesPathLayer = [CAShapeLayer layer];
     referenceLinesPathLayer.frame = self.bounds;
     referenceLinesPathLayer.path = referenceFramePath.CGPath;
-    referenceLinesPathLayer.opacity = self.lineAlpha/2;
+    referenceLinesPathLayer.opacity = self.lineAlpha == 0 ? 0.1 : self.lineAlpha/2;
     referenceLinesPathLayer.fillColor = nil;
     referenceLinesPathLayer.lineWidth = self.lineWidth/2;
     
@@ -357,7 +357,7 @@
         CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
         pathAnimation.duration = self.animationTime;
         pathAnimation.fromValue = [NSNumber numberWithFloat:0.0f];
-        if (shouldHalfOpacity == YES) pathAnimation.toValue = [NSNumber numberWithFloat:self.lineAlpha/2];
+        if (shouldHalfOpacity == YES) pathAnimation.toValue = [NSNumber numberWithFloat:self.lineAlpha == 0 ? 0.1 : self.lineAlpha/2];
         else pathAnimation.toValue = [NSNumber numberWithFloat:self.lineAlpha];
         [shapeLayer addAnimation:pathAnimation forKey:@"opacity"];
         

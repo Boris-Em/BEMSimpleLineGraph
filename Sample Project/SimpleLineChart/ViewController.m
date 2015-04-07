@@ -41,6 +41,7 @@
         1.0, 1.0, 1.0, 1.0,
         1.0, 1.0, 1.0, 0.0
     };
+    
     self.myGraph.gradientBottom = CGGradientCreateWithColorComponents(colorspace, components, locations, num_locations);
     self.myGraph.enableTouchReport = YES;
     self.myGraph.enablePopUpReport = YES;

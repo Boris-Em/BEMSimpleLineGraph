@@ -530,11 +530,8 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
                 
                 // Dot entrance animation
                 if (self.animationGraphEntranceTime == 0) {
-                    if (self.alwaysDisplayDots == NO) {
-                        circleDot.alpha = 0;  // never reach here
-                    } else {
-                        circleDot.alpha = 0.7;
-                    }
+                    if (self.alwaysDisplayDots == NO) circleDot.alpha = 0;
+                    else circleDot.alpha = 0.7;
                 } else {
                     if (self.displayDotsWhileAnimating) {
                         [UIView animateWithDuration:(float)self.animationGraphEntranceTime/numberOfPoints delay:(float)i*((float)self.animationGraphEntranceTime/numberOfPoints) options:UIViewAnimationOptionCurveLinear animations:^{
@@ -1287,8 +1284,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     } else return NO;
 }
 
-- (void)handleGestureAction:(UIGestureRecognizer *)recognizer
-{
+- (void)handleGestureAction:(UIGestureRecognizer *)recognizer {
     CGPoint translation = [recognizer locationInView:self.viewForBaselineLayout];
     
     if (!((translation.x + self.frame.origin.x) <= self.frame.origin.x) && !((translation.x + self.frame.origin.x) >= self.frame.origin.x + self.frame.size.width)) { // To make sure the vertical line doesn't go beyond the frame of the graph.
