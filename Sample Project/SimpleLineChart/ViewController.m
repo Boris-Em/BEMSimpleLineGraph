@@ -13,9 +13,7 @@
 @interface ViewController () {
     int previousStepperValue;
     int totalNumber;
-}
-
-@end
+} @end
 
 @implementation ViewController
 
@@ -33,7 +31,7 @@
      myGraph.dataSource = self;
      [self.view addSubview:myGraph]; */
     
-    // Customization of the graph
+    // Create a gradient to apply to the bottom portion of the graph
     CGColorSpaceRef colorspace = CGColorSpaceCreateDeviceRGB();
     size_t num_locations = 2;
     CGFloat locations[2] = { 0.0, 1.0 };
@@ -42,7 +40,10 @@
         1.0, 1.0, 1.0, 0.0
     };
     
+    // Apply the gradient to the bottom portion of the graph
     self.myGraph.gradientBottom = CGGradientCreateWithColorComponents(colorspace, components, locations, num_locations);
+    
+    // Enable and disable various graph properties and axis displays
     self.myGraph.enableTouchReport = YES;
     self.myGraph.enablePopUpReport = YES;
     self.myGraph.enableYAxisLabel = YES;
@@ -51,6 +52,8 @@
     self.myGraph.enableReferenceXAxisLines = YES;
     self.myGraph.enableReferenceYAxisLines = YES;
     self.myGraph.enableReferenceAxisFrame = YES;
+    
+    // Set the graph's animation style to draw, fade, or none
     self.myGraph.animationGraphStyle = BEMLineAnimationDraw;
     
     // Dash the y reference lines
@@ -73,8 +76,9 @@
 }
 
 - (void)hydrateDatasets {
-    if(!self.arrayOfValues) self.arrayOfValues = [[NSMutableArray alloc] init];
-    if(!self.arrayOfDates) self.arrayOfDates = [[NSMutableArray alloc] init];
+    // Reset the arrays of values (Y-Axis points) and dates (X-Axis points / labels)
+    if (!self.arrayOfValues) self.arrayOfValues = [[NSMutableArray alloc] init];
+    if (!self.arrayOfDates) self.arrayOfDates = [[NSMutableArray alloc] init];
     [self.arrayOfValues removeAllObjects];
     [self.arrayOfDates removeAllObjects];
     
@@ -83,6 +87,7 @@
     NSDate *baseDate = [NSDate date];
     BOOL showNullValue = true;
     
+    // Add objects to the array based on the stepper value
     for (int i = 0; i < 9; i++) {
         [self.arrayOfValues addObject:@([self getRandomFloat])]; // Random values for the graph
         if (i == 0) {
@@ -114,6 +119,7 @@
 
 #pragma mark - Graph Actions
 
+// Refresh the line graph using the specified properties
 - (IBAction)refresh:(id)sender {
     [self hydrateDatasets];
     
@@ -139,15 +145,15 @@
     return i1;
 }
 
-- (IBAction)addOrRemoveLineFromGraph:(id)sender {
+- (IBAction)addOrRemovePointFromGraph:(id)sender {
     if (self.graphObjectIncrement.value > previousStepperValue) {
-        // Add line
+        // Add point
         [self.arrayOfValues addObject:@([self getRandomFloat])];
         NSDate *newDate = [self dateForGraphAfterDate:(NSDate *)[self.arrayOfDates lastObject]];
         [self.arrayOfDates addObject:newDate];
         [self.myGraph reloadGraph];
     } else if (self.graphObjectIncrement.value < previousStepperValue) {
-        // Remove line
+        // Remove point
         [self.arrayOfValues removeObjectAtIndex:0];
         [self.arrayOfDates removeObjectAtIndex:0];
         [self.myGraph reloadGraph];

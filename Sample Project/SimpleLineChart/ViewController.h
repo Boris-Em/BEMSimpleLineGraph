@@ -20,11 +20,12 @@
 @property (strong, nonatomic) IBOutlet UILabel *labelValues;
 @property (strong, nonatomic) IBOutlet UILabel *labelDates;
 
-- (IBAction)refresh:(id)sender;
-- (IBAction)addOrRemoveLineFromGraph:(id)sender;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *graphColorChoice;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *curveChoice;
 @property (weak, nonatomic) IBOutlet UIStepper *graphObjectIncrement;
+
+- (IBAction)refresh:(id)sender;
+- (IBAction)addOrRemovePointFromGraph:(id)sender;
 
 - (IBAction)displayStatistics:(id)sender;
 

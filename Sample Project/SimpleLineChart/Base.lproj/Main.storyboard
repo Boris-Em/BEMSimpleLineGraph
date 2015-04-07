@@ -110,7 +110,7 @@
                             <stepper opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="11" minimumValue="3" maximumValue="140" id="YwO-xh-GEu">
                                 <rect key="frame" x="20" y="519" width="94" height="29"/>
                                 <connections>
-                                    <action selector="addOrRemoveLineFromGraph:" destination="vXZ-lx-hvc" eventType="valueChanged" id="fKi-RB-vtk"/>
+                                    <action selector="addOrRemovePointFromGraph:" destination="vXZ-lx-hvc" eventType="valueChanged" id="KpJ-vY-DUX"/>
                                 </connections>
                             </stepper>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Refresh Settings" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.80000000000000027" id="BqJ-s5-fDr">
