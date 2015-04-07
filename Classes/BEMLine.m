@@ -112,6 +112,25 @@
         }
     }
     
+    
+    // ---------------------------//
+    // ---- Draw Average Line ----//
+    // ---------------------------//
+    UIBezierPath *averageLinePath = [UIBezierPath bezierPath];
+    if (self.averageLine.enableAverageLine == YES) {
+        averageLinePath.lineCapStyle = kCGLineCapButt;
+        averageLinePath.lineWidth = self.averageLine.width;
+        
+        CGPoint initialPoint = CGPointMake(0, self.averageLineYCoordinate);
+        CGPoint finalPoint = CGPointMake(self.frame.size.width, self.averageLineYCoordinate);
+        
+        [averageLinePath moveToPoint:initialPoint];
+        [averageLinePath addLineToPoint:finalPoint];
+        
+        [averageLinePath closePath];
+    }
+
+
     // ---------------------------//
     // ----- Draw Graph Line -----//
     // ---------------------------//
@@ -279,7 +298,6 @@
     // ----- Animate Drawing -----//
     // ---------------------------//
     if (self.enableRefrenceLines == YES) {
-        
         CAShapeLayer *verticalReferenceLinesPathLayer = [CAShapeLayer layer];
         verticalReferenceLinesPathLayer.frame = self.bounds;
         verticalReferenceLinesPathLayer.path = verticalReferenceLinesPath.CGPath;
@@ -349,6 +367,24 @@
     if (self.animationTime > 0) [self animateForLayer:pathLayer withAnimationType:self.animationType isAnimatingReferenceLine:NO];
     if (self.lineGradient) [self.layer addSublayer:[self backgroundGradientLayerForLayer:pathLayer]];
     else [self.layer addSublayer:pathLayer];
+    
+    if (self.averageLine.enableAverageLine == YES) {
+        CAShapeLayer *averageLinePathLayer = [CAShapeLayer layer];
+        averageLinePathLayer.frame = self.bounds;
+        averageLinePathLayer.path = averageLinePath.CGPath;
+        averageLinePathLayer.opacity = self.averageLine.alpha;
+        averageLinePathLayer.fillColor = nil;
+        averageLinePathLayer.lineWidth = self.averageLine.width;
+        
+        if (self.averageLine.dashPattern) averageLinePathLayer.lineDashPattern = self.averageLine.dashPattern;
+        
+        if (self.averageLine.color) averageLinePathLayer.strokeColor = self.averageLine.color.CGColor;
+        else averageLinePathLayer.strokeColor = self.color.CGColor;
+        
+        if (self.animationTime > 0)
+            [self animateForLayer:averageLinePathLayer withAnimationType:self.animationType isAnimatingReferenceLine:NO];
+        [self.layer addSublayer:averageLinePathLayer];
+    }
 }
 
 - (void)animateForLayer:(CAShapeLayer *)shapeLayer withAnimationType:(BEMLineAnimation)animationType isAnimatingReferenceLine:(BOOL)shouldHalfOpacity {
@@ -360,6 +396,14 @@
         if (shouldHalfOpacity == YES) pathAnimation.toValue = [NSNumber numberWithFloat:self.lineAlpha == 0 ? 0.1 : self.lineAlpha/2];
         else pathAnimation.toValue = [NSNumber numberWithFloat:self.lineAlpha];
         [shapeLayer addAnimation:pathAnimation forKey:@"opacity"];
+        
+        return;
+    } else if (animationType == BEMLineAnimationExpand) {
+        CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"lineWidth"];
+        pathAnimation.duration = self.animationTime;
+        pathAnimation.fromValue = [NSNumber numberWithFloat:0.0f];
+        pathAnimation.toValue = [NSNumber numberWithFloat:shapeLayer.lineWidth];
+        [shapeLayer addAnimation:pathAnimation forKey:@"lineWidth"];
         
         return;
     } else {

@@ -53,6 +53,13 @@
     self.myGraph.enableReferenceYAxisLines = YES;
     self.myGraph.enableReferenceAxisFrame = YES;
     
+    // Draw an average line
+    self.myGraph.averageLine.enableAverageLine = YES;
+    self.myGraph.averageLine.alpha = 0.6;
+    self.myGraph.averageLine.color = [UIColor darkGrayColor];
+    self.myGraph.averageLine.width = 2.5;
+    self.myGraph.averageLine.dashPattern = @[@(2),@(2)];
+    
     // Set the graph's animation style to draw, fade, or none
     self.myGraph.animationGraphStyle = BEMLineAnimationDraw;
     

@@ -19,12 +19,17 @@
     #import <CoreGraphics/CoreGraphics.h>
 #endif
 
+#import "BEMAverageLine.h"
+
+
 /// The type of animation used to display the graph
 typedef NS_ENUM(NSInteger, BEMLineAnimation) {
     /// The draw animation draws the lines from left to right and bottom to top.
     BEMLineAnimationDraw,
     /// The fade animation fades in the lines from 0% opaque to 100% opaque (based on the \p lineAlpha property).
     BEMLineAnimationFade,
+    /// The expand animation expands the lines from a small point to their full width (based on the \p lineWidth property).
+    BEMLineAnimationExpand,
     /// No animation is used to display the graph
     BEMLineAnimationNone
 };
@@ -79,7 +84,6 @@ typedef NS_ENUM(NSUInteger, BEMLineGradientDirection) {
 /** Draw a thin, translucent, frame on the edge of the graph to separate it from the labels on the X-Axis and the Y-Axis. */
 @property (nonatomic) BOOL enableRefrenceFrame;
 
-
 /** If reference frames are enabled, this will enable/disable specific borders.  Default: YES */
 @property (nonatomic) BOOL enableLeftReferenceFrameLine;
 
@@ -100,6 +104,7 @@ typedef NS_ENUM(NSUInteger, BEMLineGradientDirection) {
 
 /** If a null value is present, interpolation would draw a best fit line through the null point bound by its surrounding points.  Default: YES*/
 @property (nonatomic) BOOL interpolateNullValues;
+
 
 
 //----- COLORS -----//
@@ -131,6 +136,8 @@ typedef NS_ENUM(NSUInteger, BEMLineGradientDirection) {
 
 /// The reference line color. Defaults to `color`.
 @property (strong, nonatomic) UIColor *refrenceLineColor;
+
+
 
 //----- ALPHA -----//
 
@@ -173,6 +180,16 @@ typedef NS_ENUM(NSUInteger, BEMLineGradientDirection) {
 
 /// The offset dependant on the size of the labels to create the frame
 @property (nonatomic) CGFloat frameOffset;
+
+
+
+//----- AVERAGE -----//
+
+/// The average line
+@property (strong, nonatomic) BEMAverageLine *averageLine;
+
+/// The average line's y-value translated into the coordinate system
+@property (nonatomic) CGFloat averageLineYCoordinate;
 
 
 

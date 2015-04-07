@@ -156,6 +156,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     _colorBackgroundYaxis = nil;
     _alphaBackgroundYaxis = 1.0;
     _displayDotsWhileAnimating = YES;
+    
     // Set Alpha Values
     _alphaTop = 1.0;
     _alphaBottom = 1.0;
@@ -189,6 +190,8 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     xAxisLabels = [NSMutableArray array];
     yAxisValues = [NSMutableArray array];
 
+    // Initialize BEM Objects
+    _averageLine = [[BEMAverageLine alloc] init];
 }
 
 - (void)prepareForInterfaceBuilder {
@@ -229,15 +232,11 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    if (CGSizeEqualToSize(self.currentViewSize, self.bounds.size)) {
-        return;
-    }
+    if (CGSizeEqualToSize(self.currentViewSize, self.bounds.size))  return;
     self.currentViewSize = self.bounds.size;
 
     [self drawGraph];
-   
 }
-
 
 - (void)layoutNumberOfPoints {
     // Get the total number of data points from the delegate
@@ -566,7 +565,6 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
         line = [[BEMLine alloc] initWithFrame:CGRectMake(self.YAxisLabelXOffset, 0, self.frame.size.width - self.YAxisLabelXOffset, self.frame.size.height)];
     }
     
-    
     line.opaque = NO;
     line.alpha = 1;
     line.backgroundColor = [UIColor clearColor];
@@ -609,6 +607,12 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     line.lineGradientDirection = self.gradientLineDirection;
     line.animationTime = self.animationGraphEntranceTime;
     line.animationType = self.animationGraphStyle;
+    
+    if (self.averageLine.enableAverageLine == YES) {
+        if (self.averageLine.yValue == 0.0) self.averageLine.yValue = [self calculatePointValueAverage].floatValue;
+        line.averageLineYCoordinate = [self yPositionForDotValue:self.averageLine.yValue];
+        line.averageLine = self.averageLine;
+    } else line.averageLine = self.averageLine;
     
     [self addSubview:line];
     [self sendSubviewToBack:line];
@@ -1515,6 +1519,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     if (dotValue == BEMNullGraphValue) {
         return BEMNullGraphValue;
     }
+    
     CGFloat positionOnYAxis; // The position on the Y-axis of the point currently being created.
     CGFloat padding = self.frame.size.height/2;
     if (padding > 90.0) {

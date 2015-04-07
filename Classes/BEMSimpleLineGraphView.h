@@ -21,6 +21,7 @@
 #import "BEMCircle.h"
 #import "BEMLine.h"
 #import "BEMPermanentPopupView.h"
+#import "BEMAverageLine.h"
 
 @protocol BEMSimpleLineGraphDelegate;
 @protocol BEMSimpleLineGraphDataSource;
@@ -175,28 +176,39 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
  @see \p labelOnXAxisForIndex */
  @property (nonatomic) IBInspectable BOOL enableXAxisLabel;
 
+
 /** When set to YES, the points on the Y-axis will be set to all fit in the graph view. When set to NO, the points on the Y-axis will be set with their absolute value (which means that certain points might not be visible because they are outside of the view). Default value is YES. */
 @property (nonatomic) BOOL autoScaleYAxis;
+
+
+/// The horizontal line across the graph at the average value.
+@property (strong, nonatomic) BEMAverageLine *averageLine;
 
 
 /// Draws a translucent vertical lines along the graph for each X-Axis when set to YES. Default value is NO.
 @property (nonatomic) BOOL enableReferenceXAxisLines;
 
+
 /// Draws a translucent horizontal lines along the graph for each Y-Axis label, when set to YES. Default value is NO.
 @property (nonatomic) BOOL enableReferenceYAxisLines;
+
 
 /** Draws a translucent frame between the graph and any enabled axis, when set to YES. Default value is NO.
  @see enableReferenceXAxisLines or enableReferenceYAxisLines must be set to YES for this property to have any affect.  */
 @property (nonatomic) BOOL enableReferenceAxisFrame;
 
+
 /** If reference frames are enabled, this will enable/disable specific borders.  Default: YES */
 @property (nonatomic) BOOL enableLeftReferenceAxisFrameLine;
+
 
 /** If reference frames are enabled, this will enable/disable specific borders.  Default: YES */
 @property (nonatomic) BOOL enableBottomReferenceAxisFrameLine;
 
+
 /** If reference frames are enabled, this will enable/disable specific borders.  Default: NO */
 @property (nonatomic) BOOL enableRightReferenceAxisFrameLine;
+
 
 /** If reference frames are enabled, this will enable/disable specific borders.  Default: NO */
 @property (nonatomic) BOOL enableTopReferenceAxisFrameLine;
@@ -236,14 +248,18 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
 /// Fill gradient of the top part of the graph (between the line and the top of the view the graph is drawn in). When set, it will draw a gradient over top of the fill provided by the \p colorTop and \p alphaTop properties.
 @property (assign, nonatomic) CGGradientRef gradientTop;
 
+
 /// Color of the line of the graph.
 @property (strong, nonatomic) IBInspectable UIColor *colorLine;
+
 
 /// Fill gradient of the line of the graph, which will be scaled to the length of the graph. Overrides the line color provided by \p colorLine
 @property (assign, nonatomic) CGGradientRef gradientLine;
 
+
 /// The drawing direction of the line gradient color, which defaults to horizontal
 @property (nonatomic) BEMLineGradientDirection gradientLineDirection;
+
 
 /// Alpha of the line of the graph.
 @property (nonatomic) IBInspectable CGFloat alphaLine;
@@ -251,6 +267,7 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
 
 /// Width of the line of the graph. Default value is 1.0.
 @property (nonatomic) IBInspectable CGFloat widthLine;
+
 
 /// Color of the reference lines of the graph. Default is same color as `colorLine`.
 @property (strong, nonatomic) UIColor *colorReferenceLines;
