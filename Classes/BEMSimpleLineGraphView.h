@@ -349,6 +349,10 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
 @property (nonatomic) BOOL interpolateNullValues;
 
 
+/// When set to YES, dots will be displayed at full opacity and no line will be drawn through the dots. Default value is NO.
+@property (nonatomic) BOOL displayDotsOnly;
+
+
 @end
 
 

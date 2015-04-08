@@ -102,8 +102,11 @@ typedef NS_ENUM(NSUInteger, BEMLineGradientDirection) {
 /** Dash pattern for the references line on the Y axis */
 @property (nonatomic, strong) NSArray *lineDashPatternForReferenceYAxisLines;
 
-/** If a null value is present, interpolation would draw a best fit line through the null point bound by its surrounding points.  Default: YES*/
+/** If a null value is present, interpolation would draw a best fit line through the null point bound by its surrounding points.  Default: YES */
 @property (nonatomic) BOOL interpolateNullValues;
+
+/** Draws everything but the main line on the graph; correlates to the \p displayDotsOnly property.  Default: NO */
+@property (nonatomic) BOOL disableMainLine;
 
 
 
@@ -123,10 +126,6 @@ typedef NS_ENUM(NSUInteger, BEMLineGradientDirection) {
 
 /// A color gradient applied to the area below the line, inside of its superview. If set, it will be drawn on top of the fill from the \p bottomColor property.
 @property (assign, nonatomic) CGGradientRef bottomGradient;
-
-@property (strong, nonatomic) UIColor *xAxisBackgroundColor;
-
-@property (nonatomic) CGFloat xAxisBackgroundAlpha;
 
 /// A color gradient to be applied to the line. If this property is set, it will mask (override) the \p color property.
 @property (assign, nonatomic) CGGradientRef lineGradient;
@@ -173,13 +172,6 @@ typedef NS_ENUM(NSUInteger, BEMLineGradientDirection) {
 
 /// The type of entrance animation.
 @property (nonatomic) BEMLineAnimation animationType;
-
-
-
-//----- FRAME -----//
-
-/// The offset dependant on the size of the labels to create the frame
-@property (nonatomic) CGFloat frameOffset;
 
 
 
