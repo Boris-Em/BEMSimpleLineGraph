@@ -7,16 +7,9 @@
 //  Copyright (c) 2014 Sam Spencer.
 //
 
-#if __has_feature(objc_modules)
-// We recommend enabling Objective-C Modules in your project Build Settings for numerous benefits over regular #imports. Read more from the Modules documentation: http://clang.llvm.org/docs/Modules.html
 @import Foundation;
 @import UIKit;
 @import CoreGraphics;
-#else
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
-#import <CoreGraphics/CoreGraphics.h>
-#endif
 
 #import "BEMCircle.h"
 #import "BEMLine.h"
@@ -29,6 +22,9 @@
 
 
 extern const CGFloat BEMNullGraphValue;
+
+// Tell the compiler to assume that no method should have a NULL value
+NS_ASSUME_NONNULL_BEGIN
 
 /// Simple line graph / chart UIView subclass for iOS apps. Creates beautiful line graphs (without huge memory impacts) using QuartzCore.
 IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDelegate>
@@ -44,7 +40,7 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
  
  @abstract The BEMSimpleLineGraphView delegate object plays a key role in changing the appearance of the graph and receiving graph events. Use the delegate to provide appearance changes, receive touch events, and receive graph events. The delegate can be set from the interface or from code.
  @discussion The delegate must adopt the \p BEMSimpleLineGraphDelegate protocol. The delegate is not retained.*/
-@property (nonatomic, weak) IBOutlet id <BEMSimpleLineGraphDelegate> delegate;
+@property (nonatomic, weak, nullable) IBOutlet id <BEMSimpleLineGraphDelegate> delegate;
 
 
 
@@ -123,17 +119,17 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
 
 /** All the displayed values of the X-Axis.
  @return An array of NSStrings, one for each displayed X-Axis label. The array is sorted from the left side of the graph to the right side. */
-- (NSArray *)graphValuesForXAxis;
+- (nullable NSArray *)graphValuesForXAxis;
 
 
 /** All the data points on the graph.
  @return An array of NSNumbers, one for each data point. The array is sorted from the left side of the graph to the right side. */
-- (NSArray *)graphValuesForDataPoints;
+- (nullable NSArray *)graphValuesForDataPoints;
 
 
 /** All the labels of the X-Axis.
  @return An array of UILabels, one for each displayed X-Axis label. The array is sorted from the left side of the graph to the right side. */
-- (NSArray *)graphLabelsForXAxis;
+- (nullable NSArray *)graphLabelsForXAxis;
 
 
 
@@ -143,7 +139,7 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
 
 
 /// The graph's label font used on various axis. This property may be privately overwritten, do not expect full functionality from this property.
-@property (strong, nonatomic) UIFont *labelFont;
+@property (strong, nonatomic, nullable) UIFont *labelFont;
 
 
 /// Time of the animation when the graph appears in seconds. Default value is 1.5.
@@ -396,7 +392,7 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
  @discussion The number of strings to be returned should be equal to the number of points in the graph (returned in \p numberOfPointsInLineGraph). Otherwise, an exception may be thrown.
  @param graph The graph object which is requesting the label on the specified X-Axis position.
  @param index The index from left to right of a given label on the X-axis. Is the same index as the one for the points. The first value for the index is 0. */
-- (NSString *)lineGraph:(BEMSimpleLineGraphView *)graph labelOnXAxisForIndex:(NSInteger)index;
+- (nullable NSString *)lineGraph:(nonnull BEMSimpleLineGraphView *)graph labelOnXAxisForIndex:(NSInteger)index;
 
 
 @end
@@ -598,12 +594,14 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
 
 
 /** \b DEPRECATED. Use \p numberOfPointsInLineGraph: instead. The number of points along the X-axis of the graph.
+ @warning This method will be removed in the next version with breaking changes.
  @deprecated Deprecated in 1.3. Use \p numberOfPointsInLineGraph: instead.
  @return Number of points. */
 - (int)numberOfPointsInGraph __deprecated;
 
 
 /** \b DEPRECATED. Use \p lineGraph:valueForPointAtIndex: instead.
+ @warning This method will be removed in the next version with breaking changes.
  @deprecated Deprecated in 1.3. Use \p lineGraph:valueForPointAtIndex: instead.
  @param index The index from left to right of a given point (X-axis). The first value for the index is 0.
  @return The Y-axis value at a given index. */
@@ -611,18 +609,21 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
 
 
 /** \b DEPRECATED. Use \p lineGraph:didTouchGraphWithClosestIndex: instead. Gets called when the user starts touching the graph. The property 'enableTouchReport' must be set to YES.
+ @warning This method will be removed in the next version with breaking changes.
  @deprecated Deprecated in 1.3. Use \p lineGraph:didTouchGraphWithClosestIndex: instead.
  @param index The closest index (X-axis) from the location the user is currently touching. */
 - (void)didTouchGraphWithClosestIndex:(int)index __deprecated;
 
 
 /** \b DEPRECATED. Use \p lineGraph:didReleaseTouchFromGraphWithClosestIndex: instead. Gets called when the user stops touching the graph.
+ @warning This method will be removed in the next version with breaking changes.
  @deprecated Deprecated in 1.3. Use \p lineGraph:didReleaseTouchFromGraphWithClosestIndex: instead.
  @param index The closest index (X-axis) from the location the user last touched. */
 - (void)didReleaseGraphWithClosestIndex:(float)index __deprecated;
 
 
 /** \b DEPRECATED. Use \p numberOfGapsBetweenLabelsOnLineGraph: instead. The number of free space between labels on the X-axis to avoid overlapping.
+ @warning This method will be removed in the next version with breaking changes.
  @deprecated Deprecated in 1.3. Use \p numberOfGapsBetweenLabelsOnLineGraph: instead.
  @discussion For example returning '1' would mean that half of the labels on the X-axis are not displayed: the first is not displayed, the second is, the third is not etc. Returning '0' would mean that all of the labels will be displayed. Finally, returning a value equal to the number of labels will only display the first and last label.
  @return The number of labels to "jump" between each displayed label on the X-axis. */
@@ -630,6 +631,7 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
 
 
 /** \b DEPRECATED. Use \p lineGraph:labelOnXAxisForIndex: instead. The string to display on the label on the X-axis at a given index. Please note that the number of strings to be returned should be equal to the number of points in the Graph.
+ @warning This method will be removed in the next version with breaking changes.
  @deprecated Deprecated in 1.3. Use \p lineGraph:labelOnXAxisForIndex: instead.
  @param index The index from left to right of a given label on the X-axis. Is the same index as the one for the points. The first value for the index is 0. */
 - (NSString *)labelOnXAxisForIndex:(NSInteger)index __deprecated;
@@ -637,7 +639,6 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
 
 /** \b DEPRECATED. No longer available on \p BEMSimpleLineGraphDelegate. Implement this method on \p BEMSimpleLineGraphDataSource instead. The number of points along the X-axis of the graph.
  @deprecated Deprecated in 2.3. Implement with \p BEMSimpleLineGraphDataSource instead.
- 
  @param graph The graph object requesting the total number of points.
  @return The total number of points in the line graph. */
 - (NSInteger)numberOfPointsInLineGraph:(BEMSimpleLineGraphView *)graph __unavailable __deprecated;
@@ -659,5 +660,7 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
  @param index The index from left to right of a given label on the X-axis. Is the same index as the one for the points. The first value for the index is 0. */
 - (NSString *)lineGraph:(BEMSimpleLineGraphView *)graph labelOnXAxisForIndex:(NSInteger)index __unavailable __deprecated;
 
+
+NS_ASSUME_NONNULL_END
 
 @end
