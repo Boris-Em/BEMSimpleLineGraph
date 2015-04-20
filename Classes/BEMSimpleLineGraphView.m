@@ -1104,7 +1104,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     permanentPopUpLabel.alpha = 0;
     
     BEMPermanentPopupView *permanentPopUpView = [[BEMPermanentPopupView alloc] initWithFrame:CGRectMake(0, 0, permanentPopUpLabel.frame.size.width + 7, permanentPopUpLabel.frame.size.height + 2)];
-    permanentPopUpView.backgroundColor = [UIColor whiteColor];
+    permanentPopUpView.backgroundColor = self.colorBackgroundPopUplabel;
     permanentPopUpView.alpha = 0;
     permanentPopUpView.layer.cornerRadius = 3;
     permanentPopUpView.tag = PermanentPopUpViewTag3100;
