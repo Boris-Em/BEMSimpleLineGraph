@@ -11,3 +11,7 @@
 @implementation BEMPermanentPopupView
 
 @end
+
+@implementation BEMPermanentPopupLabel
+
+@end
