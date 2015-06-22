@@ -172,8 +172,8 @@
         }
     }
     
-    CGPoint previousPoint1;
-    CGPoint previousPoint2;
+    CGPoint previousPoint1 = CGPointMake(0,0);
+    CGPoint previousPoint2 = CGPointMake(0,0);
     
     for (int i = 0; i < points.count - 1; i++) {
         p1 = [[points objectAtIndex:i] CGPointValue];
