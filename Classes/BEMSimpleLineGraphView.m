@@ -464,7 +464,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     
     // Remove all dots that were previously on the graph
     for (UIView *subview in [self subviews]) {
-        if ([subview isKindOfClass:[BEMCircle class]] || [subview isKindOfClass:[BEMPermanentPopupView class]])
+        if ([subview isKindOfClass:[BEMCircle class]] || [subview isKindOfClass:[BEMPermanentPopupView class]] || [subview isKindOfClass:[BEMPermanentPopupLabel class]])
             [subview removeFromSuperview];
     }
     
@@ -1080,12 +1080,13 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     self.enablePopUpReport = NO;
     self.xCenterLabel = circleDot.center.x;
     
-    UILabel *permanentPopUpLabel = [[UILabel alloc] init];
+    BEMPermanentPopupLabel *permanentPopUpLabel = [[BEMPermanentPopupLabel alloc] init];
     permanentPopUpLabel.textAlignment = NSTextAlignmentCenter;
     permanentPopUpLabel.numberOfLines = 0;
     
     NSString *prefix = @"";
     NSString *suffix = @"";
+    
     if ([self.delegate respondsToSelector:@selector(popUpSuffixForlineGraph:)])
         suffix = [self.delegate popUpSuffixForlineGraph:self];
 

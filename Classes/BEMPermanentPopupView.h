@@ -11,3 +11,7 @@
 @interface BEMPermanentPopupView : UIView
 
 @end
+
+@interface BEMPermanentPopupLabel : UILabel
+
+@end
