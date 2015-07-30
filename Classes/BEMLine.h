@@ -156,6 +156,9 @@ typedef NS_ENUM(NSUInteger, BEMLineGradientDirection) {
 /// The width of the line
 @property (nonatomic) float lineWidth;
 
+/// The width of a reference line
+@property (nonatomic) float referenceLineWidth;
+
 
 
 //----- BEZIER CURVE -----//

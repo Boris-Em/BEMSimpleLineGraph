@@ -169,6 +169,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     
     // Set Size Values
     _widthLine = 1.0;
+    _widthReferenceLines = 1.0;
     _sizePoint = 10.0;
     
     // Set Default Feature Values
@@ -580,6 +581,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     line.topGradient = self.gradientTop;
     line.bottomGradient = self.gradientBottom;
     line.lineWidth = self.widthLine;
+    line.referenceLineWidth = self.widthReferenceLines?self.widthReferenceLines:(self.widthLine/2);
     line.lineAlpha = self.alphaLine;
     line.bezierCurveIsEnabled = self.enableBezierCurve;
     line.arrayOfPoints = yAxisValues;
