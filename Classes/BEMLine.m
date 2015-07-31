@@ -142,9 +142,7 @@
     UIBezierPath *fillTop;
     UIBezierPath *fillBottom;
 
-
     CGFloat xIndexScale = self.frame.size.width/([self.arrayOfPoints count] - 1);
-
 
     self.points = [NSMutableArray arrayWithCapacity:self.arrayOfPoints.count];
     for (int i = 0; i < self.arrayOfPoints.count; i++) {
@@ -158,6 +156,10 @@
         line = [BEMLine quadCurvedPathWithPoints:self.points];
         fillBottom = [BEMLine quadCurvedPathWithPoints:self.bottomPointsArray];
         fillTop = [BEMLine quadCurvedPathWithPoints:self.topPointsArray];
+    } else if (!self.disableMainLine && !self.bezierCurveIsEnabled) {
+        line = [BEMLine linesToPoints:self.points];
+        fillBottom = [BEMLine linesToPoints:self.bottomPointsArray];
+        fillTop = [BEMLine linesToPoints:self.topPointsArray];
     } else {
         fillBottom = [BEMLine linesToPoints:self.bottomPointsArray];
         fillTop = [BEMLine linesToPoints:self.topPointsArray];
@@ -285,7 +287,7 @@
     }
 }
 
--(NSArray *) topPointsArray {
+- (NSArray *)topPointsArray {
     CGPoint topPointZero = CGPointMake(0,0);
     CGPoint topPointFull = CGPointMake(self.frame.size.width, 0);
     NSMutableArray *topPoints = [NSMutableArray arrayWithArray:self.points];
@@ -294,7 +296,7 @@
     return topPoints;
 }
 
--(NSArray *) bottomPointsArray {
+- (NSArray *)bottomPointsArray {
     CGPoint bottomPointZero = CGPointMake(0, self.frame.size.height);
     CGPoint bottomPointFull = CGPointMake(self.frame.size.width, self.frame.size.height);
     NSMutableArray *bottomPoints = [NSMutableArray arrayWithArray:self.points];
@@ -303,7 +305,7 @@
     return bottomPoints;
 }
 
-+ (UIBezierPath *) linesToPoints:(NSArray *) points {
++ (UIBezierPath *)linesToPoints:(NSArray *)points {
     UIBezierPath *path = [UIBezierPath bezierPath];
     NSValue *value = points[0];
     CGPoint p1 = [value CGPointValue];
@@ -350,7 +352,7 @@ static CGPoint midPointForPoints(CGPoint p1, CGPoint p2) {
 
 static CGPoint controlPointForPoints(CGPoint p1, CGPoint p2) {
     CGPoint controlPoint = midPointForPoints(p1, p2);
-    CGFloat diffY = abs(p2.y - controlPoint.y);
+    CGFloat diffY = fabs(p2.y - controlPoint.y);
 
     if (p1.y < p2.y)
         controlPoint.y += diffY;
