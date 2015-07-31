@@ -16,6 +16,22 @@
 #define CGFloatValue floatValue
 #endif
 
+@interface BEMLine ()
+
+/// The previous point. Necessary for Bezier curve
+@property (assign, nonatomic) CGPoint P0;
+
+/// The starting point of the line
+@property (assign, nonatomic) CGPoint P1;
+
+/// The ending point of the line
+@property (assign, nonatomic) CGPoint P2;
+
+/// The next point. Necessary for Bezier curve
+@property (assign, nonatomic) CGPoint P3;
+
+@end
+
 @implementation BEMLine
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -151,10 +167,10 @@
     UIBezierPath *fillTop = [UIBezierPath bezierPath];
     UIBezierPath *fillBottom = [UIBezierPath bezierPath];
     
-    CGPoint p0;
-    CGPoint p1;
-    CGPoint p2;
-    CGPoint p3;
+    CGPoint point0;
+    CGPoint point1;
+    CGPoint point2;
+    CGPoint point3;
     CGFloat tensionBezier1 = 0.3;
     CGFloat tensionBezier2 = 0.3;
     CGFloat xIndexScale = self.frame.size.width/([self.arrayOfPoints count] - 1);
@@ -176,33 +192,38 @@
     CGPoint previousPoint2 = CGPointMake(0,0);
     
     for (int i = 0; i < points.count - 1; i++) {
-        p1 = [[points objectAtIndex:i] CGPointValue];
-        p2 = [[points objectAtIndex:i + 1] CGPointValue];
+        point1 = [[points objectAtIndex:i] CGPointValue];
+        point2 = [[points objectAtIndex:i + 1] CGPointValue];
         
-        if (!self.interpolateNullValues && (p1.y == BEMNullGraphValue || p2.y == BEMNullGraphValue)) continue;
+        if (!self.interpolateNullValues && (point1.y == BEMNullGraphValue || point2.y == BEMNullGraphValue)) continue;
         
-        if (self.disableMainLine == NO) [line moveToPoint:p1];
-        [fillBottom addLineToPoint:p1];
-        [fillTop addLineToPoint:p1];
+        if (self.disableMainLine == NO) [line moveToPoint:point1];
+        [fillBottom addLineToPoint:point1];
+        [fillTop addLineToPoint:point1];
         
+        // Check if bézier curves are enabled
         if (self.bezierCurveIsEnabled == YES) {
+            // Bézier curves are enabled, proceed to draw line with curve
+            // Determine the maximum amount of bézier tension
             const CGFloat maxTension = 1.0f / 3.0f;
             tensionBezier1 = maxTension;
             tensionBezier2 = maxTension;
             
+            // Set tension and points
             if (i > 0) { // Exception for first line because there is no previous point
-                p0 = previousPoint1;
-                if (p2.y - p1.y == p1.y - p0.y) tensionBezier1 = 0;
+                point0 = previousPoint1;
+                if (point2.y - point1.y == point1.y - point0.y) tensionBezier1 = 0;
             } else {
                 tensionBezier1 = 0;
-                p0 = p1;
+                point0 = point1;
             }
             
+            // Set tension and points
             if (i < points.count - 2) { // Exception for last line because there is no next point
-                p3 = [[points objectAtIndex:i + 2] CGPointValue];
-                if (p3.y - p2.y == p2.y - p1.y) tensionBezier2 = 0;
+                point3 = [[points objectAtIndex:i + 2] CGPointValue];
+                if (point3.y - point2.y == point2.y - point1.y) tensionBezier2 = 0;
             } else {
-                p3 = p2;
+                point3 = point2;
                 tensionBezier2 = 0;
             }
             
@@ -211,24 +232,32 @@
             if (tensionBezier2 > maxTension) tensionBezier2 = maxTension;
             
             // First control point
-            CP1 = CGPointMake(p1.x + (p2.x - p1.x)/3,
-                              p1.y - (p1.y - p2.y)/3 - (p0.y - p1.y)*tensionBezier1);
+            CGFloat CP1x = point1.x + (point2.x - point1.x)/3;
+            CGFloat CP1y = point1.y - (point1.y - point2.y)/3 - (point0.y - point1.y)*tensionBezier1;
+            if (CP1x > self.frame.size.width) CP1x = self.frame.size.width - 1;
+            if (CP1y > self.frame.size.height) CP1y = self.frame.size.height - 1;
+            else if (CP1y < 0) CP1y = 0;
+            CP1 = CGPointMake(CP1x, CP1y);
             
             // Second control point
-            CP2 = CGPointMake(p1.x + 2*(p2.x - p1.x)/3,
-                              (p1.y - 2*(p1.y - p2.y)/3) + (p2.y - p3.y)*tensionBezier2);
+            CGFloat CP2x = point1.x + 2*(point2.x - point1.x)/3;
+            CGFloat CP2y = (point1.y - 2*(point1.y - point2.y)/3) + (point2.y - point3.y)*tensionBezier2;
+            if (CP2x > self.frame.size.width) CP2x = self.frame.size.width - 1;
+            if (CP2y > self.frame.size.height) CP2y = self.frame.size.height - 1;
+            else if (CP2y < 0) CP2y = 0; // Control points that go out of bounds will cause the graph curve to draw outside of its bounds, so we must implement a safety check to ensure that the graph does not leave its bounds
+            CP2 = CGPointMake(CP2x, CP2y);
             
-            if (self.disableMainLine == NO) [line addCurveToPoint:p2 controlPoint1:CP1 controlPoint2:CP2];
-            [fillBottom addCurveToPoint:p2 controlPoint1:CP1 controlPoint2:CP2];
-            [fillTop addCurveToPoint:p2 controlPoint1:CP1 controlPoint2:CP2];
+            if (self.disableMainLine == NO) [line addCurveToPoint:point2 controlPoint1:CP1 controlPoint2:CP2];
+            [fillBottom addCurveToPoint:point2 controlPoint1:CP1 controlPoint2:CP2];
+            [fillTop addCurveToPoint:point2 controlPoint1:CP1 controlPoint2:CP2];
         } else {
-            if (self.disableMainLine == NO) [line addLineToPoint:p2];
-            [fillBottom addLineToPoint:p2];
-            [fillTop addLineToPoint:p2];
+            if (self.disableMainLine == NO) [line addLineToPoint:point2];
+            [fillBottom addLineToPoint:point2];
+            [fillTop addLineToPoint:point2];
         }
         
-        previousPoint1 = p1;
-        previousPoint2 = p2;
+        previousPoint1 = point1;
+        previousPoint2 = point2;
     }
     
     
