@@ -265,6 +265,10 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
 @property (nonatomic) IBInspectable CGFloat widthLine;
 
 
+/// Width of the reference lines of the graph. Default is the value of widthLine/2.
+@property (nonatomic) IBInspectable CGFloat widthReferenceLines;
+
+
 /// Color of the reference lines of the graph. Default is same color as `colorLine`.
 @property (strong, nonatomic) UIColor *colorReferenceLines;
 

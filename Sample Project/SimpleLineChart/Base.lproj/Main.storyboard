@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="j8C-nX-jcI">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="j8C-nX-jcI">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <scenes>
         <!--Navigation Controller-->
@@ -53,7 +54,7 @@
                                         <real key="value" value="1"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="widthLine">
-                                        <real key="value" value="3"/>
+                                        <real key="value" value="4"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="color" keyPath="colorPoint">
                                         <color key="value" white="0.89502544465817913" alpha="1" colorSpace="calibratedWhite"/>
@@ -66,6 +67,9 @@
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="sizePoint">
                                         <real key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="widthReferenceLines">
+                                        <real key="value" value="1"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
@@ -172,7 +176,7 @@
                             <tableViewSection headerTitle="Calculations" id="MdR-06-NKc">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" textLabel="5DF-sy-d39" detailTextLabel="ens-Af-1Mo" rowHeight="55" style="IBUITableViewCellStyleSubtitle" id="f8H-Kt-mH8">
-                                        <rect key="frame" x="0.0" y="50" width="320" height="55"/>
+                                        <rect key="frame" x="0.0" y="114" width="320" height="55"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="f8H-Kt-mH8" id="x6T-H4-aK8">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="54"/>
@@ -196,7 +200,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" textLabel="X8g-nP-PsS" detailTextLabel="Qpm-Rj-cZd" rowHeight="55" style="IBUITableViewCellStyleSubtitle" id="SAq-y3-hmB">
-                                        <rect key="frame" x="0.0" y="105" width="320" height="55"/>
+                                        <rect key="frame" x="0.0" y="169" width="320" height="55"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SAq-y3-hmB" id="MF0-bB-1xR">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="54"/>
@@ -220,7 +224,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" textLabel="n1h-5Z-lWf" detailTextLabel="KNo-Tf-pd4" rowHeight="55" style="IBUITableViewCellStyleSubtitle" id="Q7H-fg-Jgi">
-                                        <rect key="frame" x="0.0" y="160" width="320" height="55"/>
+                                        <rect key="frame" x="0.0" y="224" width="320" height="55"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Q7H-fg-Jgi" id="Leg-Vq-s7s">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="54"/>
@@ -244,7 +248,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" textLabel="ybw-dm-usQ" detailTextLabel="Sr6-T5-3Vo" rowHeight="55" style="IBUITableViewCellStyleSubtitle" id="1e5-7c-IFf">
-                                        <rect key="frame" x="0.0" y="215" width="320" height="55"/>
+                                        <rect key="frame" x="0.0" y="279" width="320" height="55"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1e5-7c-IFf" id="Z85-5z-Tvr">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="54"/>
@@ -268,7 +272,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" textLabel="gmb-Ei-6v9" detailTextLabel="lal-a7-n4P" rowHeight="55" style="IBUITableViewCellStyleSubtitle" id="FcR-ra-Ivj">
-                                        <rect key="frame" x="0.0" y="270" width="320" height="55"/>
+                                        <rect key="frame" x="0.0" y="334" width="320" height="55"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FcR-ra-Ivj" id="0Sk-EM-RAp">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="54"/>
@@ -292,7 +296,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" textLabel="8Fu-o3-LER" detailTextLabel="avN-WJ-oqe" rowHeight="55" style="IBUITableViewCellStyleSubtitle" id="MOl-kq-kol">
-                                        <rect key="frame" x="0.0" y="325" width="320" height="55"/>
+                                        <rect key="frame" x="0.0" y="389" width="320" height="55"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="MOl-kq-kol" id="K9m-Wv-yvr">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="54"/>
@@ -320,7 +324,7 @@
                             <tableViewSection headerTitle="Images" id="iL2-ha-ccx">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" textLabel="8Hi-SW-jW3" rowHeight="85" style="IBUITableViewCellStyleDefault" id="x63-Yz-hGY">
-                                        <rect key="frame" x="0.0" y="423" width="320" height="85"/>
+                                        <rect key="frame" x="0.0" y="487" width="320" height="85"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="x63-Yz-hGY" id="YKR-Wf-o6L">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="84"/>
@@ -385,7 +389,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Gbx-Sx-Yj7">
-                                                    <rect key="frame" x="19" y="34" width="293" height="172.5"/>
+                                                    <rect key="frame" x="19" y="34" width="293" height="173"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <string key="text">This table lists all available customizable properties on BEMSimpleLineGraph. Properties are grouped by their purpose and relevance to one another. The name / description of the property is in bold and the actual property is in a smaller font below.
 
@@ -456,14 +460,14 @@ In a future commit, this table will have options to see how each property affect
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="colorTop" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hZX-Fx-Bz2">
-                                                    <rect key="frame" x="19" y="42.5" width="49" height="15"/>
+                                                    <rect key="frame" x="19" y="43" width="49" height="15"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" white="0.2418534128" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="colorLine" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="LnK-HQ-mgo">
-                                                    <rect key="frame" x="19" y="57.5" width="52" height="15"/>
+                                                    <rect key="frame" x="19" y="58" width="52" height="15"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" white="0.2418534128" alpha="1" colorSpace="calibratedWhite"/>
@@ -501,14 +505,14 @@ In a future commit, this table will have options to see how each property affect
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="gradientTop" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="PvK-dB-ecW">
-                                                    <rect key="frame" x="19" y="42.5" width="66" height="15"/>
+                                                    <rect key="frame" x="19" y="43" width="66" height="15"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" white="0.2418534128" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="gradientLine" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="yfd-fx-uNX">
-                                                    <rect key="frame" x="19" y="57.5" width="70" height="15"/>
+                                                    <rect key="frame" x="19" y="58" width="70" height="15"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" white="0.2418534128" alpha="1" colorSpace="calibratedWhite"/>
@@ -577,14 +581,14 @@ In a future commit, this table will have options to see how each property affect
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="alphaTop" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8t3-dW-q4Y">
-                                                    <rect key="frame" x="19" y="42.5" width="51" height="15"/>
+                                                    <rect key="frame" x="19" y="43" width="51" height="15"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" white="0.2418534128" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="alphaLine" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="nHk-q2-Mnv">
-                                                    <rect key="frame" x="19" y="57.5" width="54" height="15"/>
+                                                    <rect key="frame" x="19" y="58" width="54" height="15"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" white="0.2418534128" alpha="1" colorSpace="calibratedWhite"/>
@@ -847,7 +851,7 @@ In a future commit, this table will have options to see how each property affect
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="colorYaxisLabel" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Dyq-LO-3ci">
-                                                    <rect key="frame" x="19" y="42.5" width="88" height="15"/>
+                                                    <rect key="frame" x="19" y="43" width="88" height="15"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" white="0.2418534128" alpha="1" colorSpace="calibratedWhite"/>
@@ -885,7 +889,7 @@ In a future commit, this table will have options to see how each property affect
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="colorBackgroundYaxis" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="sjS-Yf-e91">
-                                                    <rect key="frame" x="19" y="42.5" width="125" height="15"/>
+                                                    <rect key="frame" x="19" y="43" width="125" height="15"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" white="0.2418534128" alpha="1" colorSpace="calibratedWhite"/>
@@ -923,7 +927,7 @@ In a future commit, this table will have options to see how each property affect
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="alphaBackgroundYaxis" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="T9v-Sr-jit">
-                                                    <rect key="frame" x="19" y="42.5" width="128" height="15"/>
+                                                    <rect key="frame" x="19" y="43" width="128" height="15"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" white="0.2418534128" alpha="1" colorSpace="calibratedWhite"/>
@@ -1058,21 +1062,21 @@ In a future commit, this table will have options to see how each property affect
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="enableRightReferenceAxisFrameLine" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="2eV-UY-Udo">
-                                                    <rect key="frame" x="19" y="42.5" width="205" height="15"/>
+                                                    <rect key="frame" x="19" y="43" width="205" height="15"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" white="0.2418534128" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="enableTopReferenceAxisFrameLine" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="pby-Mg-i3a">
-                                                    <rect key="frame" x="19" y="57.5" width="196" height="15"/>
+                                                    <rect key="frame" x="19" y="58" width="196" height="15"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" white="0.2418534128" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="enableBottomReferenceAxisFrameLine" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="SVl-9l-PjQ">
-                                                    <rect key="frame" x="19" y="72.5" width="217" height="15"/>
+                                                    <rect key="frame" x="19" y="73" width="217" height="15"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" white="0.2418534128" alpha="1" colorSpace="calibratedWhite"/>
@@ -1141,7 +1145,7 @@ In a future commit, this table will have options to see how each property affect
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="lineDashPatternForReferenceYAxisLines" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="53q-Ar-e15">
-                                                    <rect key="frame" x="19" y="42.5" width="224" height="15"/>
+                                                    <rect key="frame" x="19" y="43" width="224" height="15"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" white="0.2418534128" alpha="1" colorSpace="calibratedWhite"/>
@@ -1784,7 +1788,7 @@ In a future commit, this table will have options to see how each property affect
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="CW8-fW-dDh">
-                                                    <rect key="frame" x="19" y="34" width="293" height="172.5"/>
+                                                    <rect key="frame" x="19" y="34" width="293" height="173"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <string key="text">This table lists all available properties on BEMAverageLine. Properties are grouped by their purpose and relevance to one another. The name / description of the property is in bold and the actual property is in a smaller font below.
 

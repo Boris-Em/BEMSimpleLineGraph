@@ -56,20 +56,20 @@
         
         if (self.enableLeftReferenceFrameLine) {
             // Left Line
-            [referenceFramePath moveToPoint:CGPointMake(0+self.lineWidth/4, self.frame.size.height)];
-            [referenceFramePath addLineToPoint:CGPointMake(0+self.lineWidth/4, 0)];
+            [referenceFramePath moveToPoint:CGPointMake(0+self.referenceLineWidth/4, self.frame.size.height)];
+            [referenceFramePath addLineToPoint:CGPointMake(0+self.referenceLineWidth/4, 0)];
         }
         
         if (self.enableTopReferenceFrameLine) {
             // Top Line
-            [referenceFramePath moveToPoint:CGPointMake(0+self.lineWidth/4, 0)];
+            [referenceFramePath moveToPoint:CGPointMake(0+self.referenceLineWidth/4, 0)];
             [referenceFramePath addLineToPoint:CGPointMake(self.frame.size.width, 0)];
         }
         
         if (self.enableRightReferenceFrameLine) {
             // Right Line
-            [referenceFramePath moveToPoint:CGPointMake(self.frame.size.width - self.lineWidth/4, self.frame.size.height)];
-            [referenceFramePath addLineToPoint:CGPointMake(self.frame.size.width - self.lineWidth/4, 0)];
+            [referenceFramePath moveToPoint:CGPointMake(self.frame.size.width - self.referenceLineWidth/4, self.frame.size.height)];
+            [referenceFramePath addLineToPoint:CGPointMake(self.frame.size.width - self.referenceLineWidth/4, 0)];
         }
         
         [referenceFramePath closePath];
@@ -268,7 +268,7 @@
         verticalReferenceLinesPathLayer.path = verticalReferenceLinesPath.CGPath;
         verticalReferenceLinesPathLayer.opacity = self.lineAlpha == 0 ? 0.1 : self.lineAlpha/2;
         verticalReferenceLinesPathLayer.fillColor = nil;
-        verticalReferenceLinesPathLayer.lineWidth = self.lineWidth/2;
+        verticalReferenceLinesPathLayer.lineWidth = self.referenceLineWidth/2;
         
         if (self.lineDashPatternForReferenceYAxisLines) {
             verticalReferenceLinesPathLayer.lineDashPattern = self.lineDashPatternForReferenceYAxisLines;
@@ -290,7 +290,7 @@
         horizontalReferenceLinesPathLayer.path = horizontalReferenceLinesPath.CGPath;
         horizontalReferenceLinesPathLayer.opacity = self.lineAlpha == 0 ? 0.1 : self.lineAlpha/2;
         horizontalReferenceLinesPathLayer.fillColor = nil;
-        horizontalReferenceLinesPathLayer.lineWidth = self.lineWidth/2;
+        horizontalReferenceLinesPathLayer.lineWidth = self.referenceLineWidth/2;
         if(self.lineDashPatternForReferenceXAxisLines) {
             horizontalReferenceLinesPathLayer.lineDashPattern = self.lineDashPatternForReferenceXAxisLines;
         }
@@ -311,7 +311,7 @@
     referenceLinesPathLayer.path = referenceFramePath.CGPath;
     referenceLinesPathLayer.opacity = self.lineAlpha == 0 ? 0.1 : self.lineAlpha/2;
     referenceLinesPathLayer.fillColor = nil;
-    referenceLinesPathLayer.lineWidth = self.lineWidth/2;
+    referenceLinesPathLayer.lineWidth = self.referenceLineWidth/2;
     
     if (self.refrenceLineColor) referenceLinesPathLayer.strokeColor = self.refrenceLineColor.CGColor;
     else referenceLinesPathLayer.strokeColor = self.color.CGColor;
