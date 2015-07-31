@@ -7,17 +7,9 @@
 //  Copyright (c) 2014 Sam Spencer.
 //
 
-
-#if __has_feature(objc_modules)
-    // We recommend enabling Objective-C Modules in your project Build Settings for numerous benefits over regular #imports
-    @import Foundation;
-    @import UIKit;
-    @import CoreGraphics;
-#else
-    #import <Foundation/Foundation.h>
-    #import <UIKit/UIKit.h>
-    #import <CoreGraphics/CoreGraphics.h>
-#endif
+@import Foundation;
+@import UIKit;
+@import CoreGraphics;
 
 
 /// Class to draw the circle for the points.

@@ -7,17 +7,9 @@
 //  Copyright (c) 2014 Sam Spencer.
 //
 
-
-#if __has_feature(objc_modules)
-    // We recommend enabling Objective-C Modules in your project Build Settings for numerous benefits over regular #imports
-    @import Foundation;
-    @import UIKit;
-    @import CoreGraphics;
-#else
-    #import <Foundation/Foundation.h>
-    #import <UIKit/UIKit.h>
-    #import <CoreGraphics/CoreGraphics.h>
-#endif
+@import Foundation;
+@import UIKit;
+@import CoreGraphics;
 
 #import "BEMAverageLine.h"
 
@@ -50,51 +42,39 @@ typedef NS_ENUM(NSUInteger, BEMLineGradientDirection) {
 
 //----- POINTS -----//
 
-/// The previous point. Necessary for Bezier curve
-@property (assign, nonatomic) CGPoint P0;
-
-/// The starting point of the line
-@property (assign, nonatomic) CGPoint P1;
-
-/// The ending point of the line
-@property (assign, nonatomic) CGPoint P2;
-
-/// The next point. Necessary for Bezier curve
-@property (assign, nonatomic) CGPoint P3;
-
 /// All of the Y-axis values for the points
-@property (nonatomic) NSArray *arrayOfPoints;
+@property (strong, nonatomic) NSArray *arrayOfPoints;
 
 /// All of the X-Axis coordinates used to draw vertical lines through
-@property (nonatomic) NSArray *arrayOfVerticalRefrenceLinePoints;
+@property (strong, nonatomic) NSArray *arrayOfVerticalRefrenceLinePoints;
 
 /// The value used to offset the fringe vertical reference lines when the x-axis labels are on the edge
 @property (assign, nonatomic) CGFloat verticalReferenceHorizontalFringeNegation;
 
 /// All of the Y-Axis coordinates used to draw horizontal lines through
-@property (nonatomic) NSArray *arrayOfHorizontalRefrenceLinePoints;
+@property (strong, nonatomic) NSArray *arrayOfHorizontalRefrenceLinePoints;
 
 /// All of the point values
-@property (nonatomic) NSArray *arrayOfValues;
+@property (strong, nonatomic) NSArray *arrayOfValues;
 
 /** Draw thin, translucent, reference lines using the provided X-Axis and Y-Axis coordinates.
  @see Use \p arrayOfVerticalRefrenceLinePoints to specify vertical reference lines' positions. Use \p arrayOfHorizontalRefrenceLinePoints to specify horizontal reference lines' positions. */
-@property (nonatomic) BOOL enableRefrenceLines;
+@property (assign, nonatomic) BOOL enableRefrenceLines;
 
 /** Draw a thin, translucent, frame on the edge of the graph to separate it from the labels on the X-Axis and the Y-Axis. */
-@property (nonatomic) BOOL enableRefrenceFrame;
+@property (assign, nonatomic) BOOL enableRefrenceFrame;
 
 /** If reference frames are enabled, this will enable/disable specific borders.  Default: YES */
-@property (nonatomic) BOOL enableLeftReferenceFrameLine;
+@property (assign, nonatomic) BOOL enableLeftReferenceFrameLine;
 
 /** If reference frames are enabled, this will enable/disable specific borders.  Default: YES */
-@property (nonatomic) BOOL enableBottomReferenceFrameLine;
+@property (assign, nonatomic) BOOL enableBottomReferenceFrameLine;
 
 /** If reference frames are enabled, this will enable/disable specific borders.  Default: NO */
-@property (nonatomic) BOOL enableRightReferenceFrameLine;
+@property (assign, nonatomic) BOOL enableRightReferenceFrameLine;
 
 /** If reference frames are enabled, this will enable/disable specific borders.  Default: NO */
-@property (nonatomic) BOOL enableTopReferenceFrameLine;
+@property (assign, nonatomic) BOOL enableTopReferenceFrameLine;
 
 /** Dash pattern for the references line on the X axis */
 @property (nonatomic, strong) NSArray *lineDashPatternForReferenceXAxisLines;
@@ -103,10 +83,10 @@ typedef NS_ENUM(NSUInteger, BEMLineGradientDirection) {
 @property (nonatomic, strong) NSArray *lineDashPatternForReferenceYAxisLines;
 
 /** If a null value is present, interpolation would draw a best fit line through the null point bound by its surrounding points.  Default: YES */
-@property (nonatomic) BOOL interpolateNullValues;
+@property (assign, nonatomic) BOOL interpolateNullValues;
 
 /** Draws everything but the main line on the graph; correlates to the \p displayDotsOnly property.  Default: NO */
-@property (nonatomic) BOOL disableMainLine;
+@property (assign, nonatomic) BOOL disableMainLine;
 
 
 
@@ -141,20 +121,20 @@ typedef NS_ENUM(NSUInteger, BEMLineGradientDirection) {
 //----- ALPHA -----//
 
 /// The line alpha
-@property (nonatomic) float lineAlpha;
+@property (assign, nonatomic) float lineAlpha;
 
 /// The alpha value of the area above the line, inside of its superview
-@property (nonatomic) float topAlpha;
+@property (assign, nonatomic) float topAlpha;
 
 /// The alpha value of the area below the line, inside of its superview
-@property (nonatomic) float bottomAlpha;
+@property (assign, nonatomic) float bottomAlpha;
 
 
 
 //----- SIZE -----//
 
 /// The width of the line
-@property (nonatomic) float lineWidth;
+@property (assign, nonatomic) float lineWidth;
 
 /// The width of a reference line
 @property (nonatomic) float referenceLineWidth;
@@ -164,17 +144,17 @@ typedef NS_ENUM(NSUInteger, BEMLineGradientDirection) {
 //----- BEZIER CURVE -----//
 
 /// The line is drawn with smooth curves rather than straight lines when set to YES.
-@property (nonatomic) BOOL bezierCurveIsEnabled;
+@property (assign, nonatomic) BOOL bezierCurveIsEnabled;
 
 
 
 //----- ANIMATION -----//
 
 /// The entrance animation period in seconds.
-@property (nonatomic) CGFloat animationTime;
+@property (assign, nonatomic) CGFloat animationTime;
 
 /// The type of entrance animation.
-@property (nonatomic) BEMLineAnimation animationType;
+@property (assign, nonatomic) BEMLineAnimation animationType;
 
 
 
@@ -184,7 +164,7 @@ typedef NS_ENUM(NSUInteger, BEMLineGradientDirection) {
 @property (strong, nonatomic) BEMAverageLine *averageLine;
 
 /// The average line's y-value translated into the coordinate system
-@property (nonatomic) CGFloat averageLineYCoordinate;
+@property (assign, nonatomic) CGFloat averageLineYCoordinate;
 
 
 

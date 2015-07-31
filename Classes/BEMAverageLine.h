@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Boris Emorine. All rights reserved.
 //
 
+@import Foundation;
 @import UIKit;
 
 
