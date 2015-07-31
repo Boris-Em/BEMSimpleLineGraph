@@ -53,10 +53,6 @@
     self.myGraph.enableReferenceYAxisLines = YES;
     self.myGraph.enableReferenceAxisFrame = YES;
     
-    //line widths
-    self.myGraph.widthLine = 4;
-    self.myGraph.widthReferenceLines = 1;
-    
     // Draw an average line
     self.myGraph.averageLine.enableAverageLine = YES;
     self.myGraph.averageLine.alpha = 0.6;
