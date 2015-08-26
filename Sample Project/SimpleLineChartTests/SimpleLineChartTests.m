@@ -88,22 +88,6 @@ NSString * const xAxisLabelString = @"X-Axis-Label";
     XCTAssert([values isEqualToArray:mockedValues], @"The array returned by 'graphValuesForDataPoints' should be similar than the one returned by the data source method 'valueForPointAtIndex:'labelOnXAxisForIndex:");
 }
 
-- (void)testGraphLabelsForXAxis {
-    [self.lineGraph reloadGraph];
-    
-    NSArray *labels = [self.lineGraph graphLabelsForXAxis];
-    XCTAssert(labels.count == numberOfPoints, @"The number of X-Axis labels should be the same as the number of points on the graph");
-    
-    for (UILabel *XAxisLabel in labels) {
-        XCTAssert([XAxisLabel isMemberOfClass:[UILabel class]], @"The array returned by 'graphLabelsForXAxis' should only return UILabels");
-        XCTAssert([XAxisLabel.text isEqualToString:xAxisLabelString], @"The X-Axis label's strings should be the same as the one returned by the data source method 'labelOnXAxisForIndex:'");
-        XCTAssert([XAxisLabel.backgroundColor isEqual:[UIColor clearColor]], @"X-Axis labels are expected to have a clear beackground color by default");
-        XCTAssert([XAxisLabel.textColor isEqual:[UIColor blackColor]], @"X-Axis labels are expected to have a black text color by default");
-        XCTAssert(XAxisLabel.textAlignment == NSTextAlignmentCenter, @"X-Axis labels are expected to have their text centered by default");
-        XCTAssert(XAxisLabel.tag == DotLastTag1000, @"X-Axis labels are expected to have a certain tag by default");
-    }
-}
-
 - (void)testDrawnPoints {
     self.lineGraph.animationGraphEntranceTime = 0.0;
     [self.lineGraph reloadGraph];
@@ -126,7 +110,36 @@ NSString * const xAxisLabelString = @"X-Axis-Label";
     }
 }
 
+- (void)testGraphLabelsForXAxis {
+    self.lineGraph.enableXAxisLabel = NO;
+    [self.lineGraph reloadGraph];
+    
+    XCTAssert([self.lineGraph graphLabelsForXAxis].count == 0);
+    
+    self.lineGraph.enableXAxisLabel = YES;
+    [self.lineGraph reloadGraph];
+    
+    NSArray *labels = [self.lineGraph graphLabelsForXAxis];
+    XCTAssert(labels.count == numberOfPoints, @"The number of X-Axis labels should be the same as the number of points on the graph");
+    
+    for (UILabel *XAxisLabel in labels) {
+        XCTAssert([XAxisLabel isMemberOfClass:[UILabel class]], @"The array returned by 'graphLabelsForXAxis' should only return UILabels");
+        XCTAssert([XAxisLabel.text isEqualToString:xAxisLabelString], @"The X-Axis label's strings should be the same as the one returned by the data source method 'labelOnXAxisForIndex:'");
+        XCTAssert([XAxisLabel.backgroundColor isEqual:[UIColor clearColor]], @"X-Axis labels are expected to have a clear beackground color by default");
+        XCTAssert([XAxisLabel.textColor isEqual:[UIColor blackColor]], @"X-Axis labels are expected to have a black text color by default");
+        XCTAssert(XAxisLabel.textAlignment == NSTextAlignmentCenter, @"X-Axis labels are expected to have their text centered by default");
+        XCTAssert(XAxisLabel.tag == DotLastTag1000, @"X-Axis labels are expected to have a certain tag by default");
+    }
+}
+
 - (void)testYAxisLabels {
+    self.lineGraph.enableYAxisLabel = NO;
+    [self.lineGraph reloadGraph];
+    
+    for (UILabel *label in self.lineGraph.subviews) {
+        XCTAssert(label.tag != LabelYAxisTag2000, @"No Y-Axis labels are expected if enableYAxisLabel is set to NO");
+    }
+    
     self.lineGraph.enableYAxisLabel = YES;
     [self.lineGraph reloadGraph];
     
