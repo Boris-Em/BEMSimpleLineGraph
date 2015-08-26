@@ -1,4 +1,5 @@
 language: objective-c
+osx_image: xcode6.4
 # xcode_project: Sample Project/SimpleLineChart.xcodeproj
 # xcode_scheme: SimpleLineChartTests
 # xcode_sdk: iphonesimulator
