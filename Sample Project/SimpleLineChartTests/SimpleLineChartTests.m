@@ -97,6 +97,10 @@ NSString * const xAxisLabelString = @"X-Axis-Label";
     for (UILabel *XAxisLabel in labels) {
         XCTAssert([XAxisLabel isMemberOfClass:[UILabel class]], @"The array returned by 'graphLabelsForXAxis' should only return UILabels");
         XCTAssert([XAxisLabel.text isEqualToString:xAxisLabelString], @"The X-Axis label's strings should be the same as the one returned by the data source method 'labelOnXAxisForIndex:'");
+        XCTAssert([XAxisLabel.backgroundColor isEqual:[UIColor clearColor]], @"X-Axis labels are expected to have a clear beackground color by default");
+        XCTAssert([XAxisLabel.textColor isEqual:[UIColor blackColor]], @"X-Axis labels are expected to have a black text color by default");
+        XCTAssert(XAxisLabel.textAlignment == NSTextAlignmentCenter, @"X-Axis labels are expected to have their text centered by default");
+        XCTAssert(XAxisLabel.tag == DotLastTag1000, @"X-Axis labels are expected to have a certain tag by default");
     }
 }
 
