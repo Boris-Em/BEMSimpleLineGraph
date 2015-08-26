@@ -126,8 +126,27 @@ NSString * const xAxisLabelString = @"X-Axis-Label";
     }
 }
 
+- (void)testYAxisLabels {
+    self.lineGraph.enableYAxisLabel = YES;
+    [self.lineGraph reloadGraph];
+    
+    NSString *value = [NSString stringWithFormat:@"%.f", pointValue];
+    
+    NSMutableArray *yAxisLabels = [NSMutableArray new];
+    for (UILabel *label in self.lineGraph.subviews) {
+        if ([label isKindOfClass:[UILabel class]] && label.tag == LabelYAxisTag2000) {
+            [yAxisLabels addObject:label];
+            XCTAssert([label.text isEqualToString:value], @"The value on the Y-Axis label is expected to be the value given by the data source method 'valueForPointAtIndex:'");
+            XCTAssert([label.textColor isEqual:[UIColor blackColor]], @"The Y-Axis label is expected to have a text color of black by default");
+            XCTAssert([label.backgroundColor isEqual:[UIColor clearColor]], @"The Y-Axis label is expected to have a backgrounf color of clear by default");
+        }
+    }
+    
+    XCTAssert(yAxisLabels.count == 1, @"With all the dots having the same value, we only expect one Y axis label");
+}
+
 - (void)tearDown {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
+    self.lineGraph = nil;
     [super tearDown];
 }
 
