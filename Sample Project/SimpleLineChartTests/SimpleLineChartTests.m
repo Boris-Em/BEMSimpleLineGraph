@@ -9,7 +9,18 @@
 @import XCTest;
 #import "BEMSimpleLineGraphView.h"
 
-/// General, simple tests for BEMSimpleLineGraph
+/// Same tags as in BEMSimpleLineGraphView.m
+typedef NS_ENUM(NSInteger, BEMInternalTags)
+{
+    DotFirstTag100 = 100,
+    DotLastTag1000 = 1000,
+    LabelYAxisTag2000 = 2000,
+    BackgroundYAxisTag2100 = 2100,
+    BackgroundXAxisTag2200 = 2200,
+    PermanentPopUpViewTag3100 = 3100,
+};
+
+/// General, simple tests for BEMSimpleLineGraph. Mostly testing default values.
 @interface SimpleLineGraphTests : XCTestCase <BEMSimpleLineGraphDelegate, BEMSimpleLineGraphDataSource>
 
 @property (strong, nonatomic) BEMSimpleLineGraphView *lineGraph;
@@ -86,6 +97,28 @@ NSString * const xAxisLabelString = @"X-Axis-Label";
     for (UILabel *XAxisLabel in labels) {
         XCTAssert([XAxisLabel isMemberOfClass:[UILabel class]], @"The array returned by 'graphLabelsForXAxis' should only return UILabels");
         XCTAssert([XAxisLabel.text isEqualToString:xAxisLabelString], @"The X-Axis label's strings should be the same as the one returned by the data source method 'labelOnXAxisForIndex:'");
+    }
+}
+
+- (void)testDrawnPoints {
+    self.lineGraph.animationGraphEntranceTime = 0.0;
+    [self.lineGraph reloadGraph];
+    
+    NSMutableArray *dots = [NSMutableArray new];
+    for (UIView *dot in self.lineGraph.subviews) {
+        if ([dot isKindOfClass:[BEMCircle class]] && dot.tag >= DotFirstTag100 && dot.tag <= DotLastTag1000) {
+            [dots addObject:dot];
+        }
+    }
+    XCTAssert(dots.count == numberOfPoints, @"There should be as many BEMCircle views in the graph's subviews as the data source method 'numberOfPointsInLineGraph:' returns");
+    
+    for (BEMCircle *dot in dots) {
+        XCTAssert(dot.bounds.size.width == 10.0, @"Dots are expected to have a default width of 10.0");
+        XCTAssert(dot.bounds.size.height == 10.0, @"Dots are expected to have a default height of 10.0");
+        XCTAssert([dot.Pointcolor isEqual:[UIColor whiteColor]], @"Dots are expected to be white by default");
+        XCTAssert(dot.absoluteValue == pointValue, @"Dots are expected to have a value equal to the value returned by the data source method 'valueForPointAtIndex:'");
+        XCTAssert(dot.alpha == 0.0, @"Dots are expected to not be displayed by default (alpha of 0)");
+        XCTAssert([dot.backgroundColor isEqual:[UIColor clearColor]], @"Dots are expected to have a clearColor background color by default");
     }
 }
 
