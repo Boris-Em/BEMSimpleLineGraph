@@ -8,6 +8,7 @@
 
 @import XCTest;
 #import "BEMSimpleLineGraphView.h"
+#import "contantsTests.h"
 
 /// Same tags as in BEMSimpleLineGraphView.m
 typedef NS_ENUM(NSInteger, BEMInternalTags)
@@ -27,9 +28,6 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 
 @end
 
-const NSInteger numberOfPoints = 100;
-const CGFloat pointValue = 3.0;
-NSString * const xAxisLabelString = @"X-Axis-Label";
 
 @implementation SimpleLineGraphTests
 

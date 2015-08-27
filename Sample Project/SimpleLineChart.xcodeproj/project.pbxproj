@@ -15,6 +15,7 @@
 		C3B90A5F187D15F7003E407D /* BEMCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = C3B90A59187D15F7003E407D /* BEMCircle.m */; };
 		C3B90A60187D15F7003E407D /* BEMLine.m in Sources */ = {isa = PBXBuildFile; fileRef = C3B90A5B187D15F7003E407D /* BEMLine.m */; };
 		C3B90A61187D15F7003E407D /* BEMSimpleLineGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = C3B90A5D187D15F7003E407D /* BEMSimpleLineGraphView.m */; };
+		C3BCA7E71B8ECCA6007E6090 /* CustomizationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C3BCA7E61B8ECCA6007E6090 /* CustomizationTests.m */; };
 		C3DC80671903845D0080FF06 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3FD816A186DFD9A00FD8ED3 /* Main.storyboard */; };
 		C3FD8159186DFD9A00FD8ED3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3FD8158186DFD9A00FD8ED3 /* Foundation.framework */; };
 		C3FD815B186DFD9A00FD8ED3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3FD815A186DFD9A00FD8ED3 /* CoreGraphics.framework */; };
@@ -56,6 +57,8 @@
 		C3B90A5B187D15F7003E407D /* BEMLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEMLine.m; sourceTree = "<group>"; };
 		C3B90A5C187D15F7003E407D /* BEMSimpleLineGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEMSimpleLineGraphView.h; sourceTree = "<group>"; };
 		C3B90A5D187D15F7003E407D /* BEMSimpleLineGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEMSimpleLineGraphView.m; sourceTree = "<group>"; };
+		C3BCA7E61B8ECCA6007E6090 /* CustomizationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomizationTests.m; sourceTree = "<group>"; };
+		C3BCA7E81B8ECE4E007E6090 /* contantsTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = contantsTests.h; sourceTree = "<group>"; };
 		C3FD8155186DFD9A00FD8ED3 /* SimpleLineChart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimpleLineChart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3FD8158186DFD9A00FD8ED3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C3FD815A186DFD9A00FD8ED3 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -182,7 +185,9 @@
 		C3FD817D186DFD9A00FD8ED3 /* SimpleLineChartTests */ = {
 			isa = PBXGroup;
 			children = (
+				C3BCA7E61B8ECCA6007E6090 /* CustomizationTests.m */,
 				C3FD8183186DFD9A00FD8ED3 /* SimpleLineChartTests.m */,
+				C3BCA7E81B8ECE4E007E6090 /* contantsTests.h */,
 				C3FD817E186DFD9A00FD8ED3 /* Supporting Files */,
 			);
 			path = SimpleLineChartTests;
@@ -313,6 +318,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C3FD8184186DFD9A00FD8ED3 /* SimpleLineChartTests.m in Sources */,
+				C3BCA7E71B8ECCA6007E6090 /* CustomizationTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
