@@ -2,7 +2,7 @@
 
 ## [v4.1](https://github.com/Boris-Em/BEMSimpleLineGraph/releases/tag/v4.1)
 
-[Full Changelog](://github.com/Boris-Em/BEMSimpleLineGraph/compare/v4.0...v4.1)
+[Full Changelog](https://github.com/Boris-Em/BEMSimpleLineGraph/compare/v4.0...v4.1)
 
 **Improvements**
 * Bezier Algorithm Improvements. This modifies the algorithm used to determine the graph's line. The old
