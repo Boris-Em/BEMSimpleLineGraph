@@ -303,19 +303,19 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
 
 
 /// Color of the background of the X-Axis
-@property (strong, nonatomic) UIColor *colorBackgroundXaxis;
+@property (strong, nonatomic) IBInspectable UIColor *colorBackgroundXaxis;
 
 
 /// Alpha of the background of the X-Axis
-@property (nonatomic) CGFloat alphaBackgroundXaxis;
+@property (nonatomic) IBInspectable CGFloat alphaBackgroundXaxis;
 
 
 /// Color of the background of the Y-Axis
-@property (strong, nonatomic) UIColor *colorBackgroundYaxis;
+@property (strong, nonatomic) IBInspectable UIColor *colorBackgroundYaxis;
 
 
 /// Alpha of the background of the Y-Axis
-@property (nonatomic) CGFloat alphaBackgroundYaxis;
+@property (nonatomic) IBInspectable CGFloat alphaBackgroundYaxis;
 
 
 /// Color of the label's text displayed on the Y-Axis. Defaut value is blackColor.
@@ -327,7 +327,7 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
 
 
 /// Position of the y-Axis in relation to the chart (Default: NO)
-@property (nonatomic) BOOL positionYAxisRight;
+@property (nonatomic) IBInspectable BOOL positionYAxisRight;
 
 
 /// A line dash patter to be applied to X axis reference lines.  This allows you to draw a dotted or hashed line
@@ -355,7 +355,7 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
 
 
 /// When set to YES, dots will be displayed at full opacity and no line will be drawn through the dots. Default value is NO.
-@property (nonatomic) BOOL displayDotsOnly;
+@property (nonatomic) IBInspectable BOOL displayDotsOnly;
 
 
 @end
