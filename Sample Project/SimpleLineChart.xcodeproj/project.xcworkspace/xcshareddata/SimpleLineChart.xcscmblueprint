@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "1CA8AD815677B6FB0DD135F65EC4576AE68426CF",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "1CA8AD815677B6FB0DD135F65EC4576AE68426CF" : 0,
+    "3A216D26EB93D9EB79DE1E013DBEF75CF4509620" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "F1F15B84-6620-4046-8D91-529CC20CD7C2",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "1CA8AD815677B6FB0DD135F65EC4576AE68426CF" : "BEMSimpleLineGraph",
+    "3A216D26EB93D9EB79DE1E013DBEF75CF4509620" : ""
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "SimpleLineChart",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Sample Project\/SimpleLineChart.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Boris-Em\/BEMSimpleLineGraph.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "1CA8AD815677B6FB0DD135F65EC4576AE68426CF"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.dowjones.net\/DJMobile\/ios-thesituation.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "3A216D26EB93D9EB79DE1E013DBEF75CF4509620"
+    }
+  ]
+}

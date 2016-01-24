@@ -12,6 +12,7 @@
 		99B3FA3A1877898B00539A7B /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 99B3FA381877898B00539A7B /* LICENSE */; };
 		99B3FA3B1877898B00539A7B /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 99B3FA391877898B00539A7B /* README.md */; };
 		A63990B51AD4923900B14D88 /* BEMAverageLine.m in Sources */ = {isa = PBXBuildFile; fileRef = A63990B41AD4923900B14D88 /* BEMAverageLine.m */; };
+		A64594521BAB257B00D6B8FD /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A64594501BAB257B00D6B8FD /* Launch Screen.storyboard */; settings = {ASSET_TAGS = (); }; };
 		C3B90A5F187D15F7003E407D /* BEMCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = C3B90A59187D15F7003E407D /* BEMCircle.m */; };
 		C3B90A60187D15F7003E407D /* BEMLine.m in Sources */ = {isa = PBXBuildFile; fileRef = C3B90A5B187D15F7003E407D /* BEMLine.m */; };
 		C3B90A61187D15F7003E407D /* BEMSimpleLineGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = C3B90A5D187D15F7003E407D /* BEMSimpleLineGraphView.m */; };
@@ -51,6 +52,7 @@
 		99B3FA391877898B00539A7B /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		A63990B31AD4923900B14D88 /* BEMAverageLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEMAverageLine.h; sourceTree = "<group>"; };
 		A63990B41AD4923900B14D88 /* BEMAverageLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEMAverageLine.m; sourceTree = "<group>"; };
+		A64594511BAB257B00D6B8FD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "Base.lproj/Launch Screen.storyboard"; sourceTree = "<group>"; };
 		C3B90A58187D15F7003E407D /* BEMCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEMCircle.h; sourceTree = "<group>"; };
 		C3B90A59187D15F7003E407D /* BEMCircle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEMCircle.m; sourceTree = "<group>"; };
 		C3B90A5A187D15F7003E407D /* BEMLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEMLine.h; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 		C3FD815F186DFD9A00FD8ED3 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A64594501BAB257B00D6B8FD /* Launch Screen.storyboard */,
 				C3FD8160186DFD9A00FD8ED3 /* SimpleLineChart-Info.plist */,
 				C3FD8161186DFD9A00FD8ED3 /* InfoPlist.strings */,
 				C3FD8164186DFD9A00FD8ED3 /* main.m */,
@@ -246,7 +249,7 @@
 		C3FD814D186DFD9A00FD8ED3 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Boris Emorine";
 				TargetAttributes = {
 					C3FD8175186DFD9A00FD8ED3 = {
@@ -278,6 +281,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A64594521BAB257B00D6B8FD /* Launch Screen.storyboard in Resources */,
 				99B3FA3A1877898B00539A7B /* LICENSE in Resources */,
 				C3DC80671903845D0080FF06 /* Main.storyboard in Resources */,
 				C3FD8171186DFD9A00FD8ED3 /* Images.xcassets in Resources */,
@@ -333,6 +337,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		A64594501BAB257B00D6B8FD /* Launch Screen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A64594511BAB257B00D6B8FD /* Base */,
+			);
+			name = "Launch Screen.storyboard";
+			sourceTree = "<group>";
+		};
 		C3FD8161186DFD9A00FD8ED3 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -378,6 +390,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -438,6 +451,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SimpleLineChart/SimpleLineChart-Prefix.pch";
 				INFOPLIST_FILE = "SimpleLineChart/SimpleLineChart-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "BorisEmorine.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -451,6 +465,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SimpleLineChart/SimpleLineChart-Prefix.pch";
 				INFOPLIST_FILE = "SimpleLineChart/SimpleLineChart-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "BorisEmorine.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -472,6 +487,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "SimpleLineChartTests/SimpleLineChartTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "BorisEmorine.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -490,6 +506,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SimpleLineChart/SimpleLineChart-Prefix.pch";
 				INFOPLIST_FILE = "SimpleLineChartTests/SimpleLineChartTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "BorisEmorine.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
