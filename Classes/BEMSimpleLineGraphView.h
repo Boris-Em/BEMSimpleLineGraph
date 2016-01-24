@@ -155,6 +155,11 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
 @property (nonatomic) BOOL enableTouchReport;
 
 
+/** The number of fingers required to report touches to the graph's delegate. The default value is 1.
+ @discussion Setting this value to greater than 1 might be beneficial in interfaces that allow the graph to scroll and still want to use touch reporting. */
+@property (nonatomic) NSInteger touchReportFingersRequired;
+
+
 /// If set to YES, a label will pop up on the graph when the user touches it. It will be displayed on top of the closest point from the user current touch location. Default value is NO.
 @property (nonatomic) BOOL enablePopUpReport;
 
