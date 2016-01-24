@@ -78,8 +78,6 @@
             [referenceFramePath moveToPoint:CGPointMake(self.frame.size.width - self.referenceLineWidth/4, self.frame.size.height)];
             [referenceFramePath addLineToPoint:CGPointMake(self.frame.size.width - self.referenceLineWidth/4, 0)];
         }
-
-        [referenceFramePath closePath];
     }
 
     if (self.enableRefrenceLines == YES) {
@@ -100,8 +98,6 @@
                 [verticalReferenceLinesPath moveToPoint:initialPoint];
                 [verticalReferenceLinesPath addLineToPoint:finalPoint];
             }
-
-            [verticalReferenceLinesPath closePath];
         }
 
         if (self.arrayOfHorizontalRefrenceLinePoints.count > 0) {
@@ -112,8 +108,6 @@
                 [horizontalReferenceLinesPath moveToPoint:initialPoint];
                 [horizontalReferenceLinesPath addLineToPoint:finalPoint];
             }
-
-            [horizontalReferenceLinesPath closePath];
         }
     }
 
@@ -131,8 +125,6 @@
 
         [averageLinePath moveToPoint:initialPoint];
         [averageLinePath addLineToPoint:finalPoint];
-
-        [averageLinePath closePath];
     }
 
 
