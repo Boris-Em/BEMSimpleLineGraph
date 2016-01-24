@@ -154,11 +154,14 @@
         }
     }
 
-    if (!self.disableMainLine && self.bezierCurveIsEnabled) {
+    BOOL bezierStatus = self.bezierCurveIsEnabled;
+    if (self.arrayOfPoints.count <= 2 && self.bezierCurveIsEnabled == YES) bezierStatus = NO;
+    
+    if (!self.disableMainLine && bezierStatus) {
         line = [BEMLine quadCurvedPathWithPoints:self.points];
         fillBottom = [BEMLine quadCurvedPathWithPoints:self.bottomPointsArray];
         fillTop = [BEMLine quadCurvedPathWithPoints:self.topPointsArray];
-    } else if (!self.disableMainLine && !self.bezierCurveIsEnabled) {
+    } else if (!self.disableMainLine && !bezierStatus) {
         line = [BEMLine linesToPoints:self.points];
         fillBottom = [BEMLine linesToPoints:self.bottomPointsArray];
         fillTop = [BEMLine linesToPoints:self.topPointsArray];
