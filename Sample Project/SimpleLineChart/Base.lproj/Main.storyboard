@@ -233,7 +233,7 @@
                                     <action selector="refresh:" destination="vXZ-lx-hvc" id="KaD-0G-Xt2"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem style="plain" id="E8g-dJ-KUF">
+                            <barButtonItem id="E8g-dJ-KUF">
                                 <stepper key="customView" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="11" minimumValue="3" maximumValue="140" id="YwO-xh-GEu">
                                     <rect key="frame" x="449" y="7" width="94" height="29"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -241,6 +241,7 @@
                                         <action selector="addOrRemovePointFromGraph:" destination="vXZ-lx-hvc" eventType="valueChanged" id="KpJ-vY-DUX"/>
                                     </connections>
                                 </stepper>
+                                <color key="tintColor" red="0.1215686275" green="0.73333333329999995" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
                             </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>

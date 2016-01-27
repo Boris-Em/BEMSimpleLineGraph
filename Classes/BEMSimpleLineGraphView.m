@@ -8,6 +8,7 @@
 //
 
 #import "BEMSimpleLineGraphView.h"
+#import "BEMGraphCalculator.h"
 
 const CGFloat BEMNullGraphValue = CGFLOAT_MAX;
 
@@ -346,8 +347,8 @@ typedef NS_ENUM(NSInteger, BEMInternalTags) {
                 self.popUpView.alpha = 0;
                 [self addSubview:self.popUpView];
             } else {
-                NSString *maxValueString = [NSString stringWithFormat:self.formatStringForValues, [self calculateMaximumPointValue].doubleValue];
-                NSString *minValueString = [NSString stringWithFormat:self.formatStringForValues, [self calculateMinimumPointValue].doubleValue];
+                NSString *maxValueString = [NSString stringWithFormat:self.formatStringForValues, [[BEMGraphCalculator sharedCalculator] calculateMaximumPointValueOnGraph:self].doubleValue];
+                NSString *minValueString = [NSString stringWithFormat:self.formatStringForValues, [[BEMGraphCalculator sharedCalculator] calculateMinimumPointValueOnGraph:self].doubleValue];
                 
                 NSString *longestString = @"";
                 if (maxValueString.length > minValueString.length) {
@@ -610,7 +611,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags) {
     line.animationType = self.animationGraphStyle;
     
     if (self.averageLine.enableAverageLine == YES) {
-        if (self.averageLine.yValue == 0.0) self.averageLine.yValue = [self calculatePointValueAverage].floatValue;
+        if (self.averageLine.yValue == 0.0) self.averageLine.yValue = [[BEMGraphCalculator sharedCalculator] calculatePointValueAverageOnGraph:self].floatValue;
         line.averageLineYCoordinate = [self yPositionForDotValue:self.averageLine.yValue];
         line.averageLine = self.averageLine;
     } else line.averageLine = self.averageLine;
@@ -925,12 +926,9 @@ typedef NS_ENUM(NSInteger, BEMInternalTags) {
     
     if (self.autoScaleYAxis) {
         // Plot according to min-max range
-        NSNumber *minimumValue;
-        NSNumber *maximumValue;
+        NSNumber *minimumValue = [[BEMGraphCalculator sharedCalculator] calculateMinimumPointValueOnGraph:self];
+        NSNumber *maximumValue = [[BEMGraphCalculator sharedCalculator] calculateMaximumPointValueOnGraph:self];
 
-        minimumValue = [self calculateMinimumPointValue];
-        maximumValue = [self calculateMaximumPointValue];
-        
         CGFloat numberOfLabels;
         if ([self.delegate respondsToSelector:@selector(numberOfYAxisLabelsOnLineGraph:)]) {
             numberOfLabels = [self.delegate numberOfYAxisLabelsOnLineGraph:self];
@@ -1182,90 +1180,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags) {
         [subviews removeFromSuperview];
     }
     [self drawGraph];
-//    [self setNeedsLayout];
 }
-
-#pragma mark - Calculations
-
-- (NSArray *)calculationDataPoints {
-    NSPredicate *filter = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        NSNumber *value = (NSNumber *)evaluatedObject;
-        BOOL retVal = ![value isEqualToNumber:@(BEMNullGraphValue)];
-        return retVal;
-    }];
-    NSArray *filteredArray = [dataPoints filteredArrayUsingPredicate:filter];
-    return filteredArray;
-}
-
-- (NSNumber *)calculatePointValueAverage {
-    NSArray *filteredArray = [self calculationDataPoints];
-    if (filteredArray.count == 0) return 0;
-    
-    NSExpression *expression = [NSExpression expressionForFunction:@"average:" arguments:@[[NSExpression expressionForConstantValue:filteredArray]]];
-    NSNumber *value = [expression expressionValueWithObject:nil context:nil];
-    
-    return value;
-}
-
-- (NSNumber *)calculatePointValueSum {
-    NSArray *filteredArray = [self calculationDataPoints];
-    if (filteredArray.count == 0) return 0;
-    
-    NSExpression *expression = [NSExpression expressionForFunction:@"sum:" arguments:@[[NSExpression expressionForConstantValue:filteredArray]]];
-    NSNumber *value = [expression expressionValueWithObject:nil context:nil];
-    
-    return value;
-}
-
-- (NSNumber *)calculatePointValueMedian {
-    NSArray *filteredArray = [self calculationDataPoints];
-    if (filteredArray.count == 0) return 0;
-    
-    NSExpression *expression = [NSExpression expressionForFunction:@"median:" arguments:@[[NSExpression expressionForConstantValue:filteredArray]]];
-    NSNumber *value = [expression expressionValueWithObject:nil context:nil];
-    
-    return value;
-}
-
-- (NSNumber *)calculatePointValueMode {
-    NSArray *filteredArray = [self calculationDataPoints];
-    if (filteredArray.count == 0) return 0;
-    
-    NSExpression *expression = [NSExpression expressionForFunction:@"mode:" arguments:@[[NSExpression expressionForConstantValue:filteredArray]]];
-    NSMutableArray *value = [expression expressionValueWithObject:nil context:nil];
-    
-    return [value firstObject];
-}
-
-- (NSNumber *)calculateLineGraphStandardDeviation {
-    NSArray *filteredArray = [self calculationDataPoints];
-    if (filteredArray.count == 0) return 0;
-    
-    NSExpression *expression = [NSExpression expressionForFunction:@"stddev:" arguments:@[[NSExpression expressionForConstantValue:filteredArray]]];
-    NSNumber *value = [expression expressionValueWithObject:nil context:nil];
-    
-    return value;
-}
-
-- (NSNumber *)calculateMinimumPointValue {
-    NSArray *filteredArray = [self calculationDataPoints];
-    if (filteredArray.count == 0) return 0;
-    
-    NSExpression *expression = [NSExpression expressionForFunction:@"min:" arguments:@[[NSExpression expressionForConstantValue:filteredArray]]];
-    NSNumber *value = [expression expressionValueWithObject:nil context:nil];
-    return value;
-}
-
-- (NSNumber *)calculateMaximumPointValue {
-    NSArray *filteredArray = [self calculationDataPoints];
-    if (filteredArray.count == 0) return 0;
-    
-    NSExpression *expression = [NSExpression expressionForFunction:@"max:" arguments:@[[NSExpression expressionForConstantValue:filteredArray]]];
-    NSNumber *value = [expression expressionValueWithObject:nil context:nil];
-    
-    return value;
-}
-
 
 #pragma mark - Values
 
@@ -1574,6 +1489,43 @@ typedef NS_ENUM(NSInteger, BEMInternalTags) {
     _colorTouchInputLine = colorTouchInputLine;
 }
 
+#pragma mark - Calculations
+
+- (NSNumber *)calculatePointValueAverage {
+    [self printDeprecationTransitionWarningForOldMethod:@"calculatePointValueAverage" replacementMethod:@"calculatePointValueAverageOnGraph:" newObject:@"BEMGraphCalculator" sharedInstance:YES];
+    return [[BEMGraphCalculator sharedCalculator] calculatePointValueAverageOnGraph:self];
+}
+
+- (NSNumber *)calculatePointValueSum {
+    [self printDeprecationTransitionWarningForOldMethod:@"calculatePointValueSum" replacementMethod:@"calculatePointValueSumOnGraph:" newObject:@"BEMGraphCalculator" sharedInstance:YES];
+    return [[BEMGraphCalculator sharedCalculator] calculatePointValueSumOnGraph:self];
+}
+
+- (NSNumber *)calculatePointValueMedian {
+    [self printDeprecationTransitionWarningForOldMethod:@"calculatePointValueMedian" replacementMethod:@"calculatePointValueMedianOnGraph:" newObject:@"BEMGraphCalculator" sharedInstance:YES];
+    return [[BEMGraphCalculator sharedCalculator] calculatePointValueMedianOnGraph:self];
+}
+
+- (NSNumber *)calculatePointValueMode {
+    [self printDeprecationTransitionWarningForOldMethod:@"calculatePointValueMode" replacementMethod:@"calculatePointValueModeOnGraph:" newObject:@"BEMGraphCalculator" sharedInstance:YES];
+    return [[BEMGraphCalculator sharedCalculator] calculatePointValueModeOnGraph:self];
+}
+
+- (NSNumber *)calculateLineGraphStandardDeviation {
+    [self printDeprecationTransitionWarningForOldMethod:@"calculateLineGraphStandardDeviation" replacementMethod:@"calculateStandardDeviationOnGraph:" newObject:@"BEMGraphCalculator" sharedInstance:YES];
+    return [[BEMGraphCalculator sharedCalculator] calculateStandardDeviationOnGraph:self];
+}
+
+- (NSNumber *)calculateMinimumPointValue {
+    [self printDeprecationTransitionWarningForOldMethod:@"calculateMinimumPointValue" replacementMethod:@"calculateMinimumPointValueOnGraph:" newObject:@"BEMGraphCalculator" sharedInstance:YES];
+    return [[BEMGraphCalculator sharedCalculator] calculateMinimumPointValueOnGraph:self];
+}
+
+- (NSNumber *)calculateMaximumPointValue {
+    [self printDeprecationTransitionWarningForOldMethod:@"calculateMaximumPointValue" replacementMethod:@"calculateMaximumPointValueOnGraph:" newObject:@"BEMGraphCalculator" sharedInstance:YES];
+    return [[BEMGraphCalculator sharedCalculator] calculateMaximumPointValueOnGraph:self];
+}
+
 #pragma mark - Other Methods
 
 - (void)printDeprecationAndUnavailableWarningForOldMethod:(NSString *)oldMethod {
@@ -1582,6 +1534,11 @@ typedef NS_ENUM(NSInteger, BEMInternalTags) {
 
 - (void)printDeprecationWarningForOldMethod:(NSString *)oldMethod andReplacementMethod:(NSString *)replacementMethod {
     NSLog(@"[BEMSimpleLineGraph] DEPRECATION WARNING. The delegate method, %@, is deprecated and will become unavailable in a future version. Use %@ instead. Update your delegate method as soon as possible. An exception will be thrown in a future version.", oldMethod, replacementMethod);
+}
+
+- (void)printDeprecationTransitionWarningForOldMethod:(NSString *)oldMethod replacementMethod:(NSString *)replacementMethod newObject:(NSString *)newObjectName sharedInstance:(BOOL)isSharedInstance {
+    if (isSharedInstance == YES) NSLog(@"[BEMSimpleLineGraph] %@ is deprecated. Please use %@ on the shared instance of %@.", oldMethod, replacementMethod, newObjectName);
+    else NSLog(@"[BEMSimpleLineGraph] %@ is deprecated. Please use %@ on the %@ class.", oldMethod, replacementMethod, newObjectName);
 }
 
 @end
