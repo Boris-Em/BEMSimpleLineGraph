@@ -11,7 +11,16 @@
 #import "BEMSimpleLineGraphView.h"
 
 
-/// Makes calculations given a specific graph object
+/** Makes calculations given for a specific graph object. 
+ @discussion Supply a graph object to the calculator to perform operations with that graph's data. Calculations may include the following:  
+   - Average value of points
+   - Sum of points  
+   - Median of points  
+   - Mode of points  
+   - Graph standard deviation  
+   - Minimum point value on graph  
+   - Maximum point value on graph  
+ More complex operations in the realm of calculus (including differentiation and integral calculation) may be added in a future update. */
 @interface BEMGraphCalculator : NSObject
 
 + (BEMGraphCalculator *)sharedCalculator;
