@@ -146,7 +146,7 @@
 }
 
 - (float)getRandomFloat {
-    float i1 = (float)(arc4random() % 1000000) / 100 ;
+    float i1 = arc4random_uniform(5000);
     return i1;
 }
 
@@ -182,6 +182,7 @@
         controller.mode = [NSString stringWithFormat:@"%.2f", [[[BEMGraphCalculator sharedCalculator] calculatePointValueModeOnGraph:self.myGraph] floatValue]];
         controller.minimum = [NSString stringWithFormat:@"%.2f", [[[BEMGraphCalculator sharedCalculator] calculateMinimumPointValueOnGraph:self.myGraph] floatValue]];
         controller.maximum = [NSString stringWithFormat:@"%.2f", [[[BEMGraphCalculator sharedCalculator] calculateMaximumPointValueOnGraph:self.myGraph] floatValue]];
+        controller.area = [NSString stringWithFormat:@"%.2f", [[[BEMGraphCalculator sharedCalculator] calculateAreaUsingIntegrationMethod:BEMIntegrationMethodParabolicSimpsonSum onGraph:self.myGraph xAxisScale:[NSNumber numberWithInt:1]] floatValue]];
         controller.snapshotImage = [self.myGraph graphSnapshotImage];
     }
 }
