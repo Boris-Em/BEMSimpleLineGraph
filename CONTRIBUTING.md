@@ -24,8 +24,11 @@ The best way to contribute changes (e.g. a great idea, a new feature, bug fixes,
 
 1. Fork this repository and clone that fork onto your computer.  
 2. Make changes to the forked repo, fix any errors, debug.  
-3. Commit and then push all the changes up to your forked GitHub repo.  
-4. Submit a pull request from your forked GitHub repo into the main repo. Make sure to detail what changes you made in the pull request.  
+3. Commit and then push all the changes up to your forked GitHub repo. 
+4. Choose a branch on the main repository to merge your changes into. If you're unsure, check below for which branch to merge with.  
+      - **Master Branch**: Your changes are non-breaking project updates, README changes, documentation updates, bug fixes, and minor improvements. Generally, any non-breaking major changes should be submitted to this branch.  
+      - **Feature Branch**: Your forked changes are either major project updates / changes, or breaking changes. Because of semantic versioning and API vavailability, any changes to public API availability or behavior should be submitted to this branch.  
+5. Submit a pull request from your forked GitHub repo into the main repo. Make sure to detail what changes you made in the pull request.  
 
 #### Code Guidelines
 Before submitting any code changes, read over the code / syntax guidelines to make sure everything you write matches the appropriate coding style. The [Objective-C Coding Guidelines](https://github.com/github/objective-c-conventions) are available on GitHub.
