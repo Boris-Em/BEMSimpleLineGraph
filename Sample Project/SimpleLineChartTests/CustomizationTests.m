@@ -82,9 +82,9 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     for (BEMCircle *dot in dots) {
         XCTAssert(dot.bounds.size.width == sizePoint, @"Dots size point has been customized to 20.0");
         XCTAssert(dot.bounds.size.height == sizePoint, @"Dots size point has been customized to 20.0");
-        XCTAssert([dot.Pointcolor isEqual:[UIColor greenColor]], @"Dots color has been set to green");
+        XCTAssert([dot.color isEqual:[UIColor greenColor]], @"Dots color has been set to green");
         XCTAssert(dot.absoluteValue == pointValue, @"Dots are expected to have a value equal to the value returned by the data source method 'valueForPointAtIndex:'");
-        XCTAssert(dot.alpha >= 0.98 && dot.alpha <= 1.0, @"Dots are expected to always be displayed (alpha of 0.7)");
+        XCTAssert(dot.alpha >= 0.98 && dot.alpha <= 1.0, @"Dots are expected to always be displayed (alpha of 1.0)");
         XCTAssert([dot.backgroundColor isEqual:[UIColor clearColor]], @"Dots are expected to have a clearColor background color by default");
     }
 }
