@@ -23,7 +23,7 @@
 - (void)drawRect:(CGRect)rect {
     CGContextRef ctx = UIGraphicsGetCurrentContext();
     CGContextAddEllipseInRect(ctx, rect);
-    [self.Pointcolor set];
+    [self.color set];
     CGContextFillPath(ctx);
 }
 
