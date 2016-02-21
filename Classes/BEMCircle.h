@@ -18,8 +18,12 @@
 /// Set to YES if the data point circles should be constantly displayed. NO if they should only appear when relevant.
 @property (assign, nonatomic) BOOL shouldDisplayConstantly;
 
-/// The point color
-@property (strong, nonatomic) UIColor *Pointcolor;
+/// The point's color
+@property (strong, nonatomic) UIColor *color;
+
+/** The point color
+ @deprecated This property is no longer in use. Please use the \p color property instead. */
+@property (strong, nonatomic) UIColor *Pointcolor __deprecated_msg("Use color instead");
 
 /// The value of the point
 @property (nonatomic) CGFloat absoluteValue;

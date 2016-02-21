@@ -66,11 +66,6 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
 - (void)reloadGraph;
 
 
-/** Calculates the distance between the touch input and the closest point on the graph.
- @return The distance between the touch input and the closest point on the graph. */
-- (CGFloat)distanceToClosestPoint __deprecated;
-
-
 /** Takes a snapshot of the graph while the app is in the foreground.
  @return The snapshot of the graph as a UIImage object. */
 - (UIImage *)graphSnapshotImage NS_AVAILABLE_IOS(7_0);
@@ -596,80 +591,6 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
  @return The increment value to add to the value returned from `baseValueForYAxisOnLineGraph` for future Y-Axis labels */
 - (CGFloat)incrementValueForYAxisOnLineGraph:(BEMSimpleLineGraphView *)graph;
 
-
-
-
-//----- DEPRECATED -----//
-
-
-/** \b DEPRECATED. Use \p numberOfPointsInLineGraph: instead. The number of points along the X-axis of the graph.
- @warning This method will be removed in the next version with breaking changes.
- @deprecated Deprecated in 1.3. Use \p numberOfPointsInLineGraph: instead.
- @return Number of points. */
-- (int)numberOfPointsInGraph __deprecated;
-
-
-/** \b DEPRECATED. Use \p lineGraph:valueForPointAtIndex: instead.
- @warning This method will be removed in the next version with breaking changes.
- @deprecated Deprecated in 1.3. Use \p lineGraph:valueForPointAtIndex: instead.
- @param index The index from left to right of a given point (X-axis). The first value for the index is 0.
- @return The Y-axis value at a given index. */
-- (float)valueForIndex:(NSInteger)index __deprecated;
-
-
-/** \b DEPRECATED. Use \p lineGraph:didTouchGraphWithClosestIndex: instead. Gets called when the user starts touching the graph. The property 'enableTouchReport' must be set to YES.
- @warning This method will be removed in the next version with breaking changes.
- @deprecated Deprecated in 1.3. Use \p lineGraph:didTouchGraphWithClosestIndex: instead.
- @param index The closest index (X-axis) from the location the user is currently touching. */
-- (void)didTouchGraphWithClosestIndex:(int)index __deprecated;
-
-
-/** \b DEPRECATED. Use \p lineGraph:didReleaseTouchFromGraphWithClosestIndex: instead. Gets called when the user stops touching the graph.
- @warning This method will be removed in the next version with breaking changes.
- @deprecated Deprecated in 1.3. Use \p lineGraph:didReleaseTouchFromGraphWithClosestIndex: instead.
- @param index The closest index (X-axis) from the location the user last touched. */
-- (void)didReleaseGraphWithClosestIndex:(float)index __deprecated;
-
-
-/** \b DEPRECATED. Use \p numberOfGapsBetweenLabelsOnLineGraph: instead. The number of free space between labels on the X-axis to avoid overlapping.
- @warning This method will be removed in the next version with breaking changes.
- @deprecated Deprecated in 1.3. Use \p numberOfGapsBetweenLabelsOnLineGraph: instead.
- @discussion For example returning '1' would mean that half of the labels on the X-axis are not displayed: the first is not displayed, the second is, the third is not etc. Returning '0' would mean that all of the labels will be displayed. Finally, returning a value equal to the number of labels will only display the first and last label.
- @return The number of labels to "jump" between each displayed label on the X-axis. */
-- (int)numberOfGapsBetweenLabels __deprecated;
-
-
-/** \b DEPRECATED. Use \p lineGraph:labelOnXAxisForIndex: instead. The string to display on the label on the X-axis at a given index. Please note that the number of strings to be returned should be equal to the number of points in the Graph.
- @warning This method will be removed in the next version with breaking changes.
- @deprecated Deprecated in 1.3. Use \p lineGraph:labelOnXAxisForIndex: instead.
- @param index The index from left to right of a given label on the X-axis. Is the same index as the one for the points. The first value for the index is 0. */
-- (NSString *)labelOnXAxisForIndex:(NSInteger)index __deprecated;
-
-
-/** \b DEPRECATED. No longer available on \p BEMSimpleLineGraphDelegate. Implement this method on \p BEMSimpleLineGraphDataSource instead. The number of points along the X-axis of the graph.
- @deprecated Deprecated in 2.3. Implement with \p BEMSimpleLineGraphDataSource instead.
- @param graph The graph object requesting the total number of points.
- @return The total number of points in the line graph. */
-- (NSInteger)numberOfPointsInLineGraph:(BEMSimpleLineGraphView *)graph __unavailable __deprecated;
-
-
-/** \b DEPRECATED. No longer available on \p BEMSimpleLineGraphDelegate. Implement this method on \p BEMSimpleLineGraphDataSource instead. The vertical position for a point at the given index. It corresponds to the Y-axis value of the Graph.
- @deprecated Deprecated in 2.3. Implement with \p BEMSimpleLineGraphDataSource instead.
- 
- @param graph The graph object requesting the point value.
- @param index The index from left to right of a given point (X-axis). The first value for the index is 0.
- @return The Y-axis value at a given index. */
-- (CGFloat)lineGraph:(BEMSimpleLineGraphView *)graph valueForPointAtIndex:(NSInteger)index __unavailable __deprecated;
-
-
-/** \b DEPRECATED. No longer available on \p BEMSimpleLineGraphDelegate. Implement this method on \p BEMSimpleLineGraphDataSource instead. The string to display on the label on the X-axis at a given index. Please note that the number of strings to be returned should be equal to the number of points in the Graph.
- @deprecated Deprecated in 2.3. Implement with \p BEMSimpleLineGraphDataSource instead.
- 
- @param graph The graph object which is requesting the label on the specified X-Axis position.
- @param index The index from left to right of a given label on the X-axis. Is the same index as the one for the points. The first value for the index is 0. */
-- (NSString *)lineGraph:(BEMSimpleLineGraphView *)graph labelOnXAxisForIndex:(NSInteger)index __unavailable __deprecated;
-
+@end
 
 NS_ASSUME_NONNULL_END
-
-@end
