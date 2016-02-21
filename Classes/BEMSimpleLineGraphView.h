@@ -282,7 +282,7 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
 @property (nonatomic) IBInspectable CGFloat sizePoint;
 
 
-/// The color of the circles that represent each point. Default is white.
+/// The color of the circles that represent each point. Default is white at 70% alpha.
 @property (strong, nonatomic) IBInspectable UIColor *colorPoint;
 
 
