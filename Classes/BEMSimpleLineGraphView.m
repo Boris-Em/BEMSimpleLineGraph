@@ -822,11 +822,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     }
     
     // Set the final center point of the x-axis labels
-    if (self.positionYAxisRight) {
-        center = CGPointMake(positionOnXAxis, self.frame.size.height - lRect.size.height/2);
-    } else {
-        center = CGPointMake(positionOnXAxis, self.frame.size.height - lRect.size.height/2);
-    }
+    center = CGPointMake(positionOnXAxis, self.frame.size.height - lRect.size.height/2 - 1);
     
     CGRect rect = labelXAxis.frame;
     rect.size = lRect.size;
@@ -851,13 +847,13 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     
     if (self.positionYAxisRight) {
         frameForBackgroundYAxis = CGRectMake(self.frame.size.width - self.YAxisLabelXOffset, 0, self.YAxisLabelXOffset, self.frame.size.height);
-        frameForLabelYAxis = CGRectMake(self.frame.size.width - self.YAxisLabelXOffset - 5, 0, self.YAxisLabelXOffset - 5, 15);
-        xValueForCenterLabelYAxis = self.frame.size.width - self.YAxisLabelXOffset /2;
+        frameForLabelYAxis = CGRectMake(self.frame.size.width - self.YAxisLabelXOffset - 1, 0, self.YAxisLabelXOffset - 1, 15);
+        xValueForCenterLabelYAxis = self.frame.size.width - (self.YAxisLabelXOffset-1)/2;
         textAlignmentForLabelYAxis = NSTextAlignmentRight;
     } else {
         frameForBackgroundYAxis = CGRectMake(0, 0, self.YAxisLabelXOffset, self.frame.size.height);
-        frameForLabelYAxis = CGRectMake(0, 0, self.YAxisLabelXOffset - 5, 15);
-        xValueForCenterLabelYAxis = self.YAxisLabelXOffset/2;
+        frameForLabelYAxis = CGRectMake(1, 0, self.YAxisLabelXOffset - 1, 15);
+        xValueForCenterLabelYAxis = (self.YAxisLabelXOffset-1)/2;
         textAlignmentForLabelYAxis = NSTextAlignmentRight;
     }
     
