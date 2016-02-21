@@ -38,6 +38,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 }
 
 #pragma mark BEMSimpleLineGraph Data Source
+
 - (NSInteger)numberOfPointsInLineGraph:(BEMSimpleLineGraphView * __nonnull)graph {
     return numberOfPoints;
 }
@@ -59,6 +60,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 }
 
 #pragma mark Tests
+
 - (void)testDotCustomization {
     CGFloat sizePoint = 20.0;
     
@@ -82,7 +84,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
         XCTAssert(dot.bounds.size.height == sizePoint, @"Dots size point has been customized to 20.0");
         XCTAssert([dot.Pointcolor isEqual:[UIColor greenColor]], @"Dots color has been set to green");
         XCTAssert(dot.absoluteValue == pointValue, @"Dots are expected to have a value equal to the value returned by the data source method 'valueForPointAtIndex:'");
-        XCTAssert(dot.alpha >= 0.69 && dot.alpha <= 0.71, @"Dots are expected to always be displayed (alpha of 0.7)");
+        XCTAssert(dot.alpha >= 0.98 && dot.alpha <= 1.0, @"Dots are expected to always be displayed (alpha of 0.7)");
         XCTAssert([dot.backgroundColor isEqual:[UIColor clearColor]], @"Dots are expected to have a clearColor background color by default");
     }
 }
