@@ -19,7 +19,7 @@
 
 
 /// The color of the average line
-@property (strong, nonatomic) UIColor *color;
+@property (strong, nonatomic, nonnull) UIColor *color;
 
 
 /// The Y-Value of the average line. This could be an average, a median, a mode, sum, etc.
@@ -35,7 +35,14 @@
 
 
 /// Dash pattern for the average line
-@property (strong, nonatomic) NSArray *dashPattern;
+@property (strong, nonatomic, nullable) NSArray *dashPattern;
 
+
+//Label for average line in y axis. Default is blank.
+@property (strong, nonatomic, nullable) NSString * title;
+
+
+/// Title label on screen
+@property (strong, nonatomic, nullable) UILabel *label;
 
 @end

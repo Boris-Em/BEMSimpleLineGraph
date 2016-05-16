@@ -41,25 +41,29 @@
     };
     
     // Apply the gradient to the bottom portion of the graph
-    self.myGraph.gradientBottom = CGGradientCreateWithColorComponents(colorspace, components, locations, num_locations);
-    
+    self.myGraph.gradientBottom =  CGGradientCreateWithColorComponents(colorspace, components, locations, num_locations);
+    CGColorSpaceRelease(colorspace);
+    //Note clang analyzer will complain about leak of gradient, but we use assign on gradient properties to avoid leak
+
     // Enable and disable various graph properties and axis displays
     self.myGraph.enableTouchReport = YES;
     self.myGraph.enablePopUpReport = YES;
     self.myGraph.enableYAxisLabel = YES;
     self.myGraph.autoScaleYAxis = YES;
-    self.myGraph.alwaysDisplayDots = NO;
+    self.myGraph.alwaysDisplayDots = YES;
+    self.myGraph.alwaysDisplayPopUpLabels = YES;
     self.myGraph.enableReferenceXAxisLines = YES;
     self.myGraph.enableReferenceYAxisLines = YES;
     self.myGraph.enableReferenceAxisFrame = YES;
-    
+
     // Draw an average line
     self.myGraph.averageLine.enableAverageLine = YES;
     self.myGraph.averageLine.alpha = 0.6;
     self.myGraph.averageLine.color = [UIColor darkGrayColor];
     self.myGraph.averageLine.width = 2.5;
     self.myGraph.averageLine.dashPattern = @[@(2),@(2)];
-    
+    self.myGraph.averageLine.title = @"Avg";
+
     // Set the graph's animation style to draw, fade, or none
     self.myGraph.animationGraphStyle = BEMLineAnimationDraw;
     
@@ -92,7 +96,7 @@
     previousStepperValue = self.graphObjectIncrement.value;
     totalNumber = 0;
     NSDate *baseDate = [NSDate date];
-    BOOL showNullValue = true;
+    BOOL showNullValue = YES;
     
     // Add objects to the array based on the stepper value
     for (int i = 0; i < 9; i++) {
@@ -156,10 +160,11 @@
     if (self.graphObjectIncrement.value > previousStepperValue) {
         // Add point
         [self.arrayOfValues addObject:@([self getRandomFloat])];
-        NSDate *newDate = [self dateForGraphAfterDate:(NSDate *)[self.arrayOfDates lastObject]];
+        NSDate *lastDate = self.arrayOfDates.count > 0 ? [self.arrayOfDates lastObject]: [NSDate date];
+        NSDate *newDate = [self dateForGraphAfterDate:lastDate];
         [self.arrayOfDates addObject:newDate];
         [self.myGraph reloadGraph];
-    } else if (self.graphObjectIncrement.value < previousStepperValue) {
+    } else if (self.graphObjectIncrement.value < previousStepperValue && self.arrayOfValues.count > 0) {
         // Remove point
         [self.arrayOfValues removeObjectAtIndex:0];
         [self.arrayOfDates removeObjectAtIndex:0];
@@ -191,27 +196,27 @@
 
 #pragma mark - SimpleLineGraph Data Source
 
-- (NSInteger)numberOfPointsInLineGraph:(BEMSimpleLineGraphView *)graph {
+- (NSUInteger)numberOfPointsInLineGraph:(BEMSimpleLineGraphView *)graph {
     return (int)[self.arrayOfValues count];
 }
 
-- (CGFloat)lineGraph:(BEMSimpleLineGraphView *)graph valueForPointAtIndex:(NSInteger)index {
+- (CGFloat)lineGraph:(BEMSimpleLineGraphView *)graph valueForPointAtIndex:(NSUInteger)index {
     return [[self.arrayOfValues objectAtIndex:index] doubleValue];
 }
 
 #pragma mark - SimpleLineGraph Delegate
 
-- (NSInteger)numberOfGapsBetweenLabelsOnLineGraph:(BEMSimpleLineGraphView *)graph {
+- (NSUInteger)numberOfGapsBetweenLabelsOnLineGraph:(BEMSimpleLineGraphView *)graph {
     return 2;
 }
 
-- (NSString *)lineGraph:(BEMSimpleLineGraphView *)graph labelOnXAxisForIndex:(NSInteger)index {
+- (NSString *)lineGraph:(BEMSimpleLineGraphView *)graph labelOnXAxisForIndex:(NSUInteger)index {
 
     NSString *label = [self labelForDateAtIndex:index];
     return [label stringByReplacingOccurrencesOfString:@" " withString:@"\n"];
 }
 
-- (void)lineGraph:(BEMSimpleLineGraphView *)graph didTouchGraphWithClosestIndex:(NSInteger)index {
+- (void)lineGraph:(BEMSimpleLineGraphView *)graph didTouchGraphWithClosestIndex:(NSUInteger)index {
     self.labelValues.text = [NSString stringWithFormat:@"%@", [self.arrayOfValues objectAtIndex:index]];
     self.labelDates.text = [NSString stringWithFormat:@"in %@", [self labelForDateAtIndex:index]];
 }
@@ -232,8 +237,13 @@
 }
 
 - (void)lineGraphDidFinishLoading:(BEMSimpleLineGraphView *)graph {
-    self.labelValues.text = [NSString stringWithFormat:@"%i", [[self.myGraph calculatePointValueSum] intValue]];
-    self.labelDates.text = [NSString stringWithFormat:@"between %@ and %@", [self labelForDateAtIndex:0], [self labelForDateAtIndex:self.arrayOfDates.count - 1]];
+    if (self.arrayOfValues.count > 0) {
+        self.labelValues.text = [NSString stringWithFormat:@"%i", [[self.myGraph calculatePointValueSum] intValue]];
+        self.labelDates.text = [NSString stringWithFormat:@"between %@ and %@", [self labelForDateAtIndex:0], [self labelForDateAtIndex:self.arrayOfDates.count - 1]];
+    } else {
+        self.labelValues.text = @"No data";
+        self.labelDates.text = @"";
+    }
 }
 
 /* - (void)lineGraphDidFinishDrawing:(BEMSimpleLineGraphView *)graph {

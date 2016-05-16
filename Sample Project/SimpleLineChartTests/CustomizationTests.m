@@ -9,17 +9,18 @@
 @import XCTest;
 #import "BEMSimpleLineGraphView.h"
 #import "contantsTests.h"
+#pragma clang diagnostic ignored "-Wfloat-equal"
 
-/// Same tags as in BEMSimpleLineGraphView.m
-typedef NS_ENUM(NSInteger, BEMInternalTags)
-{
-    DotFirstTag100 = 100,
-    DotLastTag1000 = 1000,
-    LabelYAxisTag2000 = 2000,
-    BackgroundYAxisTag2100 = 2100,
-    BackgroundXAxisTag2200 = 2200,
-    PermanentPopUpViewTag3100 = 3100,
-};
+@interface BEMSimpleLineGraphView ()
+//allow tester to get to internal properties
+
+/// All of the dataPoint Labels
+@property (strong, nonatomic) NSMutableArray <BEMPermanentPopupLabel *> *permanentPopups;
+
+/// All of the dataPoint dots
+@property (strong, nonatomic) NSMutableArray <BEMCircle *> *circleDots;
+
+@end
 
 @interface CustomizationTests : XCTestCase <BEMSimpleLineGraphDelegate, BEMSimpleLineGraphDataSource>
 
@@ -39,15 +40,15 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 
 #pragma mark BEMSimpleLineGraph Data Source
 
-- (NSInteger)numberOfPointsInLineGraph:(BEMSimpleLineGraphView * __nonnull)graph {
+- (NSUInteger)numberOfPointsInLineGraph:(BEMSimpleLineGraphView * __nonnull)graph {
     return numberOfPoints;
 }
 
-- (CGFloat)lineGraph:(BEMSimpleLineGraphView * __nonnull)graph valueForPointAtIndex:(NSInteger)index {
+- (CGFloat)lineGraph:(BEMSimpleLineGraphView * __nonnull)graph valueForPointAtIndex:(NSUInteger)index {
     return pointValue;
 }
 
-- (NSString *)lineGraph:(nonnull BEMSimpleLineGraphView *)graph labelOnXAxisForIndex:(NSInteger)index {
+- (NSString *)lineGraph:(nonnull BEMSimpleLineGraphView *)graph labelOnXAxisForIndex:(NSUInteger)index {
     return xAxisLabelString;
 }
 
@@ -70,13 +71,8 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     self.lineGraph.colorPoint = [UIColor greenColor];
     [self.lineGraph reloadGraph];
     
-    NSMutableArray *dots = [NSMutableArray new];
-    for (UIView *dot in self.lineGraph.subviews) {
-        if ([dot isKindOfClass:[BEMCircle class]] && dot.tag >= DotFirstTag100 && dot.tag <= DotLastTag1000) {
-            [dots addObject:dot];
-        }
-    }
-    
+    NSArray *dots = self.lineGraph.circleDots;
+
     XCTAssert(dots.count == numberOfPoints, @"There should be as many BEMCircle views in the graph's subviews as the data source method 'numberOfPointsInLineGraph:' returns");
 
     for (BEMCircle *dot in dots) {
@@ -101,9 +97,8 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     for (UILabel *XAxisLabel in labels) {
         XCTAssert([XAxisLabel isMemberOfClass:[UILabel class]], @"The array returned by 'graphLabelsForXAxis' should only return UILabels");
         XCTAssert([XAxisLabel.text isEqualToString:xAxisLabelString], @"The X-Axis label's strings should be the same as the one returned by the data source method 'labelOnXAxisForIndex:'");
-        XCTAssert([XAxisLabel.backgroundColor isEqual:[UIColor clearColor]], @"X-Axis labels are expected to have a clear beackground color by default");
+        XCTAssert([XAxisLabel.backgroundColor isEqual:[UIColor clearColor]], @"X-Axis labels are expected to have a clear background color by default");
         XCTAssert(XAxisLabel.textAlignment == NSTextAlignmentCenter, @"X-Axis labels are expected to have their text centered by default");
-        XCTAssert(XAxisLabel.tag == DotLastTag1000, @"X-Axis labels are expected to have a certain tag by default");
         XCTAssert(XAxisLabel.font == font, @"X-Axis label's font is expected to be the customized one");
         XCTAssert(XAxisLabel.textColor = [UIColor greenColor], @"X-Axis label's text color is expected to tbe the customized one");
     }
@@ -116,32 +111,19 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     self.lineGraph.labelFont = font;
     [self.lineGraph reloadGraph];
     
-    NSMutableArray *popUps = [NSMutableArray new];
-    for (BEMPermanentPopupView *popUp in self.lineGraph.subviews) {
-        if ([popUp isKindOfClass:[BEMPermanentPopupView class]] && popUp.tag == PermanentPopUpViewTag3100) {
-            [popUps addObject:popUp];
-        }
-    }
+    NSMutableArray *popUps = self.lineGraph.permanentPopups;
     
     XCTAssert(popUps.count == numberOfPoints, @"We should have a popup above each and every dot");
-    for (BEMPermanentPopupView *popUp in popUps) {
-        XCTAssert(popUp.backgroundColor == [UIColor greenColor], @"The popups backgorunf color should be the one set by the property");
-        XCTAssert(popUp.alpha >= 0.69 && popUp.alpha <= 0.71, @"The popups should always be displayed and have an alpha of 0.7");
-    }
-    
-    NSMutableArray *popUpsLabels = [NSMutableArray new];
-    for (UILabel *label in self.lineGraph.subviews) {
-        if ([label isKindOfClass:[BEMPermanentPopupLabel class]]) {
-            [popUpsLabels addObject:label];
-        }
-    }
-    
-    XCTAssert(popUpsLabels.count == numberOfPoints, @"We should have a popup above each and every dot");
-    NSString *expectedLabelText = [NSString stringWithFormat:@"%@%.f%@", popUpPrefix,pointValue,popUpSuffix];
-    for (BEMPermanentPopupLabel *label in popUpsLabels) {
-        XCTAssert([label.text isEqualToString:expectedLabelText], @"The popup labels should display the value of the dot and the suffix and prefix returned by the delegate");
-        XCTAssert(label.font == font, @"The popup label's font is expected to be the customized one");
-        XCTAssert(label.backgroundColor == [UIColor clearColor], @"The popup label's backgorund color should always be clear color");
+     NSString *expectedLabelText = [NSString stringWithFormat:@"%@%.f%@", popUpPrefix,pointValue,popUpSuffix];
+    for (BEMPermanentPopupLabel *popUp in popUps) {
+        XCTAssert([popUp isMemberOfClass:[BEMPermanentPopupLabel class]],@"Popups must be label class");
+        //  XCTAssert(popUp.backgroundColor == [UIColor greenColor],@"")
+        // XCTAssert(popUp.layer.alpha >= 0.69 && popUp.alpha <= 0.71, @"The popups should always be displayed and have an alpha of 0.7");
+       UIColor * expectedColor = [UIColor colorWithRed:0.0f green:1.0f blue:0.0f alpha:0.7f];
+       XCTAssert(CGColorEqualToColor(popUp.layer.backgroundColor, expectedColor.CGColor), @"The popups background color should be the one set by the property");
+        XCTAssert([popUp.text isEqualToString:expectedLabelText], @"The popup labels should display the value of the dot and the suffix and prefix returned by the delegate");
+        XCTAssert(popUp.font == font, @"The popup label's font is expected to be the customized one");
+        XCTAssert(popUp.backgroundColor == [UIColor clearColor], @"The popup label's background color should always be clear color");
     }
 }
 

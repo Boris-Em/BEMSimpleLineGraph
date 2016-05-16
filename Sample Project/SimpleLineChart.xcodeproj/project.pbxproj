@@ -408,6 +408,14 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				WARNING_CFLAGS = (
+					"-Weverything",
+					"-Wundef",
+					"-Wextra",
+					"-Wno-unused-parameter",
+					"-Wno-objc-missing-property-synthesis",
+					"-Wpartial-availability",
+				);
 			};
 			name = Debug;
 		};
@@ -454,6 +462,17 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "BorisEmorine.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				WARNING_CFLAGS = (
+					"$(inherited)",
+					"-Wno-documentation-unknown-command",
+					"-Wno-direct-ivar-access",
+					"-Wno-objc-missing-property-synthesis",
+					"-Wno-double-promotion",
+					"-Wno-auto-import",
+					"-Wno-incomplete-module",
+					"-Wno-assign-enum",
+					"-Wno-gnu",
+				);
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -477,6 +496,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SimpleLineChart.app/SimpleLineChart";
+				CLANG_WARN_OBJC_MISSING_PROPERTY_SYNTHESIS = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -492,6 +512,17 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "BorisEmorine.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
+				WARNING_CFLAGS = (
+					"$(inherited)",
+					"-Wno-documentation-unknown-command",
+					"-Wno-direct-ivar-access",
+					"-Wno-objc-missing-property-synthesis",
+					"-Wno-double-promotion",
+					"-Wno-auto-import",
+					"-Wno-incomplete-module",
+					"-Wno-gnu",
+					"-Wno-assign-enum",
+				);
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Debug;
@@ -500,6 +531,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SimpleLineChart.app/SimpleLineChart";
+				CLANG_WARN_OBJC_MISSING_PROPERTY_SYNTHESIS = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -511,6 +543,16 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "BorisEmorine.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
+				WARNING_CFLAGS = (
+					"$(inherited)",
+					"-Wno-documentation-unknown-command",
+					"-Wno-direct-ivar-access",
+					"-Wno-objc-missing-property-synthesis",
+					"-Wno-double-promotion",
+					"-Wno-auto-import",
+					"-Wno-incomplete-module",
+					"-Wno-assign-enum",
+				);
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;
