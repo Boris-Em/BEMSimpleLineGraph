@@ -33,6 +33,14 @@ The best way to contribute changes (e.g. a great idea, a new feature, bug fixes,
 #### Code Guidelines
 Before submitting any code changes, read over the code / syntax guidelines to make sure everything you write matches the appropriate coding style. The [Objective-C Coding Guidelines](https://github.com/github/objective-c-conventions) are available on GitHub.
 
+#### Versioning Guidelines
+It is crucial that all contributions to this project adhere to [semantic versioning](http://semver.org). Ther version format should always follow the X.Y.Z format. Breaking changes to the public API increment the X value. Internal changes, API deprecation, bug fixes, etc. warrant an increment to the Y value. Bug fixes, patches, documentation updates, etc. are cause for an increment to the Z value.
+
+Removing old APIs should use the following process:  
+ 1. Deprecate the API, update documentation, and provide internal support and warnings for the deprecated API (so as to alert developers and to smoothly transition to new APIs without cause errors or bugs).  
+ 2. Release a new minor version including the deprecated API  
+ 3. When the next major version is released, remove the API entirely. Reflect the changes in the documentation.
+
 #### Documentation Guidelines
 Document the changes you make. Only fundamental documentation is written in the `Readme.md` (e.g. setup, installation, data source, and delegation). Full documentation is written on the [wiki](https://github.com/Boris-Em/BEMSimpleLineGraph/wiki). There's a lot of work left to do on the [wiki](https://github.com/Boris-Em/BEMSimpleLineGraph/wiki), and any help **writing documentation for the wiki is greatly appreciated**.
 
