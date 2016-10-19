@@ -1200,7 +1200,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 
 - (NSNumber *)calculatePointValueAverage {
     NSArray *filteredArray = [self calculationDataPoints];
-    if (filteredArray.count == 0) return 0;
+    if (filteredArray.count == 0) return [NSNumber numberWithInt:0];
     
     NSExpression *expression = [NSExpression expressionForFunction:@"average:" arguments:@[[NSExpression expressionForConstantValue:filteredArray]]];
     NSNumber *value = [expression expressionValueWithObject:nil context:nil];
@@ -1210,7 +1210,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 
 - (NSNumber *)calculatePointValueSum {
     NSArray *filteredArray = [self calculationDataPoints];
-    if (filteredArray.count == 0) return 0;
+    if (filteredArray.count == 0) return [NSNumber numberWithInt:0];
     
     NSExpression *expression = [NSExpression expressionForFunction:@"sum:" arguments:@[[NSExpression expressionForConstantValue:filteredArray]]];
     NSNumber *value = [expression expressionValueWithObject:nil context:nil];
@@ -1220,7 +1220,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 
 - (NSNumber *)calculatePointValueMedian {
     NSArray *filteredArray = [self calculationDataPoints];
-    if (filteredArray.count == 0) return 0;
+    if (filteredArray.count == 0) return [NSNumber numberWithInt:0];
     
     NSExpression *expression = [NSExpression expressionForFunction:@"median:" arguments:@[[NSExpression expressionForConstantValue:filteredArray]]];
     NSNumber *value = [expression expressionValueWithObject:nil context:nil];
@@ -1230,7 +1230,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 
 - (NSNumber *)calculatePointValueMode {
     NSArray *filteredArray = [self calculationDataPoints];
-    if (filteredArray.count == 0) return 0;
+    if (filteredArray.count == 0) return [NSNumber numberWithInt:0];
     
     NSExpression *expression = [NSExpression expressionForFunction:@"mode:" arguments:@[[NSExpression expressionForConstantValue:filteredArray]]];
     NSMutableArray *value = [expression expressionValueWithObject:nil context:nil];
@@ -1240,7 +1240,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 
 - (NSNumber *)calculateLineGraphStandardDeviation {
     NSArray *filteredArray = [self calculationDataPoints];
-    if (filteredArray.count == 0) return 0;
+    if (filteredArray.count == 0) return [NSNumber numberWithInt:0];
     
     NSExpression *expression = [NSExpression expressionForFunction:@"stddev:" arguments:@[[NSExpression expressionForConstantValue:filteredArray]]];
     NSNumber *value = [expression expressionValueWithObject:nil context:nil];
@@ -1250,7 +1250,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 
 - (NSNumber *)calculateMinimumPointValue {
     NSArray *filteredArray = [self calculationDataPoints];
-    if (filteredArray.count == 0) return 0;
+    if (filteredArray.count == 0) return [NSNumber numberWithInt:0];
     
     NSExpression *expression = [NSExpression expressionForFunction:@"min:" arguments:@[[NSExpression expressionForConstantValue:filteredArray]]];
     NSNumber *value = [expression expressionValueWithObject:nil context:nil];
@@ -1259,7 +1259,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 
 - (NSNumber *)calculateMaximumPointValue {
     NSArray *filteredArray = [self calculationDataPoints];
-    if (filteredArray.count == 0) return 0;
+    if (filteredArray.count == 0) return [NSNumber numberWithInt:0];
     
     NSExpression *expression = [NSExpression expressionForFunction:@"max:" arguments:@[[NSExpression expressionForConstantValue:filteredArray]]];
     NSNumber *value = [expression expressionValueWithObject:nil context:nil];
