@@ -7,12 +7,16 @@
 //
 
 #import "BEMGraphCalculator.h"
+#import <math.h>
 
 @interface BEMGraphCalculator ()
 @property (nonatomic, strong) NSOperationQueue *calculationQueue;
 @end
 
 @implementation BEMGraphCalculator
+
+// MARK: - 
+// MARK: Object Lifecycle
 
 + (BEMGraphCalculator *)sharedCalculator {
     static BEMGraphCalculator *singleton;
@@ -34,6 +38,9 @@
     return self;
 }
 
+// MARK: - 
+// MARK: Essential Calculations
+
 - (nonnull NSArray *)calculationDataPointsOnGraph:(nonnull BEMSimpleLineGraphView *)graph {
     NSPredicate *filter = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
         NSNumber *value = (NSNumber *)evaluatedObject;
@@ -43,6 +50,9 @@
     NSArray *filteredArray = [[graph graphValuesForDataPoints] filteredArrayUsingPredicate:filter];
     return filteredArray;
 }
+
+// MARK: - 
+// MARK: Basic Statistics
 
 - (nonnull NSNumber *)calculatePointValueAverageOnGraph:(nonnull BEMSimpleLineGraphView *)graph {
     NSArray *filteredArray = [self calculationDataPointsOnGraph:graph];
@@ -94,6 +104,9 @@
     return value;
 }
 
+// MARK: - 
+// MARK: Minimum / Maximum
+
 - (nonnull NSNumber *)calculateMinimumPointValueOnGraph:(nonnull BEMSimpleLineGraphView *)graph {
     NSArray *filteredArray = [self calculationDataPointsOnGraph:graph];
     if (filteredArray.count == 0) return 0;
@@ -112,6 +125,9 @@
     
     return value;
 }
+
+// MARK: - 
+// MARK: Integration
 
 - (nonnull NSNumber *)calculateAreaUsingIntegrationMethod:(BEMIntegrationMethod)integrationMethod onGraph:(nonnull BEMSimpleLineGraphView *)graph xAxisScale:(nonnull NSNumber *)scale {
     NSArray *fixedDataPoints = [self calculationDataPointsOnGraph:graph];
@@ -207,6 +223,77 @@
     }
     
     return totalArea;
+}
+
+// MARK: - 
+// MARK: Correlation
+
+- (NSNumber *)calculateCorrelationCoefficientUsingCorrelationMethod:(BEMCorrelationMethod)correlationMethod onGraph:(BEMSimpleLineGraphView *)graph xAxisScale:(nonnull NSNumber *)scale {
+    // Grab the x and y points
+    // Because a BEMSimpleLineGraph object simply increments X-Values, we must calculate the values here
+    NSArray *yPoints = [self calculationDataPointsOnGraph:graph];
+    NSMutableArray *xPoints = [NSMutableArray arrayWithCapacity:yPoints.count];
+    if (scale == nil || scale.floatValue == 0.0) {
+        for (int i = 1; i <= yPoints.count; i++) {
+            [xPoints addObject:[NSNumber numberWithInteger:i]];
+        }
+    } else {
+        for (int i = 1; i <= yPoints.count; i++) {
+            [xPoints addObject:[NSNumber numberWithFloat:(i*scale.floatValue)]];
+        }
+    }
+    
+    // Set the initial values of our sum counts
+    NSInteger pointsCount = yPoints.count;
+    CGFloat sumY = 0.0;
+    CGFloat sumX = 0.0;
+    CGFloat sumXY = 0.0;
+    CGFloat sumX2 = 0.0;
+    CGFloat sumY2 = 0.0;
+    
+    NSInteger iterationCount = 0;
+    for (NSNumber *yPoint in yPoints) {
+        NSNumber *xPoint = xPoints[iterationCount];
+        iterationCount++;
+        
+        // Sum up x, y, x2, y2 and xy
+        sumX = sumX + xPoint.floatValue;
+        sumY = sumY + yPoint.floatValue;
+        sumXY = sumXY + (xPoint.floatValue * yPoint.floatValue);
+        sumX2 = sumX2 + (xPoint.floatValue * xPoint.floatValue);
+        sumY2 = sumY2 + (yPoint.floatValue * yPoint.floatValue);
+    }
+    
+    // CGFloat slope = ((pointsCount * sumXY) - (sumX * sumY)) / ((pointsCount * sumX2) - (sumX * sumX));
+    // CGFloat intercept = ((sumY * sumX2) - (slope * sumXY))/((pointsCount * sumX2) - (sumX * sumX));
+    
+    // Calculate the correlational value
+    CGFloat numeratorFirstChunk = (pointsCount * sumXY); // Calculate the mean of the points
+    CGFloat numeratorSecondChunk = (sumX * sumY); // Calculate total graph values
+    CGFloat denomenatorFirstChunk = sqrt(pointsCount * sumX2 - (sumX * sumX)); // Square root of the sum of all X-Values squared
+    CGFloat denomenatorSecondChunk = sqrt(pointsCount * sumY2 - (sumY * sumY)); // Square root of the sum of all Y-Values squared
+    CGFloat correlation = (numeratorFirstChunk - numeratorSecondChunk) / (denomenatorFirstChunk * denomenatorSecondChunk);
+    
+    // NSLog(@"CORRELATION:\nSlope: %f\nIntercept:%f\nCorrelation:%f", slope, intercept, correlation);
+    
+    return [NSNumber numberWithFloat:correlation];
+}
+
+- (BEMPearsonCorrelationStrength)calculatePearsonCorrelationStrengthOnGraph:(BEMSimpleLineGraphView *)graph xAxisScale:(nonnull NSNumber *)scale {
+    NSNumber *correlationCoefficent = [self calculateCorrelationCoefficientUsingCorrelationMethod:BEMCorrelationMethodPearson onGraph:graph xAxisScale:scale];
+    CGFloat actualRValue = correlationCoefficent.floatValue;
+    if (actualRValue >= 0.95) return BEMPearsonCorrelationPerfectPositive;
+    else if (actualRValue < 0.95 && actualRValue >= 0.50) return BEMPearsonCorrelationStrongPositive;
+    else if (actualRValue < 0.50 && actualRValue > 0.05) return BEMPearsonCorrelationWeakPositive;
+    else if (actualRValue <= 0.05 && actualRValue >= -0.05) return BEMPearsonCorrelationNone;
+    else if (actualRValue < -0.05 && actualRValue > -0.50) return BEMPearsonCorrelationWeakNegative;
+    else if (actualRValue <= -0.50 && actualRValue > -0.95) return BEMPearsonCorrelationStrongNegative;
+    else if (actualRValue <= -0.95) return BEMPearsonCorrelationPerfectNegative;
+    else return BEMPearsonCorrelationNone;
+}
+
+- (BEMPearsonCorrelationStrength)calculatePearsonCorrelationStrengthOnGraph:(BEMSimpleLineGraphView *)graph {
+    return [self calculatePearsonCorrelationStrengthOnGraph:graph xAxisScale:[NSNumber numberWithInteger:0]];
 }
 
 @end

@@ -183,6 +183,7 @@
         controller.minimum = [NSString stringWithFormat:@"%.2f", [[[BEMGraphCalculator sharedCalculator] calculateMinimumPointValueOnGraph:self.myGraph] floatValue]];
         controller.maximum = [NSString stringWithFormat:@"%.2f", [[[BEMGraphCalculator sharedCalculator] calculateMaximumPointValueOnGraph:self.myGraph] floatValue]];
         controller.area = [NSString stringWithFormat:@"%.2f", [[[BEMGraphCalculator sharedCalculator] calculateAreaUsingIntegrationMethod:BEMIntegrationMethodParabolicSimpsonSum onGraph:self.myGraph xAxisScale:[NSNumber numberWithInt:1]] floatValue]];
+        controller.correlation = [NSString stringWithFormat:@"%.2f", [[[BEMGraphCalculator sharedCalculator] calculateCorrelationCoefficientUsingCorrelationMethod:BEMCorrelationMethodPearson onGraph:self.myGraph xAxisScale:[NSNumber numberWithInt:1]] floatValue]];
         controller.snapshotImage = [self.myGraph graphSnapshotImage];
     }
 }

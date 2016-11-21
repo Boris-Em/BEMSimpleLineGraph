@@ -24,6 +24,7 @@
 @property (strong, nonatomic) NSString *minimum;
 @property (strong, nonatomic) NSString *maximum;
 @property (strong, nonatomic) NSString *area;
+@property (strong, nonatomic) NSString *correlation;
 @property (strong, nonatomic) UIImage *snapshotImage;
 
 @end

@@ -37,7 +37,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 0) return 7;
+    if (section == 0) return 8;
     else return 1;
 }
 
@@ -73,6 +73,10 @@
     } else if (indexPath.row == 6) {
         cell.textLabel.text = self.area;
         cell.detailTextLabel.text = @"Graph Area";
+        return cell;
+    } else if (indexPath.row == 7) {
+        cell.textLabel.text = self.correlation;
+        cell.detailTextLabel.text = @"Correlation";
         return cell;
     } else if (indexPath.row == 0  && indexPath.section == 1) {
         cell.textLabel.text = @"Rendered Snapshot";
