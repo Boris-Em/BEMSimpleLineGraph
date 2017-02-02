@@ -136,8 +136,11 @@
     self.myGraph.enableBezierCurve = (BOOL) self.curveChoice.selectedSegmentIndex;
     self.myGraph.colorTop = color;
     self.myGraph.colorBottom = color;
+    self.myGraph.colorBackgroundXaxis = color;
+    self.myGraph.colorBackgroundYaxis = color;
     self.myGraph.backgroundColor = color;
     self.view.tintColor = color;
+    self.graphObjectIncrement.tintColor = color;
     self.labelValues.textColor = color;
     self.navigationController.navigationBar.tintColor = color;
     
