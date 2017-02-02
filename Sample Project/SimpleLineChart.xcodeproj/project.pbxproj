@@ -13,6 +13,7 @@
 		99B3FA3B1877898B00539A7B /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 99B3FA391877898B00539A7B /* README.md */; };
 		A63990B51AD4923900B14D88 /* BEMAverageLine.m in Sources */ = {isa = PBXBuildFile; fileRef = A63990B41AD4923900B14D88 /* BEMAverageLine.m */; };
 		A64594521BAB257B00D6B8FD /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A64594501BAB257B00D6B8FD /* Launch Screen.storyboard */; };
+		A6AC895B1C5882DD0052AB1C /* BEMGraphCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = A6AC895A1C5882DD0052AB1C /* BEMGraphCalculator.m */; };
 		C3B90A5F187D15F7003E407D /* BEMCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = C3B90A59187D15F7003E407D /* BEMCircle.m */; };
 		C3B90A60187D15F7003E407D /* BEMLine.m in Sources */ = {isa = PBXBuildFile; fileRef = C3B90A5B187D15F7003E407D /* BEMLine.m */; };
 		C3B90A61187D15F7003E407D /* BEMSimpleLineGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = C3B90A5D187D15F7003E407D /* BEMSimpleLineGraphView.m */; };
@@ -53,6 +54,8 @@
 		A63990B31AD4923900B14D88 /* BEMAverageLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEMAverageLine.h; sourceTree = "<group>"; };
 		A63990B41AD4923900B14D88 /* BEMAverageLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEMAverageLine.m; sourceTree = "<group>"; };
 		A64594511BAB257B00D6B8FD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "Base.lproj/Launch Screen.storyboard"; sourceTree = "<group>"; };
+		A6AC89591C5882DD0052AB1C /* BEMGraphCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEMGraphCalculator.h; sourceTree = "<group>"; };
+		A6AC895A1C5882DD0052AB1C /* BEMGraphCalculator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEMGraphCalculator.m; sourceTree = "<group>"; };
 		C3B90A58187D15F7003E407D /* BEMCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEMCircle.h; sourceTree = "<group>"; };
 		C3B90A59187D15F7003E407D /* BEMCircle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEMCircle.m; sourceTree = "<group>"; };
 		C3B90A5A187D15F7003E407D /* BEMLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEMLine.h; sourceTree = "<group>"; };
@@ -119,6 +122,8 @@
 				A63990B41AD4923900B14D88 /* BEMAverageLine.m */,
 				8AB8D62D1A7ABDF600FC4AEC /* BEMPermanentPopupView.h */,
 				8AB8D62E1A7ABDF600FC4AEC /* BEMPermanentPopupView.m */,
+				A6AC89591C5882DD0052AB1C /* BEMGraphCalculator.h */,
+				A6AC895A1C5882DD0052AB1C /* BEMGraphCalculator.m */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -308,6 +313,7 @@
 				C3B90A61187D15F7003E407D /* BEMSimpleLineGraphView.m in Sources */,
 				C3B90A5F187D15F7003E407D /* BEMCircle.m in Sources */,
 				C3FD816F186DFD9A00FD8ED3 /* ViewController.m in Sources */,
+				A6AC895B1C5882DD0052AB1C /* BEMGraphCalculator.m in Sources */,
 				C3B90A60187D15F7003E407D /* BEMLine.m in Sources */,
 				8AB8D62F1A7ABDF600FC4AEC /* BEMPermanentPopupView.m in Sources */,
 				C3FD8169186DFD9A00FD8ED3 /* AppDelegate.m in Sources */,
@@ -469,7 +475,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SimpleLineChart/SimpleLineChart-Prefix.pch";
 				INFOPLIST_FILE = "SimpleLineChart/SimpleLineChart-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "BorisEmorine.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WARNING_CFLAGS = (
@@ -495,7 +501,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SimpleLineChart/SimpleLineChart-Prefix.pch";
 				INFOPLIST_FILE = "SimpleLineChart/SimpleLineChart-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "BorisEmorine.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;

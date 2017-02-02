@@ -78,38 +78,45 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
 
 
 /** Calculates the average (mean) of all points on the line graph.
- @return The average (mean) number of the points on the graph. Originally a float. */
-- (NSNumber *)calculatePointValueAverage;
+ @return The average (mean) number of the points on the graph. Originally a float. 
+ @deprecated Used a similar method with a shared instance of BEMGraphCalculator instead. */
+- (NSNumber *)calculatePointValueAverage __deprecated_msg("Use calculatePointValueAverageOnGraph: on a shared instance of BEMGraphCalculator instead.");
 
 
 /** Calculates the sum of all points on the line graph.
- @return The sum of the points on the graph. Originally a float. */
-- (NSNumber *)calculatePointValueSum;
+ @return The sum of the points on the graph. Originally a float.
+ @deprecated Used a similar method with a shared instance of BEMGraphCalculator instead. */
+- (NSNumber *)calculatePointValueSum __deprecated_msg("Use calculatePointValueSumOnGraph: on a shared instance of BEMGraphCalculator instead.");
 
 
 /** Calculates the median of all points on the line graph.
- @return The median number of the points on the graph. Originally a float. */
-- (NSNumber *)calculatePointValueMedian;
+ @return The median number of the points on the graph. Originally a float.
+ @deprecated Used a similar method with a shared instance of BEMGraphCalculator instead. */
+- (NSNumber *)calculatePointValueMedian __deprecated_msg("Use calculatePointValueMedianOnGraph: on a shared instance of BEMGraphCalculator instead.");
 
 
 /** Calculates the mode of all points on the line graph.
- @return The mode number of the points on the graph. Originally a float. */
-- (NSNumber *)calculatePointValueMode;
+ @return The mode number of the points on the graph. Originally a float.
+ @deprecated Used a similar method with a shared instance of BEMGraphCalculator instead. */
+- (NSNumber *)calculatePointValueMode __deprecated_msg("Use calculatePointValueModeOnGraph: on a shared instance of BEMGraphCalculator instead.");
 
 
 /** Calculates the standard deviation of all points on the line graph.
- @return The standard deviation of the points on the graph. Originally a float. */
-- (NSNumber *)calculateLineGraphStandardDeviation;
+ @return The standard deviation of the points on the graph. Originally a float.
+ @deprecated Used a similar method with a shared instance of BEMGraphCalculator instead. */
+- (NSNumber *)calculateLineGraphStandardDeviation __deprecated_msg("Use calculateLineGraphStandardDeviationAverageOnGraph: on a shared instance of BEMGraphCalculator instead.");
 
 
 /** Calculates the minimum value of all points on the line graph.
- @return The minimum number of the points on the graph. Originally a float. */
-- (NSNumber *)calculateMinimumPointValue;
+ @return The minimum number of the points on the graph. Originally a float.
+ @deprecated Used a similar method with a shared instance of BEMGraphCalculator instead. */
+- (NSNumber *)calculateMinimumPointValue __deprecated_msg("Use calculateMinimumPointValueAverageOnGraph: on a shared instance of BEMGraphCalculator instead.");
 
 
 /** Calculates the maximum value of all points on the line graph.
- @return The maximum value of the points on the graph. Originally a float. */
-- (NSNumber *)calculateMaximumPointValue;
+ @return The maximum value of the points on the graph. Originally a float.
+ @deprecated Used a similar method with a shared instance of BEMGraphCalculator instead. */
+- (NSNumber *)calculateMaximumPointValue __deprecated_msg("Use calculateMaximumPointValueOnGraph: on a shared instance of BEMGraphCalculator instead.");
 
 
 /** All the displayed values of the X-Axis.
@@ -506,7 +513,7 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
 - (UIView *)popUpViewForLineGraph:(BEMSimpleLineGraphView *)graph;
 
 
-/** Optional method that gets called if you are using a custom popup view.  This method allows you to modify your popup view for different graph indices
+/** Optional method that gets called if you are using a custom popup view.  This method allows you to modify your popup view for different graph indices.
  @param graph The graph object requesting the padding value.
  @param popupView The popup view owned by the graph that needs to be modified
  @param index The index of the element associated with the popup view */

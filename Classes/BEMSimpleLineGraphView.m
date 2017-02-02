@@ -8,6 +8,7 @@
 //
 
 #import "BEMSimpleLineGraphView.h"
+#import "BEMGraphCalculator.h"
 #import "tgmath.h"
 
 const CGFloat BEMNullGraphValue = CGFLOAT_MAX;
@@ -270,7 +271,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 #ifndef TARGET_INTERFACE_BUILDER
         self.noDataLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.viewForBaselineLayout.frame.size.width, self.viewForBaselineLayout.frame.size.height)];
 #else
-        self.noDataLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.viewForBaselineLayout.frame.size.width, self.viewForBaselineLayout.frame.size.height-(self.viewForBaselineLayout.frame.size.height/4))];
+        self.noDataLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.viewForFirstBaselineLayout.frame.size.width, self.viewForFirstBaselineLayout.frame.size.height-(self.viewForFirstBaselineLayout.frame.size.height/4))];
 #endif
 
         self.noDataLabel.backgroundColor = [UIColor clearColor];
@@ -285,7 +286,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 #else
         self.noDataLabel.text = @"Data is not loaded in Interface Builder";
 #endif
-        self.noDataLabel.font = self.noDataLabelFont ?: [UIFont fontWithName:@"HelveticaNeue-Light" size:15];
+        self.noDataLabel.font = self.noDataLabelFont ?: [UIFont systemFontOfSize:15 weight:UIFontWeightRegular];
         self.noDataLabel.textColor = self.noDataLabelColor ?: self.colorLine;
 
         [self.viewForBaselineLayout addSubview:self.noDataLabel];
@@ -314,6 +315,72 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     // If the touch report is enabled, set it up
     if (self.enableTouchReport == YES || self.enablePopUpReport == YES) {
         // Initialize the vertical gray line that appears where the user touches the graph.
+/* <<<<<<< HEAD
+        self.touchInputLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.widthTouchInputLine, self.frame.size.height)];
+        self.touchInputLine.backgroundColor = self.colorTouchInputLine;
+        self.touchInputLine.alpha = 0;
+        [self addSubview:self.touchInputLine];
+        
+        self.panView = [[UIView alloc] initWithFrame:CGRectMake(10, 10, self.viewForFirstBaselineLayout.frame.size.width, self.viewForFirstBaselineLayout.frame.size.height)];
+        self.panView.backgroundColor = [UIColor clearColor];
+        [self.viewForFirstBaselineLayout addSubview:self.panView];
+        
+        self.panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleGestureAction:)];
+        self.panGesture.delegate = self;
+        [self.panGesture setMaximumNumberOfTouches:1];
+        [self.panView addGestureRecognizer:self.panGesture];
+        
+        self.longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleGestureAction:)];
+        self.longPressGesture.minimumPressDuration = 0.1f;
+        [self.panView addGestureRecognizer:self.longPressGesture];
+        
+        if (self.enablePopUpReport == YES && self.alwaysDisplayPopUpLabels == NO) {
+            if ([self.delegate respondsToSelector:@selector(popUpViewForLineGraph:)]) {
+                self.popUpView = [self.delegate popUpViewForLineGraph:self];
+                self.usingCustomPopupView = YES;
+                self.popUpView.alpha = 0;
+                [self addSubview:self.popUpView];
+            } else {
+                NSString *maxValueString = [NSString stringWithFormat:self.formatStringForValues, [[BEMGraphCalculator sharedCalculator] calculateMaximumPointValueOnGraph:self].doubleValue];
+                NSString *minValueString = [NSString stringWithFormat:self.formatStringForValues, [[BEMGraphCalculator sharedCalculator] calculateMinimumPointValueOnGraph:self].doubleValue];
+                
+                NSString *longestString = @"";
+                if (maxValueString.length > minValueString.length) {
+                    longestString = maxValueString;
+                } else {
+                    longestString = minValueString;
+                }
+                
+                NSString *prefix = @"";
+                NSString *suffix = @"";
+                if ([self.delegate respondsToSelector:@selector(popUpSuffixForlineGraph:)]) {
+                    suffix = [self.delegate popUpSuffixForlineGraph:self];
+                }
+                if ([self.delegate respondsToSelector:@selector(popUpPrefixForlineGraph:)]) {
+                    prefix = [self.delegate popUpPrefixForlineGraph:self];
+                }
+                
+                NSString *fullString = [NSString stringWithFormat:@"%@%@%@", prefix, longestString, suffix];
+                
+                NSString *mString = [fullString stringByReplacingOccurrencesOfString:@"[0-9-]" withString:@"N" options:NSRegularExpressionSearch range:NSMakeRange(0, [longestString length])];
+                
+                self.popUpLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 200, 20)];
+                self.popUpLabel.text = mString;
+                self.popUpLabel.textAlignment = 1;
+                self.popUpLabel.numberOfLines = 1;
+                self.popUpLabel.font = self.labelFont;
+                self.popUpLabel.backgroundColor = [UIColor clearColor];
+                [self.popUpLabel sizeToFit];
+                self.popUpLabel.alpha = 0;
+                
+                self.popUpView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.popUpLabel.frame.size.width + 10, self.popUpLabel.frame.size.height + 2)];
+                self.popUpView.backgroundColor = self.colorBackgroundPopUplabel;
+                self.popUpView.alpha = 0;
+                self.popUpView.layer.cornerRadius = 3;
+                [self addSubview:self.popUpView];
+                [self addSubview:self.popUpLabel];
+            }
+======= */
         if (!self.touchInputLine) {
             self.touchInputLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.widthTouchInputLine, self.frame.size.height)];
             self.touchInputLine.backgroundColor = self.colorTouchInputLine;
@@ -714,7 +781,6 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     labelXAxis.numberOfLines = 0;
     CGRect lRect = [labelXAxis.text boundingRectWithSize:self.viewForBaselineLayout.frame.size options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:labelXAxis.font} context:nil];
 
-
     // Determine the horizontal translation to perform on the far left and far right labels
     // This property is negated when calculating the position of reference frames
     CGFloat horizontalTranslation;
@@ -1083,105 +1149,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 
 - (void)reloadGraph {
     [self drawGraph];
-    //    [self setNeedsLayout];
 }
-
-#pragma mark - Calculations
-
-- (NSArray <NSNumber *> *)calculationDataPoints {
-    NSPredicate *filter = [NSPredicate predicateWithBlock:^BOOL(NSNumber * value, NSDictionary *bindings) {
-        return ![value  isEqualToNumber:@(BEMNullGraphValue)];
-    }];
-    NSArray <NSNumber *> *filteredArray = [dataPoints filteredArrayUsingPredicate:filter];
-    return filteredArray;
-}
-
-- (NSNumber *)calculatePointValueMode {
-    NSArray <NSNumber *> *filteredArray = [self calculationDataPoints];
-    if (filteredArray.count == 0) return @(NAN);
-
-    NSExpression *expression = [NSExpression expressionForFunction:@"mode:" arguments:@[[NSExpression expressionForConstantValue:filteredArray]]];
-    NSArray <NSNumber *> *value = [expression expressionValueWithObject:nil context:nil];
-    NSNumber * result = [value respondsToSelector:@selector(firstObject)] ? [value firstObject] : nil;
-    return (result ?: @(NAN));
-}
-
--(NSNumber *) calculateExpression:(NSString *) function {
-    NSArray <NSNumber *> *filteredArray = [self calculationDataPoints];
-    if (filteredArray.count == 0) return @(NAN);
-    NSExpression *expression = [NSExpression expressionForFunction:function arguments:@[[NSExpression expressionForConstantValue:filteredArray]]];
-    return [expression expressionValueWithObject:nil context:nil];
-}
-
-- (NSNumber *)calculatePointValueAverage {
-    NSArray *filteredArray = [self calculationDataPoints];
-    if (filteredArray.count == 0) return [NSNumber numberWithInt:0];
-    
-    NSExpression *expression = [NSExpression expressionForFunction:@"average:" arguments:@[[NSExpression expressionForConstantValue:filteredArray]]];
-    NSNumber *value = [expression expressionValueWithObject:nil context:nil];
-    
-    return value;
-}
-
-- (NSNumber *)calculatePointValueSum {
-    NSArray *filteredArray = [self calculationDataPoints];
-    if (filteredArray.count == 0) return [NSNumber numberWithInt:0];
-    
-    NSExpression *expression = [NSExpression expressionForFunction:@"sum:" arguments:@[[NSExpression expressionForConstantValue:filteredArray]]];
-    NSNumber *value = [expression expressionValueWithObject:nil context:nil];
-    
-    return value;
-}
-
-- (NSNumber *)calculatePointValueMedian {
-    NSArray *filteredArray = [self calculationDataPoints];
-    if (filteredArray.count == 0) return [NSNumber numberWithInt:0];
-    
-    NSExpression *expression = [NSExpression expressionForFunction:@"median:" arguments:@[[NSExpression expressionForConstantValue:filteredArray]]];
-    NSNumber *value = [expression expressionValueWithObject:nil context:nil];
-    
-    return value;
-}
-
-- (NSNumber *)calculatePointValueMode {
-    NSArray *filteredArray = [self calculationDataPoints];
-    if (filteredArray.count == 0) return [NSNumber numberWithInt:0];
-    
-    NSExpression *expression = [NSExpression expressionForFunction:@"mode:" arguments:@[[NSExpression expressionForConstantValue:filteredArray]]];
-    NSMutableArray *value = [expression expressionValueWithObject:nil context:nil];
-    
-    return [value firstObject];
-}
-
-- (NSNumber *)calculateLineGraphStandardDeviation {
-    NSArray *filteredArray = [self calculationDataPoints];
-    if (filteredArray.count == 0) return [NSNumber numberWithInt:0];
-    
-    NSExpression *expression = [NSExpression expressionForFunction:@"stddev:" arguments:@[[NSExpression expressionForConstantValue:filteredArray]]];
-    NSNumber *value = [expression expressionValueWithObject:nil context:nil];
-    
-    return value;
-}
-
-- (NSNumber *)calculateMinimumPointValue {
-    NSArray *filteredArray = [self calculationDataPoints];
-    if (filteredArray.count == 0) return [NSNumber numberWithInt:0];
-    
-    NSExpression *expression = [NSExpression expressionForFunction:@"min:" arguments:@[[NSExpression expressionForConstantValue:filteredArray]]];
-    NSNumber *value = [expression expressionValueWithObject:nil context:nil];
-    return value;
-}
-
-- (NSNumber *)calculateMaximumPointValue {
-    NSArray *filteredArray = [self calculationDataPoints];
-    if (filteredArray.count == 0) return [NSNumber numberWithInt:0];
-    
-    NSExpression *expression = [NSExpression expressionForFunction:@"max:" arguments:@[[NSExpression expressionForConstantValue:filteredArray]]];
-    NSNumber *value = [expression expressionValueWithObject:nil context:nil];
-    
-    return value;
-}
-
 
 #pragma mark - Values
 
@@ -1375,6 +1343,11 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 
 - (void)printDeprecationWarningForOldMethod:(NSString *)oldMethod andReplacementMethod:(NSString *)replacementMethod {
     NSLog(@"[BEMSimpleLineGraph] DEPRECATION WARNING. The delegate method, %@, is deprecated and will become unavailable in a future version. Use %@ instead. Update your delegate method as soon as possible. An exception will be thrown in a future version.", oldMethod, replacementMethod);
+}
+
+- (void)printDeprecationTransitionWarningForOldMethod:(NSString *)oldMethod replacementMethod:(NSString *)replacementMethod newObject:(NSString *)newObjectName sharedInstance:(BOOL)isSharedInstance {
+    if (isSharedInstance == YES) NSLog(@"[BEMSimpleLineGraph] %@ is deprecated. Please use %@ on the shared instance of %@.", oldMethod, replacementMethod, newObjectName);
+    else NSLog(@"[BEMSimpleLineGraph] %@ is deprecated. Please use %@ on the %@ class.", oldMethod, replacementMethod, newObjectName);
 }
 
 @end

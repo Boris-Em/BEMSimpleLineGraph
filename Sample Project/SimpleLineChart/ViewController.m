@@ -8,7 +8,7 @@
 //
 
 #import "ViewController.h"
-
+#import "BEMGraphCalculator.h"
 
 @interface ViewController () {
     int previousStepperValue;
@@ -48,7 +48,6 @@
     // Enable and disable various graph properties and axis displays
     self.myGraph.enableTouchReport = YES;
     self.myGraph.enablePopUpReport = YES;
-    self.myGraph.enableYAxisLabel = YES;
     self.myGraph.autoScaleYAxis = YES;
     self.myGraph.alwaysDisplayDots = YES;
     self.myGraph.alwaysDisplayPopUpLabels = YES;
@@ -77,7 +76,7 @@
     self.curveChoice.selectedSegmentIndex = self.myGraph.enableBezierCurve;
 
     // The labels to report the values of the graph when the user touches it
-    self.labelValues.text = [NSString stringWithFormat:@"%i", [[self.myGraph calculatePointValueSum] intValue]];
+    self.labelValues.text = [NSString stringWithFormat:@"%i", [[BEMGraphCalculator sharedCalculator] calculatePointValueSumOnGraph:self.myGraph].intValue];
     self.labelDates.text = @"between now and later";
 }
 
@@ -142,8 +141,11 @@
     self.myGraph.enableBezierCurve = (BOOL) self.curveChoice.selectedSegmentIndex;
     self.myGraph.colorTop = color;
     self.myGraph.colorBottom = color;
+    self.myGraph.colorBackgroundXaxis = color;
+    self.myGraph.colorBackgroundYaxis = color;
     self.myGraph.backgroundColor = color;
     self.view.tintColor = color;
+    self.graphObjectIncrement.tintColor = color;
     self.labelValues.textColor = color;
     self.navigationController.navigationBar.tintColor = color;
     
@@ -152,7 +154,7 @@
 }
 
 - (float)getRandomFloat {
-    float i1 = (float)(arc4random() % 1000000) / 100 ;
+    float i1 = arc4random_uniform(5000);
     return i1;
 }
 
@@ -183,12 +185,14 @@
     
     if ([segue.identifier isEqualToString:@"showStats"]) {
         StatsViewController *controller = segue.destinationViewController;
-        controller.standardDeviation = [NSString stringWithFormat:@"%.2f", [[self.myGraph calculateLineGraphStandardDeviation] floatValue]];
-        controller.average = [NSString stringWithFormat:@"%.2f", [[self.myGraph calculatePointValueAverage] floatValue]];
-        controller.median = [NSString stringWithFormat:@"%.2f", [[self.myGraph calculatePointValueMedian] floatValue]];
-        controller.mode = [NSString stringWithFormat:@"%.2f", [[self.myGraph calculatePointValueMode] floatValue]];
-        controller.minimum = [NSString stringWithFormat:@"%.2f", [[self.myGraph calculateMinimumPointValue] floatValue]];
-        controller.maximum = [NSString stringWithFormat:@"%.2f", [[self.myGraph calculateMaximumPointValue] floatValue]];
+        controller.standardDeviation = [NSString stringWithFormat:@"%.2f", [[[BEMGraphCalculator sharedCalculator] calculateStandardDeviationOnGraph:self.myGraph] floatValue]];
+        controller.average = [NSString stringWithFormat:@"%.2f", [[[BEMGraphCalculator sharedCalculator] calculatePointValueAverageOnGraph:self.myGraph] floatValue]];
+        controller.median = [NSString stringWithFormat:@"%.2f", [[[BEMGraphCalculator sharedCalculator] calculatePointValueMedianOnGraph:self.myGraph] floatValue]];
+        controller.mode = [NSString stringWithFormat:@"%.2f", [[[BEMGraphCalculator sharedCalculator] calculatePointValueModeOnGraph:self.myGraph] floatValue]];
+        controller.minimum = [NSString stringWithFormat:@"%.2f", [[[BEMGraphCalculator sharedCalculator] calculateMinimumPointValueOnGraph:self.myGraph] floatValue]];
+        controller.maximum = [NSString stringWithFormat:@"%.2f", [[[BEMGraphCalculator sharedCalculator] calculateMaximumPointValueOnGraph:self.myGraph] floatValue]];
+        controller.area = [NSString stringWithFormat:@"%.2f", [[[BEMGraphCalculator sharedCalculator] calculateAreaUsingIntegrationMethod:BEMIntegrationMethodParabolicSimpsonSum onGraph:self.myGraph xAxisScale:[NSNumber numberWithInt:1]] floatValue]];
+        controller.correlation = [NSString stringWithFormat:@"%.2f", [[[BEMGraphCalculator sharedCalculator] calculateCorrelationCoefficientUsingCorrelationMethod:BEMCorrelationMethodPearson onGraph:self.myGraph xAxisScale:[NSNumber numberWithInt:1]] floatValue]];
         controller.snapshotImage = [self.myGraph graphSnapshotImage];
     }
 }
@@ -226,7 +230,7 @@
         self.labelValues.alpha = 0.0;
         self.labelDates.alpha = 0.0;
     } completion:^(BOOL finished) {
-        self.labelValues.text = [NSString stringWithFormat:@"%i", [[self.myGraph calculatePointValueSum] intValue]];
+        self.labelValues.text = [NSString stringWithFormat:@"%i", [[[BEMGraphCalculator sharedCalculator] calculatePointValueSumOnGraph:self.myGraph] intValue]];
         self.labelDates.text = [NSString stringWithFormat:@"between %@ and %@", [self labelForDateAtIndex:0], [self labelForDateAtIndex:self.arrayOfDates.count - 1]];
         
         [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
