@@ -1114,28 +1114,73 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 }
 
 - (NSNumber *)calculatePointValueAverage {
-    return [self calculateExpression:@"average:"];
+    NSArray *filteredArray = [self calculationDataPoints];
+    if (filteredArray.count == 0) return [NSNumber numberWithInt:0];
+    
+    NSExpression *expression = [NSExpression expressionForFunction:@"average:" arguments:@[[NSExpression expressionForConstantValue:filteredArray]]];
+    NSNumber *value = [expression expressionValueWithObject:nil context:nil];
+    
+    return value;
 }
 
 - (NSNumber *)calculatePointValueSum {
-    return [self calculateExpression:@"sum:"];
+    NSArray *filteredArray = [self calculationDataPoints];
+    if (filteredArray.count == 0) return [NSNumber numberWithInt:0];
+    
+    NSExpression *expression = [NSExpression expressionForFunction:@"sum:" arguments:@[[NSExpression expressionForConstantValue:filteredArray]]];
+    NSNumber *value = [expression expressionValueWithObject:nil context:nil];
+    
+    return value;
 }
 
 - (NSNumber *)calculatePointValueMedian {
-    return [self calculateExpression:@"median:"];
+    NSArray *filteredArray = [self calculationDataPoints];
+    if (filteredArray.count == 0) return [NSNumber numberWithInt:0];
+    
+    NSExpression *expression = [NSExpression expressionForFunction:@"median:" arguments:@[[NSExpression expressionForConstantValue:filteredArray]]];
+    NSNumber *value = [expression expressionValueWithObject:nil context:nil];
+    
+    return value;
+}
+
+- (NSNumber *)calculatePointValueMode {
+    NSArray *filteredArray = [self calculationDataPoints];
+    if (filteredArray.count == 0) return [NSNumber numberWithInt:0];
+    
+    NSExpression *expression = [NSExpression expressionForFunction:@"mode:" arguments:@[[NSExpression expressionForConstantValue:filteredArray]]];
+    NSMutableArray *value = [expression expressionValueWithObject:nil context:nil];
+    
+    return [value firstObject];
 }
 
 - (NSNumber *)calculateLineGraphStandardDeviation {
-    return [self calculateExpression:@"stddev:"];
+    NSArray *filteredArray = [self calculationDataPoints];
+    if (filteredArray.count == 0) return [NSNumber numberWithInt:0];
+    
+    NSExpression *expression = [NSExpression expressionForFunction:@"stddev:" arguments:@[[NSExpression expressionForConstantValue:filteredArray]]];
+    NSNumber *value = [expression expressionValueWithObject:nil context:nil];
+    
+    return value;
 }
 
 - (NSNumber *)calculateMinimumPointValue {
-    return [self calculateExpression:@"min:"];
+    NSArray *filteredArray = [self calculationDataPoints];
+    if (filteredArray.count == 0) return [NSNumber numberWithInt:0];
+    
+    NSExpression *expression = [NSExpression expressionForFunction:@"min:" arguments:@[[NSExpression expressionForConstantValue:filteredArray]]];
+    NSNumber *value = [expression expressionValueWithObject:nil context:nil];
+    return value;
 }
 
 - (NSNumber *)calculateMaximumPointValue {
-    return [self calculateExpression:@"max:"];
- }
+    NSArray *filteredArray = [self calculationDataPoints];
+    if (filteredArray.count == 0) return [NSNumber numberWithInt:0];
+    
+    NSExpression *expression = [NSExpression expressionForFunction:@"max:" arguments:@[[NSExpression expressionForConstantValue:filteredArray]]];
+    NSNumber *value = [expression expressionValueWithObject:nil context:nil];
+    
+    return value;
+}
 
 
 #pragma mark - Values

@@ -302,7 +302,7 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
 
 
 /// Color of the background of the X-Axis
-@property (strong, nonatomic) IBInspectable UIColor *colorBackgroundXaxis;
+@property (strong, nonatomic, nullable) IBInspectable UIColor *colorBackgroundXaxis;
 
 
 /// Alpha of the background of the X-Axis
@@ -310,7 +310,7 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
 
 
 /// Color of the background of the Y-Axis
-@property (strong, nonatomic) IBInspectable UIColor *colorBackgroundYaxis;
+@property (strong, nonatomic, nullable) IBInspectable UIColor *colorBackgroundYaxis;
 
 
 /// Alpha of the background of the Y-Axis
