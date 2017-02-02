@@ -19,11 +19,11 @@
 @property (assign, nonatomic) BOOL shouldDisplayConstantly;
 
 /// The point's color
-@property (strong, nonatomic) UIColor *color;
+@property (strong, nonatomic, nullable) UIColor *color;
 
 /** The point color
  @deprecated This property is no longer in use. Please use the \p color property instead. */
-@property (strong, nonatomic) UIColor *Pointcolor __deprecated_msg("Use color instead");
+@property (strong, nonatomic, null_unspecified) UIColor *Pointcolor __deprecated_msg("Use color instead");
 
 /// The value of the point
 @property (nonatomic) CGFloat absoluteValue;

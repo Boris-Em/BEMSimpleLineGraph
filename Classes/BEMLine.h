@@ -43,26 +43,26 @@ typedef NS_ENUM(NSUInteger, BEMLineGradientDirection) {
 //----- POINTS -----//
 
 /// All of the Y-axis values for the points
-@property (strong, nonatomic) NSArray *arrayOfPoints;
+@property (strong, nonatomic, nonnull) NSArray *arrayOfPoints;
 
 /// All of the X-Axis coordinates used to draw vertical lines through
-@property (strong, nonatomic) NSArray *arrayOfVerticalRefrenceLinePoints;
+@property (strong, nonatomic, nonnull) NSArray *arrayOfVerticalReferenceLinePoints;
 
 /// The value used to offset the fringe vertical reference lines when the x-axis labels are on the edge
 @property (assign, nonatomic) CGFloat verticalReferenceHorizontalFringeNegation;
 
 /// All of the Y-Axis coordinates used to draw horizontal lines through
-@property (strong, nonatomic) NSArray *arrayOfHorizontalRefrenceLinePoints;
+@property (strong, nonatomic, nullable) NSArray *arrayOfHorizontalReferenceLinePoints;
 
 /// All of the point values
-@property (strong, nonatomic) NSArray *arrayOfValues;
+@property (strong, nonatomic, nullable) NSArray *arrayOfValues;
 
 /** Draw thin, translucent, reference lines using the provided X-Axis and Y-Axis coordinates.
- @see Use \p arrayOfVerticalRefrenceLinePoints to specify vertical reference lines' positions. Use \p arrayOfHorizontalRefrenceLinePoints to specify horizontal reference lines' positions. */
-@property (assign, nonatomic) BOOL enableRefrenceLines;
+ @see Use \p arrayOfVerticalReferenceLinePoints to specify vertical reference lines' positions. Use \p arrayOfHorizontalReferenceLinePoints to specify horizontal reference lines' positions. */
+@property (assign, nonatomic) BOOL enableReferenceLines;
 
 /** Draw a thin, translucent, frame on the edge of the graph to separate it from the labels on the X-Axis and the Y-Axis. */
-@property (assign, nonatomic) BOOL enableRefrenceFrame;
+@property (assign, nonatomic) BOOL enableReferenceFrame;
 
 /** If reference frames are enabled, this will enable/disable specific borders.  Default: YES */
 @property (assign, nonatomic) BOOL enableLeftReferenceFrameLine;
@@ -77,10 +77,10 @@ typedef NS_ENUM(NSUInteger, BEMLineGradientDirection) {
 @property (assign, nonatomic) BOOL enableTopReferenceFrameLine;
 
 /** Dash pattern for the references line on the X axis */
-@property (nonatomic, strong) NSArray *lineDashPatternForReferenceXAxisLines;
+@property (nonatomic, strong, nullable) NSArray *lineDashPatternForReferenceXAxisLines;
 
 /** Dash pattern for the references line on the Y axis */
-@property (nonatomic, strong) NSArray *lineDashPatternForReferenceYAxisLines;
+@property (nonatomic, strong, nullable) NSArray *lineDashPatternForReferenceYAxisLines;
 
 /** If a null value is present, interpolation would draw a best fit line through the null point bound by its surrounding points.  Default: YES */
 @property (assign, nonatomic) BOOL interpolateNullValues;
@@ -93,51 +93,51 @@ typedef NS_ENUM(NSUInteger, BEMLineGradientDirection) {
 //----- COLORS -----//
 
 /// The line color. A single, solid color which is applied to the entire line. If the \p gradient property is non-nil this property will be ignored.
-@property (strong, nonatomic) UIColor *color;
+@property (strong, nonatomic, nullable) UIColor *color;
 
 /// The color of the area above the line, inside of its superview
-@property (strong, nonatomic) UIColor *topColor;
+@property (strong, nonatomic, nullable) UIColor *topColor;
 
 /// A color gradient applied to the area above the line, inside of its superview. If set, it will be drawn on top of the fill from the \p topColor property.
-@property (assign, nonatomic) CGGradientRef topGradient;
+@property (assign, nonatomic, nullable) CGGradientRef topGradient;
 
 /// The color of the area below the line, inside of its superview
-@property (strong, nonatomic) UIColor *bottomColor;
+@property (strong, nonatomic, nullable) UIColor *bottomColor;
 
 /// A color gradient applied to the area below the line, inside of its superview. If set, it will be drawn on top of the fill from the \p bottomColor property.
-@property (assign, nonatomic) CGGradientRef bottomGradient;
+@property (assign, nonatomic, nullable) CGGradientRef bottomGradient;
 
 /// A color gradient to be applied to the line. If this property is set, it will mask (override) the \p color property.
-@property (assign, nonatomic) CGGradientRef lineGradient;
+@property (assign, nonatomic, nullable) CGGradientRef lineGradient;
 
 /// The drawing direction of the line gradient color
 @property (nonatomic) BEMLineGradientDirection lineGradientDirection;
 
 /// The reference line color. Defaults to `color`.
-@property (strong, nonatomic) UIColor *refrenceLineColor;
+@property (strong, nonatomic, nullable) UIColor *referenceLineColor;
 
 
 
 //----- ALPHA -----//
 
 /// The line alpha
-@property (assign, nonatomic) float lineAlpha;
+@property (assign, nonatomic) CGFloat lineAlpha;
 
 /// The alpha value of the area above the line, inside of its superview
-@property (assign, nonatomic) float topAlpha;
+@property (assign, nonatomic) CGFloat topAlpha;
 
 /// The alpha value of the area below the line, inside of its superview
-@property (assign, nonatomic) float bottomAlpha;
+@property (assign, nonatomic) CGFloat bottomAlpha;
 
 
 
 //----- SIZE -----//
 
 /// The width of the line
-@property (assign, nonatomic) float lineWidth;
+@property (assign, nonatomic) CGFloat lineWidth;
 
 /// The width of a reference line
-@property (nonatomic) float referenceLineWidth;
+@property (nonatomic) CGFloat referenceLineWidth;
 
 
 
@@ -161,7 +161,7 @@ typedef NS_ENUM(NSUInteger, BEMLineGradientDirection) {
 //----- AVERAGE -----//
 
 /// The average line
-@property (strong, nonatomic) BEMAverageLine *averageLine;
+@property (strong, nonatomic, nullable) BEMAverageLine *averageLine;
 
 /// The average line's y-value translated into the coordinate system
 @property (assign, nonatomic) CGFloat averageLineYCoordinate;
