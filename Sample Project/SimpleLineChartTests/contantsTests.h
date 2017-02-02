@@ -9,7 +9,7 @@
 #ifndef SimpleLineChart_contantsTests_h
 #define SimpleLineChart_contantsTests_h
 
-static NSInteger numberOfPoints = 100;
+static NSUInteger numberOfPoints = 100;
 static CGFloat pointValue = 3.0;
 static NSString * xAxisLabelString = @"X-Axis-Label";
 static NSString * popUpPrefix = @"Prefix";

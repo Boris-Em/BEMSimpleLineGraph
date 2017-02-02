@@ -17,10 +17,19 @@
         _color = [UIColor whiteColor];
         _alpha = 1.0;
         _width = 3.0;
-        _yValue = 0.0;
+        _yValue = NAN;
     }
     
     return self;
 }
+-(void) setLabel:(UILabel *)label {
+    if (_label != label) {
+        [_label removeFromSuperview];
+        _label = label;
+    }
+}
 
+-(void) dealloc {
+    self.label= nil;
+}
 @end
