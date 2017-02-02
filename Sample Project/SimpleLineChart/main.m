@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Boris Emorine. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 
 #import "AppDelegate.h"
 

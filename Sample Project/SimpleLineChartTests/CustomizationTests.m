@@ -12,10 +12,10 @@
 #pragma clang diagnostic ignored "-Wfloat-equal"
 
 @interface BEMSimpleLineGraphView ()
-//allow tester to get to internal properties
+// Allow tester to get to internal properties
 
-/// All of the dataPoint Labels
-@property (strong, nonatomic) NSMutableArray <BEMPermanentPopupLabel *> *permanentPopups;
+/// All of the dataPoint labels
+@property (strong, nonatomic) NSMutableArray <UILabel *> *permanentPopups;
 
 /// All of the dataPoint dots
 @property (strong, nonatomic) NSMutableArray <BEMCircle *> *circleDots;
@@ -115,8 +115,8 @@
     
     XCTAssert(popUps.count == numberOfPoints, @"We should have a popup above each and every dot");
      NSString *expectedLabelText = [NSString stringWithFormat:@"%@%.f%@", popUpPrefix,pointValue,popUpSuffix];
-    for (BEMPermanentPopupLabel *popUp in popUps) {
-        XCTAssert([popUp isMemberOfClass:[BEMPermanentPopupLabel class]],@"Popups must be label class");
+    for (UILabel *popUp in popUps) {
+        XCTAssert([popUp isMemberOfClass:[UILabel class]],@"Popups must be label class");
         //  XCTAssert(popUp.backgroundColor == [UIColor greenColor],@"")
         // XCTAssert(popUp.layer.alpha >= 0.69 && popUp.alpha <= 0.71, @"The popups should always be displayed and have an alpha of 0.7");
        UIColor * expectedColor = [UIColor colorWithRed:0.0f green:1.0f blue:0.0f alpha:0.7f];

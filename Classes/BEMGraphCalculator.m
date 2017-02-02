@@ -56,7 +56,7 @@
 
 - (nonnull NSNumber *)calculatePointValueAverageOnGraph:(nonnull BEMSimpleLineGraphView *)graph {
     NSArray *filteredArray = [self calculationDataPointsOnGraph:graph];
-    if (filteredArray.count == 0) return 0;
+    if (filteredArray.count == 0) return [NSNumber numberWithInt:0];
     
     NSExpression *expression = [NSExpression expressionForFunction:@"average:" arguments:@[[NSExpression expressionForConstantValue:filteredArray]]];
     NSNumber *value = [expression expressionValueWithObject:nil context:nil];
@@ -66,7 +66,7 @@
 
 - (nonnull NSNumber *)calculatePointValueSumOnGraph:(nonnull BEMSimpleLineGraphView *)graph {
     NSArray *filteredArray = [self calculationDataPointsOnGraph:graph];
-    if (filteredArray.count == 0) return 0;
+    if (filteredArray.count == 0) return [NSNumber numberWithInt:0];
     
     NSExpression *expression = [NSExpression expressionForFunction:@"sum:" arguments:@[[NSExpression expressionForConstantValue:filteredArray]]];
     NSNumber *value = [expression expressionValueWithObject:nil context:nil];
@@ -76,7 +76,7 @@
 
 - (nonnull NSNumber *)calculatePointValueMedianOnGraph:(nonnull BEMSimpleLineGraphView *)graph {
     NSArray *filteredArray = [self calculationDataPointsOnGraph:graph];
-    if (filteredArray.count == 0) return 0;
+    if (filteredArray.count == 0) return [NSNumber numberWithInt:0];
     
     NSExpression *expression = [NSExpression expressionForFunction:@"median:" arguments:@[[NSExpression expressionForConstantValue:filteredArray]]];
     NSNumber *value = [expression expressionValueWithObject:nil context:nil];
@@ -86,17 +86,19 @@
 
 - (nonnull NSNumber *)calculatePointValueModeOnGraph:(nonnull BEMSimpleLineGraphView *)graph {
     NSArray *filteredArray = [self calculationDataPointsOnGraph:graph];
-    if (filteredArray.count == 0) return 0;
+    if (filteredArray.count == 0) return [NSNumber numberWithInt:0];
     
     NSExpression *expression = [NSExpression expressionForFunction:@"mode:" arguments:@[[NSExpression expressionForConstantValue:filteredArray]]];
     NSMutableArray *value = [expression expressionValueWithObject:nil context:nil];
+    NSNumber *numberValue = [value firstObject];
     
-    return [value firstObject];
+    if (numberValue) return numberValue;
+    else return [NSNumber numberWithInt:0];
 }
 
 - (nonnull NSNumber *)calculateStandardDeviationOnGraph:(nonnull BEMSimpleLineGraphView *)graph {
     NSArray *filteredArray = [self calculationDataPointsOnGraph:graph];
-    if (filteredArray.count == 0) return 0;
+    if (filteredArray.count == 0) return [NSNumber numberWithInt:0];
     
     NSExpression *expression = [NSExpression expressionForFunction:@"stddev:" arguments:@[[NSExpression expressionForConstantValue:filteredArray]]];
     NSNumber *value = [expression expressionValueWithObject:nil context:nil];
@@ -109,7 +111,7 @@
 
 - (nonnull NSNumber *)calculateMinimumPointValueOnGraph:(nonnull BEMSimpleLineGraphView *)graph {
     NSArray *filteredArray = [self calculationDataPointsOnGraph:graph];
-    if (filteredArray.count == 0) return 0;
+    if (filteredArray.count == 0) return [NSNumber numberWithInt:0];
     
     NSExpression *expression = [NSExpression expressionForFunction:@"min:" arguments:@[[NSExpression expressionForConstantValue:filteredArray]]];
     NSNumber *value = [expression expressionValueWithObject:nil context:nil];
@@ -118,7 +120,7 @@
 
 - (nonnull NSNumber *)calculateMaximumPointValueOnGraph:(nonnull BEMSimpleLineGraphView *)graph {
     NSArray *filteredArray = [self calculationDataPointsOnGraph:graph];
-    if (filteredArray.count == 0) return 0;
+    if (filteredArray.count == 0) return [NSNumber numberWithInt:0];
     
     NSExpression *expression = [NSExpression expressionForFunction:@"max:" arguments:@[[NSExpression expressionForConstantValue:filteredArray]]];
     NSNumber *value = [expression expressionValueWithObject:nil context:nil];
@@ -213,7 +215,7 @@
     }
     
     // Loop through the data points three at a time
-    for (NSInteger index = 0; index < graphPoints.count; index = index + 3) {
+    for (NSUInteger index = 0; index < graphPoints.count; index = index + 3) {
         NSNumber *firstPoint = [graphPoints objectAtIndex:index];
         NSNumber *thirdPoint = [graphPoints objectAtIndex:index+2];
         NSNumber *midPoint = [graphPoints objectAtIndex:index+1];
@@ -234,11 +236,11 @@
     NSArray *yPoints = [self calculationDataPointsOnGraph:graph];
     NSMutableArray *xPoints = [NSMutableArray arrayWithCapacity:yPoints.count];
     if (scale == nil || scale.floatValue == 0.0) {
-        for (int i = 1; i <= yPoints.count; i++) {
+        for (NSUInteger i = 1; i <= yPoints.count; i++) {
             [xPoints addObject:[NSNumber numberWithInteger:i]];
         }
     } else {
-        for (int i = 1; i <= yPoints.count; i++) {
+        for (NSUInteger i = 1; i <= yPoints.count; i++) {
             [xPoints addObject:[NSNumber numberWithFloat:(i*scale.floatValue)]];
         }
     }

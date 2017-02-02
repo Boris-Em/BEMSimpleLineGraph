@@ -43,14 +43,14 @@
     // Apply the gradient to the bottom portion of the graph
     self.myGraph.gradientBottom =  CGGradientCreateWithColorComponents(colorspace, components, locations, num_locations);
     CGColorSpaceRelease(colorspace);
-    //Note clang analyzer will complain about leak of gradient, but we use assign on gradient properties to avoid leak
+    // Note: clang analyzer will complain about leak of gradient, but we use assign on gradient properties to avoid leak
 
     // Enable and disable various graph properties and axis displays
     self.myGraph.enableTouchReport = YES;
     self.myGraph.enablePopUpReport = YES;
     self.myGraph.autoScaleYAxis = YES;
-    self.myGraph.alwaysDisplayDots = YES;
-    self.myGraph.alwaysDisplayPopUpLabels = YES;
+    // self.myGraph.alwaysDisplayDots = YES;
+    // self.myGraph.alwaysDisplayPopUpLabels = YES;
     self.myGraph.enableReferenceXAxisLines = YES;
     self.myGraph.enableReferenceYAxisLines = YES;
     self.myGraph.enableReferenceAxisFrame = YES;
@@ -227,22 +227,23 @@
 
 - (void)lineGraph:(BEMSimpleLineGraphView *)graph didReleaseTouchFromGraphWithClosestIndex:(CGFloat)index {
     [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        self.labelValues.alpha = 0.0;
-        self.labelDates.alpha = 0.0;
+        self.labelValues.alpha = 0.0f;
+        self.labelDates.alpha = 0.0f;
     } completion:^(BOOL finished) {
         self.labelValues.text = [NSString stringWithFormat:@"%i", [[[BEMGraphCalculator sharedCalculator] calculatePointValueSumOnGraph:self.myGraph] intValue]];
         self.labelDates.text = [NSString stringWithFormat:@"between %@ and %@", [self labelForDateAtIndex:0], [self labelForDateAtIndex:self.arrayOfDates.count - 1]];
         
         [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-            self.labelValues.alpha = 1.0;
-            self.labelDates.alpha = 1.0;
+            self.labelValues.alpha = 1.0f;
+            self.labelDates.alpha = 1.0f;
         } completion:nil];
     }];
 }
 
 - (void)lineGraphDidFinishLoading:(BEMSimpleLineGraphView *)graph {
     if (self.arrayOfValues.count > 0) {
-        self.labelValues.text = [NSString stringWithFormat:@"%i", [[self.myGraph calculatePointValueSum] intValue]];
+        NSNumber *pointSum = [[BEMGraphCalculator sharedCalculator] calculatePointValueSumOnGraph:self.myGraph];
+        self.labelValues.text = [NSString stringWithFormat:@"%i", [pointSum intValue]];
         self.labelDates.text = [NSString stringWithFormat:@"between %@ and %@", [self labelForDateAtIndex:0], [self labelForDateAtIndex:self.arrayOfDates.count - 1]];
     } else {
         self.labelValues.text = @"No data";

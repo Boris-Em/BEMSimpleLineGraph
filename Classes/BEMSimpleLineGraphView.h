@@ -13,7 +13,6 @@
 
 #import "BEMCircle.h"
 #import "BEMLine.h"
-#import "BEMPermanentPopupView.h"
 #import "BEMAverageLine.h"
 
 @protocol BEMSimpleLineGraphDelegate;
@@ -451,10 +450,10 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
 
 //----- CUSTOMIZATION -----//
 
-/** The optional text for the popup report. Replaces
+/** The optional text for the popup report.
  @param graph The graph object requesting the total number of points.
- @return The suffix to append to the popup report. */
-- (NSString *)popUpTextForlineGraph:(BEMSimpleLineGraphView *)graph atIndex: (NSUInteger) index;
+ @return The text to substitute for the popup. If nil is returned, the popup text will be derived using the given data point and any supplied suffix and / or prefix. */
+- (nullable NSString *)popUpTextForlineGraph:(BEMSimpleLineGraphView *)graph atIndex:(NSUInteger)index;
 
 
 /** The optional suffix to append to the popup report.
@@ -509,7 +508,7 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
 
 /** Optional method to return a custom popup view to be used on the chart 
  @param graph The graph object requesting the padding value.
- @return The custom popup view to use */
+ @return The custom popup view to use for the index. */
 - (UIView *)popUpViewForLineGraph:(BEMSimpleLineGraphView *)graph;
 
 
@@ -517,7 +516,7 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
  @param graph The graph object requesting the padding value.
  @param popupView The popup view owned by the graph that needs to be modified
  @param index The index of the element associated with the popup view */
-- (void)lineGraph:(BEMSimpleLineGraphView *)graph modifyPopupView:(UIView *)popupView forIndex:(NSUInteger)index;
+- (void)lineGraph:(BEMSimpleLineGraphView *)graph modifyPopupView:(UIView *)popupView forIndex:(NSUInteger)index __unavailable;
 
 
 //----- TOUCH EVENTS -----//

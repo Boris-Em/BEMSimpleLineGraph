@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8AB8D62F1A7ABDF600FC4AEC /* BEMPermanentPopupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AB8D62E1A7ABDF600FC4AEC /* BEMPermanentPopupView.m */; };
 		99B15643187B412400B24591 /* StatsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 99B15642187B412400B24591 /* StatsViewController.m */; };
 		99B3FA3A1877898B00539A7B /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 99B3FA381877898B00539A7B /* LICENSE */; };
 		99B3FA3B1877898B00539A7B /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 99B3FA391877898B00539A7B /* README.md */; };
@@ -45,8 +44,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		8AB8D62D1A7ABDF600FC4AEC /* BEMPermanentPopupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEMPermanentPopupView.h; sourceTree = "<group>"; };
-		8AB8D62E1A7ABDF600FC4AEC /* BEMPermanentPopupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEMPermanentPopupView.m; sourceTree = "<group>"; };
 		99B15641187B412400B24591 /* StatsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatsViewController.h; sourceTree = "<group>"; };
 		99B15642187B412400B24591 /* StatsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatsViewController.m; sourceTree = "<group>"; };
 		99B3FA381877898B00539A7B /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
@@ -120,8 +117,6 @@
 				C3B90A5B187D15F7003E407D /* BEMLine.m */,
 				A63990B31AD4923900B14D88 /* BEMAverageLine.h */,
 				A63990B41AD4923900B14D88 /* BEMAverageLine.m */,
-				8AB8D62D1A7ABDF600FC4AEC /* BEMPermanentPopupView.h */,
-				8AB8D62E1A7ABDF600FC4AEC /* BEMPermanentPopupView.m */,
 				A6AC89591C5882DD0052AB1C /* BEMGraphCalculator.h */,
 				A6AC895A1C5882DD0052AB1C /* BEMGraphCalculator.m */,
 			);
@@ -315,7 +310,6 @@
 				C3FD816F186DFD9A00FD8ED3 /* ViewController.m in Sources */,
 				A6AC895B1C5882DD0052AB1C /* BEMGraphCalculator.m in Sources */,
 				C3B90A60187D15F7003E407D /* BEMLine.m in Sources */,
-				8AB8D62F1A7ABDF600FC4AEC /* BEMPermanentPopupView.m in Sources */,
 				C3FD8169186DFD9A00FD8ED3 /* AppDelegate.m in Sources */,
 				99B15643187B412400B24591 /* StatsViewController.m in Sources */,
 				A63990B51AD4923900B14D88 /* BEMAverageLine.m in Sources */,
