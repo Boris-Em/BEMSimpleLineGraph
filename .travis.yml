@@ -4,4 +4,4 @@ osx_image: xcode8.2
 # xcode_scheme: SimpleLineChartTests
 # xcode_sdk: iphonesimulator
 script:
-  - xcodebuild clean build test -project "Sample Project/SimpleLineChart.xcodeproj" -scheme SimpleLineChartTests -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO 
+  - xcodebuild clean build test -project "Sample Project/SimpleLineChart.xcodeproj" -scheme SimpleLineChartTests -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO -destination 'platform=iOS Simulator,name=iPhone 6,OS=latest' 
