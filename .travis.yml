@@ -1,6 +1,7 @@
 language: objective-c
-# xcode_project: Sample Project/SimpleLineChart.xcodeproj
-# xcode_scheme: SimpleLineChartTests
-# xcode_sdk: iphonesimulator
+osx_image: xcode8.2
+xcode_project: Sample Project/SimpleLineChart.xcodeproj
+xcode_scheme: SimpleLineChartTests
+xcode_sdk: iphonesimulator
 script:
   - xcodebuild clean build test -project "Sample Project/SimpleLineChart.xcodeproj" -scheme SimpleLineChartTests -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
