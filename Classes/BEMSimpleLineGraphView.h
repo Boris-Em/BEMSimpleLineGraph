@@ -487,6 +487,10 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
  @return The minimum value of the Y-Axis. */
 - (CGFloat)minValueForLineGraph:(BEMSimpleLineGraphView *)graph;
 
+/** Optional method to set the average value for the Average line. If not implemented, the value will be the average point of the graph.
+ @param graph The graph object requesting the minimum value.
+ @return The average value of the Y-Axis. */
+- (CGFloat)averageValueForLineGraph:(BEMSimpleLineGraphView *)graph;
 
 /** Optional method to control whether a label indicating NO DATA will be shown while number of data is zero
  @param graph The graph object for the NO DATA label
@@ -516,7 +520,7 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
  @param graph The graph object requesting the padding value.
  @param popupView The popup view owned by the graph that needs to be modified
  @param index The index of the element associated with the popup view */
-- (void)lineGraph:(BEMSimpleLineGraphView *)graph modifyPopupView:(UIView *)popupView forIndex:(NSUInteger)index __unavailable;
+- (void)lineGraph:(BEMSimpleLineGraphView *)graph modifyPopupView:(UIView *)popupView forIndex:(NSUInteger)index;
 
 
 //----- TOUCH EVENTS -----//
