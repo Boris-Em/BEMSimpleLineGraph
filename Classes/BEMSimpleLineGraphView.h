@@ -336,11 +336,11 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
 
 
 /// A line dash patter to be applied to X axis reference lines.  This allows you to draw a dotted or hashed line
-@property (nonatomic, strong) NSArray *lineDashPatternForReferenceXAxisLines;
+@property (nonatomic, strong) NSArray <NSNumber *> *lineDashPatternForReferenceXAxisLines;
 
 
 /// A line dash patter to be applied to Y axis reference lines.  This allows you to draw a dotted or hashed line
-@property (nonatomic, strong) NSArray *lineDashPatternForReferenceYAxisLines;
+@property (nonatomic, strong) NSArray <NSNumber *> *lineDashPatternForReferenceYAxisLines;
 
 
 /// Color to be used for the no data label on the chart
@@ -568,7 +568,7 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
  When this is set, `numberOfGapsBetweenLabelsOnLineGraph` is ignored
  @param graph The graph object which is requesting the number of gaps between the labels.
  @return Array of graph indices to place X-Axis labels */
-- (NSArray *)incrementPositionsForXAxisOnLineGraph:(BEMSimpleLineGraphView *)graph;
+- (NSArray <NSNumber *> *)incrementPositionsForXAxisOnLineGraph:(BEMSimpleLineGraphView *)graph;
 
 
 

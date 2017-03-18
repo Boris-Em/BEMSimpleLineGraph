@@ -43,19 +43,19 @@ typedef NS_ENUM(NSUInteger, BEMLineGradientDirection) {
 //----- POINTS -----//
 
 /// All of the Y-axis values for the points
-@property (strong, nonatomic, nonnull) NSArray *arrayOfPoints;
+@property (strong, nonatomic, nonnull) NSArray <NSNumber *> *arrayOfPoints;
 
 /// All of the X-Axis coordinates used to draw vertical lines through
-@property (strong, nonatomic, nonnull) NSArray *arrayOfVerticalReferenceLinePoints;
+@property (strong, nonatomic, nonnull) NSArray <NSNumber *> *arrayOfVerticalReferenceLinePoints;
 
 /// The value used to offset the fringe vertical reference lines when the x-axis labels are on the edge
 @property (assign, nonatomic) CGFloat verticalReferenceHorizontalFringeNegation;
 
 /// All of the Y-Axis coordinates used to draw horizontal lines through
-@property (strong, nonatomic, nullable) NSArray *arrayOfHorizontalReferenceLinePoints;
+@property (strong, nonatomic, nullable) NSArray <NSNumber *> *arrayOfHorizontalReferenceLinePoints;
 
 /// All of the point values
-@property (strong, nonatomic, nullable) NSArray *arrayOfValues;
+@property (strong, nonatomic, nullable) NSArray <NSNumber *> *arrayOfValues;
 
 /** Draw thin, translucent, reference lines using the provided X-Axis and Y-Axis coordinates.
  @see Use \p arrayOfVerticalReferenceLinePoints to specify vertical reference lines' positions. Use \p arrayOfHorizontalReferenceLinePoints to specify horizontal reference lines' positions. */
@@ -77,10 +77,10 @@ typedef NS_ENUM(NSUInteger, BEMLineGradientDirection) {
 @property (assign, nonatomic) BOOL enableTopReferenceFrameLine;
 
 /** Dash pattern for the references line on the X axis */
-@property (nonatomic, strong, nullable) NSArray *lineDashPatternForReferenceXAxisLines;
+@property (nonatomic, strong, nullable) NSArray <NSNumber *> *lineDashPatternForReferenceXAxisLines;
 
 /** Dash pattern for the references line on the Y axis */
-@property (nonatomic, strong, nullable) NSArray *lineDashPatternForReferenceYAxisLines;
+@property (nonatomic, strong, nullable) NSArray <NSNumber *> *lineDashPatternForReferenceYAxisLines;
 
 /** If a null value is present, interpolation would draw a best fit line through the null point bound by its surrounding points.  Default: YES */
 @property (assign, nonatomic) BOOL interpolateNullValues;

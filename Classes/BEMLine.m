@@ -19,7 +19,7 @@
 
 @interface BEMLine()
 
-@property (nonatomic, strong) NSMutableArray *points;
+@property (nonatomic, strong) NSMutableArray <NSValue *> *points;
 
 @end
 
@@ -286,39 +286,38 @@
     }
 }
 
-- (NSArray *)topPointsArray {
+- (NSArray <NSValue *> *)topPointsArray {
     CGPoint topPointZero = CGPointMake(0,0);
     CGPoint topPointFull = CGPointMake(self.frame.size.width, 0);
-    NSMutableArray *topPoints = [NSMutableArray arrayWithArray:self.points];
+    NSMutableArray <NSValue *> *topPoints = [NSMutableArray arrayWithArray:self.points];
     [topPoints insertObject:[NSValue valueWithCGPoint:topPointZero] atIndex:0];
     [topPoints addObject:[NSValue valueWithCGPoint:topPointFull]];
     return topPoints;
 }
 
-- (NSArray *)bottomPointsArray {
+- (NSArray <NSValue *> *)bottomPointsArray {
     CGPoint bottomPointZero = CGPointMake(0, self.frame.size.height);
     CGPoint bottomPointFull = CGPointMake(self.frame.size.width, self.frame.size.height);
-    NSMutableArray *bottomPoints = [NSMutableArray arrayWithArray:self.points];
+    NSMutableArray <NSValue *> *bottomPoints = [NSMutableArray arrayWithArray:self.points];
     [bottomPoints insertObject:[NSValue valueWithCGPoint:bottomPointZero] atIndex:0];
     [bottomPoints addObject:[NSValue valueWithCGPoint:bottomPointFull]];
     return bottomPoints;
 }
 
-+ (UIBezierPath *)linesToPoints:(NSArray *)points {
++ (UIBezierPath *)linesToPoints:(NSArray <NSValue *> *)points {
     UIBezierPath *path = [UIBezierPath bezierPath];
     NSValue *value = points[0];
     CGPoint p1 = [value CGPointValue];
     [path moveToPoint:p1];
 
-    for (NSUInteger i = 1; i < points.count; i++) {
-        value = points[i];
-        CGPoint p2 = [value CGPointValue];
+    for (NSValue * point in points) {
+        CGPoint p2 = [point CGPointValue];
         [path addLineToPoint:p2];
     }
     return path;
 }
 
-+ (UIBezierPath *)quadCurvedPathWithPoints:(NSArray *)points {
++ (UIBezierPath *)quadCurvedPathWithPoints:(NSArray <NSValue *> *)points {
     UIBezierPath *path = [UIBezierPath bezierPath];
 
     NSValue *value = points[0];
@@ -332,9 +331,8 @@
         return path;
     }
 
-    for (NSUInteger i = 1; i < points.count; i++) {
-        value = points[i];
-        CGPoint p2 = [value CGPointValue];
+    for (NSValue * point in points) {
+        CGPoint p2 = [point CGPointValue];
 
         CGPoint midPoint = midPointForPoints(p1, p2);
         [path addQuadCurveToPoint:midPoint controlPoint:controlPointForPoints(midPoint, p1)];

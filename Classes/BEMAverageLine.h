@@ -35,7 +35,7 @@
 
 
 /// Dash pattern for the average line
-@property (strong, nonatomic, nullable) NSArray *dashPattern;
+@property (strong, nonatomic, nullable) NSArray <NSNumber *> *dashPattern;
 
 
 //Label for average line in y axis. Default is blank.

@@ -784,7 +784,7 @@ self.property = [coder decode ## type ##ForKey:@#property]; \
 
     __block UILabel *prevLabel;
 
-    NSMutableArray *overlapLabels = [NSMutableArray arrayWithCapacity:self.xAxisLabels.count];
+    NSMutableArray <UILabel *> *overlapLabels = [NSMutableArray arrayWithCapacity:self.xAxisLabels.count];
     [self.xAxisLabels enumerateObjectsUsingBlock:^(UILabel *label, NSUInteger idx, BOOL *stop) {
         if (idx == 0) {
             prevLabel = label; //always show first label
@@ -987,7 +987,7 @@ self.property = [coder decode ## type ##ForKey:@#property]; \
             value = increment/2;
         }
     }
-    NSMutableArray *dotValues = [[NSMutableArray alloc] initWithCapacity:numberOfLabels];
+    NSMutableArray <NSNumber *> *dotValues = [[NSMutableArray alloc] initWithCapacity:numberOfLabels];
     for (NSUInteger i = 0; i < numberOfLabels; i++) {
         [dotValues addObject:@(value)];
         value += increment;
@@ -1013,7 +1013,7 @@ self.property = [coder decode ## type ##ForKey:@#property]; \
 
     // Detect overlapped labels
     __block UILabel * prevLabel = nil;;
-    NSMutableArray *overlapLabels = [NSMutableArray arrayWithCapacity:0];
+    NSMutableArray <UILabel *> *overlapLabels = [NSMutableArray arrayWithCapacity:0];
 
     [self.yAxisLabels enumerateObjectsUsingBlock:^(UILabel *label, NSUInteger idx, BOOL *stop) {
 
