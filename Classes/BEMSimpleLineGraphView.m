@@ -9,7 +9,6 @@
 
 #import "BEMSimpleLineGraphView.h"
 #import "BEMGraphCalculator.h"  //just for deprecation warnings; should be removed
-#import "tgmath.h"
 
 const CGFloat BEMNullGraphValue = CGFLOAT_MAX;
 

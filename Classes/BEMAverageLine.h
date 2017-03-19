@@ -11,7 +11,7 @@
 
 
 /// A line displayed horizontally across the graph at the average y-value
-@interface BEMAverageLine : NSObject
+@interface BEMAverageLine : NSObject <NSCoding>
 
 
 /// When set to YES, an average line will be displayed on the line graph

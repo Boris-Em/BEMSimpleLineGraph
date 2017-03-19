@@ -85,15 +85,15 @@
     if (self.enableReferenceLines == YES) {
         if (self.arrayOfVerticalReferenceLinePoints.count > 0) {
             for (NSNumber *xNumber in self.arrayOfVerticalReferenceLinePoints) {
-                CGFloat xValue;
+                CGFloat xValue =[xNumber doubleValue];
                 if (self.verticalReferenceHorizontalFringeNegation != 0.0) {
-                    if ([self.arrayOfVerticalReferenceLinePoints indexOfObject:xNumber] == 0) { // far left reference line
-                        xValue = [xNumber floatValue] + self.verticalReferenceHorizontalFringeNegation;
-                    } else if ([self.arrayOfVerticalReferenceLinePoints indexOfObject:xNumber] == [self.arrayOfVerticalReferenceLinePoints count]-1) { // far right reference line
-                        xValue = [xNumber floatValue] - self.verticalReferenceHorizontalFringeNegation;
-                    } else xValue = [xNumber floatValue];
-                } else xValue = [xNumber floatValue];
-
+                    NSUInteger index = [self.arrayOfVerticalReferenceLinePoints indexOfObject:xNumber];
+                    if (index == 0) { // far left reference line
+                        xValue += self.verticalReferenceHorizontalFringeNegation;
+                    } else if (index == [self.arrayOfVerticalReferenceLinePoints count]-1) { // far right reference line
+                        xValue -= self.verticalReferenceHorizontalFringeNegation;
+                    }
+                }
                 CGPoint initialPoint = CGPointMake(xValue, self.frame.size.height);
                 CGPoint finalPoint = CGPointMake(xValue, 0);
 
@@ -178,7 +178,7 @@
         CGContextSaveGState(ctx);
         CGContextAddPath(ctx, [fillTop CGPath]);
         CGContextClip(ctx);
-        CGContextDrawLinearGradient(ctx, self.topGradient, CGPointZero, CGPointMake(0, CGRectGetMaxY(fillTop.bounds)), 0);
+        CGContextDrawLinearGradient(ctx, self.topGradient, CGPointZero, CGPointMake(0, CGRectGetMaxY(fillTop.bounds)), (CGGradientDrawingOptions) 0);
         CGContextRestoreGState(ctx);
     }
 
@@ -186,7 +186,7 @@
         CGContextSaveGState(ctx);
         CGContextAddPath(ctx, [fillBottom CGPath]);
         CGContextClip(ctx);
-        CGContextDrawLinearGradient(ctx, self.bottomGradient, CGPointZero, CGPointMake(0, CGRectGetMaxY(fillBottom.bounds)), 0);
+        CGContextDrawLinearGradient(ctx, self.bottomGradient, CGPointZero, CGPointMake(0, CGRectGetMaxY(fillBottom.bounds)), (CGGradientDrawingOptions) 0);
         CGContextRestoreGState(ctx);
     }
 
@@ -401,7 +401,7 @@ static CGPoint controlPointForPoints(CGPoint p1, CGPoint p2) {
         end = CGPointMake(CGRectGetMidX(shapeLayer.bounds), CGRectGetMaxY(shapeLayer.bounds));
     }
 
-    CGContextDrawLinearGradient(imageCtx, self.lineGradient, start, end, 0);
+    CGContextDrawLinearGradient(imageCtx, self.lineGradient, start, end, (CGGradientDrawingOptions)0);
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     CALayer *gradientLayer = [CALayer layer];
