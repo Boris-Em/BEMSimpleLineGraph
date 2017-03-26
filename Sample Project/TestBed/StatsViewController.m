@@ -18,6 +18,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(exit:)];
+}
+
+-(void) exit: (id) sender {
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -25,19 +30,10 @@
     self.standardDeviationLabel.text = self.standardDeviation;
     self.averageLabel.text = self.average;
     self.medianLabel.text = self.median;
-    self. modeLabel.text = self.mode;
+    self.modeLabel.text = self.mode;
     self.maximumLabel.text = self.maximum;
     self.minimumLabel.text = self.minimum;
     self.snapshotImageView.image = self.snapshotImage;
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return (section == 0) ? 6 : 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

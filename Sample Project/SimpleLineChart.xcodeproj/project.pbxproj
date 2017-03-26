@@ -21,7 +21,6 @@
 		1E960AA61E7E097C000E2BB8 /* BEMLine.m in Sources */ = {isa = PBXBuildFile; fileRef = C3B90A5B187D15F7003E407D /* BEMLine.m */; };
 		1E960AA71E7E097C000E2BB8 /* BEMAverageLine.m in Sources */ = {isa = PBXBuildFile; fileRef = A63990B41AD4923900B14D88 /* BEMAverageLine.m */; };
 		1E960AA81E7E0990000E2BB8 /* BEMGraphCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = A6AC895A1C5882DD0052AB1C /* BEMGraphCalculator.m */; };
-		1E960AAA1E7EDFE4000E2BB8 /* AppIcon60x60@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E960AA91E7EDFE4000E2BB8 /* AppIcon60x60@2x.png */; };
 		1E960B121E7F9C80000E2BB8 /* MSColorComponentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E960AFD1E7F9C80000E2BB8 /* MSColorComponentView.m */; };
 		1E960B131E7F9C80000E2BB8 /* MSColorSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E960B001E7F9C80000E2BB8 /* MSColorSelectionView.m */; };
 		1E960B141E7F9C80000E2BB8 /* MSColorSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E960B021E7F9C80000E2BB8 /* MSColorSelectionViewController.m */; };
@@ -85,7 +84,6 @@
 		1E960A9D1E7DF9BB000E2BB8 /* MasterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
 		1E960A9E1E7DF9BB000E2BB8 /* StatsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatsViewController.h; sourceTree = "<group>"; };
 		1E960A9F1E7DF9BC000E2BB8 /* StatsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatsViewController.m; sourceTree = "<group>"; };
-		1E960AA91E7EDFE4000E2BB8 /* AppIcon60x60@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon60x60@2x.png"; sourceTree = "<group>"; };
 		1E960AFC1E7F9C80000E2BB8 /* MSColorComponentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSColorComponentView.h; sourceTree = "<group>"; };
 		1E960AFD1E7F9C80000E2BB8 /* MSColorComponentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSColorComponentView.m; sourceTree = "<group>"; };
 		1E960AFE1E7F9C80000E2BB8 /* MSColorPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSColorPicker.h; sourceTree = "<group>"; };
@@ -203,7 +201,6 @@
 			children = (
 				1E960A941E7DF942000E2BB8 /* Info.plist */,
 				1E960A911E7DF942000E2BB8 /* LaunchScreen.storyboard */,
-				1E960AA91E7EDFE4000E2BB8 /* AppIcon60x60@2x.png */,
 				1E960A841E7DF942000E2BB8 /* main.m */,
 			);
 			name = "Supporting Files";
@@ -443,7 +440,6 @@
 			files = (
 				1E960A931E7DF942000E2BB8 /* LaunchScreen.storyboard in Resources */,
 				1E960A901E7DF942000E2BB8 /* Assets.xcassets in Resources */,
-				1E960AAA1E7EDFE4000E2BB8 /* AppIcon60x60@2x.png in Resources */,
 				1E960A8E1E7DF942000E2BB8 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -602,7 +598,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = BorisEmorine.TestBed;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -622,7 +618,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = BorisEmorine.TestBed;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

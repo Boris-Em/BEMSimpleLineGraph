@@ -31,6 +31,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
+    self.navigationItem.leftItemsSupplementBackButton = YES;
 
     self.maxValue = -1.0;
     self.minValue = -1.0;
@@ -150,7 +152,7 @@
 
     if ([segue.identifier isEqualToString:@"showStats"]) {
         BEMGraphCalculator * calc = [BEMGraphCalculator sharedCalculator];
-        StatsViewController *controller = segue.destinationViewController;
+        StatsViewController *controller = (StatsViewController *)((UINavigationController *)segue.destinationViewController).topViewController;
         controller.standardDeviation =  [self formatNumber:[calc calculateStandardDeviationOnGraph:self.myGraph]];
         controller.average =            [self formatNumber:[calc calculatePointValueAverageOnGraph:self.myGraph]];
         controller.median =             [self formatNumber:[calc calculatePointValueMedianOnGraph: self.myGraph]];

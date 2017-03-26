@@ -89,7 +89,9 @@ static NSString * checkOn = @"☒";
 
 @interface MasterViewController () <ARFontPickerViewControllerDelegate, UITextFieldDelegate>
 
-@property (weak, nonatomic) IBOutlet BEMSimpleLineGraphView *myGraph;
+@property (nonatomic) BOOL hasRestoredUI;
+
+@property (strong, nonatomic) IBOutlet BEMSimpleLineGraphView *myGraph;
 
 @property (strong, nonatomic) NSDictionary <NSString *, id> *methodList;
 
@@ -197,19 +199,25 @@ CGGradientRef createGradient () {
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    self.navigationItem.leftBarButtonItem = self.editButtonItem;
-
+    self.hasRestoredUI = NO;
     self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
 }
 
 -(void) viewWillAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    [self.detailViewController loadViewIfNeeded];
-    self.myGraph = self.detailViewController.myGraph;
-    [self restoreUI];
+    [super viewWillAppear:animated];
+    if (!self.hasRestoredUI) [self restoreUI];
+    NSLog(@"VWA");
+}
+
+-(void) decodeRestorableStateWithCoder:(NSCoder *)coder {
+    [super decodeRestorableStateWithCoder:coder];
+    [self restoreUI];  //kludge for VWA not getting called during restore
 }
 
 -(void) restoreUI {
+    [self.detailViewController loadViewIfNeeded];
+    self.myGraph = self.detailViewController.myGraph;
+    self.hasRestoredUI = YES;
 
     self.widthLine.floatValue = self.myGraph.widthLine;
     self.staticPaddingField.floatValue = self.detailViewController.staticPaddingValue;
@@ -804,9 +812,10 @@ CGGradientRef createGradient () {
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
-        DetailViewController *controller = (DetailViewController *)[[segue destinationViewController] topViewController];
-        controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
-        controller.navigationItem.leftItemsSupplementBackButton = YES;
+        UINavigationController* navigationController = (UINavigationController*)[segue destinationViewController];
+        navigationController.viewControllers = @[self.detailViewController];
+        self.detailViewController.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
+        self.detailViewController.navigationItem.leftItemsSupplementBackButton = YES;
     } else if ([[segue identifier] isEqualToString:@"FontPicker"]) {
         ARFontPickerViewController * controller = (ARFontPickerViewController*) [segue destinationViewController];
         controller.delegate = self;
@@ -818,7 +827,7 @@ CGGradientRef createGradient () {
 //        CGRect cellFrame = [self.view convertRect:((UIView *)sender).bounds fromView:sender];
         destNav.popoverPresentationController.sourceView = ((UIView *)sender) ;
         destNav.popoverPresentationController.sourceRect = ((UIView *)sender).bounds ;
-        destNav.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionLeft;
+        destNav.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
         destNav.preferredContentSize = [[destNav visibleViewController].view systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
         MSColorSelectionViewController *colorSelectionController = (MSColorSelectionViewController *)destNav.visibleViewController;
         colorSelectionController.delegate = self;
@@ -842,28 +851,27 @@ CGGradientRef createGradient () {
         self.currentColorKey = segue.identifier;
 
         NSAssert(self.currentColorKey != nil && self.currentColorChip != nil, @"View Structural problem");
-        //add numbers to color selector
-        //temp turn off animation in graph
-        //remember original color
-        //set color to last color set if any to copy from one to another
-        self.saveColorSetting = (UIColor *) [self.myGraph valueForKey:self.currentColorKey];
-        if (!self.saveColorSetting) {
-            //value is not currently set
+
+        UIColor * oldColor = (UIColor *) [self.myGraph valueForKey:self.currentColorKey];
+        if (!oldColor) {
+            //value is not currently set; handle special cases that default to others
             if ([self.currentColorKey isEqualToString:@"colorBackgroundYaxis"]) {
-                self.myGraph.colorBackgroundYaxis = self.myGraph.colorTop;
-                self.currentColorChip.backgroundColor = self.myGraph.colorTop;
+                oldColor = self.myGraph.colorTop;
+                self.myGraph.colorBackgroundYaxis = oldColor;
             } else if ([self.currentColorKey isEqualToString:@"colorBackgroundXaxis"]) {
-                self.myGraph.colorBackgroundXaxis = self.myGraph.colorBottom;
-                self.currentColorChip.backgroundColor = self.myGraph.colorBottom;
+                oldColor = self.myGraph.colorBottom;
+                self.myGraph.colorBackgroundXaxis = oldColor;
             } else {
-                self.saveColorSetting = [UIColor blueColor];
-                [self didChangeColor:self.saveColorSetting];
+                oldColor = [UIColor blueColor]; //shouldn't happen
+                [self didChangeColor:oldColor];
             }
+            self.currentColorChip.backgroundColor = oldColor;
         }
+        self.saveColorSetting = oldColor;
         self.saveAnimationSetting = self.myGraph.animationGraphStyle;
         self.myGraph.animationGraphStyle = BEMLineAnimationNone;
 
-        colorSelectionController.color = (UIColor  * _Nonnull)(self.saveColorSetting ) ?: self.currentColorChip.backgroundColor;
+        colorSelectionController.color = oldColor;
     }
 
 
@@ -889,8 +897,12 @@ CGGradientRef createGradient () {
     // Return NO if you do not want the specified item to be editable.
     return NO;
 }
+
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    if (self.splitViewController.isCollapsed) {
+        [self performSegueWithIdentifier:@"showDetail" sender:self];
+    }
 }
 
 #pragma mark TextDelegate
@@ -899,8 +911,6 @@ CGGradientRef createGradient () {
     [textField resignFirstResponder];
     return YES;
 }
-
-
 
 @end
 
