@@ -430,9 +430,9 @@ self.property = [coder decode ## type ##ForKey:@#property]; \
         // Initialize the vertical gray line that appears where the user touches the graph.
         if (!self.touchInputLine) {
             self.touchInputLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.widthTouchInputLine, self.frame.size.height)];
-            self.touchInputLine.backgroundColor = self.colorTouchInputLine;
-            self.touchInputLine.alpha = 0;
         }
+        self.touchInputLine.alpha = 0;
+        self.touchInputLine.backgroundColor = self.colorTouchInputLine;
         [self addSubview:self.touchInputLine];
 
         if (!self.panView) {
