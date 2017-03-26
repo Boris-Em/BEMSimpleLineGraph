@@ -9,12 +9,21 @@
 #import "MasterViewController.h"
 #import "DetailViewController.h"
 #import "ARFontPickerViewController.h"
+#import "MSColorSelectionViewController.h"
 
 //some convenience extensions for setting and reading
 @interface UITextField (Numbers)
 @property (nonatomic) CGFloat floatValue;
 @property (nonatomic) NSUInteger intValue;
 
+@end
+
+@interface MasterViewController () <MSColorSelectionViewControllerDelegate, UIPopoverPresentationControllerDelegate>
+
+@property (assign) BEMLineAnimation saveAnimationSetting;
+@property (strong, nonatomic) UIColor * saveColorSetting;
+@property (strong, nonatomic) NSString * currentColorKey;
+@property (strong, nonatomic) UIView * currentColorChip;
 @end
 
 @implementation UITextField (Numbers)
@@ -142,6 +151,27 @@ static NSString * checkOn = @"☒";
 @property (strong, nonatomic) IBOutlet UITextField *fontSizeField;
 @property (strong, nonatomic) IBOutlet UITextField *numberFormatField;
 
+@property (strong, nonatomic) IBOutlet UIView *colorTopChip;
+@property (strong, nonatomic) IBOutlet UISwitch *gradientTopSwitch;
+@property (strong, nonatomic) IBOutlet UIView *colorBottomChip;
+@property (strong, nonatomic) IBOutlet UISwitch *gradientBottomSwitch;
+@property (strong, nonatomic) IBOutlet UIView *colorLineChip;
+@property (strong, nonatomic) IBOutlet UIView *colorPointChip;
+@property (strong, nonatomic) IBOutlet UIView *colorTouchInputLineChip;
+@property (strong, nonatomic) IBOutlet UIView *colorXaxisLabelChip;
+@property (strong, nonatomic) IBOutlet UIView *colorBackgroundXaxisChip;
+@property (strong, nonatomic) IBOutlet UIView *colorYaxisLabelChip;
+@property (strong, nonatomic) IBOutlet UIView *colorBackgroundYaxisChip;
+@property (strong, nonatomic) IBOutlet UIView *colorBackgroundPopUpLabelChip;
+@property (strong, nonatomic) IBOutlet UISwitch *gradientLineSwitch;
+@property (strong, nonatomic) IBOutlet UISwitch *gradientHorizSwitch;
+
+@property (strong, nonatomic) IBOutlet UITextField *alphaTopField;
+@property (strong, nonatomic) IBOutlet UITextField *alphaBottomField;
+@property (strong, nonatomic) IBOutlet UITextField *alphaLineField;
+@property (strong, nonatomic) IBOutlet UITextField *alphaTouchInputLineField;
+@property (strong, nonatomic) IBOutlet UITextField *alphaBackgroundXaxisField;
+@property (strong, nonatomic) IBOutlet UITextField *alphaBackgroundYaxisField;
 
 @end
 
@@ -150,346 +180,6 @@ static NSString * checkOn = @"☒";
 static NSString * enableTouchReport = @"enableTouchReport";
 static NSString * lineChartPrefix = @"lineChart";
 
-/*-(void) loadDefaults {
-    //shorthands
-    NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
-    BEMSimpleLineGraphView * myGraph = self.myGraph;
-
-    NSString * fontName = [defaults stringForKey: @"labelFontName"];
-    self.fontSizeField.text = [defaults stringForKey: @"labelFontSize"];
-    [self updateFont:fontName];
-    //  myGraph.labelFont =  [self fontNamed: fontName ofSize: self.fontSize];
-    
-    // Set Animation Values
-    myGraph.animationGraphEntranceTime = [defaults floatForKey: @"animationGraphEntranceTime"];
-
-//    // Set Color Values
-//    myGraph.colorXaxisLabel = [defaults colorForKey: @"colorXaxisLabel"];
-//    myGraph.colorYaxisLabel = [defaults colorForKey: @"colorYaxisLabel"];
-//    myGraph.colorTop = [defaults colorForKey: @"colorTop"];
-//    myGraph.colorLine = [defaults colorForKey: @"colorLine"];
-//    myGraph.colorBottom = [defaults colorForKey: @"colorBottom"];
-//    myGraph.colorPoint = [defaults colorForKey: @"colorPoint"];
-//    myGraph.colorTouchInputLine = [defaults colorForKey: @"colorTouchInputLine"];
-//    myGraph.colorBackgroundPopUplabel = [defaults colorForKey: @"colorBackgroundPopUplabel"];
-//    myGraph.colorBackgroundYaxis = [defaults colorForKey: @"colorBackgroundYaxis"];
-//    myGraph.colorBackgroundXaxis = [defaults colorForKey: @"colorBackgroundXaxis"];
-//    myGraph.averageLine.color = [defaults colorForKey: @"averageLine.color"];
-
-    // Set Alpha Values
-    myGraph.alphaTop = [defaults floatForKey: @"alphaTop"];
-    myGraph.alphaBottom = [defaults floatForKey: @"alphaBottom"];
-    myGraph.alphaLine = [defaults floatForKey: @"alphaLine"];
-    myGraph.alphaTouchInputLine = [defaults floatForKey: @"alphaTouchInputLine"];
-    myGraph.alphaBackgroundXaxis = [defaults floatForKey: @"alphaBackgroundXaxis"];
-    myGraph.alphaBackgroundYaxis = [defaults floatForKey: @"alphaBackgroundYaxis"];
-    myGraph.averageLine.alpha = [defaults floatForKey: @"alpha"];
-
-    // Set Size Values
-    myGraph.widthLine = [defaults floatForKey: @"widthLine"];
-    myGraph.widthReferenceLines = [defaults floatForKey: @"widthReferenceLines"];
-    myGraph.sizePoint = [defaults floatForKey: @"sizePoint"];
-    myGraph.widthTouchInputLine = [defaults floatForKey: @"widthTouchInputLine"];
-
-    // Set Default Feature Values
-    myGraph.enableTouchReport = [defaults boolForKey: @"enableTouchReport"];
-    myGraph.enablePopUpReport = [defaults boolForKey: @"enablePopUpReport"];
-    myGraph.enableBezierCurve = [defaults boolForKey: @"enableBezierCurve"];
-    myGraph.enableXAxisLabel = [defaults boolForKey: @"enableXAxisLabel"];
-    myGraph.enableYAxisLabel = [defaults boolForKey: @"enableYAxisLabel"];
-    myGraph.autoScaleYAxis = [defaults boolForKey: @"autoScaleYAxis"];
-    myGraph.alwaysDisplayDots = [defaults boolForKey: @"alwaysDisplayDots"];
-    myGraph.alwaysDisplayPopUpLabels = [defaults boolForKey: @"alwaysDisplayPopUpLabels"];
-    myGraph.enableLeftReferenceAxisFrameLine = [defaults boolForKey: @"enableLeftReferenceAxisFrameLine"];
-    myGraph.enableBottomReferenceAxisFrameLine = [defaults boolForKey: @"enableBottomReferenceAxisFrameLine"];
-    myGraph.interpolateNullValues = [defaults boolForKey: @"interpolateNullValues"];
-    myGraph.displayDotsOnly = [defaults boolForKey: @"displayDotsOnly"];
-    myGraph.displayDotsWhileAnimating = [defaults boolForKey: @"displayDotsWhileAnimating"];
-
-    myGraph.touchReportFingersRequired = [defaults integerForKey: @"touchReportFingersRequired"];
-    myGraph.formatStringForValues = [defaults stringForKey: @"formatStringForValues"];
-
-    // Initialize BEM Objects
-    //   myGraph.averageLine = [defaults boolForKey: @"averageLine"];
-    
-    
-
-}
-
-
--(void) saveDefaults {
-    //shorthands
-    NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
-    BEMSimpleLineGraphView * myGraph = self.myGraph;
-
-    [defaults setObject: self.fontNameButton.titleLabel.text forKey: @"labelFontName"];
-    [defaults setObject: self.fontSizeField.text forKey: @"labelFontSize"];
-
-    // Set Animation Values
-    [defaults setFloat: myGraph.animationGraphEntranceTime forKey: @"animationGraphEntranceTime"];
-
-//    // Set Color Values
-//    [defaults setColor: myGraph.colorXaxisLabel forKey: @"colorXaxisLabel"];
-//    [defaults setColor: myGraph.colorYaxisLabel forKey: @"colorYaxisLabel"];
-//    [defaults setColor: myGraph.colorTop forKey: @"colorTop"];
-//    [defaults setColor: myGraph.colorLine forKey: @"colorLine"];
-//    [defaults setColor: myGraph.colorBottom forKey: @"colorBottom"];
-//    [defaults setColor: myGraph.colorPoint forKey: @"colorPoint"];
-//    [defaults setColor: myGraph.colorTouchInputLine forKey: @"colorTouchInputLine"];
-//    [defaults setColor: myGraph.colorBackgroundPopUplabel forKey: @"colorBackgroundPopUplabel"];
-//    [defaults setColor: myGraph.colorBackgroundYaxis forKey: @"colorBackgroundYaxis"];
-//    [defaults setColor: myGraph.colorBackgroundXaxis forKey: @"colorBackgroundXaxis"];
-//    myGraph.averageLine.color = [defaults colorForKey: @"averageLine.color"];
-
-    // Set Alpha Values
-    [defaults setFloat: myGraph.alphaTop forKey: @"alphaTop"];
-    [defaults setFloat: myGraph.alphaBottom forKey: @"alphaBottom"];
-    [defaults setFloat: myGraph.alphaLine forKey: @"alphaLine"];
-    [defaults setFloat: myGraph.alphaTouchInputLine forKey: @"alphaTouchInputLine"];
-    [defaults setFloat: myGraph.alphaBackgroundXaxis forKey: @"alphaBackgroundXaxis"];
-    [defaults setFloat: myGraph.alphaBackgroundYaxis forKey: @"alphaBackgroundYaxis"];
-    myGraph.averageLine.alpha = [defaults floatForKey: @"alpha"];
-
-    // Set Size Values
-    [defaults setFloat: myGraph.widthLine forKey: @"widthLine"];
-    [defaults setFloat: myGraph.widthReferenceLines forKey: @"widthReferenceLines"];
-    [defaults setFloat: myGraph.sizePoint forKey: @"sizePoint"];
-    [defaults setFloat: myGraph.widthTouchInputLine forKey: @"widthTouchInputLine"];
-
-    // Set Default Feature Values
-    [defaults setBool: myGraph.enableTouchReport forKey: @"enableTouchReport"];
-    [defaults setBool: myGraph.enablePopUpReport forKey: @"enablePopUpReport"];
-    [defaults setBool: myGraph.enableBezierCurve forKey: @"enableBezierCurve"];
-    [defaults setBool: myGraph.enableXAxisLabel forKey: @"enableXAxisLabel"];
-    [defaults setBool: myGraph.enableYAxisLabel forKey: @"enableYAxisLabel"];
-    [defaults setBool: myGraph.autoScaleYAxis forKey: @"autoScaleYAxis"];
-    [defaults setBool: myGraph.alwaysDisplayDots forKey: @"alwaysDisplayDots"];
-    [defaults setBool: myGraph.alwaysDisplayPopUpLabels forKey: @"alwaysDisplayPopUpLabels"];
-    [defaults setBool: myGraph.enableLeftReferenceAxisFrameLine forKey: @"enableLeftReferenceAxisFrameLine"];
-    [defaults setBool: myGraph.enableBottomReferenceAxisFrameLine forKey: @"enableBottomReferenceAxisFrameLine"];
-    [defaults setBool: myGraph.interpolateNullValues forKey: @"interpolateNullValues"];
-    [defaults setBool: myGraph.displayDotsOnly forKey: @"displayDotsOnly"];
-    [defaults setBool: myGraph.displayDotsWhileAnimating forKey: @"displayDotsWhileAnimating"];
-    //    [defaults setBool: myGraph.averageLine != nil forKey:<#(nonnull NSString *)#>]
-
-    [defaults setInteger: myGraph.touchReportFingersRequired forKey: @"touchReportFingersRequired"];
-    [defaults setObject: myGraph.formatStringForValues forKey: @"formatStringForValues"];
-}
-*/
-
-- (void)decodeRestorableStateWithCoder:(NSCoder *)coder {
-
-    [super decodeRestorableStateWithCoder:coder];
-
-    #define RestoreProperty(property, type) \
-    if ([coder containsValueForKey:@#property]) { \
-    self.myGraph.property = [coder decode ## type ##ForKey:@#property ]; \
-    }
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wnullable-to-nonnull-conversion"
-
-    RestoreProperty (labelFont, Object);
-    RestoreProperty (animationGraphEntranceTime, Double);
-    RestoreProperty (animationGraphStyle, Integer);
-
-    RestoreProperty (colorBottom, Object);
-    RestoreProperty (colorTop, Object);
-    RestoreProperty (colorLine, Object);
-    RestoreProperty (colorReferenceLines, Object);
-    RestoreProperty (colorPoint, Object);
-    RestoreProperty (colorTouchInputLine, Object);
-    RestoreProperty (colorXaxisLabel, Object);
-    RestoreProperty (colorYaxisLabel, Object);
-    RestoreProperty (colorBackgroundYaxis, Object);
-    RestoreProperty (colorBackgroundXaxis, Object);
-    RestoreProperty (colorBackgroundPopUplabel, Object);
-    RestoreProperty (noDataLabelColor, Object);
-    RestoreProperty(noDataLabelFont, Object);
-    //Can't handle: gradientBottom, gradientTop, gradientLine
-    RestoreProperty (gradientLineDirection, Float);
-
-    RestoreProperty (alphaBottom, Double);
-    RestoreProperty (alphaTop, Double);
-    RestoreProperty (alphaLine, Double);
-    RestoreProperty (alphaTouchInputLine, Double);
-    RestoreProperty (alphaBackgroundXaxis, Double);
-    RestoreProperty (alphaBackgroundYaxis, Double);
-
-    RestoreProperty (widthLine, Double);
-    RestoreProperty (widthReferenceLines, Double);
-    RestoreProperty (sizePoint, Double);
-    RestoreProperty (widthTouchInputLine, Double);
-
-    RestoreProperty (enableTouchReport, Bool);
-    RestoreProperty (enablePopUpReport, Bool);
-    RestoreProperty (enableBezierCurve, Bool);
-    RestoreProperty (enableXAxisLabel, Bool);
-    RestoreProperty (enableYAxisLabel, Bool);
-    RestoreProperty (autoScaleYAxis, Bool);
-    RestoreProperty (alwaysDisplayDots, Bool);
-    RestoreProperty (alwaysDisplayPopUpLabels, Bool);
-    RestoreProperty (enableReferenceXAxisLines, Bool);
-    RestoreProperty (enableReferenceYAxisLines, Bool);
-    RestoreProperty (enableReferenceAxisFrame, Bool);
-    RestoreProperty (enableLeftReferenceAxisFrameLine, Bool);
-    RestoreProperty (enableBottomReferenceAxisFrameLine, Bool);
-    RestoreProperty (enableTopReferenceAxisFrameLine, Bool);
-    RestoreProperty (enableRightReferenceAxisFrameLine, Bool);
-    [self updateReferenceAxisFrame:self.myGraph.enableReferenceAxisFrame];
-    RestoreProperty (interpolateNullValues, Bool);
-    RestoreProperty (displayDotsOnly, Bool);
-    RestoreProperty (displayDotsWhileAnimating, Bool);
-
-    RestoreProperty (touchReportFingersRequired, Int);
-    RestoreProperty (formatStringForValues, Object);
-    RestoreProperty (lineDashPatternForReferenceXAxisLines, Object);
-    RestoreProperty (lineDashPatternForReferenceYAxisLines, Object);
-
-    if ([coder containsValueForKey:@"averageLine.enableAverageLine"  ]) {
-        self.myGraph.averageLine = [[BEMAverageLine alloc] initWithCoder:coder];
-        RestoreProperty (averageLine.enableAverageLine, Bool);
-        RestoreProperty (averageLine.color, Object);
-        RestoreProperty (averageLine.yValue, Double);
-        RestoreProperty (averageLine.alpha, Double);
-        RestoreProperty (averageLine.width, Double);
-        RestoreProperty (averageLine.dashPattern, Object);
-        RestoreProperty (averageLine.title, Object);
-    }
-#define RestoreVCProperty(property, type) \
-if ([coder containsValueForKey:@#property]) { \
-self.detailViewController.property = [coder decode ## type ##ForKey:@#property ]; \
-}
-    RestoreVCProperty(popUpText, Object);
-    RestoreVCProperty(popUpPrefix, Object);
-    RestoreVCProperty(popUpSuffix, Object);
-    RestoreVCProperty(testAlwaysDisplayPopup, Bool);
-    RestoreVCProperty(maxValue, Double);
-    RestoreVCProperty(minValue, Double);
-    RestoreVCProperty(noDataLabel, Bool);
-    RestoreVCProperty(noDataText, Object);
-    RestoreVCProperty(staticPaddingValue, Double);
-    RestoreVCProperty(provideCustomView, Bool);
-    RestoreVCProperty(numberOfGapsBetweenLabels, Integer);
-    RestoreVCProperty(baseIndexForXAxis, Integer);
-    RestoreVCProperty(incrementIndexForXAxis, Integer);
-    RestoreVCProperty(provideIncrementPositionsForXAxis, Bool);
-    RestoreVCProperty(numberOfYAxisLabels, Integer);
-    RestoreVCProperty(yAxisPrefix, Object);
-    RestoreVCProperty(yAxisSuffix, Object);
-    RestoreVCProperty(baseValueForYAxis, Double);
-    RestoreVCProperty(incrementValueForYAxis, Double);
-}
-#pragma clang diagnostic pop
-
-- (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
-    [super encodeRestorableStateWithCoder:coder];
-
-#define EncodeProperty(property, type) [coder encode ## type: self.myGraph.property forKey:@#property]
-
-    if (self.myGraph.labelFont && ![self.myGraph.labelFont isEqual:[UIFont preferredFontForTextStyle:UIFontTextStyleCaption1]] ) {
-        EncodeProperty (labelFont, Object);
-    }
-    EncodeProperty (animationGraphEntranceTime, Float);
-    EncodeProperty (animationGraphStyle, Integer);
-
-    EncodeProperty (colorBottom, Object);
-    EncodeProperty (colorTop, Object);
-    EncodeProperty (colorLine, Object);
-    EncodeProperty (colorReferenceLines, Object);
-    EncodeProperty (colorPoint, Object);
-    EncodeProperty (colorTouchInputLine, Object);
-    EncodeProperty (colorXaxisLabel, Object);
-    EncodeProperty (colorYaxisLabel, Object);
-    EncodeProperty (colorBackgroundYaxis, Object);
-    EncodeProperty (colorBackgroundXaxis, Object);
-    EncodeProperty (colorBackgroundPopUplabel, Object);
-    EncodeProperty (noDataLabelColor, Object);
-    EncodeProperty(noDataLabelFont, Object);
-    //Can't handle: gradientBottom, gradientTop, gradientLine
-    EncodeProperty (gradientLineDirection, Float);
-
-    EncodeProperty (alphaBottom, Float);
-    EncodeProperty (alphaTop, Float);
-    EncodeProperty (alphaLine, Float);
-    EncodeProperty (alphaTouchInputLine, Float);
-    EncodeProperty (alphaBackgroundXaxis, Float);
-    EncodeProperty (alphaBackgroundYaxis, Float);
-
-    EncodeProperty (widthLine, Float);
-    EncodeProperty (widthReferenceLines, Float);
-    EncodeProperty (sizePoint, Float);
-    EncodeProperty (widthTouchInputLine, Float);
-
-    EncodeProperty (enableTouchReport, Bool);
-    EncodeProperty (enablePopUpReport, Bool);
-    EncodeProperty (enableBezierCurve, Bool);
-    EncodeProperty (enableXAxisLabel, Bool);
-    EncodeProperty (enableYAxisLabel, Bool);
-    EncodeProperty (autoScaleYAxis, Bool);
-    EncodeProperty (alwaysDisplayDots, Bool);
-    EncodeProperty (alwaysDisplayPopUpLabels, Bool);
-    EncodeProperty (enableReferenceXAxisLines, Bool);
-    EncodeProperty (enableReferenceYAxisLines, Bool);
-    EncodeProperty (enableReferenceAxisFrame, Bool);
-    EncodeProperty (enableLeftReferenceAxisFrameLine, Bool);
-    EncodeProperty (enableBottomReferenceAxisFrameLine, Bool);
-    EncodeProperty (enableTopReferenceAxisFrameLine, Bool);
-    EncodeProperty (enableRightReferenceAxisFrameLine, Bool);
-    EncodeProperty (interpolateNullValues, Bool);
-    EncodeProperty (displayDotsOnly, Bool);
-    EncodeProperty (displayDotsWhileAnimating, Bool);
-
-    EncodeProperty (touchReportFingersRequired, Integer);
-    EncodeProperty (formatStringForValues, Object);
-    EncodeProperty (lineDashPatternForReferenceXAxisLines, Object);
-    EncodeProperty (lineDashPatternForReferenceYAxisLines, Object);
-
-    if (self.myGraph.averageLine) {
-        EncodeProperty (averageLine.enableAverageLine, Bool);
-        EncodeProperty (averageLine.color, Object);
-        EncodeProperty (averageLine.yValue, Float);
-        EncodeProperty (averageLine.alpha, Float);
-        EncodeProperty (averageLine.width, Float);
-        EncodeProperty (averageLine.dashPattern, Object);
-        EncodeProperty (averageLine.title, Object);
-    }
-
-#define EncodeVCProperty(property, type) [coder encode ## type: self.detailViewController.property forKey:@#property]
-
-    EncodeVCProperty(popUpText, Object);
-    EncodeVCProperty(popUpPrefix, Object);
-    EncodeVCProperty(popUpSuffix, Object);
-    EncodeVCProperty(testAlwaysDisplayPopup, Bool);
-    EncodeVCProperty(maxValue, Float);
-    EncodeVCProperty(minValue, Float);
-    EncodeVCProperty(noDataLabel, Bool);
-    EncodeVCProperty(noDataText, Object);
-    EncodeVCProperty(staticPaddingValue, Float);
-    EncodeVCProperty(provideCustomView, Bool);
-    EncodeVCProperty(numberOfGapsBetweenLabels, Integer);
-    EncodeVCProperty(baseIndexForXAxis, Integer);
-    EncodeVCProperty(incrementIndexForXAxis, Integer);
-    EncodeVCProperty(provideIncrementPositionsForXAxis, Bool);
-    EncodeVCProperty(numberOfYAxisLabels, Integer);
-    EncodeVCProperty(yAxisPrefix, Object);
-    EncodeVCProperty(yAxisSuffix, Object);
-    EncodeVCProperty(baseValueForYAxis, Float);
-    EncodeVCProperty(incrementValueForYAxis, Float);
-    
-}
-
-//- (void)saveGraphView{
-//    NSData *encodedObject = [NSKeyedArchiver archivedDataWithRootObject:self.myGraph];
-//    [[NSUserDefaults standardUserDefaults] setObject:encodedObject forKey:@"graphView"];
-//}
-//
-//- (BEMSimpleLineGraphView *)loadGraphView {
-//    NSData *encodedObject = [[NSUserDefaults standardUserDefaults] objectForKey:@"graphView"];
-//    BEMSimpleLineGraphView *graphView = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
-//    return graphView;
-//}
-//
 CGGradientRef createGradient () {
     CGColorSpaceRef colorspace = CGColorSpaceCreateDeviceRGB();
     size_t num_locations = 2;
@@ -510,25 +200,17 @@ CGGradientRef createGradient () {
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
 
     self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
+}
+
+-(void) viewWillAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     [self.detailViewController loadViewIfNeeded];
     self.myGraph = self.detailViewController.myGraph;
-    if (!self.myGraph.averageLine) {   // Draw an average line
-        self.myGraph.averageLine.enableAverageLine = YES;
-        self.myGraph.averageLine.alpha = 0.6;
-        self.myGraph.averageLine.color = [UIColor darkGrayColor];
-        self.myGraph.averageLine.width = 2.5;
-        self.myGraph.averageLine.dashPattern = @[@(2),@(2)];
-        self.myGraph.averageLine.title = @"Average";
-    }
-    // Apply the gradient to the bottom portion of the graph
-    CGGradientRef gradient = createGradient();
-    self.myGraph.gradientBottom = gradient;
-    CGGradientRelease(gradient);
+    [self restoreUI];
+}
 
-//    [[NSNotificationCenter defaultCenter] addObserver:self
-//                                             selector:@selector(saveGraphView)
-//                                                 name:UIApplicationDidEnterBackgroundNotification
-//                                               object:nil];
+-(void) restoreUI {
+
     self.widthLine.floatValue = self.myGraph.widthLine;
     self.staticPaddingField.floatValue = self.detailViewController.staticPaddingValue;
     self.bezierSwitch.on = self.myGraph.enableBezierCurve;
@@ -583,11 +265,33 @@ CGGradientRef createGradient () {
     self.touchReportSwitch.on = self.myGraph.enableTouchReport;
     self.widthTouchInputLineField.floatValue = self.myGraph.widthTouchInputLine;
 
-    //    self.fontNameButton = self.myGraph.xx;
-    //    self.fontSizeField = self.myGraph.xx;
+    self.fontNameButton.titleLabel.text = self.myGraph.labelFont.fontName;
+    self.fontSizeField.floatValue = self.myGraph.labelFont.pointSize;
     self.numberFormatField.text = self.myGraph.formatStringForValues;
 
 
+    self.colorTopChip.backgroundColor = self.myGraph.colorTop;
+    self.colorBottomChip.backgroundColor = self.myGraph.colorBottom;
+    self.gradientTopSwitch.on = self.myGraph.gradientTop != nil;
+    self.gradientBottomSwitch.on = self.myGraph.gradientBottom != nil;
+    self.gradientHorizSwitch.on = self.myGraph.gradientLineDirection == BEMLineGradientDirectionHorizontal;
+    self.gradientLineSwitch.on = self.myGraph.gradientLine != nil;
+
+    self.colorLineChip.backgroundColor = self.myGraph.colorLine;
+    self.colorPointChip.backgroundColor = self.myGraph.colorPoint;
+    self.colorXaxisLabelChip.backgroundColor = self.myGraph.colorXaxisLabel;
+    self.colorBackgroundXaxisChip.backgroundColor = self.myGraph.colorBackgroundXaxis ?: self.myGraph.colorBottom;
+    self.colorTouchInputLineChip.backgroundColor = self.myGraph.colorTouchInputLine;
+    self.colorYaxisLabelChip.backgroundColor = self.myGraph.colorYaxisLabel;
+    self.colorBackgroundYaxisChip.backgroundColor = self.myGraph.colorBackgroundYaxis ?: self.myGraph.colorTop;
+    self.colorBackgroundPopUpLabelChip.backgroundColor = self.myGraph.colorBackgroundPopUplabel;
+
+    self.alphaTopField.floatValue= self.myGraph.alphaTop;
+    self.alphaBottomField.floatValue = self.myGraph.alphaBottom;
+    self.alphaLineField.floatValue = self.myGraph.alphaLine;
+    self.alphaTouchInputLineField.floatValue = self.myGraph.alphaTouchInputLine;
+    self.alphaBackgroundXaxisField.floatValue = self.myGraph.alphaBackgroundXaxis;
+    self.alphaBackgroundYaxisField.floatValue = self.myGraph.alphaBackgroundYaxis;
 
 }
 
@@ -595,17 +299,9 @@ CGGradientRef createGradient () {
      touchReportFingersRequired,
      autoScaleYAxis
 
- Colors/Gradients
+ Dashpatterns for averageLine, XAxis, Yaxis
 
-    averageLine: Color/alpha/dashPashpattern
-    Top: Color/Alpha/Gradient
-    Line: Color/alpha/gradient/gradientLineDirection
-    ReferenceLines
-    Point: color
-    touchInputLine: color/alopha
-    XAxis: color/colorBackground, alphaBackground, lineDashPattern
-    Yaxis: color/colorBackground, alphaBackground, lineDashPattern
-    noDataLabel: color/Font
+    Gradient choices
  */
 
 
@@ -634,6 +330,9 @@ CGGradientRef createGradient () {
 }
 
 #pragma mark Axes and Reference Lines
+-(NSUInteger) getValue:(NSString *) text {
+    return (text.length > 0  && text.integerValue >= 0) ? text.integerValue : NSNotFound;
+}
 
 - (IBAction)enableXAxisLabel:(UISwitch *)sender {
     self.myGraph.enableXAxisLabel = sender.on;
@@ -641,18 +340,19 @@ CGGradientRef createGradient () {
 }
 
 - (IBAction)numberOfGapsBetweenLabelDidChange:(UITextField *)sender {
-    self.detailViewController.numberOfGapsBetweenLabels = sender.text.doubleValue;
+    self.detailViewController.numberOfGapsBetweenLabels = [self getValue:sender.text];
     [self.myGraph reloadGraph];
 }
 
 - (IBAction)baseIndexForXAxisDidChange:(UITextField *)sender {
-    self.detailViewController.baseIndexForXAxis = sender.text.doubleValue;
+    self.detailViewController.baseIndexForXAxis = [self getValue:sender.text];
     [self.myGraph reloadGraph];
 }
 - (IBAction)incrementIndexForXAxisDidChange:(UITextField *)sender {
-    self.detailViewController.incrementIndexForXAxis = sender.text.doubleValue;
+    self.detailViewController.incrementIndexForXAxis = [self getValue:sender.text];
     [self.myGraph reloadGraph];
 }
+
 - (IBAction)enableArrayOfIndicesForXAxis:(UISwitch *)sender {
     self.detailViewController.provideIncrementPositionsForXAxis = sender.on;
     [self.myGraph reloadGraph];
@@ -683,10 +383,7 @@ CGGradientRef createGradient () {
 }
 
 - (IBAction)numberofYAxisDidChange:(UITextField *)sender {
-    if (sender.text.integerValue <= 0) {
-        sender.text = @"1.0";
-    }
-    self.detailViewController.numberOfYAxisLabels = sender.text.integerValue;
+    self.detailViewController.numberOfYAxisLabels = [self getValue:sender.text];
     [self.myGraph reloadGraph];
 }
 
@@ -823,7 +520,7 @@ CGGradientRef createGradient () {
 }
 
 - (IBAction)labelTextDidChange:(UITextField *)sender {
-    self.detailViewController.popUpText = sender.text;
+    self.detailViewController.popUpText = [self checkUsersFormatString:sender];
     [self.myGraph reloadGraph];
 }
 
@@ -957,12 +654,149 @@ CGGradientRef createGradient () {
 
 - (IBAction)fontSizeFieldChanged:(UITextField *)sender {
     [self updateFont:nil];
-
 }
 
 - (IBAction)numberFormatChanged:(UITextField *)sender {
+    self.myGraph.formatStringForValues = [self checkUsersFormatString:sender];
+    [self.myGraph reloadGraph];
+}
+-(NSString *) checkUsersFormatString: (UITextField *) sender {
+    //there are many ways to crash this (more than one format), but this is most obvious
     NSString * newFormat = sender.text ?: @"";
-    self.myGraph.formatStringForValues = newFormat;
+    if ([newFormat containsString:@"%@"]) {
+        //prevent crash
+        NSLog(@"%%@ not allowed in numeric format strings");
+        newFormat = [newFormat stringByReplacingOccurrencesOfString:@"%@" withString:@"%%@"];
+        sender.text = newFormat;
+    }
+    return newFormat;
+}
+
+-(IBAction) alphaTopFieldChanged:(UITextField *) sender {
+    float newAlpha = sender.floatValue;
+    if (newAlpha >= 0 && newAlpha <= 1.0) {
+        self.myGraph.alphaTop = newAlpha;
+        [self.myGraph reloadGraph];
+    }
+}
+
+-(IBAction) alphaBottomFieldChanged:(UITextField *) sender {
+    float newAlpha = sender.floatValue;
+    if (newAlpha >= 0 && newAlpha <= 1.0) {
+        self.myGraph.alphaBottom = newAlpha;
+        [self.myGraph reloadGraph];
+    }
+}
+
+-(IBAction) alphaLineFieldChanged:(UITextField *) sender {
+    float newAlpha = sender.floatValue;
+    if (newAlpha >= 0 && newAlpha <= 1.0) {
+        self.myGraph.alphaLine = newAlpha;
+        [self.myGraph reloadGraph];
+    }
+}
+
+-(IBAction) alphaTouchInputFieldChanged:(UITextField *) sender {
+    float newAlpha = sender.floatValue;
+    if (newAlpha >= 0 && newAlpha <= 1.0) {
+        self.myGraph.alphaTouchInputLine = newAlpha;
+        [self.myGraph reloadGraph];
+    }
+}
+
+-(IBAction) alphaBackgroundXaxisChanged:(UITextField *) sender {
+    float newAlpha = sender.floatValue;
+    if (newAlpha >= 0 && newAlpha <= 1.0) {
+        self.myGraph.alphaBackgroundXaxis = newAlpha;
+        [self.myGraph reloadGraph];
+    }
+}
+
+-(IBAction) alphaBackgroundYaxisChanged:(UITextField *) sender {
+    float newAlpha = sender.floatValue;
+    if (newAlpha >= 0 && newAlpha <= 1.0) {
+        self.myGraph.alphaBackgroundYaxis = newAlpha;
+        [self.myGraph reloadGraph];
+    }
+}
+
+#pragma Color section
+-(void) didChangeColor: (UIColor *) color {
+    if (![color isEqual:self.currentColorChip.backgroundColor]) {
+        self.currentColorChip.backgroundColor = color;
+        [self.myGraph setValue: color forKey: self.currentColorKey];
+        [self.myGraph reloadGraph];
+    }
+
+}
+- (void)colorViewController:(MSColorSelectionViewController *)colorViewCntroller didChangeColor:(UIColor *)color {
+    [self didChangeColor:color];
+}
+
+-(void) saveColor:(id) sender {
+    self.myGraph.animationGraphStyle = self.saveAnimationSetting;
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)restoreColor:(id)sender {
+    if (self.saveColorSetting) {
+        [self didChangeColor:self.saveColorSetting];
+    } else {
+        [self.myGraph setValue: nil forKey: self.currentColorKey];
+
+        if ([self.currentColorKey isEqualToString:@"colorBackgroundYaxis"]) {
+            self.currentColorChip.backgroundColor = self.myGraph.colorTop;
+        } else if ([self.currentColorKey isEqualToString:@"colorBackgroundXaxis"]) {
+            self.currentColorChip.backgroundColor = self.myGraph.colorBottom;
+        }
+
+    }
+    self.myGraph.animationGraphStyle = self.saveAnimationSetting;
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)popoverPresentationControllerDidDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {
+    [self restoreColor:nil];
+}
+
+- (IBAction)enableGradientTop:(UISwitch *)sender {
+    if (sender.on) {
+        CGGradientRef gradient = createGradient();
+        self.myGraph.gradientTop = gradient;
+        CGGradientRelease(gradient);
+    } else {
+        self.myGraph.gradientTop = nil;
+    }
+
+    [self.myGraph reloadGraph];
+}
+
+- (IBAction)enableGradientBottom:(UISwitch *)sender {
+    if (sender.on) {
+        CGGradientRef gradient = createGradient();
+        self.myGraph.gradientBottom = gradient;
+        CGGradientRelease(gradient);
+    } else {
+        self.myGraph.gradientBottom = nil;
+    }
+
+    [self.myGraph reloadGraph];
+}
+
+- (IBAction)enableGradientLine:(UISwitch *)sender {
+    if (sender.on) {
+        CGGradientRef gradient = createGradient();
+        self.myGraph.gradientLine = gradient;
+        CGGradientRelease(gradient);
+    } else {
+        self.myGraph.gradientLine = nil;
+    }
+
+    [self.myGraph reloadGraph];
+}
+
+- (IBAction)enableGradientHoriz:(UISwitch *)sender {
+    self.myGraph.gradientLineDirection = sender.on ? BEMLineGradientDirectionVertical : BEMLineGradientDirectionHorizontal;
     [self.myGraph reloadGraph];
 }
 
@@ -976,9 +810,64 @@ CGGradientRef createGradient () {
     } else if ([[segue identifier] isEqualToString:@"FontPicker"]) {
         ARFontPickerViewController * controller = (ARFontPickerViewController*) [segue destinationViewController];
         controller.delegate = self;
-    }
-}
+    } else if ([segue.identifier hasPrefix:@"color"]) {
 
+        //set up color selector
+        UINavigationController *destNav = segue.destinationViewController;
+        destNav.popoverPresentationController.delegate = self;
+//        CGRect cellFrame = [self.view convertRect:((UIView *)sender).bounds fromView:sender];
+        destNav.popoverPresentationController.sourceView = ((UIView *)sender) ;
+        destNav.popoverPresentationController.sourceRect = ((UIView *)sender).bounds ;
+        destNav.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionLeft;
+        destNav.preferredContentSize = [[destNav visibleViewController].view systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
+        MSColorSelectionViewController *colorSelectionController = (MSColorSelectionViewController *)destNav.visibleViewController;
+        colorSelectionController.delegate = self;
+
+        UIBarButtonItem *doneBtn = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Save", ) style:UIBarButtonItemStyleDone target:self action:@selector(saveColor:)];
+        colorSelectionController.navigationItem.rightBarButtonItem = doneBtn;
+        UIBarButtonItem *cancelBtn = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Cancel", ) style:UIBarButtonItemStyleDone target:self action:@selector(restoreColor:)];
+        colorSelectionController.navigationItem.leftBarButtonItem = cancelBtn;
+
+
+        //remember stuff from sender tableviewCell
+        if ([sender isKindOfClass:[UITableViewCell class]]) {
+            NSArray <UIView *> * subViews = [[(UITableViewCell *) sender contentView] subviews];
+            for (UIView * subView in subViews) {
+                if (subView.tag == 12343) {
+                    self.currentColorChip = subView;
+                    break;
+                }
+            }
+        }
+        self.currentColorKey = segue.identifier;
+
+        NSAssert(self.currentColorKey != nil && self.currentColorChip != nil, @"View Structural problem");
+        //add numbers to color selector
+        //temp turn off animation in graph
+        //remember original color
+        //set color to last color set if any to copy from one to another
+        self.saveColorSetting = (UIColor *) [self.myGraph valueForKey:self.currentColorKey];
+        if (!self.saveColorSetting) {
+            //value is not currently set
+            if ([self.currentColorKey isEqualToString:@"colorBackgroundYaxis"]) {
+                self.myGraph.colorBackgroundYaxis = self.myGraph.colorTop;
+                self.currentColorChip.backgroundColor = self.myGraph.colorTop;
+            } else if ([self.currentColorKey isEqualToString:@"colorBackgroundXaxis"]) {
+                self.myGraph.colorBackgroundXaxis = self.myGraph.colorBottom;
+                self.currentColorChip.backgroundColor = self.myGraph.colorBottom;
+            } else {
+                self.saveColorSetting = [UIColor blueColor];
+                [self didChangeColor:self.saveColorSetting];
+            }
+        }
+        self.saveAnimationSetting = self.myGraph.animationGraphStyle;
+        self.myGraph.animationGraphStyle = BEMLineAnimationNone;
+
+        colorSelectionController.color = (UIColor  * _Nonnull)(self.saveColorSetting ) ?: self.currentColorChip.backgroundColor;
+    }
+
+
+}
 #pragma mark - Table View
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -999,6 +888,9 @@ CGGradientRef createGradient () {
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     // Return NO if you do not want the specified item to be editable.
     return NO;
+}
+-(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
 #pragma mark TextDelegate
