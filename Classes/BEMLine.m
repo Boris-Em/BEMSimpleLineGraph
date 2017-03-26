@@ -142,20 +142,56 @@
 
     self.points = [NSMutableArray arrayWithCapacity:self.arrayOfPoints.count];
     for (NSUInteger i = 0; i < self.arrayOfPoints.count; i++) {
-        CGPoint value = CGPointMake(xIndexScale * i, [self.arrayOfPoints[i] CGFloatValue]);
-        if (value.y < BEMNullGraphValue || !self.interpolateNullValues) {
-            [self.points addObject:[NSValue valueWithCGPoint:value]];
+        CGFloat value = [self.arrayOfPoints[i] CGFloatValue];;
+        if (value >= BEMNullGraphValue  && self.interpolateNullValues) {
+            //need to interpolate. For midpoints, just don't add a point
+            if (i ==0) {
+                //extrapolate a left edge point from next two actual values
+                NSUInteger firstPos = 1; //look for first real value
+                while (firstPos < self.arrayOfPoints.count && [self.arrayOfPoints[firstPos] CGFloatValue] >= BEMNullGraphValue) firstPos++;
+                if (firstPos >= self.arrayOfPoints.count) break;  // all NaNs?? =>don't create any line
+
+                CGFloat firstValue = [self.arrayOfPoints[firstPos] CGFloatValue];
+                NSUInteger secondPos = firstPos+1; //look for second real value
+                while (secondPos < self.arrayOfPoints.count && [self.arrayOfPoints[secondPos] CGFloatValue] >= BEMNullGraphValue) secondPos++;
+                if (secondPos >= self.arrayOfPoints.count) {
+                    // only one real number
+                    value = firstValue;
+                } else {
+                    CGFloat delta = firstValue - [self.arrayOfPoints[secondPos] CGFloatValue];
+                    value = firstValue + firstPos*delta/(secondPos-firstPos);
+                }
+
+            } else if (i == self.arrayOfPoints.count-1) {
+                //extrapolate a right edge poit from previous two actual values
+                NSInteger firstPos = i-1; //look for first real value
+                while (firstPos >= 0 && [self.arrayOfPoints[firstPos] CGFloatValue] >= BEMNullGraphValue) firstPos--;
+                if (firstPos < 0 ) continue;  // all NaNs?? =>don't create any line; should already be gone
+
+                CGFloat firstValue = [self.arrayOfPoints[firstPos] CGFloatValue];
+                NSInteger secondPos = firstPos-1; //look for second real value
+                while (secondPos >= 0 && [self.arrayOfPoints[secondPos] CGFloatValue] >= BEMNullGraphValue) secondPos--;
+                if (secondPos < 0) {
+                    // only one real number
+                    value = firstValue;
+                } else {
+                    CGFloat delta = firstValue - [self.arrayOfPoints[secondPos] CGFloatValue];
+                    value = firstValue + (self.arrayOfPoints.count - firstPos-1)*delta/(firstPos - secondPos);
+                }
+
+            } else {
+                continue; //skip this (middle Null) point, let graphics handle interpolation
+            }
         }
-    }
+        CGPoint newPoint = CGPointMake(xIndexScale * i, value);
+        [self.points addObject:[NSValue valueWithCGPoint:newPoint]];
+  }
 
-    BOOL bezierStatus = self.bezierCurveIsEnabled;
-    if (self.arrayOfPoints.count <= 2 && self.bezierCurveIsEnabled == YES) bezierStatus = NO;
-
-    if (!self.disableMainLine && bezierStatus) {
-        line = [BEMLine quadCurvedPathWithPoints:self.points];
-        fillBottom = [BEMLine quadCurvedPathWithPoints:self.bottomPointsArray];
-        fillTop = [BEMLine quadCurvedPathWithPoints:self.topPointsArray];
-    } else if (!self.disableMainLine && !bezierStatus) {
+    if (!self.disableMainLine && self.bezierCurveIsEnabled) {
+        line = [BEMLine quadCurvedPathWithPoints:self.points open:YES];
+        fillBottom = [BEMLine quadCurvedPathWithPoints:self.bottomPointsArray open:NO];
+        fillTop = [BEMLine quadCurvedPathWithPoints:self.topPointsArray open:NO];
+    } else if (!self.disableMainLine && !self.bezierCurveIsEnabled) {
         line = [BEMLine linesToPoints:self.points];
         fillBottom = [BEMLine linesToPoints:self.bottomPointsArray];
         fillTop = [BEMLine linesToPoints:self.topPointsArray];
@@ -317,34 +353,33 @@
     return path;
 }
 
-+ (UIBezierPath *)quadCurvedPathWithPoints:(NSArray <NSValue *> *)points {
++ (UIBezierPath *)quadCurvedPathWithPoints:(NSArray <NSValue *> *)points open:(BOOL) canSkipPoints {
     UIBezierPath *path = [UIBezierPath bezierPath];
 
     NSValue *value = points[0];
     CGPoint p1 = [value CGPointValue];
     [path moveToPoint:p1];
 
-    if (points.count == 2) {
-        value = points[1];
-        CGPoint p2 = [value CGPointValue];
-        [path addLineToPoint:p2];
-        return path;
-    }
-
     for (NSValue * point in points) {
+        if (point == value) continue; //already at first point
         CGPoint p2 = [point CGPointValue];
 
-        CGPoint midPoint = midPointForPoints(p1, p2);
-        [path addQuadCurveToPoint:midPoint controlPoint:controlPointForPoints(midPoint, p1)];
-        [path addQuadCurveToPoint:p2 controlPoint:controlPointForPoints(midPoint, p2)];
-
+        if (canSkipPoints && (p1.y >= BEMNullGraphValue || p2.y >= BEMNullGraphValue)) {
+            [path moveToPoint:p2];
+        } else {
+            CGPoint midPoint = midPointForPoints(p1, p2);
+            [path addQuadCurveToPoint:midPoint controlPoint:controlPointForPoints(midPoint, p1)];
+            [path addQuadCurveToPoint:p2 controlPoint:controlPointForPoints(midPoint, p2)];
+        }
         p1 = p2;
     }
     return path;
 }
 
 static CGPoint midPointForPoints(CGPoint p1, CGPoint p2) {
-    return CGPointMake((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
+    CGFloat avgY = (p1.y + p2.y) / 2.0;
+    if (isinf(avgY)) avgY = BEMNullGraphValue;
+    return CGPointMake((p1.x + p2.x) / 2, avgY);
 }
 
 static CGPoint controlPointForPoints(CGPoint p1, CGPoint p2) {

@@ -14,7 +14,6 @@
     self = [super init];
     if (self) {
         _enableAverageLine = NO;
-        _color = [UIColor whiteColor];
         _alpha = 1.0;
         _width = 3.0;
         _yValue = NAN;
@@ -49,7 +48,7 @@ self.property = [coder decode ## type ##ForKey:@#property ]; \
 
 - (void) encodeWithCoder: (NSCoder *)coder {
 
-#define EncodeProperty(property, type) [coder encode ## type :self.property forKey:@"property" ]
+#define EncodeProperty(property, type) [coder encode ## type: self.property forKey:@#property]
     EncodeProperty (enableAverageLine, Bool);
     EncodeProperty (color, Object);
     EncodeProperty (yValue, Float);

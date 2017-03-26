@@ -129,6 +129,16 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 - (instancetype) initWithCoder:(NSCoder *)coder {
     self = [super initWithCoder:coder];
     if (self) [self commonInit];
+    [self restorePropertyWithCoder:coder];
+    return self;
+}
+
+-(void) decodeRestorableStateWithCoder:(NSCoder *)coder {
+    [super decodeRestorableStateWithCoder:coder];
+    [self restorePropertyWithCoder:coder];
+}
+
+-(void) restorePropertyWithCoder:(NSCoder *) coder {
 
 #define RestoreProperty(property, type) \
 if ([coder containsValueForKey:@#property]) { \
@@ -179,23 +189,26 @@ self.property = [coder decode ## type ##ForKey:@#property]; \
     RestoreProperty (formatStringForValues, Object);
 
     RestoreProperty (averageLine, Object);
-    return self;
 #pragma clang diagnostic pop
 }
 
-- (void) encodeWithEncoder: (NSCoder *)coder {
+-(void) encodeRestorableStateWithCoder:(NSCoder *)coder {
+    [super encodeRestorableStateWithCoder:coder];
+    [self encodePropertiesWithCoder:coder];
+}
+
+- (void) encodeWithCoder: (NSCoder *)coder {
+    [super encodeWithCoder:coder];
+    [self encodePropertiesWithCoder:coder];
+}
+
+-(void) encodePropertiesWithCoder: (NSCoder *) coder {
 
 #define EncodeProperty(property, type) [coder encode ## type: self.property forKey:@#property]
-
-
-    [super encodeWithCoder:coder];
 
     EncodeProperty (labelFont, Object);
     EncodeProperty (animationGraphEntranceTime, Float);
     EncodeProperty (animationGraphStyle, Integer);
-    EncodeProperty (enableReferenceAxisFrame, Bool);
-    EncodeProperty (enableTopReferenceAxisFrameLine, Bool);
-    EncodeProperty (enableRightReferenceAxisFrameLine, Bool);
 
     EncodeProperty (colorXaxisLabel, Object);
     EncodeProperty (colorYaxisLabel, Object);
@@ -383,7 +396,7 @@ self.property = [coder decode ## type ##ForKey:@#property]; \
         }
         self.noDataLabel.text = noDataText ?: NSLocalizedString(@"No Data", nil);
         self.noDataLabel.font = self.noDataLabelFont ?: [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
-        self.noDataLabel.textColor = self.noDataLabelColor ?: (self.colorLine ?: [UIColor blackColor]);
+        self.noDataLabel.textColor = self.noDataLabelColor ?: (self.colorXaxisLabel ?: [UIColor blackColor]);
 
         [self.viewForFirstBaselineLayout addSubview:self.noDataLabel];
 
@@ -522,16 +535,20 @@ self.property = [coder decode ## type ##ForKey:@#property]; \
 
     [yAxisValues addObject:@(positionOnYAxis)];
 
+    BEMCircle *circleDot = nil;
+    if (reuseNumber < self.circleDots.count) {
+        circleDot = self.circleDots[reuseNumber];
+    }
     if (dotValue >= BEMNullGraphValue) {
         // If we're dealing with an null value, don't draw the dot (but put it in yAxis to interpolate line)
+        [circleDot removeFromSuperview];
         return nil;
     }
 
-    BEMCircle *circleDot;
     CGRect dotFrame = CGRectMake(0, 0, self.sizePoint, self.sizePoint);
-    if (reuseNumber < self.circleDots.count) {
-        circleDot = self.circleDots[reuseNumber];
+    if (circleDot) {
         circleDot.frame = dotFrame;
+        [circleDot setNeedsDisplay];
     } else {
         circleDot = [[BEMCircle alloc] initWithFrame:dotFrame];
         [self.circleDots addObject:circleDot];
@@ -573,34 +590,37 @@ self.property = [coder decode ## type ##ForKey:@#property]; \
 
             BEMCircle * circleDot = [self circleDotAtIndex: index forValue: dotValue reuseNumber: index];
             UILabel * label = nil;
+            if (index < self.permanentPopups.count) {
+                label = self.permanentPopups[index];
+            } else {
+                label = [[UILabel alloc] initWithFrame:CGRectZero];
+                [self.permanentPopups addObject:label ];
+            }
+
             if (circleDot) {
                 [self addSubview:circleDot];
 
-                if (self.alwaysDisplayPopUpLabels == YES) {
-                    if (![self.delegate respondsToSelector:@selector(lineGraph:alwaysDisplayPopUpAtIndex:)] ||
-                        [self.delegate lineGraph:self alwaysDisplayPopUpAtIndex:index]) {
-                        if (index < self.permanentPopups.count) {
-                            label = self.permanentPopups[index];
-                        } else {
-                            label = [[UILabel alloc] initWithFrame:CGRectZero];
-                            [self.permanentPopups addObject:label ];
-                        }
-                        label = [self configureLabel:label forPoint: circleDot ];
+                if ((self.alwaysDisplayPopUpLabels == YES)  &&
+                    (![self.delegate respondsToSelector:@selector(lineGraph:alwaysDisplayPopUpAtIndex:)] ||
+                      [self.delegate lineGraph:self alwaysDisplayPopUpAtIndex:index])) {
+                    label = [self configureLabel:label forPoint: circleDot ];
 
-                        [self adjustXLocForLabel:label avoidingDot:circleDot.frame];
+                    [self adjustXLocForLabel:label avoidingDot:circleDot.frame];
 
-                        UILabel * leftNeighbor = (index >= 1 && self.permanentPopups[index-1].superview) ? self.permanentPopups[index-1] : nil;
-                        UILabel * secondNeighbor = (index >= 2 && self.permanentPopups[index-2].superview) ? self.permanentPopups[index-2] : nil;
-                        BOOL showLabel =  [self adjustYLocForLabel:label
-                                                       avoidingDot:circleDot.frame
-                                                      andNeighbors:leftNeighbor.frame
-                                                               and:secondNeighbor.frame ];
-                        if (showLabel) {
-                            [self addSubview:label];
-                        } else {
-                            [label removeFromSuperview];
-                        }
+                    UILabel * leftNeighbor = (index >= 1 && self.permanentPopups[index-1].superview) ? self.permanentPopups[index-1] : nil;
+                    UILabel * secondNeighbor = (index >= 2 && self.permanentPopups[index-2].superview) ? self.permanentPopups[index-2] : nil;
+                    BOOL showLabel =  [self adjustYLocForLabel:label
+                                                   avoidingDot:circleDot.frame
+                                                  andNeighbors:leftNeighbor.frame
+                                                           and:secondNeighbor.frame ];
+                    if (showLabel) {
+                        [self addSubview:label];
+                    } else {
+                        [label removeFromSuperview];
                     }
+                } else {
+                    //not showing labels this time, so remove if any
+                    [label removeFromSuperview];
                 }
 
                 // Dot and/or label entrance animation
@@ -628,6 +648,8 @@ self.property = [coder decode ## type ##ForKey:@#property]; \
                     } completion:nil];
                 }
 
+            } else {
+                [label removeFromSuperview];
             }
         }
         for (NSUInteger i = self.circleDots.count -1; i>=numberOfPoints; i--) {
@@ -679,6 +701,8 @@ self.property = [coder decode ## type ##ForKey:@#property]; \
         line.verticalReferenceHorizontalFringeNegation = xAxisHorizontalFringeNegationValue;
         line.arrayOfVerticalReferenceLinePoints = self.enableReferenceXAxisLines ? xAxisLabelPoints : nil;
         line.arrayOfHorizontalReferenceLinePoints = self.enableReferenceYAxisLines ? yAxisLabelPoints : nil;
+    } else {
+        line.enableReferenceLines = NO;
     }
 
     line.color = self.colorLine;
@@ -726,8 +750,13 @@ self.property = [coder decode ## type ##ForKey:@#property]; \
     }
     [self addSubview:self.backgroundXAxis];
 
-    self.backgroundXAxis.backgroundColor = self.colorBackgroundXaxis ?: self.colorBottom;
-    self.backgroundXAxis.alpha = self.alphaBackgroundXaxis;
+    if (self.colorBackgroundXaxis) {
+        self.backgroundXAxis.backgroundColor = self.colorBackgroundXaxis;
+        self.backgroundXAxis.alpha = self.alphaBackgroundXaxis;
+    } else {
+        self.backgroundXAxis.backgroundColor = self.colorBottom;
+        self.backgroundXAxis.alpha = self.alphaBottom;
+    }
 
     NSArray <NSNumber *> *axisIndices = nil;
     if ([self.delegate respondsToSelector:@selector(incrementPositionsForXAxisOnLineGraph:)]) {
@@ -751,6 +780,7 @@ self.property = [coder decode ## type ##ForKey:@#property]; \
                 baseIndex = increment - 1 - offset;
             }
         }
+        if (increment == 0) increment = 1;
         NSMutableArray <NSNumber *> *values = [NSMutableArray array ];
         NSUInteger index = baseIndex;
         while (index < numberOfPoints) {
@@ -933,7 +963,7 @@ self.property = [coder decode ## type ##ForKey:@#property]; \
                                                  self.frame.size.width - self.YAxisLabelXOffset - 1.0f:
                                                  0.0),
                                                 0,
-                                                self.YAxisLabelXOffset - 1.0f,
+                                                self.YAxisLabelXOffset,
                                                 self.frame.size.height);
 
     if (!self.backgroundYAxis) {
@@ -942,8 +972,13 @@ self.property = [coder decode ## type ##ForKey:@#property]; \
         self.backgroundYAxis.frame = frameForBackgroundYAxis;
     }
     [self addSubview:self.backgroundYAxis];
-    self.backgroundYAxis.backgroundColor = self.colorBackgroundYaxis ?: self.colorTop;
-    self.backgroundYAxis.alpha = self.alphaBackgroundYaxis;
+    if (self.colorBackgroundYaxis) {
+        self.backgroundYAxis.backgroundColor = self.colorBackgroundYaxis;
+        self.backgroundYAxis.alpha = self.alphaBackgroundYaxis;
+    } else {
+        self.backgroundYAxis.backgroundColor =  self.colorTop;
+        self.backgroundYAxis.alpha = self.alphaTop;
+    }
 
     [yAxisLabelPoints removeAllObjects];
 
@@ -1114,14 +1149,13 @@ self.property = [coder decode ## type ##ForKey:@#property]; \
         NSNumber *value = (index <= dataPoints.count) ? value = dataPoints[index] : @(0); // @((NSInteger) circleDot.absoluteValue)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wformat-nonliteral"
+        //note this can indeed crash if delegate provides junk for formatString (e.g. %@); try/catch doesn't work
         NSString *formattedValue = [NSString stringWithFormat:self.formatStringForValues, value.doubleValue];
 #pragma clang diagnostic pop
         newPopUpLabel.text = [NSString stringWithFormat:@"%@%@%@", prefix, formattedValue, suffix];
     }
-    NSLog(@"%@ before SizeToFit: %@",newPopUpLabel.text, NSStringFromCGRect(newPopUpLabel.frame));
     CGSize requiredSize = [newPopUpLabel sizeThatFits:CGSizeMake(100.0f, CGFLOAT_MAX)];
     newPopUpLabel.frame = CGRectMake(10, 10, requiredSize.width+10.0f, requiredSize.height+10.0f);
-    NSLog(@"%@ after SizeToFit: %@",newPopUpLabel.text, NSStringFromCGRect(newPopUpLabel.frame));
     return newPopUpLabel;
 }
 
