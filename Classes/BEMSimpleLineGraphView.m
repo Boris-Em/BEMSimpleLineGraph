@@ -519,7 +519,11 @@ self.property = [coder decode ## type ##ForKey:@#property]; \
     } else {
         widestNumber  = [self labelWidthForValue:self.frame.size.height] ;
     }
-    return MAX(widestNumber,    [self.averageLine.title sizeWithAttributes:attributes].width);
+    if (self.averageLine.enableAverageLine) {
+        return MAX(widestNumber,    [self.averageLine.title sizeWithAttributes:attributes].width);
+    } else {
+        return widestNumber;
+    }
 }
 
 
@@ -1003,6 +1007,7 @@ self.property = [coder decode ## type ##ForKey:@#property]; \
             if ([self.delegate respondsToSelector:@selector(baseValueForYAxisOnLineGraph:)] && [self.delegate respondsToSelector:@selector(incrementValueForYAxisOnLineGraph:)]) {
                 value = [self.delegate baseValueForYAxisOnLineGraph:self];
                 increment = [self.delegate incrementValueForYAxisOnLineGraph:self];
+                if (increment <= 0) increment = 1;
                 numberOfLabels = (NSUInteger) ((self.maxValue - value)/increment)+1;
                 if (numberOfLabels > 100) {
                     NSLog(@"[BEMSimpleLineGraph] Increment does not properly lay out Y axis, bailing early");
@@ -1447,7 +1452,7 @@ self.property = [coder decode ## type ##ForKey:@#property]; \
             CGFloat percentValue = (dotValue - self.minValue) / (self.maxValue - self.minValue);
             CGFloat topOfChart = self.frame.size.height - padding/2.0f;
             CGFloat sizeOfChart = self.frame.size.height - padding;
-            positionOnYAxis = topOfChart - percentValue * sizeOfChart + self.XAxisLabelYOffset/2;
+            positionOnYAxis = topOfChart - percentValue * sizeOfChart + self.XAxisLabelYOffset;
         }
     } else {
         positionOnYAxis = ((self.frame.size.height) - dotValue);

@@ -33,6 +33,7 @@
         _enableLeftReferenceFrameLine = YES;
         _enableBottomReferenceFrameLine = YES;
         _interpolateNullValues = YES;
+        self.clipsToBounds = YES;
     }
     return self;
 }
@@ -59,8 +60,8 @@
     if (self.enableReferenceFrame == YES) {
         if (self.enableBottomReferenceFrameLine) {
             // Bottom Line
-            [referenceFramePath moveToPoint:CGPointMake(0, self.frame.size.height)];
-            [referenceFramePath addLineToPoint:CGPointMake(self.frame.size.width, self.frame.size.height)];
+            [referenceFramePath moveToPoint:CGPointMake(0, self.frame.size.height-self.referenceLineWidth/4)];
+            [referenceFramePath addLineToPoint:CGPointMake(self.frame.size.width, self.frame.size.height-self.referenceLineWidth/4)];
         }
 
         if (self.enableLeftReferenceFrameLine) {
@@ -71,8 +72,8 @@
 
         if (self.enableTopReferenceFrameLine) {
             // Top Line
-            [referenceFramePath moveToPoint:CGPointMake(0+self.referenceLineWidth/4, 0)];
-            [referenceFramePath addLineToPoint:CGPointMake(self.frame.size.width, 0)];
+            [referenceFramePath moveToPoint:CGPointMake(0+self.referenceLineWidth/4, self.referenceLineWidth/4)];
+            [referenceFramePath addLineToPoint:CGPointMake(self.frame.size.width, self.referenceLineWidth/4)];
         }
 
         if (self.enableRightReferenceFrameLine) {
@@ -192,12 +193,12 @@
         fillBottom = [BEMLine quadCurvedPathWithPoints:self.bottomPointsArray open:NO];
         fillTop = [BEMLine quadCurvedPathWithPoints:self.topPointsArray open:NO];
     } else if (!self.disableMainLine && !self.bezierCurveIsEnabled) {
-        line = [BEMLine linesToPoints:self.points];
-        fillBottom = [BEMLine linesToPoints:self.bottomPointsArray];
-        fillTop = [BEMLine linesToPoints:self.topPointsArray];
+        line = [BEMLine linesToPoints:self.points open:YES];
+        fillBottom = [BEMLine linesToPoints:self.bottomPointsArray open:NO];
+        fillTop = [BEMLine linesToPoints:self.topPointsArray open:NO];
     } else {
-        fillBottom = [BEMLine linesToPoints:self.bottomPointsArray];
-        fillTop = [BEMLine linesToPoints:self.topPointsArray];
+        fillBottom = [BEMLine linesToPoints:self.bottomPointsArray open:NO];
+        fillTop = [BEMLine linesToPoints:self.topPointsArray open:NO];
     }
 
     //----------------------------//
@@ -340,15 +341,22 @@
     return bottomPoints;
 }
 
-+ (UIBezierPath *)linesToPoints:(NSArray <NSValue *> *)points {
++ (UIBezierPath *)linesToPoints:(NSArray <NSValue *> *)points open:(BOOL) canSkipPoints {
     UIBezierPath *path = [UIBezierPath bezierPath];
     NSValue *value = points[0];
     CGPoint p1 = [value CGPointValue];
     [path moveToPoint:p1];
 
     for (NSValue * point in points) {
+        if (point == value) continue; //already at first point
         CGPoint p2 = [point CGPointValue];
-        [path addLineToPoint:p2];
+
+        if (canSkipPoints && (p1.y >= BEMNullGraphValue || p2.y >= BEMNullGraphValue)) {
+            [path moveToPoint:p2];
+        } else {
+            [path addLineToPoint:p2];
+        }
+        p1 = p2;
     }
     return path;
 }
