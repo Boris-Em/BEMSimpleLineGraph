@@ -61,7 +61,7 @@ Requires Xcode 6 for use in any iOS Project. Requires a minimum of iOS 7.0 as th
 ### License
 See the [License](https://github.com/Boris-Em/BEMSimpleLineGraph/blob/master/LICENSE). You are free to make changes and use this in either personal or commercial projects. Attribution is not required, but it is appreciated. A little Thanks! (or something to that affect) would be much appreciated. If you use BEMSimpleLineGraph in your app, let us know.
 
-###Support
+### Support
 [![Gitter chat](https://badges.gitter.im/Boris-Em/BEMSimpleLineGraph.png)](https://gitter.im/Boris-Em/BEMSimpleLineGraph)  
 Join us on [Gitter](https://gitter.im/Boris-Em/BEMSimpleLineGraph) if you need any help or want to talk about the project.
 
@@ -86,7 +86,7 @@ The easiest way to install BEMSimpleLineGraph is to use <a href="http://cocoapod
 	
 The other way to install **BEMSimpleLineGraph**, is to drag and drop the *Classes* folder into your Xcode project. When you do so, check the "*Copy items into destination group's folder*" box.
 
-####Swift Projects
+#### Swift Projects
 To use **BEMSimpleLineGraph** in a Swift project add the following to your bridging header:
 
     #import "BEMSimpleLineGraphView.h"
