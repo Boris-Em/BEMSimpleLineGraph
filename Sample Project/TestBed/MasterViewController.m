@@ -136,6 +136,8 @@ CGGradientRef createGradient () {
     self.title = @"Options";
     self.hasRestoredUI = NO;
     self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showDetailTargetDidChange:) name:UIViewControllerShowDetailTargetDidChangeNotification object:nil];
+    [self showDetailTargetDidChange:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -846,5 +848,24 @@ CGGradientRef createGradient () {
     return YES;
 }
 
+#pragma mark Detail did change
+- (void)showDetailTargetDidChange:(id)sender {
+    if (self.splitViewController.isCollapsed) {
+        if (!self.navigationItem.rightBarButtonItem) {
+            UIBarButtonItem *graphBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Graph" style:UIBarButtonItemStylePlain target:self action:@selector(showDetail:)];
+            self.navigationItem.rightBarButtonItem = graphBarButton;
+        }
+    } else {
+        self.navigationItem.rightBarButtonItem = nil;
+    }
+}
+
+-(void) showDetail:(id) sender {
+    [self performSegueWithIdentifier:@"showDetail" sender:self];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIViewControllerShowDetailTargetDidChangeNotification object:nil];
+}
 @end
 
