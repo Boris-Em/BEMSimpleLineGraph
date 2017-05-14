@@ -28,7 +28,7 @@
 
 @implementation UITextField (Numbers)
 
--(void) setFloatValue:(CGFloat) num {
+- (void)setFloatValue:(CGFloat) num {
     if (num < 0.0) {
         self.text = @"";
     } else if (num >= NSNotFound ) {
@@ -38,7 +38,7 @@
     }
 }
 
--(void) setIntValue:(NSUInteger) num {
+- (void)setIntValue:(NSUInteger) num {
     if (num == NSNotFound ) {
         self.text = @"";
     } else if (num == (NSUInteger)-1 ) {
@@ -48,7 +48,7 @@
     }
 }
 
--(CGFloat) floatValue {
+- (CGFloat)floatValue {
     if (self.text.length ==0) {
         return -1.0;
     } else {
@@ -56,7 +56,7 @@
     }
 }
 
--(NSUInteger) intValue {
+- (NSUInteger)intValue {
     if (self.text.length ==0) {
         return NSNotFound;
     } else {
@@ -75,11 +75,11 @@
 static NSString * checkOff = @"☐";
 static NSString * checkOn = @"☒";
 
--(void) setOn: (BOOL) on {
+- (void)setOn: (BOOL) on {
     [self setTitle: (on ? checkOn : checkOff) forState:UIControlStateNormal];
 }
 
--(BOOL) on  {
+- (BOOL)on  {
     if (!self.currentTitle) return NO;
     return [checkOff isEqualToString: ( NSString * _Nonnull )self.currentTitle ];
 }
@@ -203,17 +203,17 @@ CGGradientRef createGradient () {
     self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
 }
 
--(void) viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     if (!self.hasRestoredUI) [self restoreUI];
 }
 
--(void) decodeRestorableStateWithCoder:(NSCoder *)coder {
+- (void)decodeRestorableStateWithCoder:(NSCoder *)coder {
     [super decodeRestorableStateWithCoder:coder];
     [self restoreUI];  //kludge for VWA not getting called during restore
 }
 
--(void) restoreUI {
+- (void)restoreUI {
     [self.detailViewController loadViewIfNeeded];
     self.myGraph = self.detailViewController.myGraph;
     self.hasRestoredUI = YES;
@@ -337,7 +337,7 @@ CGGradientRef createGradient () {
 }
 
 #pragma mark Axes and Reference Lines
--(NSUInteger) getValue:(NSString *) text {
+- (NSUInteger)getValue:(NSString *) text {
     return (text.length > 0  && text.integerValue >= 0) ? text.integerValue : NSNotFound;
 }
 
@@ -452,7 +452,7 @@ CGGradientRef createGradient () {
     [self.myGraph reloadGraph];
 }
 
--(void) updateReferenceAxisFrame: (BOOL) newState {
+- (void)updateReferenceAxisFrame: (BOOL) newState {
     self.myGraph.enableReferenceAxisFrame = newState;
     self.frameReferenceAxesCell.alpha = newState ? 1.0 : 0.5 ;
     self.frameReferenceAxesCell.userInteractionEnabled = newState;
@@ -569,7 +569,7 @@ CGGradientRef createGradient () {
 //    BEMLineAnimationNone
 //};
 //
--(void) updateAnimationGraphStyle {
+- (void)updateAnimationGraphStyle {
     NSString * newTitle = @"";
     switch (self.myGraph.animationGraphStyle) {
         case BEMLineAnimationDraw:
@@ -634,7 +634,7 @@ CGGradientRef createGradient () {
     // done in IB: [self performSegueWithIdentifier:@"FontPicker" sender:self];
 }
 
--(void) updateFont: (NSString *) fontName {
+- (void)updateFont: (NSString *) fontName {
     if (!fontName) fontName = self.fontNameButton.titleLabel.text;
     CGFloat fontSize = (CGFloat)self.fontSizeField.text.floatValue;
     if (fontSize < 1.0) fontSize = 14.0;
@@ -667,7 +667,7 @@ CGGradientRef createGradient () {
     self.myGraph.formatStringForValues = [self checkUsersFormatString:sender];
     [self.myGraph reloadGraph];
 }
--(NSString *) checkUsersFormatString: (UITextField *) sender {
+- (NSString *)checkUsersFormatString: (UITextField *) sender {
     //there are many ways to crash this (more than one format), but this is most obvious
     NSString * newFormat = sender.text ?: @"";
     if ([newFormat containsString:@"%@"]) {
@@ -679,7 +679,7 @@ CGGradientRef createGradient () {
     return newFormat;
 }
 
--(IBAction) alphaTopFieldChanged:(UITextField *) sender {
+- (IBAction)alphaTopFieldChanged:(UITextField *) sender {
     float newAlpha = sender.floatValue;
     if (newAlpha >= 0 && newAlpha <= 1.0) {
         self.myGraph.alphaTop = newAlpha;
@@ -687,7 +687,7 @@ CGGradientRef createGradient () {
     }
 }
 
--(IBAction) alphaBottomFieldChanged:(UITextField *) sender {
+- (IBAction)alphaBottomFieldChanged:(UITextField *) sender {
     float newAlpha = sender.floatValue;
     if (newAlpha >= 0 && newAlpha <= 1.0) {
         self.myGraph.alphaBottom = newAlpha;
@@ -695,7 +695,7 @@ CGGradientRef createGradient () {
     }
 }
 
--(IBAction) alphaLineFieldChanged:(UITextField *) sender {
+- (IBAction)alphaLineFieldChanged:(UITextField *) sender {
     float newAlpha = sender.floatValue;
     if (newAlpha >= 0 && newAlpha <= 1.0) {
         self.myGraph.alphaLine = newAlpha;
@@ -703,7 +703,7 @@ CGGradientRef createGradient () {
     }
 }
 
--(IBAction) alphaTouchInputFieldChanged:(UITextField *) sender {
+- (IBAction)alphaTouchInputFieldChanged:(UITextField *) sender {
     float newAlpha = sender.floatValue;
     if (newAlpha >= 0 && newAlpha <= 1.0) {
         self.myGraph.alphaTouchInputLine = newAlpha;
@@ -711,7 +711,7 @@ CGGradientRef createGradient () {
     }
 }
 
--(IBAction) alphaBackgroundXaxisChanged:(UITextField *) sender {
+- (IBAction)alphaBackgroundXaxisChanged:(UITextField *) sender {
     float newAlpha = sender.floatValue;
     if (newAlpha >= 0 && newAlpha <= 1.0) {
         self.myGraph.alphaBackgroundXaxis = newAlpha;
@@ -719,7 +719,7 @@ CGGradientRef createGradient () {
     }
 }
 
--(IBAction) alphaBackgroundYaxisChanged:(UITextField *) sender {
+- (IBAction)alphaBackgroundYaxisChanged:(UITextField *) sender {
     float newAlpha = sender.floatValue;
     if (newAlpha >= 0 && newAlpha <= 1.0) {
         self.myGraph.alphaBackgroundYaxis = newAlpha;
@@ -728,7 +728,7 @@ CGGradientRef createGradient () {
 }
 
 #pragma Color section
--(void) didChangeColor: (UIColor *) color {
+- (void)didChangeColor: (UIColor *) color {
     if (![color isEqual:self.currentColorChip.backgroundColor]) {
         self.currentColorChip.backgroundColor = color;
         [self.myGraph setValue: color forKey: self.currentColorKey];
@@ -740,7 +740,7 @@ CGGradientRef createGradient () {
     [self didChangeColor:color];
 }
 
--(void) saveColor:(id) sender {
+- (void)saveColor:(id) sender {
     self.myGraph.animationGraphStyle = self.saveAnimationSetting;
     [self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -897,7 +897,7 @@ CGGradientRef createGradient () {
     return NO;
 }
 
--(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     if (self.splitViewController.isCollapsed) {
         [self performSegueWithIdentifier:@"showDetail" sender:self];
@@ -906,7 +906,7 @@ CGGradientRef createGradient () {
 
 #pragma mark TextDelegate
 
--(BOOL) textFieldShouldReturn:(UITextField *)textField {
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
     return YES;
 }

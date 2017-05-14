@@ -60,14 +60,14 @@ self.property = [coder decode ## type ##ForKey:@#property ]; \
 
 
 
--(void) setLabel:(UILabel *)label {
+- (void)setLabel:(UILabel *)label {
     if (_label != label) {
         [_label removeFromSuperview];
         _label = label;
     }
 }
 
--(void) dealloc {
+- (void)dealloc {
     self.label= nil;
 }
 @end

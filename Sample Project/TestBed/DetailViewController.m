@@ -141,7 +141,7 @@
         [self.myGraph reloadGraph];
     }
 }
--(NSString *) formatNumber: (NSNumber *) number {
+- (NSString *)formatNumber: (NSNumber *) number {
     return [NSNumberFormatter localizedStringFromNumber:number
                                                          numberStyle:NSNumberFormatterDecimalStyle];
 
@@ -176,7 +176,7 @@
 
 #pragma mark - SimpleLineGraph Delegate
 
--(BOOL) respondsToSelector:(SEL)aSelector {
+- (BOOL)respondsToSelector:(SEL)aSelector {
     if (aSelector == @selector(popUpTextForlineGraph:atIndex:)) {
         return self.popUpText.length > 0;
     } else if (aSelector == @selector(popUpPrefixForlineGraph:)) {
@@ -234,7 +234,7 @@
     return self.popUpPrefix;
 }
 
--(NSString *) popUpTextForlineGraph:(BEMSimpleLineGraphView *)graph atIndex:(NSUInteger)index {
+- (NSString *)popUpTextForlineGraph:(BEMSimpleLineGraphView *)graph atIndex:(NSUInteger)index {
     if (!self.popUpText) return @"Empty format string";
     @try {
 #pragma clang diagnostic push
@@ -349,7 +349,7 @@
     }];
 }
 
--(void) updateLabelsBelowGraph: (BEMSimpleLineGraphView *)graph {
+- (void)updateLabelsBelowGraph: (BEMSimpleLineGraphView *)graph {
     if (self.arrayOfValues.count > 0) {
         NSNumber * sum = [[BEMGraphCalculator sharedCalculator] calculatePointValueSumOnGraph:graph];
         self.labelValues.text =[self formatNumber:sum];

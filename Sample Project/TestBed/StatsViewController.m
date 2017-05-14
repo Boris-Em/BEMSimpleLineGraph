@@ -21,7 +21,7 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(exit:)];
 }
 
--(void) exit: (id) sender {
+- (void)exit: (id) sender {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 

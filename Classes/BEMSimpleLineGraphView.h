@@ -487,10 +487,12 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
  @return The minimum value of the Y-Axis. */
 - (CGFloat)minValueForLineGraph:(BEMSimpleLineGraphView *)graph;
 
+
 /** Optional method to set the average value for the Average line. If not implemented, the value will be the average point of the graph.
- @param graph The graph object requesting the minimum value.
+ @param graph The graph object requesting the average value.
  @return The average value of the Y-Axis. */
 - (CGFloat)averageValueForLineGraph:(BEMSimpleLineGraphView *)graph;
+
 
 /** Optional method to control whether a label indicating NO DATA will be shown while number of data is zero
  @param graph The graph object for the NO DATA label

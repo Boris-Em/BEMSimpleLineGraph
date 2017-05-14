@@ -58,35 +58,36 @@
     referenceFramePath.lineWidth = 0.7f;
 
     if (self.enableReferenceFrame == YES) {
+        CGFloat offset = self.referenceLineWidth/4; //moves framing ref line slightly into view
         if (self.enableBottomReferenceFrameLine) {
             // Bottom Line
-            [referenceFramePath moveToPoint:CGPointMake(0, self.frame.size.height-self.referenceLineWidth/4)];
-            [referenceFramePath addLineToPoint:CGPointMake(self.frame.size.width, self.frame.size.height-self.referenceLineWidth/4)];
+            [referenceFramePath moveToPoint:   CGPointMake(0,                              self.frame.size.height-offset)];
+            [referenceFramePath addLineToPoint:CGPointMake(self.frame.size.width,          self.frame.size.height-offset)];
         }
 
         if (self.enableLeftReferenceFrameLine) {
             // Left Line
-            [referenceFramePath moveToPoint:CGPointMake(0+self.referenceLineWidth/4, self.frame.size.height)];
-            [referenceFramePath addLineToPoint:CGPointMake(0+self.referenceLineWidth/4, 0)];
+            [referenceFramePath moveToPoint:   CGPointMake(0+offset,                       self.frame.size.height)];
+            [referenceFramePath addLineToPoint:CGPointMake(0+offset,                       0)];
         }
 
         if (self.enableTopReferenceFrameLine) {
             // Top Line
-            [referenceFramePath moveToPoint:CGPointMake(0+self.referenceLineWidth/4, self.referenceLineWidth/4)];
-            [referenceFramePath addLineToPoint:CGPointMake(self.frame.size.width, self.referenceLineWidth/4)];
+            [referenceFramePath moveToPoint:   CGPointMake(0+offset,                       offset)];
+            [referenceFramePath addLineToPoint:CGPointMake(self.frame.size.width,          offset)];
         }
 
         if (self.enableRightReferenceFrameLine) {
             // Right Line
-            [referenceFramePath moveToPoint:CGPointMake(self.frame.size.width - self.referenceLineWidth/4, self.frame.size.height)];
-            [referenceFramePath addLineToPoint:CGPointMake(self.frame.size.width - self.referenceLineWidth/4, 0)];
+            [referenceFramePath moveToPoint:   CGPointMake(self.frame.size.width - offset, self.frame.size.height)];
+            [referenceFramePath addLineToPoint:CGPointMake(self.frame.size.width - offset, 0)];
         }
     }
 
     if (self.enableReferenceLines == YES) {
         if (self.arrayOfVerticalReferenceLinePoints.count > 0) {
             for (NSNumber *xNumber in self.arrayOfVerticalReferenceLinePoints) {
-                CGFloat xValue =[xNumber doubleValue];
+                CGFloat xValue = [xNumber doubleValue];
                 if (self.verticalReferenceHorizontalFringeNegation != 0.0) {
                     NSUInteger index = [self.arrayOfVerticalReferenceLinePoints indexOfObject:xNumber];
                     if (index == 0) { // far left reference line
@@ -143,10 +144,10 @@
 
     self.points = [NSMutableArray arrayWithCapacity:self.arrayOfPoints.count];
     for (NSUInteger i = 0; i < self.arrayOfPoints.count; i++) {
-        CGFloat value = [self.arrayOfPoints[i] CGFloatValue];;
+        CGFloat value = [self.arrayOfPoints[i] CGFloatValue];
         if (value >= BEMNullGraphValue  && self.interpolateNullValues) {
             //need to interpolate. For midpoints, just don't add a point
-            if (i ==0) {
+            if (i == 0) {
                 //extrapolate a left edge point from next two actual values
                 NSUInteger firstPos = 1; //look for first real value
                 while (firstPos < self.arrayOfPoints.count && [self.arrayOfPoints[firstPos] CGFloatValue] >= BEMNullGraphValue) firstPos++;
@@ -341,7 +342,7 @@
     return bottomPoints;
 }
 
-+ (UIBezierPath *)linesToPoints:(NSArray <NSValue *> *)points open:(BOOL) canSkipPoints {
++ (UIBezierPath *)linesToPoints:(NSArray <NSValue *> *)points open:(BOOL)open {
     UIBezierPath *path = [UIBezierPath bezierPath];
     NSValue *value = points[0];
     CGPoint p1 = [value CGPointValue];
@@ -351,7 +352,7 @@
         if (point == value) continue; //already at first point
         CGPoint p2 = [point CGPointValue];
 
-        if (canSkipPoints && (p1.y >= BEMNullGraphValue || p2.y >= BEMNullGraphValue)) {
+        if (open && (p1.y >= BEMNullGraphValue || p2.y >= BEMNullGraphValue)) {
             [path moveToPoint:p2];
         } else {
             [path addLineToPoint:p2];
@@ -361,7 +362,7 @@
     return path;
 }
 
-+ (UIBezierPath *)quadCurvedPathWithPoints:(NSArray <NSValue *> *)points open:(BOOL) canSkipPoints {
++ (UIBezierPath *)quadCurvedPathWithPoints:(NSArray <NSValue *> *)points open:(BOOL)open {
     UIBezierPath *path = [UIBezierPath bezierPath];
 
     NSValue *value = points[0];
@@ -372,7 +373,7 @@
         if (point == value) continue; //already at first point
         CGPoint p2 = [point CGPointValue];
 
-        if (canSkipPoints && (p1.y >= BEMNullGraphValue || p2.y >= BEMNullGraphValue)) {
+        if (open && (p1.y >= BEMNullGraphValue || p2.y >= BEMNullGraphValue)) {
             [path moveToPoint:p2];
         } else {
             CGPoint midPoint = midPointForPoints(p1, p2);

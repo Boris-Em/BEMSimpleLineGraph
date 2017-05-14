@@ -67,7 +67,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 @property (strong, nonatomic) NSMutableArray <BEMCircle *> *circleDots;
 
 /// The line itself
-@property (strong, nonatomic) BEMLine * masterLine;
+@property (strong, nonatomic) BEMLine *masterLine;
 
 /// The vertical line which appears when the user drags across the graph
 @property (strong, nonatomic) UIView *touchInputLine;
@@ -133,12 +133,12 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     return self;
 }
 
--(void) decodeRestorableStateWithCoder:(NSCoder *)coder {
+- (void)decodeRestorableStateWithCoder:(NSCoder *)coder {
     [super decodeRestorableStateWithCoder:coder];
     [self restorePropertyWithCoder:coder];
 }
 
--(void) restorePropertyWithCoder:(NSCoder *) coder {
+- (void)restorePropertyWithCoder:(NSCoder *)coder {
 
 #define RestoreProperty(property, type) \
 if ([coder containsValueForKey:@#property]) { \
@@ -192,7 +192,7 @@ self.property = [coder decode ## type ##ForKey:@#property]; \
 #pragma clang diagnostic pop
 }
 
--(void) encodeRestorableStateWithCoder:(NSCoder *)coder {
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
     [super encodeRestorableStateWithCoder:coder];
     [self encodePropertiesWithCoder:coder];
 }
@@ -202,7 +202,7 @@ self.property = [coder decode ## type ##ForKey:@#property]; \
     [self encodePropertiesWithCoder:coder];
 }
 
--(void) encodePropertiesWithCoder: (NSCoder *) coder {
+- (void)encodePropertiesWithCoder:(NSCoder *)coder {
 
 #define EncodeProperty(property, type) [coder encode ## type: self.property forKey:@#property]
 
@@ -357,7 +357,7 @@ self.property = [coder decode ## type ##ForKey:@#property]; \
     [self drawGraph];
 }
 
--(void) clearGraph {
+- (void)clearGraph {
     for (UIView * subvView in self.subviews) {
         [subvView removeFromSuperview];
     }
@@ -503,7 +503,7 @@ self.property = [coder decode ## type ##ForKey:@#property]; \
     [self drawYAxis];
 }
 
--(CGFloat) labelWidthForValue:(CGFloat) value {
+- (CGFloat)labelWidthForValue:(CGFloat)value {
     NSDictionary *attributes = @{NSFontAttributeName: self.labelFont};
     NSString *valueString = [self yAxisTextForValue:value];
     NSString *labelString = [valueString stringByReplacingOccurrencesOfString:@"[0-9-]" withString:@"N" options:NSRegularExpressionSearch range:NSMakeRange(0, [valueString length])];
@@ -520,14 +520,14 @@ self.property = [coder decode ## type ##ForKey:@#property]; \
         widestNumber  = [self labelWidthForValue:self.frame.size.height] ;
     }
     if (self.averageLine.enableAverageLine) {
-        return MAX(widestNumber,    [self.averageLine.title sizeWithAttributes:attributes].width);
+        return MAX(widestNumber, [self.averageLine.title sizeWithAttributes:attributes].width);
     } else {
         return widestNumber;
     }
 }
 
 
--(BEMCircle *) circleDotAtIndex:(NSUInteger) index forValue:(CGFloat) dotValue reuseNumber: (NSUInteger) reuseNumber {
+- (BEMCircle *)circleDotAtIndex:(NSUInteger)index forValue:(CGFloat)dotValue reuseNumber:(NSUInteger)reuseNumber {
     CGFloat positionOnXAxis = numberOfPoints > 1 ?
     (((self.frame.size.width - self.YAxisLabelXOffset) / (numberOfPoints - 1)) * index) :
     self.frame.size.width/2;
@@ -895,7 +895,7 @@ self.property = [coder decode ## type ##ForKey:@#property]; \
     return labelXAxis;
 }
 
--(NSString *) yAxisTextForValue:(CGFloat) value {
+- (NSString *)yAxisTextForValue:(CGFloat) value {
     NSString *yAxisSuffix = @"";
     NSString *yAxisPrefix = @"";
 
@@ -1164,7 +1164,7 @@ self.property = [coder decode ## type ##ForKey:@#property]; \
     return newPopUpLabel;
 }
 
--(void) adjustXLocForLabel: (UIView *) popUpLabel avoidingDot: (CGRect) circleDotFrame {
+- (void)adjustXLocForLabel: (UIView *) popUpLabel avoidingDot: (CGRect) circleDotFrame {
 
     //now fixup left/right layout issues
     CGFloat xCenter = CGRectGetMidX(circleDotFrame);
@@ -1185,7 +1185,7 @@ self.property = [coder decode ## type ##ForKey:@#property]; \
     popUpLabel.center = CGPointMake(xCenter, popUpLabel.center.y);
 }
 
--(BOOL) adjustYLocForLabel: (UIView *) popUpLabel avoidingDot: (CGRect) dotFrame andNeighbors: (CGRect) leftNeightbor and:  (CGRect) secondNeighbor {
+- (BOOL)adjustYLocForLabel:(UIView *)popUpLabel avoidingDot:(CGRect)dotFrame andNeighbors:(CGRect)leftNeightbor and:(CGRect)secondNeighbor {
     //returns YES if it can avoid those neighbors
     //note: nil.frame == CGRectZero
     //check for bumping into top OR overlap with left neighbors
@@ -1208,7 +1208,6 @@ self.property = [coder decode ## type ##ForKey:@#property]; \
     }
     return YES;
 }
-
 
 - (UIImage *)graphSnapshotImage {
     return [self graphSnapshotImageRenderedWhileInBackground:NO];
@@ -1233,7 +1232,6 @@ self.property = [coder decode ## type ##ForKey:@#property]; \
 
 - (void)reloadGraph {
     [self drawGraph];
-    //    [self setNeedsLayout];
 }
 
 #pragma mark - Values
@@ -1463,7 +1461,6 @@ self.property = [coder decode ## type ##ForKey:@#property]; \
 }
 
 #pragma mark - Deprecated Methods
-
 
  - (NSNumber *)calculatePointValueSum {
     [self printDeprecationTransitionWarningForOldMethod:@"calculatePointValueSum" replacementMethod:@"calculatePointValueSumOnGraph:" newObject:@"BEMGraphCalculator" sharedInstance:YES];
