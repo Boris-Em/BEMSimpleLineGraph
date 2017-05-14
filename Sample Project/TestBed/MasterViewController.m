@@ -10,13 +10,8 @@
 #import "DetailViewController.h"
 #import "ARFontPickerViewController.h"
 #import "MSColorSelectionViewController.h"
-
-//some convenience extensions for setting and reading
-@interface UITextField (Numbers)
-@property (nonatomic) CGFloat floatValue;
-@property (nonatomic) NSUInteger intValue;
-
-@end
+#import "UITextField+Numbers.h"
+#import "UIButton+Switch.h"
 
 @interface MasterViewController () <MSColorSelectionViewControllerDelegate, UIPopoverPresentationControllerDelegate>
 
@@ -25,67 +20,6 @@
 @property (strong, nonatomic) NSString * currentColorKey;
 @property (strong, nonatomic) UIView * currentColorChip;
 @end
-
-@implementation UITextField (Numbers)
-
-- (void)setFloatValue:(CGFloat) num {
-    if (num < 0.0) {
-        self.text = @"";
-    } else if (num >= NSNotFound ) {
-            self.text = @"oopsf";
-    } else {
-        self.text = [NSString stringWithFormat:@"%0.1f",num];
-    }
-}
-
-- (void)setIntValue:(NSUInteger) num {
-    if (num == NSNotFound ) {
-        self.text = @"";
-    } else if (num == (NSUInteger)-1 ) {
-        self.text = @"oops";
-    }else {
-        self.text = [NSString stringWithFormat:@"%d",(int)num];
-    }
-}
-
-- (CGFloat)floatValue {
-    if (self.text.length ==0) {
-        return -1.0;
-    } else {
-        return (CGFloat) self.text.floatValue;
-    }
-}
-
-- (NSUInteger)intValue {
-    if (self.text.length ==0) {
-        return NSNotFound;
-    } else {
-        return (NSUInteger) self.text.integerValue;
-    }
-
-}
-
-@end
-
-@interface UIButton (Switch)
-@property (nonatomic) BOOL on;
-@end\
-
-@implementation UIButton (Switch)
-static NSString * checkOff = @"☐";
-static NSString * checkOn = @"☒";
-
-- (void)setOn: (BOOL) on {
-    [self setTitle: (on ? checkOn : checkOff) forState:UIControlStateNormal];
-}
-
-- (BOOL)on  {
-    if (!self.currentTitle) return NO;
-    return [checkOff isEqualToString: ( NSString * _Nonnull )self.currentTitle ];
-}
-
-@end
-
 
 @interface MasterViewController () <ARFontPickerViewControllerDelegate, UITextFieldDelegate>
 
@@ -199,6 +133,7 @@ CGGradientRef createGradient () {
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    self.title = @"Options";
     self.hasRestoredUI = NO;
     self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
 }

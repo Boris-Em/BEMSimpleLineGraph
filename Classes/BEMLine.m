@@ -73,7 +73,7 @@
 
         if (self.enableTopReferenceFrameLine) {
             // Top Line
-            [referenceFramePath moveToPoint:   CGPointMake(0+offset,                       offset)];
+            [referenceFramePath moveToPoint:   CGPointMake(0,                              offset)];
             [referenceFramePath addLineToPoint:CGPointMake(self.frame.size.width,          offset)];
         }
 

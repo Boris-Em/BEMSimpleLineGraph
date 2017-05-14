@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1E03A0321EC8BED200CA4247 /* UITextField+Numbers.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E03A0311EC8BED200CA4247 /* UITextField+Numbers.m */; };
+		1E03A0351EC8BF4C00CA4247 /* UIButton+Switch.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E03A0341EC8BF4C00CA4247 /* UIButton+Switch.m */; };
 		1E960A851E7DF942000E2BB8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E960A841E7DF942000E2BB8 /* main.m */; };
 		1E960A881E7DF942000E2BB8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E960A871E7DF942000E2BB8 /* AppDelegate.m */; };
 		1E960A8E1E7DF942000E2BB8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E960A8C1E7DF942000E2BB8 /* Main.storyboard */; };
@@ -68,6 +70,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1E03A0301EC8BED200CA4247 /* UITextField+Numbers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextField+Numbers.h"; sourceTree = "<group>"; };
+		1E03A0311EC8BED200CA4247 /* UITextField+Numbers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextField+Numbers.m"; sourceTree = "<group>"; };
+		1E03A0331EC8BF4C00CA4247 /* UIButton+Switch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Switch.h"; sourceTree = "<group>"; };
+		1E03A0341EC8BF4C00CA4247 /* UIButton+Switch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Switch.m"; sourceTree = "<group>"; };
 		1E960A811E7DF942000E2BB8 /* TestBed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestBed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E960A841E7DF942000E2BB8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		1E960A861E7DF942000E2BB8 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -187,6 +193,10 @@
 				1E960A9B1E7DF9BB000E2BB8 /* DetailViewController.m */,
 				1E960A9C1E7DF9BB000E2BB8 /* MasterViewController.h */,
 				1E960A9D1E7DF9BB000E2BB8 /* MasterViewController.m */,
+				1E03A0331EC8BF4C00CA4247 /* UIButton+Switch.h */,
+				1E03A0341EC8BF4C00CA4247 /* UIButton+Switch.m */,
+				1E03A0301EC8BED200CA4247 /* UITextField+Numbers.h */,
+				1E03A0311EC8BED200CA4247 /* UITextField+Numbers.m */,
 				1E960A9E1E7DF9BB000E2BB8 /* StatsViewController.h */,
 				1E960A9F1E7DF9BC000E2BB8 /* StatsViewController.m */,
 				1E960AFB1E7F9C80000E2BB8 /* MSColorPicker */,
@@ -482,10 +492,12 @@
 				1E960AA81E7E0990000E2BB8 /* BEMGraphCalculator.m in Sources */,
 				1E960AA01E7DF9BC000E2BB8 /* ARFontPickerViewController.m in Sources */,
 				1E960B171E7F9C80000E2BB8 /* MSHSBView.m in Sources */,
+				1E03A0351EC8BF4C00CA4247 /* UIButton+Switch.m in Sources */,
 				1E960B121E7F9C80000E2BB8 /* MSColorComponentView.m in Sources */,
 				1E960A881E7DF942000E2BB8 /* AppDelegate.m in Sources */,
 				1E960AA31E7DF9BC000E2BB8 /* StatsViewController.m in Sources */,
 				1E960AA21E7DF9BC000E2BB8 /* MasterViewController.m in Sources */,
+				1E03A0321EC8BED200CA4247 /* UITextField+Numbers.m in Sources */,
 				1E960B141E7F9C80000E2BB8 /* MSColorSelectionViewController.m in Sources */,
 				1E960B161E7F9C80000E2BB8 /* MSColorWheelView.m in Sources */,
 				1E960A851E7DF942000E2BB8 /* main.m in Sources */,
