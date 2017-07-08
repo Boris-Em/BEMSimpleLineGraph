@@ -77,19 +77,19 @@ extern RGB MSHSB2RGB(HSB hsb)
     double t = hsb.brightness * (1 - (1 - f) * hsb.saturation);
 
     switch (i % 6) {
-        case 0: r = hsb.brightness, g = t, b = p; break;
+        case 0: r = hsb.brightness; g = t; b = p; break;
 
-        case 1: r = q, g = hsb.brightness, b = p; break;
+        case 1: r = q; g = hsb.brightness; b = p; break;
 
-        case 2: r = p, g = hsb.brightness, b = t; break;
+        case 2: r = p; g = hsb.brightness; b = t; break;
 
-        case 3: r = p, g = q, b = hsb.brightness; break;
+        case 3: r = p; g = q; b = hsb.brightness; break;
 
-        case 4: r = t, g = p, b = hsb.brightness; break;
+        case 4: r = t; g = p; b = hsb.brightness; break;
 
         case 5:
         default:
-            r = hsb.brightness, g = p, b = q; break;
+            r = hsb.brightness; g = p; b = q; break;
     }
 
     rgb.red = r;
