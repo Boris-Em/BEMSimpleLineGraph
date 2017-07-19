@@ -539,23 +539,20 @@ self.property = [coder decode ## type ##ForKey:@#property]; \
 
     [yAxisValues addObject:@(positionOnYAxis)];
 
+    CGRect dotFrame = CGRectMake(0, 0, self.sizePoint, self.sizePoint);
     BEMCircle *circleDot = nil;
     if (reuseNumber < self.circleDots.count) {
         circleDot = self.circleDots[reuseNumber];
-    }
-    if (dotValue >= BEMNullGraphValue) {
-        // If we're dealing with an null value, don't draw the dot (but put it in yAxis to interpolate line)
-        [circleDot removeFromSuperview];
-        return nil;
-    }
-
-    CGRect dotFrame = CGRectMake(0, 0, self.sizePoint, self.sizePoint);
-    if (circleDot) {
         circleDot.frame = dotFrame;
         [circleDot setNeedsDisplay];
     } else {
         circleDot = [[BEMCircle alloc] initWithFrame:dotFrame];
         [self.circleDots addObject:circleDot];
+    }
+    if (dotValue >= BEMNullGraphValue) {
+        // If we're dealing with an null value, don't draw the dot (but leave it in yAxis to interpolate line)
+        [circleDot removeFromSuperview];
+        return nil;
     }
 
     circleDot.center = CGPointMake(positionOnXAxis, positionOnYAxis);
@@ -1362,6 +1359,7 @@ self.property = [coder decode ## type ##ForKey:@#property]; \
     BEMCircle * closestDot = nil;
     CGFloat currentlyCloser = CGFLOAT_MAX;
     for (BEMCircle *point in self.circleDots) {
+        if (!point.superview) continue;
         if (self.alwaysDisplayDots == NO && self.displayDotsOnly == NO) {
             point.alpha = 0;
         }
