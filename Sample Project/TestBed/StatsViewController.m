@@ -17,6 +17,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+	// Do any additional setup after loading the view.
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(exit:)];
+}
+
+- (void)exit: (id) sender {
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -28,16 +34,6 @@
     self.maximumLabel.text = self.maximum;
     self.minimumLabel.text = self.minimum;
     self.snapshotImageView.image = self.snapshotImage;
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 0) return 8;
-    else return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -68,14 +64,6 @@
     } else if (indexPath.row == 5) {
         cell.textLabel.text = self.minimum;
         cell.detailTextLabel.text = @"Minimum Value";
-        return cell;
-    } else if (indexPath.row == 6) {
-        cell.textLabel.text = self.area;
-        cell.detailTextLabel.text = @"Graph Area";
-        return cell;
-    } else if (indexPath.row == 7) {
-        cell.textLabel.text = self.correlation;
-        cell.detailTextLabel.text = @"Correlation";
         return cell;
     } else if (indexPath.row == 0  && indexPath.section == 1) {
         cell.textLabel.text = @"Rendered Snapshot";

@@ -41,9 +41,12 @@
     };
     
     // Apply the gradient to the bottom portion of the graph
-    self.myGraph.gradientBottom =  CGGradientCreateWithColorComponents(colorspace, components, locations, num_locations);
+    CGGradientRef gradient =  CGGradientCreateWithColorComponents(colorspace, components, locations, num_locations);
+    self.myGraph.gradientBottom = gradient;
+
     CGColorSpaceRelease(colorspace);
-    // Note: clang analyzer will complain about leak of gradient, but we use assign on gradient properties to avoid leak
+    CGGradientRelease(gradient);
+
 
     // Enable and disable various graph properties and axis displays
     self.myGraph.enableTouchReport = YES;

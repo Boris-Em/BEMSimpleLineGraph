@@ -41,13 +41,13 @@
 // MARK: - 
 // MARK: Essential Calculations
 
-- (nonnull NSArray *)calculationDataPointsOnGraph:(nonnull BEMSimpleLineGraphView *)graph {
+- (nonnull NSArray <NSNumber *> *)calculationDataPointsOnGraph:(nonnull BEMSimpleLineGraphView *)graph {
     NSPredicate *filter = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
         NSNumber *value = (NSNumber *)evaluatedObject;
         BOOL retVal = ![value isEqualToNumber:@(BEMNullGraphValue)];
         return retVal;
     }];
-    NSArray *filteredArray = [[graph graphValuesForDataPoints] filteredArrayUsingPredicate:filter];
+    NSArray <NSNumber *> *filteredArray = [[graph graphValuesForDataPoints] filteredArrayUsingPredicate:filter];
     return filteredArray;
 }
 
@@ -55,7 +55,7 @@
 // MARK: Basic Statistics
 
 - (nonnull NSNumber *)calculatePointValueAverageOnGraph:(nonnull BEMSimpleLineGraphView *)graph {
-    NSArray *filteredArray = [self calculationDataPointsOnGraph:graph];
+    NSArray <NSNumber *> *filteredArray = [self calculationDataPointsOnGraph:graph];
     if (filteredArray.count == 0) return [NSNumber numberWithInt:0];
     
     NSExpression *expression = [NSExpression expressionForFunction:@"average:" arguments:@[[NSExpression expressionForConstantValue:filteredArray]]];
@@ -65,7 +65,7 @@
 }
 
 - (nonnull NSNumber *)calculatePointValueSumOnGraph:(nonnull BEMSimpleLineGraphView *)graph {
-    NSArray *filteredArray = [self calculationDataPointsOnGraph:graph];
+    NSArray <NSNumber *> *filteredArray = [self calculationDataPointsOnGraph:graph];
     if (filteredArray.count == 0) return [NSNumber numberWithInt:0];
     
     NSExpression *expression = [NSExpression expressionForFunction:@"sum:" arguments:@[[NSExpression expressionForConstantValue:filteredArray]]];
@@ -75,7 +75,7 @@
 }
 
 - (nonnull NSNumber *)calculatePointValueMedianOnGraph:(nonnull BEMSimpleLineGraphView *)graph {
-    NSArray *filteredArray = [self calculationDataPointsOnGraph:graph];
+    NSArray <NSNumber *> *filteredArray = [self calculationDataPointsOnGraph:graph];
     if (filteredArray.count == 0) return [NSNumber numberWithInt:0];
     
     NSExpression *expression = [NSExpression expressionForFunction:@"median:" arguments:@[[NSExpression expressionForConstantValue:filteredArray]]];
@@ -85,19 +85,19 @@
 }
 
 - (nonnull NSNumber *)calculatePointValueModeOnGraph:(nonnull BEMSimpleLineGraphView *)graph {
-    NSArray *filteredArray = [self calculationDataPointsOnGraph:graph];
+    NSArray <NSNumber *> *filteredArray = [self calculationDataPointsOnGraph:graph];
     if (filteredArray.count == 0) return [NSNumber numberWithInt:0];
     
     NSExpression *expression = [NSExpression expressionForFunction:@"mode:" arguments:@[[NSExpression expressionForConstantValue:filteredArray]]];
-    NSMutableArray *value = [expression expressionValueWithObject:nil context:nil];
-    NSNumber *numberValue = [value firstObject];
+    NSMutableArray <NSNumber *> *values = [expression expressionValueWithObject:nil context:nil];
+    NSNumber *numberValue = [values firstObject];
     
     if (numberValue) return numberValue;
     else return [NSNumber numberWithInt:0];
 }
 
 - (nonnull NSNumber *)calculateStandardDeviationOnGraph:(nonnull BEMSimpleLineGraphView *)graph {
-    NSArray *filteredArray = [self calculationDataPointsOnGraph:graph];
+    NSArray <NSNumber *> *filteredArray = [self calculationDataPointsOnGraph:graph];
     if (filteredArray.count == 0) return [NSNumber numberWithInt:0];
     
     NSExpression *expression = [NSExpression expressionForFunction:@"stddev:" arguments:@[[NSExpression expressionForConstantValue:filteredArray]]];
@@ -110,7 +110,7 @@
 // MARK: Minimum / Maximum
 
 - (nonnull NSNumber *)calculateMinimumPointValueOnGraph:(nonnull BEMSimpleLineGraphView *)graph {
-    NSArray *filteredArray = [self calculationDataPointsOnGraph:graph];
+    NSArray <NSNumber *> *filteredArray = [self calculationDataPointsOnGraph:graph];
     if (filteredArray.count == 0) return [NSNumber numberWithInt:0];
     
     NSExpression *expression = [NSExpression expressionForFunction:@"min:" arguments:@[[NSExpression expressionForConstantValue:filteredArray]]];
@@ -119,7 +119,7 @@
 }
 
 - (nonnull NSNumber *)calculateMaximumPointValueOnGraph:(nonnull BEMSimpleLineGraphView *)graph {
-    NSArray *filteredArray = [self calculationDataPointsOnGraph:graph];
+    NSArray <NSNumber *> *filteredArray = [self calculationDataPointsOnGraph:graph];
     if (filteredArray.count == 0) return [NSNumber numberWithInt:0];
     
     NSExpression *expression = [NSExpression expressionForFunction:@"max:" arguments:@[[NSExpression expressionForConstantValue:filteredArray]]];
@@ -132,7 +132,7 @@
 // MARK: Integration
 
 - (nonnull NSNumber *)calculateAreaUsingIntegrationMethod:(BEMIntegrationMethod)integrationMethod onGraph:(nonnull BEMSimpleLineGraphView *)graph xAxisScale:(nonnull NSNumber *)scale {
-    NSArray *fixedDataPoints = [self calculationDataPointsOnGraph:graph];
+    NSArray <NSNumber *> *fixedDataPoints = [self calculationDataPointsOnGraph:graph];
     if (integrationMethod == BEMIntegrationMethodLeftReimannSum) return [self integrateUsingLeftReimannSum:fixedDataPoints xAxisScale:scale];
     else if (integrationMethod == BEMIntegrationMethodRightReimannSum) return [self integrateUsingRightReimannSum:fixedDataPoints xAxisScale:scale];
     else if (integrationMethod == BEMIntegrationMethodTrapezoidalSum) return [self integrateUsingTrapezoidalSum:fixedDataPoints xAxisScale:scale];
@@ -140,10 +140,10 @@
     else return [NSNumber numberWithInt:0];
 }
 
-- (NSNumber *)integrateUsingLeftReimannSum:(nonnull NSArray *)graphPoints xAxisScale:(nonnull NSNumber *)scale {
+- (NSNumber *)integrateUsingLeftReimannSum:(nonnull NSArray <NSNumber *> *)graphPoints xAxisScale:(nonnull NSNumber *)scale {
     NSNumber *totalArea = [NSNumber numberWithInt:0];
     
-    NSMutableArray *leftSumPoints = graphPoints.mutableCopy;
+    NSMutableArray <NSNumber *> *leftSumPoints = graphPoints.mutableCopy;
     [leftSumPoints removeLastObject];
     
     for (NSNumber *yValue in leftSumPoints) {
@@ -154,10 +154,10 @@
     return totalArea;
 }
 
-- (NSNumber *)integrateUsingRightReimannSum:(nonnull NSArray *)graphPoints xAxisScale:(nonnull NSNumber *)scale {
+- (NSNumber *)integrateUsingRightReimannSum:(nonnull NSArray <NSNumber *> *)graphPoints xAxisScale:(nonnull NSNumber *)scale {
     NSNumber *totalArea = [NSNumber numberWithInt:0];
     
-    NSMutableArray *rightSumPoints = graphPoints.mutableCopy;
+    NSMutableArray <NSNumber *> *rightSumPoints = graphPoints.mutableCopy;
     [rightSumPoints removeObjectAtIndex:0];
     
     for (NSNumber *yValue in rightSumPoints) {
@@ -168,16 +168,16 @@
     return totalArea;
 }
 
-- (NSNumber *)integrateUsingTrapezoidalSum:(nonnull NSArray *)graphPoints xAxisScale:(nonnull NSNumber *)scale {
+- (NSNumber *)integrateUsingTrapezoidalSum:(nonnull NSArray <NSNumber *> *)graphPoints xAxisScale:(nonnull NSNumber *)scale {
     NSNumber *left = [self integrateUsingLeftReimannSum:graphPoints xAxisScale:scale];
     NSNumber *right = [self integrateUsingRightReimannSum:graphPoints xAxisScale:scale];
     NSNumber *trapezoidal = [NSNumber numberWithFloat:(left.floatValue+right.floatValue)/2];
     return trapezoidal;
 }
 
-- (NSNumber *)integrateUsingParabolicSimpsonSum:(nonnull NSArray *)points xAxisScale:(nonnull NSNumber *)scale {
+- (NSNumber *)integrateUsingParabolicSimpsonSum:(nonnull NSArray <NSNumber *> *)points xAxisScale:(nonnull NSNumber *)scale {
     // Get all the points from the graph into a mutable array
-    NSMutableArray *graphPoints = points.mutableCopy;
+    NSMutableArray <NSNumber *> *graphPoints = points.mutableCopy;
     
     // If there are two or fewer points on the graph, no parabolic curve can be created. Thus, the next most accurate method will be employed: a trapezoidal summation
     if (graphPoints.count <= 2) return [self integrateUsingTrapezoidalSum:points xAxisScale:scale];
@@ -233,8 +233,8 @@
 - (NSNumber *)calculateCorrelationCoefficientUsingCorrelationMethod:(BEMCorrelationMethod)correlationMethod onGraph:(BEMSimpleLineGraphView *)graph xAxisScale:(nonnull NSNumber *)scale {
     // Grab the x and y points
     // Because a BEMSimpleLineGraph object simply increments X-Values, we must calculate the values here
-    NSArray *yPoints = [self calculationDataPointsOnGraph:graph];
-    NSMutableArray *xPoints = [NSMutableArray arrayWithCapacity:yPoints.count];
+    NSArray <NSNumber *> *yPoints = [self calculationDataPointsOnGraph:graph];
+    NSMutableArray <NSNumber *> *xPoints = [NSMutableArray arrayWithCapacity:yPoints.count];
     if (scale == nil || scale.floatValue == 0.0) {
         for (NSUInteger i = 1; i <= yPoints.count; i++) {
             [xPoints addObject:[NSNumber numberWithInteger:i]];

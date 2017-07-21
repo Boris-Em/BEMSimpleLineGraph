@@ -33,7 +33,7 @@
 
 - (void)setUp {
     [super setUp];
-    
+
     self.lineGraph = [[BEMSimpleLineGraphView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
     self.lineGraph.delegate = self;
     self.lineGraph.dataSource = self;
@@ -71,10 +71,10 @@
 
 - (void)testGraphValuesForXAxis {
     [self.lineGraph reloadGraph];
-    
-    NSArray *xAxisStrings = [self.lineGraph graphValuesForXAxis];
+
+    NSArray <NSString *> *xAxisStrings = [self.lineGraph graphValuesForXAxis];
     XCTAssert(xAxisStrings.count == numberOfPoints, @"The number of strings on the X-Axis should be equal to the number returned by the data source method 'numberOfPointsInLineGraph:'");
-    
+
     for (NSString *xAxisString in xAxisStrings) {
         XCTAssert([xAxisString isKindOfClass:[NSString class]], @"The array returned by 'graphValuesForXAxis' should only return NSStrings");
         XCTAssert([xAxisString isEqualToString:xAxisLabelString], @"The X-Axis strings should be the same as the one returned by the data source method 'labelOnXAxisForIndex:'");
@@ -83,11 +83,11 @@
 
 - (void)testGraphValuesForDataPoints {
     [self.lineGraph reloadGraph];
-    
-    NSArray *values = [self.lineGraph graphValuesForDataPoints];
+
+    NSArray <NSNumber *> *values = [self.lineGraph graphValuesForDataPoints];
     XCTAssert(values.count == numberOfPoints, @"The number of data points should be equal to the number returned by the data source method 'numberOfPointsInLineGraph:'");
-    
-    NSMutableArray *mockedValues = [NSMutableArray new];
+
+    NSMutableArray <NSNumber *> *mockedValues = [NSMutableArray new];
     for (NSUInteger i = 0; i < numberOfPoints; i++) {
         [mockedValues addObject:[NSNumber numberWithFloat:pointValue]];
     }
@@ -97,15 +97,14 @@
 - (void)testDrawnPoints {
     self.lineGraph.animationGraphEntranceTime = 0.0;
     [self.lineGraph reloadGraph];
-    
-    NSMutableArray *dots = self.lineGraph.circleDots;
+
+    NSMutableArray <BEMCircle *> *dots = self.lineGraph.circleDots;
 
     XCTAssert(dots.count == numberOfPoints, @"There should be as many BEMCircle views in the graph's subviews as the data source method 'numberOfPointsInLineGraph:' returns");
-    
+
     for (BEMCircle *dot in dots) {
         XCTAssert(dot.bounds.size.width == 10.0, @"Dots are expected to have a default width of 10.0");
         XCTAssert(dot.bounds.size.height == 10.0, @"Dots are expected to have a default height of 10.0");
-        XCTAssert([dot.color isEqual:[UIColor colorWithWhite:1.0f alpha:0.7f]], @"Dots are expected to be white at alpha 0.7 by default");
         XCTAssert(dot.absoluteValue == pointValue, @"Dots are expected to have a value equal to the value returned by the data source method 'valueForPointAtIndex:'");
         XCTAssert(dot.alpha == 0.0, @"Dots are expected to not be displayed by default (alpha of 0)");
         XCTAssert([dot.backgroundColor isEqual:[UIColor clearColor]], @"Dots are expected to have a clearColor background color by default");
@@ -115,15 +114,15 @@
 - (void)testGraphLabelsForXAxis {
     self.lineGraph.enableXAxisLabel = NO;
     [self.lineGraph reloadGraph];
-    
+
     XCTAssert([self.lineGraph graphLabelsForXAxis].count == 0, @"Should be no labels on XAxis");
-    
+
     self.lineGraph.enableXAxisLabel = YES;
     [self.lineGraph reloadGraph];
-    
-    NSArray *labels = [self.lineGraph graphLabelsForXAxis];
+
+    NSArray <UILabel *> *labels = [self.lineGraph graphLabelsForXAxis];
     XCTAssert(labels.count == numberOfPoints, @"The number of X-Axis labels should be the same as the number of points on the graph");
-    
+
     for (UILabel *XAxisLabel in labels) {
         XCTAssert([XAxisLabel isMemberOfClass:[UILabel class]], @"The array returned by 'graphLabelsForXAxis' should only return UILabels");
         XCTAssert([XAxisLabel.text isEqualToString:xAxisLabelString], @"The X-Axis label's strings should be the same as the one returned by the data source method 'labelOnXAxisForIndex:'");
@@ -142,9 +141,9 @@
 
     self.lineGraph.enableYAxisLabel = YES;
     [self.lineGraph reloadGraph];
-    
+
     NSString *value = [NSString stringWithFormat:@"%.f", pointValue];
-    NSMutableArray * yAxisLabels = [NSMutableArray array];
+    NSMutableArray <UILabel *> * yAxisLabels = [NSMutableArray array];
     for (UILabel *label in [self.lineGraph graphLabelsForYAxis]) {
         if (label.superview) {
             [yAxisLabels addObject:label];
@@ -153,7 +152,7 @@
         XCTAssert([label.textColor isEqual:[UIColor blackColor]], @"The Y-Axis label is expected to have a text color of black by default");
         XCTAssert([label.backgroundColor isEqual:[UIColor clearColor]], @"The Y-Axis label is expected to have a background color of clear by default");
     }
-    
+
     XCTAssert(yAxisLabels.count == 1, @"With all the dots having the same value, we only expect one Y axis label");
 }
 

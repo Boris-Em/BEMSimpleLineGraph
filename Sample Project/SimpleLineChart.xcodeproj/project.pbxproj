@@ -7,6 +7,32 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1E03A0321EC8BED200CA4247 /* UITextField+Numbers.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E03A0311EC8BED200CA4247 /* UITextField+Numbers.m */; };
+		1E03A0351EC8BF4C00CA4247 /* UIButton+Switch.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E03A0341EC8BF4C00CA4247 /* UIButton+Switch.m */; };
+		1E960A851E7DF942000E2BB8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E960A841E7DF942000E2BB8 /* main.m */; };
+		1E960A881E7DF942000E2BB8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E960A871E7DF942000E2BB8 /* AppDelegate.m */; };
+		1E960A8E1E7DF942000E2BB8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E960A8C1E7DF942000E2BB8 /* Main.storyboard */; };
+		1E960A901E7DF942000E2BB8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1E960A8F1E7DF942000E2BB8 /* Assets.xcassets */; };
+		1E960A931E7DF942000E2BB8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E960A911E7DF942000E2BB8 /* LaunchScreen.storyboard */; };
+		1E960AA01E7DF9BC000E2BB8 /* ARFontPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E960A991E7DF9BB000E2BB8 /* ARFontPickerViewController.m */; };
+		1E960AA11E7DF9BC000E2BB8 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E960A9B1E7DF9BB000E2BB8 /* DetailViewController.m */; };
+		1E960AA21E7DF9BC000E2BB8 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E960A9D1E7DF9BB000E2BB8 /* MasterViewController.m */; };
+		1E960AA31E7DF9BC000E2BB8 /* StatsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E960A9F1E7DF9BC000E2BB8 /* StatsViewController.m */; };
+		1E960AA41E7E094D000E2BB8 /* BEMSimpleLineGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = C3B90A5D187D15F7003E407D /* BEMSimpleLineGraphView.m */; };
+		1E960AA51E7E097C000E2BB8 /* BEMCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = C3B90A59187D15F7003E407D /* BEMCircle.m */; };
+		1E960AA61E7E097C000E2BB8 /* BEMLine.m in Sources */ = {isa = PBXBuildFile; fileRef = C3B90A5B187D15F7003E407D /* BEMLine.m */; };
+		1E960AA71E7E097C000E2BB8 /* BEMAverageLine.m in Sources */ = {isa = PBXBuildFile; fileRef = A63990B41AD4923900B14D88 /* BEMAverageLine.m */; };
+		1E960AA81E7E0990000E2BB8 /* BEMGraphCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = A6AC895A1C5882DD0052AB1C /* BEMGraphCalculator.m */; };
+		1E960B121E7F9C80000E2BB8 /* MSColorComponentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E960AFD1E7F9C80000E2BB8 /* MSColorComponentView.m */; };
+		1E960B131E7F9C80000E2BB8 /* MSColorSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E960B001E7F9C80000E2BB8 /* MSColorSelectionView.m */; };
+		1E960B141E7F9C80000E2BB8 /* MSColorSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E960B021E7F9C80000E2BB8 /* MSColorSelectionViewController.m */; };
+		1E960B151E7F9C80000E2BB8 /* MSColorUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E960B041E7F9C80000E2BB8 /* MSColorUtils.m */; };
+		1E960B161E7F9C80000E2BB8 /* MSColorWheelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E960B071E7F9C80000E2BB8 /* MSColorWheelView.m */; };
+		1E960B171E7F9C80000E2BB8 /* MSHSBView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E960B091E7F9C80000E2BB8 /* MSHSBView.m */; };
+		1E960B181E7F9C80000E2BB8 /* MSRGBView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E960B0B1E7F9C80000E2BB8 /* MSRGBView.m */; };
+		1E960B191E7F9C80000E2BB8 /* MSSliderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E960B0D1E7F9C80000E2BB8 /* MSSliderView.m */; };
+		1E960B1A1E7F9C80000E2BB8 /* MSThumbView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E960B0F1E7F9C80000E2BB8 /* MSThumbView.m */; };
+		1E960B1B1E7F9C80000E2BB8 /* UIControl+HitTestEdgeInsets.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E960B111E7F9C80000E2BB8 /* UIControl+HitTestEdgeInsets.m */; };
 		99B15643187B412400B24591 /* StatsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 99B15642187B412400B24591 /* StatsViewController.m */; };
 		99B3FA3A1877898B00539A7B /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 99B3FA381877898B00539A7B /* LICENSE */; };
 		99B3FA3B1877898B00539A7B /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 99B3FA391877898B00539A7B /* README.md */; };
@@ -44,12 +70,54 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1E03A0301EC8BED200CA4247 /* UITextField+Numbers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextField+Numbers.h"; sourceTree = "<group>"; };
+		1E03A0311EC8BED200CA4247 /* UITextField+Numbers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextField+Numbers.m"; sourceTree = "<group>"; };
+		1E03A0331EC8BF4C00CA4247 /* UIButton+Switch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Switch.h"; sourceTree = "<group>"; };
+		1E03A0341EC8BF4C00CA4247 /* UIButton+Switch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Switch.m"; sourceTree = "<group>"; };
+		1E960A811E7DF942000E2BB8 /* TestBed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestBed.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1E960A841E7DF942000E2BB8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		1E960A861E7DF942000E2BB8 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		1E960A871E7DF942000E2BB8 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		1E960A8D1E7DF942000E2BB8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		1E960A8F1E7DF942000E2BB8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1E960A921E7DF942000E2BB8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		1E960A941E7DF942000E2BB8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1E960A981E7DF9BB000E2BB8 /* ARFontPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARFontPickerViewController.h; sourceTree = "<group>"; };
+		1E960A991E7DF9BB000E2BB8 /* ARFontPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARFontPickerViewController.m; sourceTree = "<group>"; };
+		1E960A9A1E7DF9BB000E2BB8 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
+		1E960A9B1E7DF9BB000E2BB8 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = DetailViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		1E960A9C1E7DF9BB000E2BB8 /* MasterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
+		1E960A9D1E7DF9BB000E2BB8 /* MasterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MasterViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		1E960A9E1E7DF9BB000E2BB8 /* StatsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatsViewController.h; sourceTree = "<group>"; };
+		1E960A9F1E7DF9BC000E2BB8 /* StatsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = StatsViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		1E960AFC1E7F9C80000E2BB8 /* MSColorComponentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSColorComponentView.h; sourceTree = "<group>"; };
+		1E960AFD1E7F9C80000E2BB8 /* MSColorComponentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSColorComponentView.m; sourceTree = "<group>"; };
+		1E960AFE1E7F9C80000E2BB8 /* MSColorPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSColorPicker.h; sourceTree = "<group>"; };
+		1E960AFF1E7F9C80000E2BB8 /* MSColorSelectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSColorSelectionView.h; sourceTree = "<group>"; };
+		1E960B001E7F9C80000E2BB8 /* MSColorSelectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSColorSelectionView.m; sourceTree = "<group>"; };
+		1E960B011E7F9C80000E2BB8 /* MSColorSelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSColorSelectionViewController.h; sourceTree = "<group>"; };
+		1E960B021E7F9C80000E2BB8 /* MSColorSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSColorSelectionViewController.m; sourceTree = "<group>"; };
+		1E960B031E7F9C80000E2BB8 /* MSColorUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSColorUtils.h; sourceTree = "<group>"; };
+		1E960B041E7F9C80000E2BB8 /* MSColorUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSColorUtils.m; sourceTree = "<group>"; };
+		1E960B051E7F9C80000E2BB8 /* MSColorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSColorView.h; sourceTree = "<group>"; };
+		1E960B061E7F9C80000E2BB8 /* MSColorWheelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSColorWheelView.h; sourceTree = "<group>"; };
+		1E960B071E7F9C80000E2BB8 /* MSColorWheelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSColorWheelView.m; sourceTree = "<group>"; };
+		1E960B081E7F9C80000E2BB8 /* MSHSBView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSHSBView.h; sourceTree = "<group>"; };
+		1E960B091E7F9C80000E2BB8 /* MSHSBView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSHSBView.m; sourceTree = "<group>"; };
+		1E960B0A1E7F9C80000E2BB8 /* MSRGBView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSRGBView.h; sourceTree = "<group>"; };
+		1E960B0B1E7F9C80000E2BB8 /* MSRGBView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSRGBView.m; sourceTree = "<group>"; };
+		1E960B0C1E7F9C80000E2BB8 /* MSSliderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSSliderView.h; sourceTree = "<group>"; };
+		1E960B0D1E7F9C80000E2BB8 /* MSSliderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSSliderView.m; sourceTree = "<group>"; };
+		1E960B0E1E7F9C80000E2BB8 /* MSThumbView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSThumbView.h; sourceTree = "<group>"; };
+		1E960B0F1E7F9C80000E2BB8 /* MSThumbView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSThumbView.m; sourceTree = "<group>"; };
+		1E960B101E7F9C80000E2BB8 /* UIControl+HitTestEdgeInsets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIControl+HitTestEdgeInsets.h"; sourceTree = "<group>"; };
+		1E960B111E7F9C80000E2BB8 /* UIControl+HitTestEdgeInsets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIControl+HitTestEdgeInsets.m"; sourceTree = "<group>"; };
 		99B15641187B412400B24591 /* StatsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatsViewController.h; sourceTree = "<group>"; };
 		99B15642187B412400B24591 /* StatsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatsViewController.m; sourceTree = "<group>"; };
 		99B3FA381877898B00539A7B /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		99B3FA391877898B00539A7B /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		A63990B31AD4923900B14D88 /* BEMAverageLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEMAverageLine.h; sourceTree = "<group>"; };
-		A63990B41AD4923900B14D88 /* BEMAverageLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEMAverageLine.m; sourceTree = "<group>"; };
+		A63990B41AD4923900B14D88 /* BEMAverageLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = BEMAverageLine.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		A64594511BAB257B00D6B8FD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "Base.lproj/Launch Screen.storyboard"; sourceTree = "<group>"; };
 		A6AC89591C5882DD0052AB1C /* BEMGraphCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEMGraphCalculator.h; sourceTree = "<group>"; };
 		A6AC895A1C5882DD0052AB1C /* BEMGraphCalculator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEMGraphCalculator.m; sourceTree = "<group>"; };
@@ -58,7 +126,7 @@
 		C3B90A5A187D15F7003E407D /* BEMLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEMLine.h; sourceTree = "<group>"; };
 		C3B90A5B187D15F7003E407D /* BEMLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEMLine.m; sourceTree = "<group>"; };
 		C3B90A5C187D15F7003E407D /* BEMSimpleLineGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEMSimpleLineGraphView.h; sourceTree = "<group>"; };
-		C3B90A5D187D15F7003E407D /* BEMSimpleLineGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEMSimpleLineGraphView.m; sourceTree = "<group>"; };
+		C3B90A5D187D15F7003E407D /* BEMSimpleLineGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = BEMSimpleLineGraphView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		C3BCA7E61B8ECCA6007E6090 /* CustomizationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomizationTests.m; sourceTree = "<group>"; };
 		C3BCA7E81B8ECE4E007E6090 /* contantsTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = contantsTests.h; sourceTree = "<group>"; };
 		C3FD8155186DFD9A00FD8ED3 /* SimpleLineChart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimpleLineChart.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -83,6 +151,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		1E960A7E1E7DF942000E2BB8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C3FD8152186DFD9A00FD8ED3 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -106,6 +181,70 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1E960A821E7DF942000E2BB8 /* TestBed */ = {
+			isa = PBXGroup;
+			children = (
+				1E960A861E7DF942000E2BB8 /* AppDelegate.h */,
+				1E960A871E7DF942000E2BB8 /* AppDelegate.m */,
+				1E960A8C1E7DF942000E2BB8 /* Main.storyboard */,
+				1E960A981E7DF9BB000E2BB8 /* ARFontPickerViewController.h */,
+				1E960A991E7DF9BB000E2BB8 /* ARFontPickerViewController.m */,
+				1E960A9A1E7DF9BB000E2BB8 /* DetailViewController.h */,
+				1E960A9B1E7DF9BB000E2BB8 /* DetailViewController.m */,
+				1E960A9C1E7DF9BB000E2BB8 /* MasterViewController.h */,
+				1E960A9D1E7DF9BB000E2BB8 /* MasterViewController.m */,
+				1E03A0331EC8BF4C00CA4247 /* UIButton+Switch.h */,
+				1E03A0341EC8BF4C00CA4247 /* UIButton+Switch.m */,
+				1E03A0301EC8BED200CA4247 /* UITextField+Numbers.h */,
+				1E03A0311EC8BED200CA4247 /* UITextField+Numbers.m */,
+				1E960A9E1E7DF9BB000E2BB8 /* StatsViewController.h */,
+				1E960A9F1E7DF9BC000E2BB8 /* StatsViewController.m */,
+				1E960AFB1E7F9C80000E2BB8 /* MSColorPicker */,
+				1E960A8F1E7DF942000E2BB8 /* Assets.xcassets */,
+				1E960A831E7DF942000E2BB8 /* Supporting Files */,
+			);
+			path = TestBed;
+			sourceTree = "<group>";
+		};
+		1E960A831E7DF942000E2BB8 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				1E960A941E7DF942000E2BB8 /* Info.plist */,
+				1E960A911E7DF942000E2BB8 /* LaunchScreen.storyboard */,
+				1E960A841E7DF942000E2BB8 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		1E960AFB1E7F9C80000E2BB8 /* MSColorPicker */ = {
+			isa = PBXGroup;
+			children = (
+				1E960AFC1E7F9C80000E2BB8 /* MSColorComponentView.h */,
+				1E960AFD1E7F9C80000E2BB8 /* MSColorComponentView.m */,
+				1E960AFE1E7F9C80000E2BB8 /* MSColorPicker.h */,
+				1E960AFF1E7F9C80000E2BB8 /* MSColorSelectionView.h */,
+				1E960B001E7F9C80000E2BB8 /* MSColorSelectionView.m */,
+				1E960B011E7F9C80000E2BB8 /* MSColorSelectionViewController.h */,
+				1E960B021E7F9C80000E2BB8 /* MSColorSelectionViewController.m */,
+				1E960B031E7F9C80000E2BB8 /* MSColorUtils.h */,
+				1E960B041E7F9C80000E2BB8 /* MSColorUtils.m */,
+				1E960B051E7F9C80000E2BB8 /* MSColorView.h */,
+				1E960B061E7F9C80000E2BB8 /* MSColorWheelView.h */,
+				1E960B071E7F9C80000E2BB8 /* MSColorWheelView.m */,
+				1E960B081E7F9C80000E2BB8 /* MSHSBView.h */,
+				1E960B091E7F9C80000E2BB8 /* MSHSBView.m */,
+				1E960B0A1E7F9C80000E2BB8 /* MSRGBView.h */,
+				1E960B0B1E7F9C80000E2BB8 /* MSRGBView.m */,
+				1E960B0C1E7F9C80000E2BB8 /* MSSliderView.h */,
+				1E960B0D1E7F9C80000E2BB8 /* MSSliderView.m */,
+				1E960B0E1E7F9C80000E2BB8 /* MSThumbView.h */,
+				1E960B0F1E7F9C80000E2BB8 /* MSThumbView.m */,
+				1E960B101E7F9C80000E2BB8 /* UIControl+HitTestEdgeInsets.h */,
+				1E960B111E7F9C80000E2BB8 /* UIControl+HitTestEdgeInsets.m */,
+			);
+			path = MSColorPicker;
+			sourceTree = "<group>";
+		};
 		C3B90A55187D15F7003E407D /* Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -115,8 +254,8 @@
 				C3B90A59187D15F7003E407D /* BEMCircle.m */,
 				C3B90A5A187D15F7003E407D /* BEMLine.h */,
 				C3B90A5B187D15F7003E407D /* BEMLine.m */,
-				A63990B31AD4923900B14D88 /* BEMAverageLine.h */,
 				A63990B41AD4923900B14D88 /* BEMAverageLine.m */,
+				A63990B31AD4923900B14D88 /* BEMAverageLine.h */,
 				A6AC89591C5882DD0052AB1C /* BEMGraphCalculator.h */,
 				A6AC895A1C5882DD0052AB1C /* BEMGraphCalculator.m */,
 			);
@@ -132,6 +271,7 @@
 				C3B90A55187D15F7003E407D /* Classes */,
 				C3FD815E186DFD9A00FD8ED3 /* SimpleLineChart */,
 				C3FD817D186DFD9A00FD8ED3 /* SimpleLineChartTests */,
+				1E960A821E7DF942000E2BB8 /* TestBed */,
 				C3FD8157186DFD9A00FD8ED3 /* Frameworks */,
 				C3FD8156186DFD9A00FD8ED3 /* Products */,
 			);
@@ -142,6 +282,7 @@
 			children = (
 				C3FD8155186DFD9A00FD8ED3 /* SimpleLineChart.app */,
 				C3FD8176186DFD9A00FD8ED3 /* SimpleLineChartTests.xctest */,
+				1E960A811E7DF942000E2BB8 /* TestBed.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -208,6 +349,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		1E960A801E7DF942000E2BB8 /* TestBed */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1E960A971E7DF942000E2BB8 /* Build configuration list for PBXNativeTarget "TestBed" */;
+			buildPhases = (
+				1E960A7D1E7DF942000E2BB8 /* Sources */,
+				1E960A7E1E7DF942000E2BB8 /* Frameworks */,
+				1E960A7F1E7DF942000E2BB8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TestBed;
+			productName = TestBed;
+			productReference = 1E960A811E7DF942000E2BB8 /* TestBed.app */;
+			productType = "com.apple.product-type.application";
+		};
 		C3FD8154186DFD9A00FD8ED3 /* SimpleLineChart */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C3FD8187186DFD9A00FD8ED3 /* Build configuration list for PBXNativeTarget "SimpleLineChart" */;
@@ -252,6 +410,14 @@
 				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Boris Emorine";
 				TargetAttributes = {
+					1E960A801E7DF942000E2BB8 = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = E8XXXD4S77;
+						ProvisioningStyle = Automatic;
+					};
+					C3FD8154186DFD9A00FD8ED3 = {
+						DevelopmentTeam = E8XXXD4S77;
+					};
 					C3FD8175186DFD9A00FD8ED3 = {
 						TestTargetID = C3FD8154186DFD9A00FD8ED3;
 					};
@@ -272,11 +438,22 @@
 			targets = (
 				C3FD8154186DFD9A00FD8ED3 /* SimpleLineChart */,
 				C3FD8175186DFD9A00FD8ED3 /* SimpleLineChartTests */,
+				1E960A801E7DF942000E2BB8 /* TestBed */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		1E960A7F1E7DF942000E2BB8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1E960A931E7DF942000E2BB8 /* LaunchScreen.storyboard in Resources */,
+				1E960A901E7DF942000E2BB8 /* Assets.xcassets in Resources */,
+				1E960A8E1E7DF942000E2BB8 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C3FD8153186DFD9A00FD8ED3 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -301,6 +478,36 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		1E960A7D1E7DF942000E2BB8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1E960B181E7F9C80000E2BB8 /* MSRGBView.m in Sources */,
+				1E960AA41E7E094D000E2BB8 /* BEMSimpleLineGraphView.m in Sources */,
+				1E960AA51E7E097C000E2BB8 /* BEMCircle.m in Sources */,
+				1E960B1A1E7F9C80000E2BB8 /* MSThumbView.m in Sources */,
+				1E960B151E7F9C80000E2BB8 /* MSColorUtils.m in Sources */,
+				1E960AA61E7E097C000E2BB8 /* BEMLine.m in Sources */,
+				1E960AA71E7E097C000E2BB8 /* BEMAverageLine.m in Sources */,
+				1E960AA81E7E0990000E2BB8 /* BEMGraphCalculator.m in Sources */,
+				1E960AA01E7DF9BC000E2BB8 /* ARFontPickerViewController.m in Sources */,
+				1E960B171E7F9C80000E2BB8 /* MSHSBView.m in Sources */,
+				1E03A0351EC8BF4C00CA4247 /* UIButton+Switch.m in Sources */,
+				1E960B121E7F9C80000E2BB8 /* MSColorComponentView.m in Sources */,
+				1E960A881E7DF942000E2BB8 /* AppDelegate.m in Sources */,
+				1E960AA31E7DF9BC000E2BB8 /* StatsViewController.m in Sources */,
+				1E960AA21E7DF9BC000E2BB8 /* MasterViewController.m in Sources */,
+				1E03A0321EC8BED200CA4247 /* UITextField+Numbers.m in Sources */,
+				1E960B141E7F9C80000E2BB8 /* MSColorSelectionViewController.m in Sources */,
+				1E960B161E7F9C80000E2BB8 /* MSColorWheelView.m in Sources */,
+				1E960A851E7DF942000E2BB8 /* main.m in Sources */,
+				1E960AA11E7DF9BC000E2BB8 /* DetailViewController.m in Sources */,
+				1E960B131E7F9C80000E2BB8 /* MSColorSelectionView.m in Sources */,
+				1E960B1B1E7F9C80000E2BB8 /* UIControl+HitTestEdgeInsets.m in Sources */,
+				1E960B191E7F9C80000E2BB8 /* MSSliderView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C3FD8151186DFD9A00FD8ED3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -337,6 +544,22 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		1E960A8C1E7DF942000E2BB8 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1E960A8D1E7DF942000E2BB8 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		1E960A911E7DF942000E2BB8 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1E960A921E7DF942000E2BB8 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
 		A64594501BAB257B00D6B8FD /* Launch Screen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -372,6 +595,45 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		1E960A951E7DF942000E2BB8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = E8XXXD4S77;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = TestBed/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = BorisEmorine.TestBed;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		1E960A961E7DF942000E2BB8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = E8XXXD4S77;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = TestBed/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = BorisEmorine.TestBed;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		C3FD8185186DFD9A00FD8ED3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -420,6 +682,11 @@
 					"-Wno-unused-parameter",
 					"-Wno-objc-missing-property-synthesis",
 					"-Wpartial-availability",
+					"-Wno-double-promotion",
+					"-Wno-direct-ivar-access",
+					"-Wno-gnu-conditional-omitted-operand",
+					"-Wno-gnu-statement-expression",
+					"-Wno-auto-import",
 				);
 			};
 			name = Debug;
@@ -466,6 +733,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				DEVELOPMENT_TEAM = E8XXXD4S77;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SimpleLineChart/SimpleLineChart-Prefix.pch";
 				INFOPLIST_FILE = "SimpleLineChart/SimpleLineChart-Info.plist";
@@ -492,6 +760,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				DEVELOPMENT_TEAM = E8XXXD4S77;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SimpleLineChart/SimpleLineChart-Prefix.pch";
 				INFOPLIST_FILE = "SimpleLineChart/SimpleLineChart-Info.plist";
@@ -560,6 +829,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		1E960A971E7DF942000E2BB8 /* Build configuration list for PBXNativeTarget "TestBed" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1E960A951E7DF942000E2BB8 /* Debug */,
+				1E960A961E7DF942000E2BB8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		C3FD8150186DFD9A00FD8ED3 /* Build configuration list for PBXProject "SimpleLineChart" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

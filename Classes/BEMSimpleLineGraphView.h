@@ -240,7 +240,7 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
 
 
 /// Fill gradient of the bottom part of the graph (between the line and the X-axis). When set, it will draw a gradient over top of the fill provided by the \p colorBottom and \p alphaBottom properties.
-@property (assign, nonatomic, nullable) CGGradientRef gradientBottom;
+@property (strong, nonatomic, nullable) __attribute__((NSObject)) CGGradientRef gradientBottom;
 
 
 /// Color of the top part of the graph (between the line and the top of the view the graph is drawn in).
@@ -252,7 +252,7 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
 
 
 /// Fill gradient of the top part of the graph (between the line and the top of the view the graph is drawn in). When set, it will draw a gradient over top of the fill provided by the \p colorTop and \p alphaTop properties.
-@property (assign, nonatomic, nullable) CGGradientRef gradientTop;
+@property (strong, nonatomic, nullable) __attribute__((NSObject)) CGGradientRef gradientTop;
 
 
 /// Color of the line of the graph.
@@ -260,7 +260,7 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
 
 
 /// Fill gradient of the line of the graph, which will be scaled to the length of the graph. Overrides the line color provided by \p colorLine
-@property (assign, nonatomic) CGGradientRef gradientLine;
+@property (strong, nonatomic, nullable) __attribute__((NSObject)) CGGradientRef gradientLine;
 
 
 /// The drawing direction of the line gradient color, which defaults to horizontal
@@ -336,11 +336,11 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
 
 
 /// A line dash patter to be applied to X axis reference lines.  This allows you to draw a dotted or hashed line
-@property (nonatomic, strong) NSArray *lineDashPatternForReferenceXAxisLines;
+@property (nonatomic, strong) NSArray <NSNumber *> *lineDashPatternForReferenceXAxisLines;
 
 
 /// A line dash patter to be applied to Y axis reference lines.  This allows you to draw a dotted or hashed line
-@property (nonatomic, strong) NSArray *lineDashPatternForReferenceYAxisLines;
+@property (nonatomic, strong) NSArray <NSNumber *> *lineDashPatternForReferenceYAxisLines;
 
 
 /// Color to be used for the no data label on the chart
@@ -473,7 +473,7 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
  @param graph The graph object requesting the total number of points.
  @param index The index from left to right of the points on the graph. The first value for the index is 0.
  @return Return YES if you want the popup label to be displayed for this index. */
-- (BOOL)lineGraph:(BEMSimpleLineGraphView *)graph alwaysDisplayPopUpAtIndex:(CGFloat)index;
+- (BOOL)lineGraph:(BEMSimpleLineGraphView *)graph alwaysDisplayPopUpAtIndex:(NSUInteger)index;
 
 
 /** Optional method to set the maximum value of the Y-Axis. If not implemented, the maximum value will be the biggest point of the graph.
@@ -486,6 +486,12 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
  @param graph The graph object requesting the minimum value.
  @return The minimum value of the Y-Axis. */
 - (CGFloat)minValueForLineGraph:(BEMSimpleLineGraphView *)graph;
+
+
+/** Optional method to set the average value for the Average line. If not implemented, the value will be the average point of the graph.
+ @param graph The graph object requesting the average value.
+ @return The average value of the Y-Axis. */
+- (CGFloat)averageValueForLineGraph:(BEMSimpleLineGraphView *)graph;
 
 
 /** Optional method to control whether a label indicating NO DATA will be shown while number of data is zero
@@ -516,7 +522,7 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
  @param graph The graph object requesting the padding value.
  @param popupView The popup view owned by the graph that needs to be modified
  @param index The index of the element associated with the popup view */
-- (void)lineGraph:(BEMSimpleLineGraphView *)graph modifyPopupView:(UIView *)popupView forIndex:(NSUInteger)index __unavailable;
+- (void)lineGraph:(BEMSimpleLineGraphView *)graph modifyPopupView:(UIView *)popupView forIndex:(NSUInteger)index;
 
 
 //----- TOUCH EVENTS -----//
@@ -564,7 +570,7 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
  When this is set, `numberOfGapsBetweenLabelsOnLineGraph` is ignored
  @param graph The graph object which is requesting the number of gaps between the labels.
  @return Array of graph indices to place X-Axis labels */
-- (NSArray *)incrementPositionsForXAxisOnLineGraph:(BEMSimpleLineGraphView *)graph;
+- (NSArray <NSNumber *> *)incrementPositionsForXAxisOnLineGraph:(BEMSimpleLineGraphView *)graph;
 
 
 

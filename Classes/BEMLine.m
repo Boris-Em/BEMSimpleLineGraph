@@ -19,7 +19,7 @@
 
 @interface BEMLine()
 
-@property (nonatomic, strong) NSMutableArray *points;
+@property (nonatomic, strong) NSMutableArray <NSValue *> *points;
 
 @end
 
@@ -33,6 +33,7 @@
         _enableLeftReferenceFrameLine = YES;
         _enableBottomReferenceFrameLine = YES;
         _interpolateNullValues = YES;
+        self.clipsToBounds = YES;
     }
     return self;
 }
@@ -57,43 +58,44 @@
     referenceFramePath.lineWidth = 0.7f;
 
     if (self.enableReferenceFrame == YES) {
+        CGFloat offset = self.referenceLineWidth/4; //moves framing ref line slightly into view
         if (self.enableBottomReferenceFrameLine) {
             // Bottom Line
-            [referenceFramePath moveToPoint:CGPointMake(0, self.frame.size.height)];
-            [referenceFramePath addLineToPoint:CGPointMake(self.frame.size.width, self.frame.size.height)];
+            [referenceFramePath moveToPoint:   CGPointMake(0,                              self.frame.size.height-offset)];
+            [referenceFramePath addLineToPoint:CGPointMake(self.frame.size.width,          self.frame.size.height-offset)];
         }
 
         if (self.enableLeftReferenceFrameLine) {
             // Left Line
-            [referenceFramePath moveToPoint:CGPointMake(0+self.referenceLineWidth/4, self.frame.size.height)];
-            [referenceFramePath addLineToPoint:CGPointMake(0+self.referenceLineWidth/4, 0)];
+            [referenceFramePath moveToPoint:   CGPointMake(0+offset,                       self.frame.size.height)];
+            [referenceFramePath addLineToPoint:CGPointMake(0+offset,                       0)];
         }
 
         if (self.enableTopReferenceFrameLine) {
             // Top Line
-            [referenceFramePath moveToPoint:CGPointMake(0+self.referenceLineWidth/4, 0)];
-            [referenceFramePath addLineToPoint:CGPointMake(self.frame.size.width, 0)];
+            [referenceFramePath moveToPoint:   CGPointMake(0,                              offset)];
+            [referenceFramePath addLineToPoint:CGPointMake(self.frame.size.width,          offset)];
         }
 
         if (self.enableRightReferenceFrameLine) {
             // Right Line
-            [referenceFramePath moveToPoint:CGPointMake(self.frame.size.width - self.referenceLineWidth/4, self.frame.size.height)];
-            [referenceFramePath addLineToPoint:CGPointMake(self.frame.size.width - self.referenceLineWidth/4, 0)];
+            [referenceFramePath moveToPoint:   CGPointMake(self.frame.size.width - offset, self.frame.size.height)];
+            [referenceFramePath addLineToPoint:CGPointMake(self.frame.size.width - offset, 0)];
         }
     }
 
     if (self.enableReferenceLines == YES) {
         if (self.arrayOfVerticalReferenceLinePoints.count > 0) {
             for (NSNumber *xNumber in self.arrayOfVerticalReferenceLinePoints) {
-                CGFloat xValue;
+                CGFloat xValue = [xNumber doubleValue];
                 if (self.verticalReferenceHorizontalFringeNegation != 0.0) {
-                    if ([self.arrayOfVerticalReferenceLinePoints indexOfObject:xNumber] == 0) { // far left reference line
-                        xValue = [xNumber floatValue] + self.verticalReferenceHorizontalFringeNegation;
-                    } else if ([self.arrayOfVerticalReferenceLinePoints indexOfObject:xNumber] == [self.arrayOfVerticalReferenceLinePoints count]-1) { // far right reference line
-                        xValue = [xNumber floatValue] - self.verticalReferenceHorizontalFringeNegation;
-                    } else xValue = [xNumber floatValue];
-                } else xValue = [xNumber floatValue];
-
+                    NSUInteger index = [self.arrayOfVerticalReferenceLinePoints indexOfObject:xNumber];
+                    if (index == 0) { // far left reference line
+                        xValue += self.verticalReferenceHorizontalFringeNegation;
+                    } else if (index == [self.arrayOfVerticalReferenceLinePoints count]-1) { // far right reference line
+                        xValue -= self.verticalReferenceHorizontalFringeNegation;
+                    }
+                }
                 CGPoint initialPoint = CGPointMake(xValue, self.frame.size.height);
                 CGPoint finalPoint = CGPointMake(xValue, 0);
 
@@ -142,26 +144,62 @@
 
     self.points = [NSMutableArray arrayWithCapacity:self.arrayOfPoints.count];
     for (NSUInteger i = 0; i < self.arrayOfPoints.count; i++) {
-        CGPoint value = CGPointMake(xIndexScale * i, [self.arrayOfPoints[i] CGFloatValue]);
-        if (value.y < BEMNullGraphValue || !self.interpolateNullValues) {
-            [self.points addObject:[NSValue valueWithCGPoint:value]];
+        CGFloat value = [self.arrayOfPoints[i] CGFloatValue];
+        if (value >= BEMNullGraphValue  && self.interpolateNullValues) {
+            //need to interpolate. For midpoints, just don't add a point
+            if (i == 0) {
+                //extrapolate a left edge point from next two actual values
+                NSUInteger firstPos = 1; //look for first real value
+                while (firstPos < self.arrayOfPoints.count && [self.arrayOfPoints[firstPos] CGFloatValue] >= BEMNullGraphValue) firstPos++;
+                if (firstPos >= self.arrayOfPoints.count) break;  // all NaNs?? =>don't create any line
+
+                CGFloat firstValue = [self.arrayOfPoints[firstPos] CGFloatValue];
+                NSUInteger secondPos = firstPos+1; //look for second real value
+                while (secondPos < self.arrayOfPoints.count && [self.arrayOfPoints[secondPos] CGFloatValue] >= BEMNullGraphValue) secondPos++;
+                if (secondPos >= self.arrayOfPoints.count) {
+                    // only one real number
+                    value = firstValue;
+                } else {
+                    CGFloat delta = firstValue - [self.arrayOfPoints[secondPos] CGFloatValue];
+                    value = firstValue + firstPos*delta/(secondPos-firstPos);
+                }
+
+            } else if (i == self.arrayOfPoints.count-1) {
+                //extrapolate a right edge poit from previous two actual values
+                NSInteger firstPos = i-1; //look for first real value
+                while (firstPos >= 0 && [self.arrayOfPoints[firstPos] CGFloatValue] >= BEMNullGraphValue) firstPos--;
+                if (firstPos < 0 ) continue;  // all NaNs?? =>don't create any line; should already be gone
+
+                CGFloat firstValue = [self.arrayOfPoints[firstPos] CGFloatValue];
+                NSInteger secondPos = firstPos-1; //look for second real value
+                while (secondPos >= 0 && [self.arrayOfPoints[secondPos] CGFloatValue] >= BEMNullGraphValue) secondPos--;
+                if (secondPos < 0) {
+                    // only one real number
+                    value = firstValue;
+                } else {
+                    CGFloat delta = firstValue - [self.arrayOfPoints[secondPos] CGFloatValue];
+                    value = firstValue + (self.arrayOfPoints.count - firstPos-1)*delta/(firstPos - secondPos);
+                }
+
+            } else {
+                continue; //skip this (middle Null) point, let graphics handle interpolation
+            }
         }
-    }
+        CGPoint newPoint = CGPointMake(xIndexScale * i, value);
+        [self.points addObject:[NSValue valueWithCGPoint:newPoint]];
+  }
 
-    BOOL bezierStatus = self.bezierCurveIsEnabled;
-    if (self.arrayOfPoints.count <= 2 && self.bezierCurveIsEnabled == YES) bezierStatus = NO;
-
-    if (!self.disableMainLine && bezierStatus) {
-        line = [BEMLine quadCurvedPathWithPoints:self.points];
-        fillBottom = [BEMLine quadCurvedPathWithPoints:self.bottomPointsArray];
-        fillTop = [BEMLine quadCurvedPathWithPoints:self.topPointsArray];
-    } else if (!self.disableMainLine && !bezierStatus) {
-        line = [BEMLine linesToPoints:self.points];
-        fillBottom = [BEMLine linesToPoints:self.bottomPointsArray];
-        fillTop = [BEMLine linesToPoints:self.topPointsArray];
+    if (!self.disableMainLine && self.bezierCurveIsEnabled) {
+        line = [BEMLine quadCurvedPathWithPoints:self.points open:YES];
+        fillBottom = [BEMLine quadCurvedPathWithPoints:self.bottomPointsArray open:NO];
+        fillTop = [BEMLine quadCurvedPathWithPoints:self.topPointsArray open:NO];
+    } else if (!self.disableMainLine && !self.bezierCurveIsEnabled) {
+        line = [BEMLine linesToPoints:self.points open:YES];
+        fillBottom = [BEMLine linesToPoints:self.bottomPointsArray open:NO];
+        fillTop = [BEMLine linesToPoints:self.topPointsArray open:NO];
     } else {
-        fillBottom = [BEMLine linesToPoints:self.bottomPointsArray];
-        fillTop = [BEMLine linesToPoints:self.topPointsArray];
+        fillBottom = [BEMLine linesToPoints:self.bottomPointsArray open:NO];
+        fillTop = [BEMLine linesToPoints:self.topPointsArray open:NO];
     }
 
     //----------------------------//
@@ -178,7 +216,7 @@
         CGContextSaveGState(ctx);
         CGContextAddPath(ctx, [fillTop CGPath]);
         CGContextClip(ctx);
-        CGContextDrawLinearGradient(ctx, self.topGradient, CGPointZero, CGPointMake(0, CGRectGetMaxY(fillTop.bounds)), 0);
+        CGContextDrawLinearGradient(ctx, self.topGradient, CGPointZero, CGPointMake(0, CGRectGetMaxY(fillTop.bounds)), (CGGradientDrawingOptions) 0);
         CGContextRestoreGState(ctx);
     }
 
@@ -186,7 +224,7 @@
         CGContextSaveGState(ctx);
         CGContextAddPath(ctx, [fillBottom CGPath]);
         CGContextClip(ctx);
-        CGContextDrawLinearGradient(ctx, self.bottomGradient, CGPointZero, CGPointMake(0, CGRectGetMaxY(fillBottom.bounds)), 0);
+        CGContextDrawLinearGradient(ctx, self.bottomGradient, CGPointZero, CGPointMake(0, CGRectGetMaxY(fillBottom.bounds)), (CGGradientDrawingOptions) 0);
         CGContextRestoreGState(ctx);
     }
 
@@ -286,67 +324,71 @@
     }
 }
 
-- (NSArray *)topPointsArray {
+- (NSArray <NSValue *> *)topPointsArray {
     CGPoint topPointZero = CGPointMake(0,0);
     CGPoint topPointFull = CGPointMake(self.frame.size.width, 0);
-    NSMutableArray *topPoints = [NSMutableArray arrayWithArray:self.points];
+    NSMutableArray <NSValue *> *topPoints = [NSMutableArray arrayWithArray:self.points];
     [topPoints insertObject:[NSValue valueWithCGPoint:topPointZero] atIndex:0];
     [topPoints addObject:[NSValue valueWithCGPoint:topPointFull]];
     return topPoints;
 }
 
-- (NSArray *)bottomPointsArray {
+- (NSArray <NSValue *> *)bottomPointsArray {
     CGPoint bottomPointZero = CGPointMake(0, self.frame.size.height);
     CGPoint bottomPointFull = CGPointMake(self.frame.size.width, self.frame.size.height);
-    NSMutableArray *bottomPoints = [NSMutableArray arrayWithArray:self.points];
+    NSMutableArray <NSValue *> *bottomPoints = [NSMutableArray arrayWithArray:self.points];
     [bottomPoints insertObject:[NSValue valueWithCGPoint:bottomPointZero] atIndex:0];
     [bottomPoints addObject:[NSValue valueWithCGPoint:bottomPointFull]];
     return bottomPoints;
 }
 
-+ (UIBezierPath *)linesToPoints:(NSArray *)points {
++ (UIBezierPath *)linesToPoints:(NSArray <NSValue *> *)points open:(BOOL)open {
     UIBezierPath *path = [UIBezierPath bezierPath];
     NSValue *value = points[0];
     CGPoint p1 = [value CGPointValue];
     [path moveToPoint:p1];
 
-    for (NSUInteger i = 1; i < points.count; i++) {
-        value = points[i];
-        CGPoint p2 = [value CGPointValue];
-        [path addLineToPoint:p2];
+    for (NSValue * point in points) {
+        if (point == value) continue; //already at first point
+        CGPoint p2 = [point CGPointValue];
+
+        if (open && (p1.y >= BEMNullGraphValue || p2.y >= BEMNullGraphValue)) {
+            [path moveToPoint:p2];
+        } else {
+            [path addLineToPoint:p2];
+        }
+        p1 = p2;
     }
     return path;
 }
 
-+ (UIBezierPath *)quadCurvedPathWithPoints:(NSArray *)points {
++ (UIBezierPath *)quadCurvedPathWithPoints:(NSArray <NSValue *> *)points open:(BOOL)open {
     UIBezierPath *path = [UIBezierPath bezierPath];
 
     NSValue *value = points[0];
     CGPoint p1 = [value CGPointValue];
     [path moveToPoint:p1];
 
-    if (points.count == 2) {
-        value = points[1];
-        CGPoint p2 = [value CGPointValue];
-        [path addLineToPoint:p2];
-        return path;
-    }
+    for (NSValue * point in points) {
+        if (point == value) continue; //already at first point
+        CGPoint p2 = [point CGPointValue];
 
-    for (NSUInteger i = 1; i < points.count; i++) {
-        value = points[i];
-        CGPoint p2 = [value CGPointValue];
-
-        CGPoint midPoint = midPointForPoints(p1, p2);
-        [path addQuadCurveToPoint:midPoint controlPoint:controlPointForPoints(midPoint, p1)];
-        [path addQuadCurveToPoint:p2 controlPoint:controlPointForPoints(midPoint, p2)];
-
+        if (open && (p1.y >= BEMNullGraphValue || p2.y >= BEMNullGraphValue)) {
+            [path moveToPoint:p2];
+        } else {
+            CGPoint midPoint = midPointForPoints(p1, p2);
+            [path addQuadCurveToPoint:midPoint controlPoint:controlPointForPoints(midPoint, p1)];
+            [path addQuadCurveToPoint:p2 controlPoint:controlPointForPoints(midPoint, p2)];
+        }
         p1 = p2;
     }
     return path;
 }
 
 static CGPoint midPointForPoints(CGPoint p1, CGPoint p2) {
-    return CGPointMake((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
+    CGFloat avgY = (p1.y + p2.y) / 2.0;
+    if (isinf(avgY)) avgY = BEMNullGraphValue;
+    return CGPointMake((p1.x + p2.x) / 2, avgY);
 }
 
 static CGPoint controlPointForPoints(CGPoint p1, CGPoint p2) {
@@ -403,7 +445,7 @@ static CGPoint controlPointForPoints(CGPoint p1, CGPoint p2) {
         end = CGPointMake(CGRectGetMidX(shapeLayer.bounds), CGRectGetMaxY(shapeLayer.bounds));
     }
 
-    CGContextDrawLinearGradient(imageCtx, self.lineGradient, start, end, 0);
+    CGContextDrawLinearGradient(imageCtx, self.lineGradient, start, end, (CGGradientDrawingOptions)0);
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     CALayer *gradientLayer = [CALayer layer];
