@@ -43,17 +43,11 @@ Learn more about the **BEMSimpleLineGraph** project requirements, licensing, and
 ### Requirements
 *See the full article on the wiki [here](https://github.com/Boris-Em/BEMSimpleLineGraph/wiki/Requirements).*
 
-- Requires iOS 7 or later. The sample project is optimized for iOS 8.
-- Requires Automatic Reference Counting (ARC).
-- Optimized for ARM64 Architecture
-
-Requires Xcode 6 for use in any iOS Project. Requires a minimum of iOS 7.0 as the deployment target. 
-
 | Current Build Target 	| Earliest Supported Build Target 	| Earliest Compatible Build Target 	|
 |:--------------------:	|:-------------------------------:	|:--------------------------------:	|
-|       iOS 8.0        	|            iOS 7.0             	|             iOS 6.1              	|
-|     Xcode 6.3      	|          Xcode 6.1.1            	|           Xcode 6.0            	|
-|      LLVM 6.1        	|             LLVM 6.1            	|             LLVM 5.0             	|
+|       iOS 9.0        	|            iOS 9.0             	|             iOS 7.0              	|
+|     Xcode 8.3      	|          Xcode 8.3            	|           Xcode 6.1            	|
+|      LLVM 8.1        	|           LLVM 8.1            	|            LLVM 6.1             	|
 
 > REQUIREMENTS NOTE  
 *Supported* means that the library has been tested with this version. *Compatible* means that the library should work on this OS version (i.e. it doesn't rely on any unavailable SDK features) but is no longer being tested for compatibility and may require tweaking or bug fixes to run correctly.
