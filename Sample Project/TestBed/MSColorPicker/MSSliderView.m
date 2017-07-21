@@ -111,7 +111,7 @@ static const CGFloat MSThumbViewEdgeInset = -10.0f;
     [self ms_updateTrackLayer];
 }
 
-#pragma mark - UIControl touch tracking events
+// MARK: - UIControl touch tracking events
 
 - (void)ms_didPanThumbView:(UIPanGestureRecognizer *)gestureRecognizer
 {
@@ -137,7 +137,7 @@ static const CGFloat MSThumbViewEdgeInset = -10.0f;
     [CATransaction commit];
 }
 
-#pragma mark - Private methods
+// MARK: - Private methods
 
 - (void)ms_setValueWithTranslation:(CGFloat)translation
 {

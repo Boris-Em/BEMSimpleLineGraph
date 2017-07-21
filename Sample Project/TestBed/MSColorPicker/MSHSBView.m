@@ -101,7 +101,7 @@ static CGFloat const MSColorWheelDimension = 200.0f;
     [super updateConstraints];
 }
 
-#pragma mark - Private methods
+// MARK: - Private methods
 
 - (void)ms_baseInit
 {

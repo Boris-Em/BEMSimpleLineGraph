@@ -38,7 +38,7 @@
     self.lineGraph.dataSource = self;
 }
 
-#pragma mark BEMSimpleLineGraph Data Source
+// MARK: - BEMSimpleLineGraph Data Source
 
 - (NSUInteger)numberOfPointsInLineGraph:(BEMSimpleLineGraphView * __nonnull)graph {
     return numberOfPoints;
@@ -60,7 +60,7 @@
     return popUpSuffix;
 }
 
-#pragma mark Tests
+// MARK: - Tests
 
 - (void)testDotCustomization {
     CGFloat sizePoint = 20.0;

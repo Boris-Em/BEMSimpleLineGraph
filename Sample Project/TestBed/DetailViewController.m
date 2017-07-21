@@ -51,7 +51,7 @@
     [self updateLabelsBelowGraph:self.myGraph];
 }
 
-#pragma mark Data management
+// MARK: - Data management
 - (void)hydrateDatasets {
     // Reset the arrays of values (Y-Axis points) and dates (X-Axis points / labels)
     if (!self.arrayOfValues) self.arrayOfValues = [[NSMutableArray alloc] init];
@@ -96,7 +96,7 @@
     return label;
 }
 
-#pragma mark - Graph Actions
+// MARK: - Graph Actions
 
 // Refresh the line graph using the specified properties
 - (IBAction)refresh:(id)sender {
@@ -164,7 +164,7 @@
 }
 
 
-#pragma mark - SimpleLineGraph Data Source
+// MARK: - SimpleLineGraph Data Source
 
 - (NSUInteger)numberOfPointsInLineGraph:(BEMSimpleLineGraphView *)graph {
     return [self.arrayOfValues count];
@@ -174,7 +174,7 @@
     return [[self.arrayOfValues objectAtIndex:index] doubleValue];
 }
 
-#pragma mark - SimpleLineGraph Delegate
+// MARK: - SimpleLineGraph Delegate
 
 - (BOOL)respondsToSelector:(SEL)aSelector {
     if (aSelector == @selector(popUpTextForlineGraph:atIndex:)) {
@@ -329,7 +329,7 @@
     return self.incrementValueForYAxis;
 }
 
-#pragma mark Touch handling
+// MARK: - Touch handling
 
 - (void)lineGraph:(BEMSimpleLineGraphView *)graph didTouchGraphWithClosestIndex:(NSUInteger)index {
     self.labelValues.text = [self formatNumber:[self.arrayOfValues objectAtIndex:index]];

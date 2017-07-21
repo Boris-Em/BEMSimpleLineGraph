@@ -101,7 +101,7 @@
     [super updateConstraints];
 }
 
-#pragma mark - FBColorViewDelegate methods
+// MARK: - FBColorViewDelegate methods
 
 - (void)colorView:(id<MSColorView>)colorView didChangeColor:(UIColor *)color
 {
@@ -109,7 +109,7 @@
     [self.delegate colorView:self didChangeColor:self.color];
 }
 
-#pragma mark - Private
+// MARK: - Private
 
 - (void)ms_init
 {

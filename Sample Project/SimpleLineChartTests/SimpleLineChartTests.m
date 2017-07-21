@@ -39,7 +39,7 @@
     self.lineGraph.dataSource = self;
 }
 
-#pragma mark BEMSimpleLineGraph Data Source
+// MARK: - BEMSimpleLineGraph Data Source
 
 - (NSUInteger)numberOfPointsInLineGraph:(BEMSimpleLineGraphView * __nonnull)graph {
     return numberOfPoints;
@@ -53,7 +53,7 @@
     return xAxisLabelString;
 }
 
-#pragma mark Test Methods
+// MARK: - Test Methods
 
 - (void)testInit {
     XCTAssertNotNil(self.lineGraph, @"An allocated and initialized BEMSimpleLineGraph should not be nil.");

@@ -91,23 +91,23 @@
 		1E960A9E1E7DF9BB000E2BB8 /* StatsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatsViewController.h; sourceTree = "<group>"; };
 		1E960A9F1E7DF9BC000E2BB8 /* StatsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = StatsViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		1E960AFC1E7F9C80000E2BB8 /* MSColorComponentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSColorComponentView.h; sourceTree = "<group>"; };
-		1E960AFD1E7F9C80000E2BB8 /* MSColorComponentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSColorComponentView.m; sourceTree = "<group>"; };
+		1E960AFD1E7F9C80000E2BB8 /* MSColorComponentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSColorComponentView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		1E960AFE1E7F9C80000E2BB8 /* MSColorPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSColorPicker.h; sourceTree = "<group>"; };
 		1E960AFF1E7F9C80000E2BB8 /* MSColorSelectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSColorSelectionView.h; sourceTree = "<group>"; };
-		1E960B001E7F9C80000E2BB8 /* MSColorSelectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSColorSelectionView.m; sourceTree = "<group>"; };
+		1E960B001E7F9C80000E2BB8 /* MSColorSelectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSColorSelectionView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		1E960B011E7F9C80000E2BB8 /* MSColorSelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSColorSelectionViewController.h; sourceTree = "<group>"; };
-		1E960B021E7F9C80000E2BB8 /* MSColorSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSColorSelectionViewController.m; sourceTree = "<group>"; };
+		1E960B021E7F9C80000E2BB8 /* MSColorSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSColorSelectionViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		1E960B031E7F9C80000E2BB8 /* MSColorUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSColorUtils.h; sourceTree = "<group>"; };
 		1E960B041E7F9C80000E2BB8 /* MSColorUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSColorUtils.m; sourceTree = "<group>"; };
 		1E960B051E7F9C80000E2BB8 /* MSColorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSColorView.h; sourceTree = "<group>"; };
 		1E960B061E7F9C80000E2BB8 /* MSColorWheelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSColorWheelView.h; sourceTree = "<group>"; };
-		1E960B071E7F9C80000E2BB8 /* MSColorWheelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSColorWheelView.m; sourceTree = "<group>"; };
+		1E960B071E7F9C80000E2BB8 /* MSColorWheelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSColorWheelView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		1E960B081E7F9C80000E2BB8 /* MSHSBView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSHSBView.h; sourceTree = "<group>"; };
-		1E960B091E7F9C80000E2BB8 /* MSHSBView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSHSBView.m; sourceTree = "<group>"; };
+		1E960B091E7F9C80000E2BB8 /* MSHSBView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSHSBView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		1E960B0A1E7F9C80000E2BB8 /* MSRGBView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSRGBView.h; sourceTree = "<group>"; };
-		1E960B0B1E7F9C80000E2BB8 /* MSRGBView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSRGBView.m; sourceTree = "<group>"; };
+		1E960B0B1E7F9C80000E2BB8 /* MSRGBView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSRGBView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		1E960B0C1E7F9C80000E2BB8 /* MSSliderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSSliderView.h; sourceTree = "<group>"; };
-		1E960B0D1E7F9C80000E2BB8 /* MSSliderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSSliderView.m; sourceTree = "<group>"; };
+		1E960B0D1E7F9C80000E2BB8 /* MSSliderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSSliderView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		1E960B0E1E7F9C80000E2BB8 /* MSThumbView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSThumbView.h; sourceTree = "<group>"; };
 		1E960B0F1E7F9C80000E2BB8 /* MSThumbView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSThumbView.m; sourceTree = "<group>"; };
 		1E960B101E7F9C80000E2BB8 /* UIControl+HitTestEdgeInsets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIControl+HitTestEdgeInsets.h"; sourceTree = "<group>"; };
@@ -127,7 +127,7 @@
 		C3B90A5B187D15F7003E407D /* BEMLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEMLine.m; sourceTree = "<group>"; };
 		C3B90A5C187D15F7003E407D /* BEMSimpleLineGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEMSimpleLineGraphView.h; sourceTree = "<group>"; };
 		C3B90A5D187D15F7003E407D /* BEMSimpleLineGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = BEMSimpleLineGraphView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		C3BCA7E61B8ECCA6007E6090 /* CustomizationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomizationTests.m; sourceTree = "<group>"; };
+		C3BCA7E61B8ECCA6007E6090 /* CustomizationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CustomizationTests.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		C3BCA7E81B8ECE4E007E6090 /* contantsTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = contantsTests.h; sourceTree = "<group>"; };
 		C3FD8155186DFD9A00FD8ED3 /* SimpleLineChart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimpleLineChart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3FD8158186DFD9A00FD8ED3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -141,13 +141,13 @@
 		C3FD8168186DFD9A00FD8ED3 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		C3FD816B186DFD9A00FD8ED3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C3FD816D186DFD9A00FD8ED3 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		C3FD816E186DFD9A00FD8ED3 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		C3FD816E186DFD9A00FD8ED3 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		C3FD8170186DFD9A00FD8ED3 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		C3FD8176186DFD9A00FD8ED3 /* SimpleLineChartTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SimpleLineChartTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3FD8177186DFD9A00FD8ED3 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		C3FD817F186DFD9A00FD8ED3 /* SimpleLineChartTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SimpleLineChartTests-Info.plist"; sourceTree = "<group>"; };
 		C3FD8181186DFD9A00FD8ED3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		C3FD8183186DFD9A00FD8ED3 /* SimpleLineChartTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimpleLineChartTests.m; sourceTree = "<group>"; };
+		C3FD8183186DFD9A00FD8ED3 /* SimpleLineChartTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SimpleLineChartTests.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */

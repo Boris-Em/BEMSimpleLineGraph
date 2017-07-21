@@ -18,10 +18,11 @@ const CGFloat BEMNullGraphValue = CGFLOAT_MAX;
 #error BEMSimpleLineGraph is built with Objective-C ARC. You must enable ARC for these files.
 #endif
 
-typedef NS_ENUM(NSInteger, BEMInternalTags)
-{
+typedef NS_ENUM(NSInteger, BEMInternalTags) {
     DotFirstTag100 = 100,
 };
+
+// MARK: - Properties
 
 @interface BEMSimpleLineGraphView () {
     /// The number of Points in the Graph
@@ -47,7 +48,9 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 
 }
 
-#pragma mark Properties to store all subviews
+
+// MARK: Subview Storage Properties
+
 // Stores the background X Axis view
 @property (strong, nonatomic ) UIView *backgroundXAxis;
 
@@ -93,7 +96,9 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 // Possible custom View displayed instead of popUpLabel
 @property (strong, nonatomic) UIView *customPopUpView;
 
-#pragma mark calculated properties
+
+// MARK: Calculated Properties
+
 /// The Y offset necessary to compensate the labels on the X-Axis
 @property (nonatomic) CGFloat XAxisLabelYOffset;
 
@@ -118,7 +123,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 
 @implementation BEMSimpleLineGraphView
 
-#pragma mark - Initialization
+// MARK: - Initialization
 
 - (instancetype) initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
@@ -452,7 +457,7 @@ self.property = [coder decode ## type ##ForKey:@#property]; \
     }
 }
 
-#pragma mark - Drawing
+// MARK: - Drawing
 
 - (void)didFinishDrawingIncludingYAxis:(BOOL)yAxisFinishedDrawing {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t) (self.animationGraphEntranceTime * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -1225,13 +1230,13 @@ self.property = [coder decode ## type ##ForKey:@#property]; \
     return image;
 }
 
-#pragma mark - Data Source
+// MARK: - Data Source
 
 - (void)reloadGraph {
     [self drawGraph];
 }
 
-#pragma mark - Values
+// MARK: - Values
 
 - (NSArray <NSString *> *)graphValuesForXAxis {
     return xAxisValues;
@@ -1256,7 +1261,7 @@ self.property = [coder decode ## type ##ForKey:@#property]; \
 }
 
 
-#pragma mark - Touch Gestures
+// MARK: - Touch Gestures
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
     if ([gestureRecognizer isEqual:self.panGesture]) {
@@ -1353,7 +1358,7 @@ self.property = [coder decode ## type ##ForKey:@#property]; \
     }
 }
 
-#pragma mark - Graph Calculations
+// MARK: - Graph Calculations
 
 - (BEMCircle *)closestDotFromTouchInputLine:(UIView *)touchInputLine {
     BEMCircle * closestDot = nil;
@@ -1458,7 +1463,7 @@ self.property = [coder decode ## type ##ForKey:@#property]; \
     return positionOnYAxis;
 }
 
-#pragma mark - Deprecated Methods
+// MARK: - Deprecated Methods
 
  - (NSNumber *)calculatePointValueSum {
     [self printDeprecationTransitionWarningForOldMethod:@"calculatePointValueSum" replacementMethod:@"calculatePointValueSumOnGraph:" newObject:@"BEMGraphCalculator" sharedInstance:YES];

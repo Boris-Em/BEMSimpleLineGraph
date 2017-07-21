@@ -249,7 +249,7 @@ CGGradientRef createGradient () {
  */
 
 
-#pragma mark Main Line
+// MARK: - Main Line
 - (IBAction)widthLineDidChange:(UITextField *)sender {
     float value = sender.text.floatValue;
     if (value > 0.0f) {
@@ -273,7 +273,7 @@ CGGradientRef createGradient () {
     [self.myGraph reloadGraph];
 }
 
-#pragma mark Axes and Reference Lines
+// MARK: - Axes and Reference Lines
 - (NSUInteger)getValue:(NSString *) text {
     return (text.length > 0  && text.integerValue >= 0) ? text.integerValue : NSNotFound;
 }
@@ -303,7 +303,7 @@ CGGradientRef createGradient () {
 
 }
 
-#pragma mark Axes and Reference Lines
+// MARK: - Axes and Reference Lines
 
 - (IBAction)enableYAxisLabel:(UISwitch *)sender {
     self.myGraph.enableYAxisLabel = sender.on;
@@ -350,7 +350,7 @@ CGGradientRef createGradient () {
     [self.myGraph reloadGraph];
 }
 
-#pragma mark Average Line
+// MARK: - Average Line
 - (IBAction)enableAverageLine:(UISwitch *)sender {
     self.myGraph.averageLine.enableAverageLine = sender.on;
     [self.myGraph reloadGraph];
@@ -369,7 +369,7 @@ CGGradientRef createGradient () {
     [self.myGraph reloadGraph];
 }
 
-#pragma mark Reference Lines
+// MARK: - Reference Lines
 
 - (IBAction)widthReferenceLines:(UITextField *)sender {
     if (sender.text.floatValue <= 0) {
@@ -428,7 +428,7 @@ CGGradientRef createGradient () {
     [self.myGraph reloadGraph];
 }
 
-#pragma mark Dots & Labels section
+// MARK: - Dots & Labels section
 
 - (IBAction)alwaysDisplayDots:(UISwitch *)sender {
     self.myGraph.alwaysDisplayDots = sender.on;
@@ -493,7 +493,7 @@ CGGradientRef createGradient () {
     [self.myGraph reloadGraph];
 }
 
-#pragma mark Animation section
+// MARK: - Animation section
 //
 //typedef NS_ENUM(NSInteger, BEMLineAnimation) {
 //    /// The draw animation draws the lines from left to right and bottom to top.
@@ -565,7 +565,7 @@ CGGradientRef createGradient () {
 }
 
 
-#pragma mark TextFormatting
+// MARK: - TextFormatting
 
 - (IBAction)fontFamily:(UIButton *)sender {
     // done in IB: [self performSegueWithIdentifier:@"FontPicker" sender:self];
@@ -744,7 +744,7 @@ CGGradientRef createGradient () {
     [self.myGraph reloadGraph];
 }
 
-#pragma mark - Segues
+// MARK: - Segues
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
@@ -812,7 +812,7 @@ CGGradientRef createGradient () {
 
 
 }
-#pragma mark - Table View
+// MARK: - Table View
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     //static sections
@@ -841,14 +841,14 @@ CGGradientRef createGradient () {
     }
 }
 
-#pragma mark TextDelegate
+// MARK: - TextDelegate
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
     return YES;
 }
 
-#pragma mark Detail did change
+// MARK: - Detail did change
 - (void)showDetailTargetDidChange:(id)sender {
     if (self.splitViewController.isCollapsed) {
         if (!self.navigationItem.rightBarButtonItem) {

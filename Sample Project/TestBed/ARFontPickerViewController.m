@@ -35,8 +35,7 @@ static NSString * kARFontPickerViewControllerCellIdentifier = @"ARFontPickerView
 
 @implementation ARFontPickerViewController
 
-#pragma mark -
-#pragma mark UITableViewController methods
+// MARK: - UITableViewController methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return [[UIFont familyNames] count];

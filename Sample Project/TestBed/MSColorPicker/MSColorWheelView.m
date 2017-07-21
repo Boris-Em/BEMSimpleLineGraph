@@ -143,7 +143,7 @@
     [self setNeedsDisplay];
 }
 
-#pragma mark - CALayerDelegate methods
+// MARK: - CALayerDelegate methods
 
 - (void)displayLayer:(CALayer *)layer
 {
@@ -165,7 +165,7 @@
     }
 }
 
-#pragma mark - Private methods
+// MARK: - Private methods
 
 - (CGPoint)ms_selectedPoint
 {

@@ -82,7 +82,7 @@
     return (MSColorSelectionView *)self.view;
 }
 
-#pragma mark - MSColorViewDelegate
+// MARK: - MSColorViewDelegate
 
 - (void)colorView:(id<MSColorView>)colorView didChangeColor:(UIColor *)color
 {

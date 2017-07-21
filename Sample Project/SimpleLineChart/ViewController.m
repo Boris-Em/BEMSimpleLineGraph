@@ -17,7 +17,7 @@
 
 @implementation ViewController
 
-#pragma mark - View Lifecycle
+// MARK: - View Lifecycle
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -130,7 +130,7 @@
     return label;
 }
 
-#pragma mark - Graph Actions
+// MARK: - Graph Actions
 
 // Refresh the line graph using the specified properties
 - (IBAction)refresh:(id)sender {
@@ -201,7 +201,7 @@
 }
 
 
-#pragma mark - SimpleLineGraph Data Source
+// MARK: - SimpleLineGraph Data Source
 
 - (NSUInteger)numberOfPointsInLineGraph:(BEMSimpleLineGraphView *)graph {
     return (int)[self.arrayOfValues count];
@@ -211,7 +211,7 @@
     return [[self.arrayOfValues objectAtIndex:index] doubleValue];
 }
 
-#pragma mark - SimpleLineGraph Delegate
+// MARK: - SimpleLineGraph Delegate
 
 - (NSUInteger)numberOfGapsBetweenLabelsOnLineGraph:(BEMSimpleLineGraphView *)graph {
     return 2;
@@ -266,7 +266,7 @@
 //    return @"$ ";
 //}
 
-#pragma mark - Optional Datasource Customizations
+// MARK: - Optional Datasource Customizations
 /*
  This section holds a bunch of graph customizations that can be made.  They are commented out because they aren't required.  If you choose to uncomment some, they will override some of the other delegate and datasource methods above.
  

@@ -91,7 +91,7 @@ static NSUInteger const MSRGBColorComponentsSize = 3;
     return [UIColor colorWithRed:_colorComponents.red green:_colorComponents.green blue:_colorComponents.blue alpha:_colorComponents.alpha];
 }
 
-#pragma mark - Private methods
+// MARK: - Private methods
 
 - (void)ms_baseInit
 {

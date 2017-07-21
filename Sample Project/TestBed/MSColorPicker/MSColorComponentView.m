@@ -120,7 +120,7 @@ static CGFloat const MSColorComponentTextFieldWidth = 50.0f;
     return _slider.value;
 }
 
-#pragma mark - UITextFieldDelegate methods
+// MARK: - UITextFieldDelegate methods
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
@@ -154,7 +154,7 @@ static CGFloat const MSColorComponentTextFieldWidth = 50.0f;
     [_slider setColors:colors];
 }
 
-#pragma mark - Private methods
+// MARK: - Private methods
 
 - (void)ms_baseInit
 {
