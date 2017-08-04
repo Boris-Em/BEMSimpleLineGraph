@@ -22,8 +22,7 @@
     return self;
 }
 
-- (instancetype) initWithCoder:(NSCoder *)coder {
-
+- (instancetype)initWithCoder:(NSCoder *)coder {
 #define RestoreProperty(property, type) {\
 if ([coder containsValueForKey:@#property]) { \
 self.property = [coder decode ## type ##ForKey:@#property ]; \
@@ -32,7 +31,6 @@ self.property = [coder decode ## type ##ForKey:@#property ]; \
     self = [self init];
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wnullable-to-nonnull-conversion"
-
     RestoreProperty (enableAverageLine, Bool);
     RestoreProperty (color, Object);
     RestoreProperty (yValue, Double);
@@ -42,12 +40,10 @@ self.property = [coder decode ## type ##ForKey:@#property ]; \
     RestoreProperty (title, Object);
 #pragma clang diagnostic pop
 
-    //AverageLine
     return self;
 }
 
-- (void) encodeWithCoder: (NSCoder *)coder {
-
+- (void)encodeWithCoder:(NSCoder *)coder {
 #define EncodeProperty(property, type) [coder encode ## type: self.property forKey:@#property]
     EncodeProperty (enableAverageLine, Bool);
     EncodeProperty (color, Object);
@@ -58,8 +54,6 @@ self.property = [coder decode ## type ##ForKey:@#property ]; \
     EncodeProperty (title, Object);
 }
 
-
-
 - (void)setLabel:(UILabel *)label {
     if (_label != label) {
         [_label removeFromSuperview];
@@ -68,6 +62,7 @@ self.property = [coder decode ## type ##ForKey:@#property ]; \
 }
 
 - (void)dealloc {
-    self.label= nil;
+    self.label = nil;
 }
+
 @end

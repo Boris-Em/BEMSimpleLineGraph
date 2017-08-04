@@ -125,13 +125,13 @@ typedef NS_ENUM(NSInteger, BEMInternalTags) {
 
 // MARK: - Initialization
 
-- (instancetype) initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) [self commonInit];
     return self;
 }
 
-- (instancetype) initWithCoder:(NSCoder *)coder {
+- (instancetype)initWithCoder:(NSCoder *)coder {
     self = [super initWithCoder:coder];
     if (self) [self commonInit];
     [self restorePropertyWithCoder:coder];
@@ -202,7 +202,7 @@ self.property = [coder decode ## type ##ForKey:@#property]; \
     [self encodePropertiesWithCoder:coder];
 }
 
-- (void)encodeWithCoder: (NSCoder *)coder {
+- (void)encodeWithCoder:(NSCoder *)coder {
     [super encodeWithCoder:coder];
     [self encodePropertiesWithCoder:coder];
 }
@@ -515,7 +515,7 @@ self.property = [coder decode ## type ##ForKey:@#property]; \
     return [labelString sizeWithAttributes:attributes].width;
 }
 
-- (CGFloat) calculateWidestLabel {
+- (CGFloat)calculateWidestLabel {
     NSDictionary *attributes = @{NSFontAttributeName: self.labelFont};
     CGFloat widestNumber;
     if (self.autoScaleYAxis == YES){
@@ -570,7 +570,6 @@ self.property = [coder decode ## type ##ForKey:@#property]; \
 }
 
 - (void)drawDots {
-
     // Remove all data points before adding them to the array
     [dataPoints removeAllObjects];
 
