@@ -76,48 +76,6 @@ IB_DESIGNABLE @interface BEMSimpleLineGraphView : UIView <UIGestureRecognizerDel
 - (UIImage *)graphSnapshotImageRenderedWhileInBackground:(BOOL)appIsInBackground NS_AVAILABLE_IOS(7_0);
 
 
-/** Calculates the average (mean) of all points on the line graph.
- @return The average (mean) number of the points on the graph. Originally a float. 
- @deprecated Used a similar method with a shared instance of BEMGraphCalculator instead. */
-- (NSNumber *)calculatePointValueAverage __deprecated_msg("Use calculatePointValueAverageOnGraph: on a shared instance of BEMGraphCalculator instead.");
-
-
-/** Calculates the sum of all points on the line graph.
- @return The sum of the points on the graph. Originally a float.
- @deprecated Used a similar method with a shared instance of BEMGraphCalculator instead. */
-- (NSNumber *)calculatePointValueSum __deprecated_msg("Use calculatePointValueSumOnGraph: on a shared instance of BEMGraphCalculator instead.");
-
-
-/** Calculates the median of all points on the line graph.
- @return The median number of the points on the graph. Originally a float.
- @deprecated Used a similar method with a shared instance of BEMGraphCalculator instead. */
-- (NSNumber *)calculatePointValueMedian __deprecated_msg("Use calculatePointValueMedianOnGraph: on a shared instance of BEMGraphCalculator instead.");
-
-
-/** Calculates the mode of all points on the line graph.
- @return The mode number of the points on the graph. Originally a float.
- @deprecated Used a similar method with a shared instance of BEMGraphCalculator instead. */
-- (NSNumber *)calculatePointValueMode __deprecated_msg("Use calculatePointValueModeOnGraph: on a shared instance of BEMGraphCalculator instead.");
-
-
-/** Calculates the standard deviation of all points on the line graph.
- @return The standard deviation of the points on the graph. Originally a float.
- @deprecated Used a similar method with a shared instance of BEMGraphCalculator instead. */
-- (NSNumber *)calculateLineGraphStandardDeviation __deprecated_msg("Use calculateLineGraphStandardDeviationAverageOnGraph: on a shared instance of BEMGraphCalculator instead.");
-
-
-/** Calculates the minimum value of all points on the line graph.
- @return The minimum number of the points on the graph. Originally a float.
- @deprecated Used a similar method with a shared instance of BEMGraphCalculator instead. */
-- (NSNumber *)calculateMinimumPointValue __deprecated_msg("Use calculateMinimumPointValueAverageOnGraph: on a shared instance of BEMGraphCalculator instead.");
-
-
-/** Calculates the maximum value of all points on the line graph.
- @return The maximum value of the points on the graph. Originally a float.
- @deprecated Used a similar method with a shared instance of BEMGraphCalculator instead. */
-- (NSNumber *)calculateMaximumPointValue __deprecated_msg("Use calculateMaximumPointValueOnGraph: on a shared instance of BEMGraphCalculator instead.");
-
-
 /** All the displayed values of the X-Axis.
  @return An array of NSStrings, one for each displayed X-Axis label. The array is sorted from the left side of the graph to the right side. */
 - (nullable NSArray <NSString *> *)graphValuesForXAxis;

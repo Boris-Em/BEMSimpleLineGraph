@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 48;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -34,10 +34,29 @@
 		1E960B1A1E7F9C80000E2BB8 /* MSThumbView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E960B0F1E7F9C80000E2BB8 /* MSThumbView.m */; };
 		1E960B1B1E7F9C80000E2BB8 /* UIControl+HitTestEdgeInsets.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E960B111E7F9C80000E2BB8 /* UIControl+HitTestEdgeInsets.m */; };
 		99B15643187B412400B24591 /* StatsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 99B15642187B412400B24591 /* StatsViewController.m */; };
-		99B3FA3A1877898B00539A7B /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 99B3FA381877898B00539A7B /* LICENSE */; };
+		99B3FA3A1877898B00539A7B /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = 99B3FA381877898B00539A7B /* LICENSE.md */; };
 		99B3FA3B1877898B00539A7B /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 99B3FA391877898B00539A7B /* README.md */; };
 		A63990B51AD4923900B14D88 /* BEMAverageLine.m in Sources */ = {isa = PBXBuildFile; fileRef = A63990B41AD4923900B14D88 /* BEMAverageLine.m */; };
 		A64594521BAB257B00D6B8FD /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A64594501BAB257B00D6B8FD /* Launch Screen.storyboard */; };
+		A66043101F35150A005CB5D4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A660430F1F35150A005CB5D4 /* AppDelegate.swift */; };
+		A66043121F35150A005CB5D4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A66043111F35150A005CB5D4 /* ViewController.swift */; };
+		A66043151F35150A005CB5D4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A66043131F35150A005CB5D4 /* Main.storyboard */; };
+		A66043171F35150A005CB5D4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A66043161F35150A005CB5D4 /* Assets.xcassets */; };
+		A660431A1F35150A005CB5D4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A66043181F35150A005CB5D4 /* LaunchScreen.storyboard */; };
+		A66043251F35150B005CB5D4 /* SimpleLineChart_SwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A66043241F35150B005CB5D4 /* SimpleLineChart_SwiftTests.swift */; };
+		A660432D1F35155E005CB5D4 /* BEMLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A66043021F3513FB005CB5D4 /* BEMLine.swift */; };
+		A660432F1F351564005CB5D4 /* BEMAverageLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A66042FF1F3513FB005CB5D4 /* BEMAverageLine.swift */; };
+		A66043301F351564005CB5D4 /* BEMCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A66043001F3513FB005CB5D4 /* BEMCircle.swift */; };
+		A66043311F351564005CB5D4 /* BEMPermanentPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A66043031F3513FB005CB5D4 /* BEMPermanentPopupView.swift */; };
+		A66043321F351564005CB5D4 /* BEMGraphCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A66043011F3513FB005CB5D4 /* BEMGraphCalculator.swift */; };
+		A66043331F351589005CB5D4 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3FD815A186DFD9A00FD8ED3 /* CoreGraphics.framework */; };
+		A66043341F35158F005CB5D4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3FD8158186DFD9A00FD8ED3 /* Foundation.framework */; };
+		A66043351F351593005CB5D4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3FD815C186DFD9A00FD8ED3 /* UIKit.framework */; };
+		A66043371F3515C7005CB5D4 /* BEMSimpleLineGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = C3B90A5D187D15F7003E407D /* BEMSimpleLineGraphView.m */; };
+		A66043381F35177B005CB5D4 /* BEMCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = C3B90A59187D15F7003E407D /* BEMCircle.m */; };
+		A66043391F35177B005CB5D4 /* BEMLine.m in Sources */ = {isa = PBXBuildFile; fileRef = C3B90A5B187D15F7003E407D /* BEMLine.m */; };
+		A660433A1F35177B005CB5D4 /* BEMAverageLine.m in Sources */ = {isa = PBXBuildFile; fileRef = A63990B41AD4923900B14D88 /* BEMAverageLine.m */; };
+		A660433C1F351932005CB5D4 /* BEMSimpleLineGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A660433B1F351932005CB5D4 /* BEMSimpleLineGraphView.swift */; };
 		A6AC895B1C5882DD0052AB1C /* BEMGraphCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = A6AC895A1C5882DD0052AB1C /* BEMGraphCalculator.m */; };
 		C3B90A5F187D15F7003E407D /* BEMCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = C3B90A59187D15F7003E407D /* BEMCircle.m */; };
 		C3B90A60187D15F7003E407D /* BEMLine.m in Sources */ = {isa = PBXBuildFile; fileRef = C3B90A5B187D15F7003E407D /* BEMLine.m */; };
@@ -60,6 +79,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		A66043211F35150A005CB5D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C3FD814D186DFD9A00FD8ED3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A660430C1F35150A005CB5D4;
+			remoteInfo = "SimpleLineChart-Swift";
+		};
 		C3FD817B186DFD9A00FD8ED3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C3FD814D186DFD9A00FD8ED3 /* Project object */;
@@ -114,11 +140,28 @@
 		1E960B111E7F9C80000E2BB8 /* UIControl+HitTestEdgeInsets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIControl+HitTestEdgeInsets.m"; sourceTree = "<group>"; };
 		99B15641187B412400B24591 /* StatsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatsViewController.h; sourceTree = "<group>"; };
 		99B15642187B412400B24591 /* StatsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatsViewController.m; sourceTree = "<group>"; };
-		99B3FA381877898B00539A7B /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		99B3FA381877898B00539A7B /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = LICENSE.md; path = ../LICENSE.md; sourceTree = "<group>"; };
 		99B3FA391877898B00539A7B /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		A63990B31AD4923900B14D88 /* BEMAverageLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEMAverageLine.h; sourceTree = "<group>"; };
 		A63990B41AD4923900B14D88 /* BEMAverageLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = BEMAverageLine.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		A64594511BAB257B00D6B8FD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "Base.lproj/Launch Screen.storyboard"; sourceTree = "<group>"; };
+		A66042FF1F3513FB005CB5D4 /* BEMAverageLine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BEMAverageLine.swift; sourceTree = "<group>"; };
+		A66043001F3513FB005CB5D4 /* BEMCircle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BEMCircle.swift; sourceTree = "<group>"; };
+		A66043011F3513FB005CB5D4 /* BEMGraphCalculator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BEMGraphCalculator.swift; sourceTree = "<group>"; };
+		A66043021F3513FB005CB5D4 /* BEMLine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BEMLine.swift; sourceTree = "<group>"; };
+		A66043031F3513FB005CB5D4 /* BEMPermanentPopupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BEMPermanentPopupView.swift; sourceTree = "<group>"; };
+		A660430D1F35150A005CB5D4 /* SimpleLineChart-Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SimpleLineChart-Swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A660430F1F35150A005CB5D4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		A66043111F35150A005CB5D4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		A66043141F35150A005CB5D4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		A66043161F35150A005CB5D4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A66043191F35150A005CB5D4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		A660431B1F35150A005CB5D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A66043201F35150A005CB5D4 /* SimpleLineChart-SwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SimpleLineChart-SwiftTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A66043241F35150B005CB5D4 /* SimpleLineChart_SwiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleLineChart_SwiftTests.swift; sourceTree = "<group>"; };
+		A66043261F35150B005CB5D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A66043361F3515BD005CB5D4 /* BridgingHeaderObjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BridgingHeaderObjc.h; sourceTree = "<group>"; };
+		A660433B1F351932005CB5D4 /* BEMSimpleLineGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BEMSimpleLineGraphView.swift; sourceTree = "<group>"; };
 		A6AC89591C5882DD0052AB1C /* BEMGraphCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEMGraphCalculator.h; sourceTree = "<group>"; };
 		A6AC895A1C5882DD0052AB1C /* BEMGraphCalculator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEMGraphCalculator.m; sourceTree = "<group>"; };
 		C3B90A58187D15F7003E407D /* BEMCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEMCircle.h; sourceTree = "<group>"; };
@@ -152,6 +195,23 @@
 
 /* Begin PBXFrameworksBuildPhase section */
 		1E960A7E1E7DF942000E2BB8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A660430A1F35150A005CB5D4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A66043351F351593005CB5D4 /* UIKit.framework in Frameworks */,
+				A66043341F35158F005CB5D4 /* Foundation.framework in Frameworks */,
+				A66043331F351589005CB5D4 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A660431D1F35150A005CB5D4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -245,7 +305,44 @@
 			path = MSColorPicker;
 			sourceTree = "<group>";
 		};
-		C3B90A55187D15F7003E407D /* Classes */ = {
+		A66042FE1F3513FB005CB5D4 /* Swift Implementation */ = {
+			isa = PBXGroup;
+			children = (
+				A66043361F3515BD005CB5D4 /* BridgingHeaderObjc.h */,
+				A66043021F3513FB005CB5D4 /* BEMLine.swift */,
+				A66042FF1F3513FB005CB5D4 /* BEMAverageLine.swift */,
+				A66043001F3513FB005CB5D4 /* BEMCircle.swift */,
+				A66043031F3513FB005CB5D4 /* BEMPermanentPopupView.swift */,
+				A66043011F3513FB005CB5D4 /* BEMGraphCalculator.swift */,
+				A660433B1F351932005CB5D4 /* BEMSimpleLineGraphView.swift */,
+			);
+			name = "Swift Implementation";
+			path = "../Swift Implementation";
+			sourceTree = "<group>";
+		};
+		A660430E1F35150A005CB5D4 /* SimpleLineChart-Swift */ = {
+			isa = PBXGroup;
+			children = (
+				A660430F1F35150A005CB5D4 /* AppDelegate.swift */,
+				A66043111F35150A005CB5D4 /* ViewController.swift */,
+				A66043131F35150A005CB5D4 /* Main.storyboard */,
+				A66043161F35150A005CB5D4 /* Assets.xcassets */,
+				A66043181F35150A005CB5D4 /* LaunchScreen.storyboard */,
+				A660431B1F35150A005CB5D4 /* Info.plist */,
+			);
+			path = "SimpleLineChart-Swift";
+			sourceTree = "<group>";
+		};
+		A66043231F35150A005CB5D4 /* SimpleLineChart-SwiftTests */ = {
+			isa = PBXGroup;
+			children = (
+				A66043241F35150B005CB5D4 /* SimpleLineChart_SwiftTests.swift */,
+				A66043261F35150B005CB5D4 /* Info.plist */,
+			);
+			path = "SimpleLineChart-SwiftTests";
+			sourceTree = "<group>";
+		};
+		C3B90A55187D15F7003E407D /* Objective-C Implementation */ = {
 			isa = PBXGroup;
 			children = (
 				C3B90A5C187D15F7003E407D /* BEMSimpleLineGraphView.h */,
@@ -259,16 +356,19 @@
 				A6AC89591C5882DD0052AB1C /* BEMGraphCalculator.h */,
 				A6AC895A1C5882DD0052AB1C /* BEMGraphCalculator.m */,
 			);
-			name = Classes;
-			path = ../Classes;
+			name = "Objective-C Implementation";
+			path = "../Objective-C Implementation";
 			sourceTree = "<group>";
 		};
 		C3FD814C186DFD9A00FD8ED3 = {
 			isa = PBXGroup;
 			children = (
-				99B3FA381877898B00539A7B /* LICENSE */,
+				99B3FA381877898B00539A7B /* LICENSE.md */,
 				99B3FA391877898B00539A7B /* README.md */,
-				C3B90A55187D15F7003E407D /* Classes */,
+				A66042FE1F3513FB005CB5D4 /* Swift Implementation */,
+				C3B90A55187D15F7003E407D /* Objective-C Implementation */,
+				A660430E1F35150A005CB5D4 /* SimpleLineChart-Swift */,
+				A66043231F35150A005CB5D4 /* SimpleLineChart-SwiftTests */,
 				C3FD815E186DFD9A00FD8ED3 /* SimpleLineChart */,
 				C3FD817D186DFD9A00FD8ED3 /* SimpleLineChartTests */,
 				1E960A821E7DF942000E2BB8 /* TestBed */,
@@ -283,6 +383,8 @@
 				C3FD8155186DFD9A00FD8ED3 /* SimpleLineChart.app */,
 				C3FD8176186DFD9A00FD8ED3 /* SimpleLineChartTests.xctest */,
 				1E960A811E7DF942000E2BB8 /* TestBed.app */,
+				A660430D1F35150A005CB5D4 /* SimpleLineChart-Swift.app */,
+				A66043201F35150A005CB5D4 /* SimpleLineChart-SwiftTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -366,6 +468,41 @@
 			productReference = 1E960A811E7DF942000E2BB8 /* TestBed.app */;
 			productType = "com.apple.product-type.application";
 		};
+		A660430C1F35150A005CB5D4 /* SimpleLineChart-Swift */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A66043271F35150B005CB5D4 /* Build configuration list for PBXNativeTarget "SimpleLineChart-Swift" */;
+			buildPhases = (
+				A66043091F35150A005CB5D4 /* Sources */,
+				A660430A1F35150A005CB5D4 /* Frameworks */,
+				A660430B1F35150A005CB5D4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "SimpleLineChart-Swift";
+			productName = "SimpleLineChart-Swift";
+			productReference = A660430D1F35150A005CB5D4 /* SimpleLineChart-Swift.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A660431F1F35150A005CB5D4 /* SimpleLineChart-SwiftTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A660432A1F35150B005CB5D4 /* Build configuration list for PBXNativeTarget "SimpleLineChart-SwiftTests" */;
+			buildPhases = (
+				A660431C1F35150A005CB5D4 /* Sources */,
+				A660431D1F35150A005CB5D4 /* Frameworks */,
+				A660431E1F35150A005CB5D4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A66043221F35150A005CB5D4 /* PBXTargetDependency */,
+			);
+			name = "SimpleLineChart-SwiftTests";
+			productName = "SimpleLineChart-SwiftTests";
+			productReference = A66043201F35150A005CB5D4 /* SimpleLineChart-SwiftTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		C3FD8154186DFD9A00FD8ED3 /* SimpleLineChart */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C3FD8187186DFD9A00FD8ED3 /* Build configuration list for PBXNativeTarget "SimpleLineChart" */;
@@ -407,13 +544,21 @@
 		C3FD814D186DFD9A00FD8ED3 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0800;
+				LastSwiftUpdateCheck = 0900;
+				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = "Boris Emorine";
 				TargetAttributes = {
 					1E960A801E7DF942000E2BB8 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = E8XXXD4S77;
 						ProvisioningStyle = Automatic;
+					};
+					A660430C1F35150A005CB5D4 = {
+						CreatedOnToolsVersion = 9.0;
+					};
+					A660431F1F35150A005CB5D4 = {
+						CreatedOnToolsVersion = 9.0;
+						TestTargetID = A660430C1F35150A005CB5D4;
 					};
 					C3FD8154186DFD9A00FD8ED3 = {
 						DevelopmentTeam = E8XXXD4S77;
@@ -424,7 +569,7 @@
 				};
 			};
 			buildConfigurationList = C3FD8150186DFD9A00FD8ED3 /* Build configuration list for PBXProject "SimpleLineChart" */;
-			compatibilityVersion = "Xcode 3.2";
+			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -439,6 +584,8 @@
 				C3FD8154186DFD9A00FD8ED3 /* SimpleLineChart */,
 				C3FD8175186DFD9A00FD8ED3 /* SimpleLineChartTests */,
 				1E960A801E7DF942000E2BB8 /* TestBed */,
+				A660430C1F35150A005CB5D4 /* SimpleLineChart-Swift */,
+				A660431F1F35150A005CB5D4 /* SimpleLineChart-SwiftTests */,
 			);
 		};
 /* End PBXProject section */
@@ -454,12 +601,29 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A660430B1F35150A005CB5D4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A660431A1F35150A005CB5D4 /* LaunchScreen.storyboard in Resources */,
+				A66043171F35150A005CB5D4 /* Assets.xcassets in Resources */,
+				A66043151F35150A005CB5D4 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A660431E1F35150A005CB5D4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C3FD8153186DFD9A00FD8ED3 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				A64594521BAB257B00D6B8FD /* Launch Screen.storyboard in Resources */,
-				99B3FA3A1877898B00539A7B /* LICENSE in Resources */,
+				99B3FA3A1877898B00539A7B /* LICENSE.md in Resources */,
 				C3DC80671903845D0080FF06 /* Main.storyboard in Resources */,
 				C3FD8171186DFD9A00FD8ED3 /* Images.xcassets in Resources */,
 				99B3FA3B1877898B00539A7B /* README.md in Resources */,
@@ -508,6 +672,33 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A66043091F35150A005CB5D4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A66043391F35177B005CB5D4 /* BEMLine.m in Sources */,
+				A660433A1F35177B005CB5D4 /* BEMAverageLine.m in Sources */,
+				A66043121F35150A005CB5D4 /* ViewController.swift in Sources */,
+				A66043321F351564005CB5D4 /* BEMGraphCalculator.swift in Sources */,
+				A66043311F351564005CB5D4 /* BEMPermanentPopupView.swift in Sources */,
+				A660432D1F35155E005CB5D4 /* BEMLine.swift in Sources */,
+				A660433C1F351932005CB5D4 /* BEMSimpleLineGraphView.swift in Sources */,
+				A660432F1F351564005CB5D4 /* BEMAverageLine.swift in Sources */,
+				A66043301F351564005CB5D4 /* BEMCircle.swift in Sources */,
+				A66043371F3515C7005CB5D4 /* BEMSimpleLineGraphView.m in Sources */,
+				A66043101F35150A005CB5D4 /* AppDelegate.swift in Sources */,
+				A66043381F35177B005CB5D4 /* BEMCircle.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A660431C1F35150A005CB5D4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A66043251F35150B005CB5D4 /* SimpleLineChart_SwiftTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C3FD8151186DFD9A00FD8ED3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -536,6 +727,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		A66043221F35150A005CB5D4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A660430C1F35150A005CB5D4 /* SimpleLineChart-Swift */;
+			targetProxy = A66043211F35150A005CB5D4 /* PBXContainerItemProxy */;
+		};
 		C3FD817C186DFD9A00FD8ED3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C3FD8154186DFD9A00FD8ED3 /* SimpleLineChart */;
@@ -566,6 +762,22 @@
 				A64594511BAB257B00D6B8FD /* Base */,
 			);
 			name = "Launch Screen.storyboard";
+			sourceTree = "<group>";
+		};
+		A66043131F35150A005CB5D4 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A66043141F35150A005CB5D4 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		A66043181F35150A005CB5D4 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A66043191F35150A005CB5D4 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 		C3FD8161186DFD9A00FD8ED3 /* InfoPlist.strings */ = {
@@ -634,6 +846,144 @@
 			};
 			name = Release;
 		};
+		A66043281F35150B005CB5D4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = KEQ3L79VAK;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "$(SRCROOT)/SimpleLineChart-Swift/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.SamuelSpencer.SimpleLineChart-Swift";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/../Swift Implementation/BridgingHeaderObjc.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A66043291F35150B005CB5D4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = KEQ3L79VAK;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "$(SRCROOT)/SimpleLineChart-Swift/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.SamuelSpencer.SimpleLineChart-Swift";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/../Swift Implementation/BridgingHeaderObjc.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		A660432B1F35150B005CB5D4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = KEQ3L79VAK;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "SimpleLineChart-SwiftTests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.SamuelSpencer.SimpleLineChart-SwiftTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SimpleLineChart-Swift.app/SimpleLineChart-Swift";
+			};
+			name = Debug;
+		};
+		A660432C1F35150B005CB5D4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = KEQ3L79VAK;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "SimpleLineChart-SwiftTests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.SamuelSpencer.SimpleLineChart-SwiftTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SimpleLineChart-Swift.app/SimpleLineChart-Swift";
+			};
+			name = Release;
+		};
 		C3FD8185186DFD9A00FD8ED3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -642,14 +992,20 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -699,14 +1055,20 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -724,6 +1086,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -834,6 +1197,24 @@
 			buildConfigurations = (
 				1E960A951E7DF942000E2BB8 /* Debug */,
 				1E960A961E7DF942000E2BB8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A66043271F35150B005CB5D4 /* Build configuration list for PBXNativeTarget "SimpleLineChart-Swift" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A66043281F35150B005CB5D4 /* Debug */,
+				A66043291F35150B005CB5D4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A660432A1F35150B005CB5D4 /* Build configuration list for PBXNativeTarget "SimpleLineChart-SwiftTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A660432B1F35150B005CB5D4 /* Debug */,
+				A660432C1F35150B005CB5D4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

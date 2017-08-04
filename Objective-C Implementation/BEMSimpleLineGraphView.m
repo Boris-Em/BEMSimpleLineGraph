@@ -8,7 +8,6 @@
 //
 
 #import "BEMSimpleLineGraphView.h"
-#import "BEMGraphCalculator.h"  //just for deprecation warnings; should be removed
 
 const CGFloat BEMNullGraphValue = CGFLOAT_MAX;
 
@@ -509,21 +508,28 @@ self.property = [coder decode ## type ##ForKey:@#property]; \
 }
 
 - (CGFloat)labelWidthForValue:(CGFloat)value {
-    NSDictionary *attributes = @{NSFontAttributeName: self.labelFont};
+    UIFont *fontToUse = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
+    if (self.labelFont != nil) fontToUse = self.labelFont;
+    
+    NSDictionary *attributes = @{NSFontAttributeName: fontToUse};
     NSString *valueString = [self yAxisTextForValue:value];
     NSString *labelString = [valueString stringByReplacingOccurrencesOfString:@"[0-9-]" withString:@"N" options:NSRegularExpressionSearch range:NSMakeRange(0, [valueString length])];
     return [labelString sizeWithAttributes:attributes].width;
 }
 
 - (CGFloat)calculateWidestLabel {
-    NSDictionary *attributes = @{NSFontAttributeName: self.labelFont};
+    UIFont *fontToUse = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
+    if (self.labelFont != nil) fontToUse = self.labelFont;
+    
+    NSDictionary *attributes = @{NSFontAttributeName: fontToUse};
     CGFloat widestNumber;
-    if (self.autoScaleYAxis == YES){
+    if (self.autoScaleYAxis == YES) {
         widestNumber = MAX([self labelWidthForValue:self.maxValue],
                            [self labelWidthForValue:self.minValue]);
     } else {
-        widestNumber  = [self labelWidthForValue:self.frame.size.height] ;
+        widestNumber = [self labelWidthForValue:self.frame.size.height] ;
     }
+    
     if (self.averageLine.enableAverageLine) {
         return MAX(widestNumber, [self.averageLine.title sizeWithAttributes:attributes].width);
     } else {
@@ -1462,41 +1468,6 @@ self.property = [coder decode ## type ##ForKey:@#property]; \
 }
 
 // MARK: - Deprecated Methods
-
- - (NSNumber *)calculatePointValueSum {
-    [self printDeprecationTransitionWarningForOldMethod:@"calculatePointValueSum" replacementMethod:@"calculatePointValueSumOnGraph:" newObject:@"BEMGraphCalculator" sharedInstance:YES];
-    return [[BEMGraphCalculator sharedCalculator] calculatePointValueSumOnGraph:self];
-}
-
-- (NSNumber *)calculatePointValueMode {
-    [self printDeprecationTransitionWarningForOldMethod:@"calculatePointValueMode" replacementMethod:@"calculatePointValueModeOnGraph:" newObject:@"BEMGraphCalculator" sharedInstance:YES];
-    return [[BEMGraphCalculator sharedCalculator] calculatePointValueModeOnGraph:self];
-}
-
-- (NSNumber *)calculatePointValueMedian {
-    [self printDeprecationTransitionWarningForOldMethod:@"calculatePointValueMedian" replacementMethod:@"calculatePointValueMedianOnGraph:" newObject:@"BEMGraphCalculator" sharedInstance:YES];
-    return [[BEMGraphCalculator sharedCalculator] calculatePointValueMedianOnGraph:self];
-}
-
-- (NSNumber *)calculatePointValueAverage {
-    [self printDeprecationTransitionWarningForOldMethod:@"calculatePointValueAverage" replacementMethod:@"calculatePointValueAverageOnGraph:" newObject:@"BEMGraphCalculator" sharedInstance:YES];
-    return [[BEMGraphCalculator sharedCalculator] calculatePointValueAverageOnGraph:self];
-}
-
-- (NSNumber *)calculateMinimumPointValue {
-    [self printDeprecationTransitionWarningForOldMethod:@"calculateMinimumPointValue" replacementMethod:@"calculatePointValueAverageOnGraph:" newObject:@"BEMGraphCalculator" sharedInstance:YES];
-    return [[BEMGraphCalculator sharedCalculator] calculateMinimumPointValueOnGraph:self];
-}
-
-- (NSNumber *)calculateMaximumPointValue {
-    [self printDeprecationTransitionWarningForOldMethod:@"calculateMaximumPointValue" replacementMethod:@"calculateMaximumPointValueOnGraph:" newObject:@"BEMGraphCalculator" sharedInstance:YES];
-    return [[BEMGraphCalculator sharedCalculator] calculateMaximumPointValueOnGraph:self];
-}
-
-- (NSNumber *)calculateLineGraphStandardDeviation {
-    [self printDeprecationTransitionWarningForOldMethod:@"calculateLineGraphStandardDeviation" replacementMethod:@"calculateStandardDeviationOnGraph:" newObject:@"BEMGraphCalculator" sharedInstance:YES];
-    return [[BEMGraphCalculator sharedCalculator] calculateStandardDeviationOnGraph:self];
-}
 
 - (void)printDeprecationAndUnavailableWarningForOldMethod:(NSString *)oldMethod {
     NSLog(@"[BEMSimpleLineGraph] UNAVAILABLE, DEPRECATION ERROR. The delegate method, %@, is both deprecated and unavailable. It is now a data source method. You must implement this method from BEMSimpleLineGraphDataSource. Update your delegate method as soon as possible. One of two things will now happen: A) an exception will be thrown, or B) the graph will not load.", oldMethod);
