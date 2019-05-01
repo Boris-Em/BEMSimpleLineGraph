@@ -28,12 +28,10 @@ Learn more about the **BEMSimpleLineGraph** project requirements, licensing, and
 *The requirements for the Swift implementation are markedly different from the Objective-C implementation (see the master and feature branches for Objective-C). Please refer to the table below to understand exactly what is required.*
 
 | Current Build Target 	| Earliest Supported Build Target 	| Earliest Compatible Build Target |
-|:--------------------:	|:-------------------------------:	|:--------------------------------:       |
-|       iOS 11.0b4        	|            iOS 10.0             	        |             iOS 9.0              	         |
-|     Xcode 9.0b4      	|          Xcode 8.3            	|                     Xcode 8.0                         |
-|      LLVM 9.0         	|           LLVM 8.1            	|                     LLVM 8.0                          |
-|      Swift Compiler        |           Swift Compiler          |            Swift Compiler                           |
-|      Swift v4.0                |           Swift v3.2                  |            Swift v3.2                                  |
+|:--------------------:	|:-------------------------------:	|:--------------------------------:|
+|       iOS 12.2        |            iOS 11.0                   |             iOS 10.0             |
+|     Xcode 10.2      	|          Xcode 9.3            	|     	      Xcode 8.0            |
+|      Swift 4.0        |           Swift 4.0                   |            Swift 4.2             |
 
 > REQUIREMENTS NOTE  
 *Supported* means that the library has been tested with this version. *Compatible* means that the library should work on this OS version (i.e. it doesn't rely on any unavailable SDK features) but is no longer being tested for compatibility and may require tweaking or bug fixes to run correctly.
@@ -81,23 +79,11 @@ Although a good chunk of the project has been implemented in Swift, the core of 
 ### Setup
 Setting up **BEMSimpleLineGraph** in your project is simple. If you're familiar with UITableView, then **BEMSimpleLineGraph** should be a breeze. Follow the steps below to get everything up and running.
 
- 1. Import `"BEMSimpleLineGraphView.h"` to the header of your view controller:
+ 1. Conform to `LineGraphDelegate` and `LineGraphDataSource` protocols:
 
-         // Objective-C
-         #import "BEMSimpleLineGraphView.h"
-         
-         // Swift
-         // No import necessary
+         class YourViewController : UIViewController, LineGraphDataSource, LineGraphDelegate
 
- 2. Implement `BEMSimpleLineGraphDelegate` and `BEMSimpleLineGraphDataSource` in the same view controller:
-
-         // Objective-C
-         @interface YourViewController : UIViewController <BEMSimpleLineGraphDataSource, BEMSimpleLineGraphDelegate>
-         
-         // Swift
-         class YourViewController : UIViewController, BEMSimpleLineGraphDataSource, BEMSimpleLineGraphDelegate
-
- 3.  BEMSimpleLineGraphView can be initialized in one of two ways. You can either add it directly to your interface (storyboard file) OR through code. Both ways provide the same initialization, just different ways to do the same thing. Use the method that makes sense for your app or project.
+ 2.  A LineGraphView can be initialized in one of two ways. You can either add it directly to your interface (storyboard file) OR through code. Both ways provide the same initialization, just different ways to do the same thing. Use the method that makes sense for your app or project.
 
      **Interface Initialization**  
      1 - Add a UIView to your UIViewController  
@@ -109,19 +95,13 @@ Setting up **BEMSimpleLineGraph** in your project is simple. If you're familiar 
      **Code Initialization**  
      Just add the following code to your implementation (usually the `viewDidLoad` method).
 
-         // Objective-C
-         BEMSimpleLineGraphView *graph = [[BEMSimpleLineGraphView alloc] initWithFrame:CGRectMake(0, 0, 320, 200)];
-         graph.dataSource = self;
-         graph.delegate = self;
-         [self.view addSubview:graph];
-         
          // Swift
-         let graph = BEMSimpleLineGraphView.init(frame: CGRect.init(x: 0, y: 0, width: 320, height: 200))
+         let graph = LineGraphView.init(frame: CGRect.init(x: 0, y: 0, width: 320, height: 200))
          graph.dataSource = self
          graph.delegate = self
          view.addSubview(graph)
 
- 4. Implement the two required data source methods: `numberOfPointsInLineGraph:` and `lineGraph:valueForPointAtIndex:`. See documentation below for more information
+ 3. Implement the two required data source methods: `numberOfPointsInLineGraph:` and `lineGraph:valueForPointAtIndex:`. See documentation below for more information
 
 ## Documentation
 The essential parts of **BEMSimpleLineGraph** are documented below. For full Objective-C documentation, see the [wiki](https://github.com/Boris-Em/BEMSimpleLineGraph/wiki). Documentation is also available directly within Xcode (just Option-Click any method for Quick Help).
@@ -131,11 +111,6 @@ The essential parts of **BEMSimpleLineGraph** are documented below. For full Obj
 **Number of Points in Graph**  
 Returns the number of points in the line graph. The line graph gets the value returned by this method from its data source and caches it.
 
-    // Objective-C
-    - (NSInteger)numberOfPointsInLineGraph:(BEMSimpleLineGraphView *)graph {
-    		return X; // Number of points in the graph.
-    }
-    
     // Swift
     func numberOfPoints(inLineGraph graph: BEMSimpleLineGraphView) -> UInt {
         return 5
@@ -144,11 +119,6 @@ Returns the number of points in the line graph. The line graph gets the value re
 **Value for Point at Index**  
 Informs the position of each point on the Y-Axis at a given index. This method is called for every point specified in the `numberOfPointsInLineGraph:` method. The parameter `index` is the position from left to right of the point on the X-Axis:
 
-    // Objective-C
-    - (CGFloat)lineGraph:(BEMSimpleLineGraphView *)graph valueForPointAtIndex:(NSInteger)index {
-        return ...; // The value of the point on the Y-Axis for the index.
-    }
-    
     // Swift
     let dataSource = [5, 16, 8, 3, 10]
     func lineGraph(_ graph: BEMSimpleLineGraphView, valueForPointAt index: UInt) -> CGFloat {
@@ -158,9 +128,6 @@ Informs the position of each point on the Y-Axis at a given index. This method i
 ### Reloading the Data Source
 Similar to a UITableView's `reloadData` method, BEMSimpleLineGraph has a `reloadGraph` method. Call this method to reload all the data that is used to construct the graph, including points, axis, index arrays, colors, alphas, and so on. Calling this method will cause the line graph to call `layoutSubviews` on itself. The line graph will also call all of its data source and delegate methods again (to get the updated data).
 
-    // Objective-C
-    [self.graph reloadGraph];
-    
     // Swift
     graph.reloadGraph()
 
