@@ -10,8 +10,8 @@ import UIKit
 
 class ViewController: UIViewController, BEMSimpleLineGraphDataSource, BEMSimpleLineGraphDelegate {
     
-    let dataSource = [5, 16, 8, 3, 10]
-    let labels = ["1", "2", "3", "4", "5"]
+    let dataSource = [5, 12, 8, 3, 10]
+    let labels = ["5", "12", "8", "3", "10"]
     
     func numberOfPoints(inLineGraph graph: BEMSimpleLineGraphView) -> UInt {
         return 5
@@ -32,7 +32,7 @@ class ViewController: UIViewController, BEMSimpleLineGraphDataSource, BEMSimpleL
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        let graph = BEMSimpleLineGraphView.init(frame: CGRect.init(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height))
+        let graph = BEMSimpleLineGraphView.init(frame: CGRect.init(x: 0 + view.safeAreaInsets.left, y: 0 + view.safeAreaInsets.top, width: view.frame.size.width - view.safeAreaInsets.right, height: view.frame.size.height - view.safeAreaInsets.bottom))
         graph.dataSource = self
         graph.delegate = self
         
@@ -59,6 +59,13 @@ class ViewController: UIViewController, BEMSimpleLineGraphDataSource, BEMSimpleL
         graph.colorYaxisLabel = .white
         graph.colorBackgroundXaxis = UIColor.init(red: 0.98, green: 0.2196, blue: 0.1961, alpha: 1.0)
         graph.backgroundColor = UIColor.init(red: 0.98, green: 0.2196, blue: 0.1961, alpha: 1.0)
+        
+        graph.averageLine.enableAverageLine = true
+        graph.averageLine.alpha = 0.6
+        graph.averageLine.color = UIColor.blue
+        graph.averageLine.width = 2.5
+        graph.averageLine.dashPattern = [2,2]
+        graph.averageLine.title = "Avg"
         
         view.addSubview(graph)
     }

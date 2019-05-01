@@ -312,7 +312,7 @@ public class BEMLine_Swift: UIView {
         self.allPointValues = self.points.values!
         
         for index in 0 ... self.points.values!.count {
-            var value: CGFloat = CGFloat(self.points.values![index].floatValue)
+            var value = CGFloat(self.points.values![index].floatValue)
             if value >= BEMNullGraphValue && self.points.interpolateNullValues {
                 // Need to interpolate. For midpoints, just don't add a point...
                 if (index == 0) {

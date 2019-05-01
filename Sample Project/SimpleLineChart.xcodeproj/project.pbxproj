@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 48;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -57,6 +57,8 @@
 		A66043391F35177B005CB5D4 /* BEMLine.m in Sources */ = {isa = PBXBuildFile; fileRef = C3B90A5B187D15F7003E407D /* BEMLine.m */; };
 		A660433A1F35177B005CB5D4 /* BEMAverageLine.m in Sources */ = {isa = PBXBuildFile; fileRef = A63990B41AD4923900B14D88 /* BEMAverageLine.m */; };
 		A660433C1F351932005CB5D4 /* BEMSimpleLineGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A660433B1F351932005CB5D4 /* BEMSimpleLineGraphView.swift */; };
+		A692B8BB2278F4C6001EBBEC /* LineGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = A692B8B92278E9BE001EBBEC /* LineGraph.swift */; };
+		A692B8BD2278F6B2001EBBEC /* BEMDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A692B8BC2278F6B2001EBBEC /* BEMDelegate.swift */; };
 		A6AC895B1C5882DD0052AB1C /* BEMGraphCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = A6AC895A1C5882DD0052AB1C /* BEMGraphCalculator.m */; };
 		C3B90A5F187D15F7003E407D /* BEMCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = C3B90A59187D15F7003E407D /* BEMCircle.m */; };
 		C3B90A60187D15F7003E407D /* BEMLine.m in Sources */ = {isa = PBXBuildFile; fileRef = C3B90A5B187D15F7003E407D /* BEMLine.m */; };
@@ -162,6 +164,9 @@
 		A66043261F35150B005CB5D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A66043361F3515BD005CB5D4 /* BridgingHeaderObjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BridgingHeaderObjc.h; sourceTree = "<group>"; };
 		A660433B1F351932005CB5D4 /* BEMSimpleLineGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BEMSimpleLineGraphView.swift; sourceTree = "<group>"; };
+		A692B8B82278E9BE001EBBEC /* SimpleLineChart-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SimpleLineChart-Bridging-Header.h"; sourceTree = "<group>"; };
+		A692B8B92278E9BE001EBBEC /* LineGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineGraph.swift; sourceTree = "<group>"; };
+		A692B8BC2278F6B2001EBBEC /* BEMDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BEMDelegate.swift; sourceTree = "<group>"; };
 		A6AC89591C5882DD0052AB1C /* BEMGraphCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEMGraphCalculator.h; sourceTree = "<group>"; };
 		A6AC895A1C5882DD0052AB1C /* BEMGraphCalculator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEMGraphCalculator.m; sourceTree = "<group>"; };
 		C3B90A58187D15F7003E407D /* BEMCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEMCircle.h; sourceTree = "<group>"; };
@@ -315,6 +320,9 @@
 				A66043031F3513FB005CB5D4 /* BEMPermanentPopupView.swift */,
 				A66043011F3513FB005CB5D4 /* BEMGraphCalculator.swift */,
 				A660433B1F351932005CB5D4 /* BEMSimpleLineGraphView.swift */,
+				A692B8B92278E9BE001EBBEC /* LineGraph.swift */,
+				A692B8BC2278F6B2001EBBEC /* BEMDelegate.swift */,
+				A692B8B82278E9BE001EBBEC /* SimpleLineChart-Bridging-Header.h */,
 			);
 			name = "Swift Implementation";
 			path = "../Swift Implementation";
@@ -545,7 +553,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0900;
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = "Boris Emorine";
 				TargetAttributes = {
 					1E960A801E7DF942000E2BB8 = {
@@ -561,7 +569,7 @@
 						TestTargetID = A660430C1F35150A005CB5D4;
 					};
 					C3FD8154186DFD9A00FD8ED3 = {
-						DevelopmentTeam = E8XXXD4S77;
+						LastSwiftMigration = 1020;
 					};
 					C3FD8175186DFD9A00FD8ED3 = {
 						TestTargetID = C3FD8154186DFD9A00FD8ED3;
@@ -569,8 +577,8 @@
 				};
 			};
 			buildConfigurationList = C3FD8150186DFD9A00FD8ED3 /* Build configuration list for PBXProject "SimpleLineChart" */;
-			compatibilityVersion = "Xcode 8.0";
-			developmentRegion = English;
+			compatibilityVersion = "Xcode 10.0";
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
@@ -677,12 +685,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				A66043391F35177B005CB5D4 /* BEMLine.m in Sources */,
+				A692B8BD2278F6B2001EBBEC /* BEMDelegate.swift in Sources */,
 				A660433A1F35177B005CB5D4 /* BEMAverageLine.m in Sources */,
 				A66043121F35150A005CB5D4 /* ViewController.swift in Sources */,
 				A66043321F351564005CB5D4 /* BEMGraphCalculator.swift in Sources */,
 				A66043311F351564005CB5D4 /* BEMPermanentPopupView.swift in Sources */,
 				A660432D1F35155E005CB5D4 /* BEMLine.swift in Sources */,
 				A660433C1F351932005CB5D4 /* BEMSimpleLineGraphView.swift in Sources */,
+				A692B8BB2278F4C6001EBBEC /* LineGraph.swift in Sources */,
 				A660432F1F351564005CB5D4 /* BEMAverageLine.swift in Sources */,
 				A66043301F351564005CB5D4 /* BEMCircle.swift in Sources */,
 				A66043371F3515C7005CB5D4 /* BEMSimpleLineGraphView.m in Sources */,
@@ -818,7 +828,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = TestBed/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = BorisEmorine.TestBed;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -838,7 +851,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = TestBed/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = BorisEmorine.TestBed;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -868,7 +884,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = "$(SRCROOT)/SimpleLineChart-Swift/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.SamuelSpencer.SimpleLineChart-Swift";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -903,12 +922,16 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = "$(SRCROOT)/SimpleLineChart-Swift/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.SamuelSpencer.SimpleLineChart-Swift";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/../Swift Implementation/BridgingHeaderObjc.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -937,7 +960,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = "SimpleLineChart-SwiftTests/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.SamuelSpencer.SimpleLineChart-SwiftTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -973,11 +1000,16 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = "SimpleLineChart-SwiftTests/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.SamuelSpencer.SimpleLineChart-SwiftTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SimpleLineChart-Swift.app/SimpleLineChart-Swift";
@@ -988,6 +1020,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -996,12 +1029,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -1028,7 +1063,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				WARNING_CFLAGS = (
@@ -1051,6 +1086,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -1059,12 +1095,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -1084,9 +1122,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -1096,13 +1135,21 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				DEVELOPMENT_TEAM = E8XXXD4S77;
+				CLANG_ENABLE_MODULES = YES;
+				DEVELOPMENT_TEAM = KEQ3L79VAK;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SimpleLineChart/SimpleLineChart-Prefix.pch";
 				INFOPLIST_FILE = "SimpleLineChart/SimpleLineChart-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "BorisEmorine.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "../Swift Implementation/SimpleLineChart-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				WARNING_CFLAGS = (
 					"$(inherited)",
 					"-Wno-documentation-unknown-command",
@@ -1123,13 +1170,20 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				DEVELOPMENT_TEAM = E8XXXD4S77;
+				CLANG_ENABLE_MODULES = YES;
+				DEVELOPMENT_TEAM = KEQ3L79VAK;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SimpleLineChart/SimpleLineChart-Prefix.pch";
 				INFOPLIST_FILE = "SimpleLineChart/SimpleLineChart-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "BorisEmorine.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "../Swift Implementation/SimpleLineChart-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

@@ -11,12 +11,6 @@
 
 const CGFloat BEMNullGraphValue = CGFLOAT_MAX;
 
-
-#if !__has_feature(objc_arc)
-// Add the -fobjc-arc flag to enable ARC for only these files, as described in the ARC documentation: http://clang.llvm.org/docs/AutomaticReferenceCounting.html
-#error BEMSimpleLineGraph is built with Objective-C ARC. You must enable ARC for these files.
-#endif
-
 typedef NS_ENUM(NSInteger, BEMInternalTags) {
     DotFirstTag100 = 100,
 };
@@ -143,7 +137,6 @@ typedef NS_ENUM(NSInteger, BEMInternalTags) {
 }
 
 - (void)restorePropertyWithCoder:(NSCoder *)coder {
-
 #define RestoreProperty(property, type) \
 if ([coder containsValueForKey:@#property]) { \
 self.property = [coder decode ## type ##ForKey:@#property]; \
@@ -207,7 +200,6 @@ self.property = [coder decode ## type ##ForKey:@#property]; \
 }
 
 - (void)encodePropertiesWithCoder:(NSCoder *)coder {
-
 #define EncodeProperty(property, type) [coder encode ## type: self.property forKey:@#property]
 
     EncodeProperty (labelFont, Object);

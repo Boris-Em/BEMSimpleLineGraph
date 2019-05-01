@@ -99,35 +99,34 @@ public class BEMGraphCalculator_Swift: NSObject {
     
     // MARK: - Essential Calculations -
     
-    
-    private func dataPoints(graph: BEMSimpleLineGraphView) -> [NSNumber] {
+    private func dataPoints(_ graph: LineGraph) -> [NSNumber] {
         let filter = NSPredicate.init { (evaluatedObject: Any?, bindings: [String : Any]?) -> Bool in
             let value: NSNumber = evaluatedObject as! NSNumber
-            let retValue: Bool = !(value.isEqual(to: NSNumber(value: Float(BEMNullGraphValue))))
+            let retValue: Bool = !(value.isEqual(to: NSNumber(value: Float(NullGraphValue))))
             return retValue
         }
         
-        let graphPoints: NSArray = graph.graphValuesForDataPoints()! as NSArray
+        let graphPoints: NSArray = graph.graphValuesForDataPoints as NSArray
         let filteredPoints = graphPoints.filtered(using: filter)
         return filteredPoints as! [NSNumber]
     }
     
-    public func perform(simpleCalculation: Calculation, graph: BEMSimpleLineGraphView) -> NSNumber {
+    public func perform(simpleCalculation: Calculation, graph: LineGraph) -> NSNumber {
         switch simpleCalculation {
         case .average:
-            return calculatePointValueAverage(graph: graph)
+            return calculatePointValueAverage(graph)
         case .sum:
-            return calculatePointValueSum(graph: graph)
+            return calculatePointValueSum(graph)
         case .median:
-            return calculatePointValueMedian(graph: graph)
+            return calculatePointValueMedian(graph)
         case .mode:
-            return calculatePointValueMode(graph: graph)
+            return calculatePointValueMode(graph)
         case .minimum:
-            return calculateMinimumPointValue(graph: graph)
+            return calculateMinimumPointValue(graph)
         case .maximum:
-            return calculateMaximumPointValue(graph: graph)
+            return calculateMaximumPointValue(graph)
         case .standardDeviation:
-            return calculateStandardDeviation(graph: graph)
+            return calculateStandardDeviation(graph)
         }
     }
     
@@ -137,8 +136,8 @@ public class BEMGraphCalculator_Swift: NSObject {
     
     /** Calculates the average (mean) of all points on the line graph.
      - returns: The average (mean) number of the points on the graph. Originally a float. */
-    private func calculatePointValueAverage(graph: BEMSimpleLineGraphView) -> NSNumber {
-        let filteredPoints = dataPoints(graph: graph)
+    private func calculatePointValueAverage(_ graph: LineGraph) -> NSNumber {
+        let filteredPoints = dataPoints(graph)
         if filteredPoints.count <= 0 {
             return NSNumber(value: 0)
         }
@@ -156,8 +155,8 @@ public class BEMGraphCalculator_Swift: NSObject {
     
     /** Calculates the sum of all points on the line graph.
      - returns: The sum of the points on the graph. Originally a float. */
-    private func calculatePointValueSum(graph: BEMSimpleLineGraphView) -> NSNumber {
-        let filteredPoints = dataPoints(graph: graph)
+    private func calculatePointValueSum(_ graph: LineGraph) -> NSNumber {
+        let filteredPoints = dataPoints(graph)
         if filteredPoints.count <= 0 {
             return NSNumber(value: 0)
         }
@@ -175,8 +174,8 @@ public class BEMGraphCalculator_Swift: NSObject {
     
     /** Calculates the median of all points on the line graph.
      - returns: The median number of the points on the graph. Originally a float. */
-    private func calculatePointValueMedian(graph: BEMSimpleLineGraphView) -> NSNumber {
-        let filteredPoints = dataPoints(graph: graph)
+    private func calculatePointValueMedian(_ graph: LineGraph) -> NSNumber {
+        let filteredPoints = dataPoints(graph)
         if filteredPoints.count <= 0 {
             return NSNumber(value: 0)
         }
@@ -194,8 +193,8 @@ public class BEMGraphCalculator_Swift: NSObject {
     
     /** Calculates the mode of all points on the line graph.  
      - returns: The mode number of the points on the graph. Originally a float. */
-    private func calculatePointValueMode(graph: BEMSimpleLineGraphView) -> NSNumber {
-        let filteredPoints = dataPoints(graph: graph)
+    private func calculatePointValueMode(_ graph: LineGraph) -> NSNumber {
+        let filteredPoints = dataPoints(graph)
         if filteredPoints.count <= 0 {
             return NSNumber(value: 0)
         }
@@ -216,8 +215,8 @@ public class BEMGraphCalculator_Swift: NSObject {
     
     /** Calculates the minimum value of all points on the line graph.
      - returns: The minimum number of the points on the graph. Originally a float. */
-    private func calculateMinimumPointValue(graph: BEMSimpleLineGraphView) -> NSNumber {
-        let filteredPoints = dataPoints(graph: graph)
+    private func calculateMinimumPointValue(_ graph: LineGraph) -> NSNumber {
+        let filteredPoints = dataPoints(graph)
         if filteredPoints.count <= 0 {
             return NSNumber(value: 0)
         }
@@ -235,8 +234,8 @@ public class BEMGraphCalculator_Swift: NSObject {
     
     /** Calculates the maximum value of all points on the line graph.
      - returns: The maximum value of the points on the graph. Originally a float. */
-    private func calculateMaximumPointValue(graph: BEMSimpleLineGraphView) -> NSNumber {
-        let filteredPoints = dataPoints(graph: graph)
+    private func calculateMaximumPointValue(_ graph: LineGraph) -> NSNumber {
+        let filteredPoints = dataPoints(graph)
         if filteredPoints.count <= 0 {
             return NSNumber(value: 0)
         }
@@ -257,8 +256,8 @@ public class BEMGraphCalculator_Swift: NSObject {
     
     /** Calculates the standard deviation of all points on the line graph.
      - returns: The standard deviation of the points on the graph. Originally a float. */
-    private func calculateStandardDeviation(graph: BEMSimpleLineGraphView) -> NSNumber {
-        let filteredPoints = dataPoints(graph: graph)
+    private func calculateStandardDeviation(_ graph: LineGraph) -> NSNumber {
+        let filteredPoints = dataPoints(graph)
         if filteredPoints.count <= 0 {
             return NSNumber(value: 0)
         }
@@ -279,8 +278,8 @@ public class BEMGraphCalculator_Swift: NSObject {
     
     /** Calculates the area under the curve of the graph.
      - returns: The area under the curve of the graph. Accuracy varies based on selected integration method. Originally a float. */
-    public func calculateArea(integrationMethod: IntegrationMethod, graph: BEMSimpleLineGraphView, xAxisScale: NSNumber) -> NSNumber {
-        let filteredPoints = dataPoints(graph: graph)
+    public func calculateArea(integrationMethod: IntegrationMethod, graph: LineGraph, xAxisScale: NSNumber) -> NSNumber {
+        let filteredPoints = dataPoints(graph)
         if filteredPoints.count <= 0 {
             return NSNumber(value: 0)
         }
@@ -397,10 +396,10 @@ public class BEMGraphCalculator_Swift: NSObject {
     
     /** Calculates a correlation coefficient for the data points on the graph.
      - returns: A correlation coefficient, calculated from the graph's data points. Float value between -1.0 and 1.0. A value of -1.0 is a perfect negative correlation. A value of 1.0 is a perfect positive correlation. A value of 0.0 means that no correlation exists. */
-    public func calculateCorrelationCoefficient(correlationMethod: CorrelationMethod, graph: BEMSimpleLineGraphView, xAxisScale: NSNumber) -> NSNumber {
+    public func calculateCorrelationCoefficient(correlationMethod: CorrelationMethod, graph: LineGraph, xAxisScale: NSNumber) -> NSNumber {
         // Grab the x and y points
         // Because a BEMSimpleLineGraph object simply increments X-Values, we must calculate the values here
-        let yPoints = dataPoints(graph: graph)
+        let yPoints = dataPoints(graph)
         if yPoints.count <= 0 {
             return NSNumber(value: 0)
         }
@@ -451,7 +450,7 @@ public class BEMGraphCalculator_Swift: NSObject {
     
     /** Calculates a correlation coefficient and returns the general strength of the correlation, based on the data points on the given graph object.
      @return The strength of the calculated correlation coefficient; calculated from the graph's data points. This method assumes the Pearson Correlation Method. */
-    public func calculatePearsonCorrelationStrength(graph: BEMSimpleLineGraphView, xAxisScale: NSNumber) -> PearsonCorrelationStrength {
+    public func calculatePearsonCorrelationStrength(graph: LineGraph, xAxisScale: NSNumber) -> PearsonCorrelationStrength {
         let correlationCoefficient = calculateCorrelationCoefficient(correlationMethod: .pearson, graph: graph, xAxisScale: xAxisScale)
         let actualRValue = correlationCoefficient.floatValue
         
@@ -477,14 +476,14 @@ public class BEMGraphCalculator_Swift: NSObject {
     
     /** Calculates a correlation coefficient and returns the general strength of the correlation, based on the data points on the given graph object.
      - returns: The strength of the calculated correlation coefficient; calculated from the graph's data points. This method assumes the Pearson Correlation Method. */
-    public func calculatePearsonCorrelationStrength(graph: BEMSimpleLineGraphView) -> PearsonCorrelationStrength {
+    public func calculatePearsonCorrelationStrength(graph: LineGraph) -> PearsonCorrelationStrength {
         return calculatePearsonCorrelationStrength(graph: graph, xAxisScale: NSNumber(value:0))
     }
     
     
     /** Calculates a correlation coefficient for the data points between two sets of data; one set to be assigned as the X values and the other as Y values.
      - returns: A correlation coefficient, calculated from the graph's data points. Float value between -1.0 and 1.0. A value of -1.0 is a perfect negative correlation. A value of 1.0 is a perfect positive correlation. A value of 0.0 means that no correlation exists. */
-    public func calculateCorrelationCoefficient(correlationMethod: CorrelationMethod, graph: BEMSimpleLineGraphView, xAxisData: [NSNumber], yAxisData: [NSNumber]) -> NSNumber {
+    public func calculateCorrelationCoefficient(correlationMethod: CorrelationMethod, graph: LineGraph, xAxisData: [NSNumber], yAxisData: [NSNumber]) -> NSNumber {
         // Set the initial values of our sum counts
         let pointsCount = yAxisData.count
         var sumY: Float = 0.0
@@ -516,7 +515,7 @@ public class BEMGraphCalculator_Swift: NSObject {
         return NSNumber(value:correlation)
     }
     
-    public func calculatePearsonCorrelationStrength(graph: BEMSimpleLineGraphView, xAxisData: [NSNumber], yAxisData: [NSNumber]) -> PearsonCorrelationStrength {
+    public func calculatePearsonCorrelationStrength(graph: LineGraph, xAxisData: [NSNumber], yAxisData: [NSNumber]) -> PearsonCorrelationStrength {
         let correlationCoefficient = calculateCorrelationCoefficient(correlationMethod: .pearson, graph: graph, xAxisData: xAxisData, yAxisData: yAxisData)
         let actualRValue = correlationCoefficient.floatValue
         

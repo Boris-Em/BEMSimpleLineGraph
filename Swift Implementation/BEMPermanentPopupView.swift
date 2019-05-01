@@ -15,3 +15,8 @@ public class BEMPermanentPopupView_Swift: UIView {
 public class BEMPermanentPopupLabel_Swift: UILabel {
     
 }
+
+
+public class LineGraphPopupView: UIView {
+    
+}
